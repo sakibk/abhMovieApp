@@ -1,0 +1,17 @@
+# Build generated
+build/
+
+.DS_Store
+
+# Settings
+**/*.pbxuser
+*.mode2v3
+*.mode1v3
+**/*.perspectivev*
+*.lock
+*.xcworkspacedata
+*/xcuserdata*
+
+# Exclude Cocoapods
+Pods
+
