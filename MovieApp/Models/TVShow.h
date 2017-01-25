@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString *posterPath;
 @property (strong, nonatomic) NSNumber *rating;
 @property (strong, nonatomic) NSDate *airDate;
+@property (strong, nonatomic) NSString *backdropPath;
 @property RLMArray<Genre *> *genres;
 
 @end

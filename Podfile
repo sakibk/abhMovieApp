@@ -6,6 +6,7 @@ target 'MovieApp' do
   use_frameworks!
  pod 'Realm'
  pod 'RestKit'
+ pod 'SDWebImage'
   # Pods for MovieApp
 
 end

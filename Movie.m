@@ -12,6 +12,6 @@
 
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"MovieId: %d, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@",self.movieID, self.title, self.rating, self.posterPath, self.releaseDate];
+    return [NSString stringWithFormat:@"MovieId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@ , BackdropPath: %@",self.movieID, self.title, self.rating, self.posterPath, self.releaseDate, self.backdropPath];
 }
 @end

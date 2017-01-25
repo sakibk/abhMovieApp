@@ -12,5 +12,6 @@
 @interface Genre :  RLMObject
 
 @property (strong, nonatomic) NSNumber *genreID;
+@property (strong,nonatomic) NSString *genreName;
 
 @end

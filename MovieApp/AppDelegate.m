@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import <RestKit/RestKit.h>
 
 @interface AppDelegate ()
 
@@ -17,7 +18,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
+    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
+    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
+    
+    
     
     return YES;
 }

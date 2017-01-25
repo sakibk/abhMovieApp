@@ -12,11 +12,14 @@
 
 @interface Movie : NSObject
 
-@property int movieID;
+@property (strong, nonatomic) NSNumber *movieID;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *posterPath;
 @property (strong, nonatomic) NSNumber *rating;
 @property (strong, nonatomic) NSDate *releaseDate;
-@property RLMArray<Genre *> *genres;
+@property (strong, nonatomic) NSString *backdropPath;
+@property (strong, nonatomic) NSString *singleGenre;
+@property (strong, nonatomic) NSArray<Genre *> *genres;
+@property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
 @end

@@ -6,16 +6,20 @@
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
-#import "TVShowsTableViewController.h"
+#import "TVShowsViewController.h"
 #import <RestKit/RestKit.h>
 #import "TVShow.h"
 #import "Genre.h"
 
-@interface TVShowsTableViewController ()
+@interface TVShowsViewController ()
+
+@property NSMutableArray<TVShow *> *allShows;
 
 @end
 
-@implementation TVShowsTableViewController
+
+
+@implementation TVShowsViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -26,10 +30,10 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
-    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
+//    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
+//    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
+//    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
     
-    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
     
     RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
     
@@ -37,7 +41,9 @@
                                                        @"vote_average": @"rating",
                                                        @"poster_path": @"posterPath",
                                                        @"release_date": @"airDate",
-                                                       @"id": @"showID"
+                                                       @"id": @"showID",
+                                                       @"backdrop_path" : @"backdropPath"
+                                                      
                                                        }];
     
     RKResponseDescriptor *responseDescriptor =
@@ -49,18 +55,23 @@
     
     
     
-    [manager addResponseDescriptor:responseDescriptor];
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    
+//    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"" /*add your api*/
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:@"/3/tv/popular" parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        
+        for(TVShow *i in mappingResult.array){
+        [_allShows addObject:i];
+        }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -70,14 +81,12 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfRowsInSection:(NSInteger)section {
+    return [_allShows count];
 }
 
 /*

@@ -20,10 +20,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
-    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
-    
-    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
     
     RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
     
@@ -43,11 +39,11 @@
     
     
     
-    [manager addResponseDescriptor:responseDescriptor];
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @""/*add your api*/
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
     
     

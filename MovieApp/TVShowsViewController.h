@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TVShowsTableViewController : UITableViewController
+@interface TVShowsViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource>
 
 @end

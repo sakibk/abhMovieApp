@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MoviesTableViewController : UITableViewController
+@interface MoviesViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource>
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end
