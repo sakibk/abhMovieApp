@@ -12,12 +12,26 @@
 		AD1783801E2D4E7E0037DC44 /* TVShowsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD17837F1E2D4E7E0037DC44 /* TVShowsViewController.m */; };
 		AD1783831E2D51DB0037DC44 /* TVShow.m in Sources */ = {isa = PBXBuildFile; fileRef = AD1783821E2D51DB0037DC44 /* TVShow.m */; };
 		AD1783881E2E499C0037DC44 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1783871E2E499C0037DC44 /* MovieCell.xib */; };
-		AD17838C1E2E4A810037DC44 /* MoviesCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD17838B1E2E4A810037DC44 /* MoviesCollectionViewCell.m */; };
+		AD17838C1E2E4A810037DC44 /* MoviesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD17838B1E2E4A810037DC44 /* MoviesCell.m */; };
 		AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD17838E1E323ACE0037DC44 /* MovieDetailViewController.m */; };
 		AD349FE81E35A617009C4367 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FE71E35A617009C4367 /* Feeds.m */; };
+		AD349FED1E39601C009C4367 /* FeedCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD349FEC1E39601C009C4367 /* FeedCell.xib */; };
+		AD349FF01E396096009C4367 /* FeedsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FEF1E396096009C4367 /* FeedsCell.m */; };
+		AD349FF41E3972F2009C4367 /* PictureDetailCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD349FF31E3972F2009C4367 /* PictureDetailCell.xib */; };
+		AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FF61E3973E2009C4367 /* PictureDetailCell.m */; };
+		AD349FF91E39EE84009C4367 /* BellowImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD349FF81E39EE84009C4367 /* BellowImageCell.xib */; };
+		AD349FFC1E39EE9E009C4367 /* BellowImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FFB1E39EE9E009C4367 /* BellowImageCell.m */; };
+		AD349FFE1E39F29F009C4367 /* OverviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD349FFD1E39F29F009C4367 /* OverviewCell.xib */; };
+		AD34A0011E39F367009C4367 /* OverviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A0001E39F367009C4367 /* OverviewCell.m */; };
+		AD34A0031E39FEDC009C4367 /* ImageCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD34A0021E39FEDC009C4367 /* ImageCollectionCell.xib */; };
+		AD34A0061E39FF4D009C4367 /* ImageCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A0051E39FF4D009C4367 /* ImageCollectionCell.m */; };
+		AD34A0081E3A0489009C4367 /* SingleImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD34A0071E3A0489009C4367 /* SingleImageCell.xib */; };
+		AD34A00B1E3A04F2009C4367 /* SingleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A00A1E3A04F2009C4367 /* SingleImageCell.m */; };
+		AD34A00E1E3A31AE009C4367 /* ImagePathUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A00D1E3A31AE009C4367 /* ImagePathUrl.m */; };
+		AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A0111E3A49EB009C4367 /* RKObjectManager+SharedInstances.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
-		ADF64D1F1E2D0528000DFCFA /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1E1E2D0528000DFCFA /* ViewController.m */; };
+		ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1E1E2D0528000DFCFA /* FeedsViewController.m */; };
 		ADF64D221E2D0528000DFCFA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF64D201E2D0528000DFCFA /* Main.storyboard */; };
 		ADF64D241E2D0528000DFCFA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADF64D231E2D0528000DFCFA /* Assets.xcassets */; };
 		ADF64D271E2D0528000DFCFA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADF64D251E2D0528000DFCFA /* LaunchScreen.storyboard */; };
@@ -35,18 +49,40 @@
 		AD1783811E2D51DB0037DC44 /* TVShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVShow.h; path = MovieApp/Models/TVShow.h; sourceTree = "<group>"; };
 		AD1783821E2D51DB0037DC44 /* TVShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVShow.m; path = MovieApp/Models/TVShow.m; sourceTree = "<group>"; };
 		AD1783871E2E499C0037DC44 /* MovieCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = MovieCell.xib; path = Views/MovieCell.xib; sourceTree = "<group>"; };
-		AD17838A1E2E4A810037DC44 /* MoviesCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoviesCollectionViewCell.h; path = Views/MoviesCollectionViewCell.h; sourceTree = "<group>"; };
-		AD17838B1E2E4A810037DC44 /* MoviesCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoviesCollectionViewCell.m; path = Views/MoviesCollectionViewCell.m; sourceTree = "<group>"; };
+		AD17838A1E2E4A810037DC44 /* MoviesCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoviesCell.h; path = Views/MoviesCell.h; sourceTree = "<group>"; };
+		AD17838B1E2E4A810037DC44 /* MoviesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoviesCell.m; path = Views/MoviesCell.m; sourceTree = "<group>"; };
 		AD17838D1E323ACE0037DC44 /* MovieDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieDetailViewController.h; path = Controllers/MovieDetailViewController.h; sourceTree = "<group>"; };
 		AD17838E1E323ACE0037DC44 /* MovieDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MovieDetailViewController.m; path = Controllers/MovieDetailViewController.m; sourceTree = "<group>"; };
 		AD349FE61E35A617009C4367 /* Feeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Feeds.h; path = MovieApp/Models/Feeds.h; sourceTree = "<group>"; };
 		AD349FE71E35A617009C4367 /* Feeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Feeds.m; path = MovieApp/Models/Feeds.m; sourceTree = "<group>"; };
+		AD349FEC1E39601C009C4367 /* FeedCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedCell.xib; path = Views/FeedCell.xib; sourceTree = "<group>"; };
+		AD349FEE1E396096009C4367 /* FeedsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedsCell.h; path = Views/FeedsCell.h; sourceTree = "<group>"; };
+		AD349FEF1E396096009C4367 /* FeedsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedsCell.m; path = Views/FeedsCell.m; sourceTree = "<group>"; };
+		AD349FF31E3972F2009C4367 /* PictureDetailCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PictureDetailCell.xib; path = Views/PictureDetailCell.xib; sourceTree = "<group>"; };
+		AD349FF51E3973E2009C4367 /* PictureDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PictureDetailCell.h; path = Views/PictureDetailCell.h; sourceTree = "<group>"; };
+		AD349FF61E3973E2009C4367 /* PictureDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PictureDetailCell.m; path = Views/PictureDetailCell.m; sourceTree = "<group>"; };
+		AD349FF81E39EE84009C4367 /* BellowImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = BellowImageCell.xib; path = Views/BellowImageCell.xib; sourceTree = "<group>"; };
+		AD349FFA1E39EE9E009C4367 /* BellowImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BellowImageCell.h; path = Views/BellowImageCell.h; sourceTree = "<group>"; };
+		AD349FFB1E39EE9E009C4367 /* BellowImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BellowImageCell.m; path = Views/BellowImageCell.m; sourceTree = "<group>"; };
+		AD349FFD1E39F29F009C4367 /* OverviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OverviewCell.xib; path = Views/OverviewCell.xib; sourceTree = "<group>"; };
+		AD349FFF1E39F367009C4367 /* OverviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverviewCell.h; path = Views/OverviewCell.h; sourceTree = "<group>"; };
+		AD34A0001E39F367009C4367 /* OverviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverviewCell.m; path = Views/OverviewCell.m; sourceTree = "<group>"; };
+		AD34A0021E39FEDC009C4367 /* ImageCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCollectionCell.xib; sourceTree = "<group>"; };
+		AD34A0041E39FF4D009C4367 /* ImageCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCollectionCell.h; path = Views/ImageCollectionCell.h; sourceTree = "<group>"; };
+		AD34A0051E39FF4D009C4367 /* ImageCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCollectionCell.m; path = Views/ImageCollectionCell.m; sourceTree = "<group>"; };
+		AD34A0071E3A0489009C4367 /* SingleImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SingleImageCell.xib; sourceTree = "<group>"; };
+		AD34A0091E3A04F2009C4367 /* SingleImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleImageCell.h; path = Views/SingleImageCell.h; sourceTree = "<group>"; };
+		AD34A00A1E3A04F2009C4367 /* SingleImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleImageCell.m; path = Views/SingleImageCell.m; sourceTree = "<group>"; };
+		AD34A00C1E3A31AE009C4367 /* ImagePathUrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagePathUrl.h; path = MovieApp/Models/ImagePathUrl.h; sourceTree = "<group>"; };
+		AD34A00D1E3A31AE009C4367 /* ImagePathUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagePathUrl.m; path = MovieApp/Models/ImagePathUrl.m; sourceTree = "<group>"; };
+		AD34A0101E3A49EB009C4367 /* RKObjectManager+SharedInstances.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKObjectManager+SharedInstances.h"; sourceTree = "<group>"; };
+		AD34A0111E3A49EB009C4367 /* RKObjectManager+SharedInstances.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKObjectManager+SharedInstances.m"; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF64D181E2D0528000DFCFA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADF64D1A1E2D0528000DFCFA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		ADF64D1D1E2D0528000DFCFA /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		ADF64D1E1E2D0528000DFCFA /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		ADF64D1D1E2D0528000DFCFA /* FeedsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedsViewController.h; sourceTree = "<group>"; };
+		ADF64D1E1E2D0528000DFCFA /* FeedsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedsViewController.m; sourceTree = "<group>"; };
 		ADF64D211E2D0528000DFCFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ADF64D231E2D0528000DFCFA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ADF64D261E2D0528000DFCFA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -83,7 +119,9 @@
 			isa = PBXGroup;
 			children = (
 				ADF64D201E2D0528000DFCFA /* Main.storyboard */,
+				AD349FE91E395FB2009C4367 /* Feeds */,
 				AD1783891E2E49BB0037DC44 /* Movies */,
+				AD349FF21E397270009C4367 /* DetailView */,
 			);
 			name = Views;
 			path = MovieApp;
@@ -92,8 +130,8 @@
 		AD1783851E2E45CA0037DC44 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				ADF64D1D1E2D0528000DFCFA /* ViewController.h */,
-				ADF64D1E1E2D0528000DFCFA /* ViewController.m */,
+				ADF64D1D1E2D0528000DFCFA /* FeedsViewController.h */,
+				ADF64D1E1E2D0528000DFCFA /* FeedsViewController.m */,
 				AD17837B1E2D4C1B0037DC44 /* MoviesViewController.h */,
 				AD17837C1E2D4C1B0037DC44 /* MoviesViewController.m */,
 				AD17837E1E2D4E7E0037DC44 /* TVShowsViewController.h */,
@@ -109,15 +147,57 @@
 			isa = PBXGroup;
 			children = (
 				AD1783871E2E499C0037DC44 /* MovieCell.xib */,
-				AD17838A1E2E4A810037DC44 /* MoviesCollectionViewCell.h */,
-				AD17838B1E2E4A810037DC44 /* MoviesCollectionViewCell.m */,
+				AD17838A1E2E4A810037DC44 /* MoviesCell.h */,
+				AD17838B1E2E4A810037DC44 /* MoviesCell.m */,
 			);
 			name = Movies;
+			sourceTree = "<group>";
+		};
+		AD349FE91E395FB2009C4367 /* Feeds */ = {
+			isa = PBXGroup;
+			children = (
+				AD349FEC1E39601C009C4367 /* FeedCell.xib */,
+				AD349FEE1E396096009C4367 /* FeedsCell.h */,
+				AD349FEF1E396096009C4367 /* FeedsCell.m */,
+			);
+			name = Feeds;
+			sourceTree = "<group>";
+		};
+		AD349FF21E397270009C4367 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				AD349FF31E3972F2009C4367 /* PictureDetailCell.xib */,
+				AD349FF51E3973E2009C4367 /* PictureDetailCell.h */,
+				AD349FF61E3973E2009C4367 /* PictureDetailCell.m */,
+				AD349FF81E39EE84009C4367 /* BellowImageCell.xib */,
+				AD349FFA1E39EE9E009C4367 /* BellowImageCell.h */,
+				AD349FFB1E39EE9E009C4367 /* BellowImageCell.m */,
+				AD349FFD1E39F29F009C4367 /* OverviewCell.xib */,
+				AD349FFF1E39F367009C4367 /* OverviewCell.h */,
+				AD34A0001E39F367009C4367 /* OverviewCell.m */,
+				AD34A0021E39FEDC009C4367 /* ImageCollectionCell.xib */,
+				AD34A0041E39FF4D009C4367 /* ImageCollectionCell.h */,
+				AD34A0051E39FF4D009C4367 /* ImageCollectionCell.m */,
+				AD34A0071E3A0489009C4367 /* SingleImageCell.xib */,
+				AD34A0091E3A04F2009C4367 /* SingleImageCell.h */,
+				AD34A00A1E3A04F2009C4367 /* SingleImageCell.m */,
+			);
+			name = DetailView;
+			sourceTree = "<group>";
+		};
+		AD34A00F1E3A4997009C4367 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				AD34A0101E3A49EB009C4367 /* RKObjectManager+SharedInstances.h */,
+				AD34A0111E3A49EB009C4367 /* RKObjectManager+SharedInstances.m */,
+			);
+			name = Extensions;
 			sourceTree = "<group>";
 		};
 		ADF64D0B1E2D0528000DFCFA = {
 			isa = PBXGroup;
 			children = (
+				AD34A00F1E3A4997009C4367 /* Extensions */,
 				ADF64D451E2D0C8C000DFCFA /* Models */,
 				AD1783841E2E45A80037DC44 /* Views */,
 				AD1783851E2E45CA0037DC44 /* Controllers */,
@@ -161,6 +241,8 @@
 				AD1783821E2D51DB0037DC44 /* TVShow.m */,
 				AD349FE61E35A617009C4367 /* Feeds.h */,
 				AD349FE71E35A617009C4367 /* Feeds.m */,
+				AD34A00C1E3A31AE009C4367 /* ImagePathUrl.h */,
+				AD34A00D1E3A31AE009C4367 /* ImagePathUrl.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -236,10 +318,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD349FFE1E39F29F009C4367 /* OverviewCell.xib in Resources */,
 				ADF64D271E2D0528000DFCFA /* LaunchScreen.storyboard in Resources */,
+				AD349FF91E39EE84009C4367 /* BellowImageCell.xib in Resources */,
 				ADF64D241E2D0528000DFCFA /* Assets.xcassets in Resources */,
+				AD349FF41E3972F2009C4367 /* PictureDetailCell.xib in Resources */,
 				AD1783881E2E499C0037DC44 /* MovieCell.xib in Resources */,
+				AD34A0031E39FEDC009C4367 /* ImageCollectionCell.xib in Resources */,
 				ADF64D221E2D0528000DFCFA /* Main.storyboard in Resources */,
+				AD349FED1E39601C009C4367 /* FeedCell.xib in Resources */,
+				AD34A0081E3A0489009C4367 /* SingleImageCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,13 +386,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ADF64D1F1E2D0528000DFCFA /* ViewController.m in Sources */,
+				AD34A00E1E3A31AE009C4367 /* ImagePathUrl.m in Sources */,
+				AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */,
+				ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */,
+				AD34A0011E39F367009C4367 /* OverviewCell.m in Sources */,
 				ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */,
 				AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */,
+				AD349FFC1E39EE9E009C4367 /* BellowImageCell.m in Sources */,
 				ADF64D571E2D12BC000DFCFA /* Movie.m in Sources */,
+				AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */,
 				AD1783801E2D4E7E0037DC44 /* TVShowsViewController.m in Sources */,
+				AD34A00B1E3A04F2009C4367 /* SingleImageCell.m in Sources */,
+				AD349FF01E396096009C4367 /* FeedsCell.m in Sources */,
 				ADF64D191E2D0528000DFCFA /* main.m in Sources */,
-				AD17838C1E2E4A810037DC44 /* MoviesCollectionViewCell.m in Sources */,
+				AD17838C1E2E4A810037DC44 /* MoviesCell.m in Sources */,
+				AD34A0061E39FF4D009C4367 /* ImageCollectionCell.m in Sources */,
 				AD17837D1E2D4C1B0037DC44 /* MoviesViewController.m in Sources */,
 				AD349FE81E35A617009C4367 /* Feeds.m in Sources */,
 				AD1783831E2D51DB0037DC44 /* TVShow.m in Sources */,

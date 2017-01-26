@@ -10,7 +10,7 @@
 #import <RestKit/RestKit.h>
 #import "Movie.h"
 #import "Genre.h"
-#import "MoviesCollectionViewCell.h"
+#import "MoviesCell.h"
 #import "MovieDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
@@ -19,6 +19,7 @@
 @property NSMutableArray<Movie *> *allMovies;
 @property NSMutableArray<Genre *> *allGenres;
 @property Movie *test;
+@property Genre *singleGenre;
 
 @end
 
@@ -49,7 +50,8 @@
                                                        @"poster_path": @"posterPath",
                                                        @"release_date": @"releaseDate",
                                                        @"id": @"movieID",
-                                                       @"backdrop_path" : @"backdropPath"
+                                                       @"backdrop_path" : @"backdropPath",
+                                                       @"genre_ids":@"genreIds"
                                                        }];
     
     RKResponseDescriptor *responseDescriptor =
@@ -91,7 +93,7 @@
 //    return 1;
 //}
 
-- (NSArray *)getGenres
+- (void)getGenres:(Movie *)oneMovie
 {
     
     RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
@@ -99,12 +101,15 @@
     [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
                                                        @"name": @"genreName"
                                                        }];
+    NSNumber *gid = oneMovie.genreIds.firstObject;
+    
+        NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/genre/", gid];
     
     RKResponseDescriptor *responseGenreDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"/3/genre/movie/list"
-                                                keyPath:@"genres"
+                                            pathPattern:pathP
+                                                keyPath:nil
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
     
@@ -114,16 +119,15 @@
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
     
-    [[RKObjectManager sharedManager] getObjectsAtPath:@"/3/genre/movie/list" parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _allGenres=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        _singleGenre=[mappingResult firstObject];
         
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
-    
-    return _allGenres;
+
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -131,8 +135,14 @@
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(5, 5, 5, 5);
+    return UIEdgeInsetsMake(10, 5, 10, 5);
 }
+
+//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return CGSizeMake(199, 254);
+//}
+
 
 //-(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
 //    return CGSizeMake(175, 154);
@@ -150,11 +160,12 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    MoviesCollectionViewCell *cell = (MoviesCollectionViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
+    MoviesCell *cell = (MoviesCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     _test =[_allMovies objectAtIndex:indexPath.row];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd LLLL yyyy"];
-    
+    //[self getGenres:_test];
+    //cell.genreLabel.text = _singleGenre.genreName;
     cell.backgroundColor = [UIColor grayColor];
     cell.releaseDateLabel.text = [dateFormatter stringFromDate:_test.releaseDate];
     [cell.coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",_test.posterPath]]
@@ -224,8 +235,6 @@
         NSIndexPath *indexPath = [self.collectionView.indexPathsForSelectedItems objectAtIndex:0];
         _test =[_allMovies objectAtIndex:indexPath.row];
         movieDetails.movieID = _test.movieID;
-        movieDetails.detailTitle.text = _test.title;
-        [movieDetails setDetailPoster];
     }
     
 }

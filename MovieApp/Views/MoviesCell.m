@@ -6,12 +6,12 @@
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
-#import "MoviesCollectionViewCell.h"
+#import "MoviesCell.h"
 #import "Movie.h"
 
 NSString* const identifier= @"MovieCellIdentifier";
 
-@implementation MoviesCollectionViewCell
+@implementation MoviesCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -22,7 +22,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     NSDate *releaseYear = singleMovie.releaseDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
-    _title.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,year];
+    _title.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
 }
 
 @end

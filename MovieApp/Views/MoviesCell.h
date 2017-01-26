@@ -11,7 +11,7 @@
 
 extern NSString * const identifier;
 
-@interface MoviesCollectionViewCell : UICollectionViewCell
+@interface MoviesCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImage;
 @property (weak, nonatomic) IBOutlet UILabel *genreLabel;

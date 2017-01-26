@@ -16,9 +16,11 @@
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *posterPath;
 @property (strong, nonatomic) NSNumber *rating;
+@property (strong, nonatomic) NSNumber *runtime;
 @property (strong, nonatomic) NSDate *releaseDate;
 @property (strong, nonatomic) NSString *backdropPath;
 @property (strong, nonatomic) NSString *singleGenre;
+@property (strong, nonatomic) NSString *overview;
 @property (strong, nonatomic) NSArray<Genre *> *genres;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
