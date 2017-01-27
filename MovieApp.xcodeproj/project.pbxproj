@@ -29,6 +29,9 @@
 		AD34A00B1E3A04F2009C4367 /* SingleImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A00A1E3A04F2009C4367 /* SingleImageCell.m */; };
 		AD34A00E1E3A31AE009C4367 /* ImagePathUrl.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A00D1E3A31AE009C4367 /* ImagePathUrl.m */; };
 		AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A0111E3A49EB009C4367 /* RKObjectManager+SharedInstances.m */; };
+		AD34A0181E3B78F3009C4367 /* Cast.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A0171E3B78F3009C4367 /* Cast.m */; };
+		AD34A01A1E3B79CB009C4367 /* CastCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD34A0191E3B79CB009C4367 /* CastCollectionCell.xib */; };
+		AD34A01D1E3B7A12009C4367 /* CastCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A01C1E3B7A12009C4367 /* CastCollectionCell.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
 		ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1E1E2D0528000DFCFA /* FeedsViewController.m */; };
@@ -77,6 +80,11 @@
 		AD34A00D1E3A31AE009C4367 /* ImagePathUrl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagePathUrl.m; path = MovieApp/Models/ImagePathUrl.m; sourceTree = "<group>"; };
 		AD34A0101E3A49EB009C4367 /* RKObjectManager+SharedInstances.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RKObjectManager+SharedInstances.h"; sourceTree = "<group>"; };
 		AD34A0111E3A49EB009C4367 /* RKObjectManager+SharedInstances.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "RKObjectManager+SharedInstances.m"; sourceTree = "<group>"; };
+		AD34A0161E3B78F3009C4367 /* Cast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Cast.h; path = MovieApp/Models/Cast.h; sourceTree = "<group>"; };
+		AD34A0171E3B78F3009C4367 /* Cast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Cast.m; path = MovieApp/Models/Cast.m; sourceTree = "<group>"; };
+		AD34A0191E3B79CB009C4367 /* CastCollectionCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CastCollectionCell.xib; path = Views/CastCollectionCell.xib; sourceTree = "<group>"; };
+		AD34A01B1E3B7A12009C4367 /* CastCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CastCollectionCell.h; path = Views/CastCollectionCell.h; sourceTree = "<group>"; };
+		AD34A01C1E3B7A12009C4367 /* CastCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CastCollectionCell.m; path = Views/CastCollectionCell.m; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADF64D181E2D0528000DFCFA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		ADF64D1A1E2D0528000DFCFA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -181,6 +189,9 @@
 				AD34A0071E3A0489009C4367 /* SingleImageCell.xib */,
 				AD34A0091E3A04F2009C4367 /* SingleImageCell.h */,
 				AD34A00A1E3A04F2009C4367 /* SingleImageCell.m */,
+				AD34A0191E3B79CB009C4367 /* CastCollectionCell.xib */,
+				AD34A01B1E3B7A12009C4367 /* CastCollectionCell.h */,
+				AD34A01C1E3B7A12009C4367 /* CastCollectionCell.m */,
 			);
 			name = DetailView;
 			sourceTree = "<group>";
@@ -243,6 +254,8 @@
 				AD349FE71E35A617009C4367 /* Feeds.m */,
 				AD34A00C1E3A31AE009C4367 /* ImagePathUrl.h */,
 				AD34A00D1E3A31AE009C4367 /* ImagePathUrl.m */,
+				AD34A0161E3B78F3009C4367 /* Cast.h */,
+				AD34A0171E3B78F3009C4367 /* Cast.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -327,6 +340,7 @@
 				AD34A0031E39FEDC009C4367 /* ImageCollectionCell.xib in Resources */,
 				ADF64D221E2D0528000DFCFA /* Main.storyboard in Resources */,
 				AD349FED1E39601C009C4367 /* FeedCell.xib in Resources */,
+				AD34A01A1E3B79CB009C4367 /* CastCollectionCell.xib in Resources */,
 				AD34A0081E3A0489009C4367 /* SingleImageCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -386,8 +400,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AD34A0181E3B78F3009C4367 /* Cast.m in Sources */,
 				AD34A00E1E3A31AE009C4367 /* ImagePathUrl.m in Sources */,
 				AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */,
+				AD34A01D1E3B7A12009C4367 /* CastCollectionCell.m in Sources */,
 				ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */,
 				AD34A0011E39F367009C4367 /* OverviewCell.m in Sources */,
 				ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */,

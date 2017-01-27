@@ -93,7 +93,7 @@
 //    return 1;
 //}
 
-- (void)getGenres:(Movie *)oneMovie
+- (void)getGenres:(NSNumber *)oneMovie
 {
     
     RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
@@ -101,7 +101,7 @@
     [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
                                                        @"name": @"genreName"
                                                        }];
-    NSNumber *gid = oneMovie.genreIds.firstObject;
+    NSNumber *gid = oneMovie;
     
         NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/genre/", gid];
     
@@ -164,8 +164,8 @@
     _test =[_allMovies objectAtIndex:indexPath.row];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd LLLL yyyy"];
-    //[self getGenres:_test];
-    //cell.genreLabel.text = _singleGenre.genreName;
+//    [self getGenres:_test.genreIds.firstObject];
+    cell.genreLabel.text = _singleGenre.genreName;
     cell.backgroundColor = [UIColor grayColor];
     cell.releaseDateLabel.text = [dateFormatter stringFromDate:_test.releaseDate];
     [cell.coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",_test.posterPath]]

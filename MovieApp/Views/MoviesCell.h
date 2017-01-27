@@ -17,6 +17,8 @@ extern NSString * const identifier;
 @property (weak, nonatomic) IBOutlet UILabel *genreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *releaseDateLabel;
 
+@property Genre *singleGerne;
+
 -(void) setupMovieCell:(Movie *) singleMovie;
 
 @end
