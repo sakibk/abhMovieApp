@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "Crew.h"
 
 extern NSString * const OverviewCellIdentifier;
 
@@ -18,6 +19,10 @@ extern NSString * const OverviewCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *stars;
 @property (weak, nonatomic) IBOutlet UILabel *rating;
 @property (weak, nonatomic) IBOutlet UILabel *overview;
+
+@property (strong, nonatomic) NSMutableArray <Crew *> *allCrew;
+@property (strong, nonatomic) NSMutableString *writersString;
+@property (strong, nonatomic) NSMutableString *producentString;
 
 -(void) setupWithMovie :(Movie*) singleMovie;
 

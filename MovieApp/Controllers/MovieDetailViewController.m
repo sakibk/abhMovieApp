@@ -14,6 +14,7 @@
 #import "BellowImageCell.h"
 #import "OverviewCell.h"
 #import "ImageCollectionCell.h"
+#import "CastCollectionCell.h"
 
 @interface MovieDetailViewController ()
 
@@ -35,6 +36,8 @@
     
       [self.tableView registerNib:[UINib nibWithNibName:@"ImageCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:ImageCollectionCellIdentifier];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
+    
     
     // Do any additional setup after loading the view.
 //    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
@@ -50,9 +53,12 @@
                                                        @"id": @"movieID",
                                                        @"runtime":@"runtime",
                                                        @"backdrop_path":@"backdropPath",
-                                                       @"overview":@"overview"
+                                                       @"overview":@"overview",
+                                                       @"genres":@"genreSet"
                                                        }];
+
     movieMapping.assignsDefaultValueForMissingAttributes = YES;
+    
     
     NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/movie/", _movieID];
     
@@ -88,6 +94,39 @@
     
 }
 
+- (void)getOvewrviewInfo:(NSNumber *) movieID
+{
+    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Crew class]];
+    
+    [genreMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
+                                                       @"name": @"crewName"
+                                                       }];
+    
+    NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",movieID];
+    
+    RKResponseDescriptor *responseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"crew"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _movieDetail.crews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+}
+
 -(void)setDetailPoster
 {
 //    [_detailPoster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w500",_movieDetail.backdropPath]]
@@ -106,19 +145,26 @@
             break;
         case 1:
         {
-            BellowImageCell *cell = (BellowImageCell *)[tableView dequeueReusableCellWithIdentifier:BellowImageCellIdentifier ];
+            BellowImageCell *cell = (BellowImageCell *)[tableView dequeueReusableCellWithIdentifier:BellowImageCellIdentifier forIndexPath:indexPath];
             [cell setupWithMovie:_movieDetail];
             return cell;
         }
         case 2:
         {
-            OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier];
+            OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+ //           [self getOvewrviewInfo:_movieID];
             [cell setupWithMovie:_movieDetail];
             return cell;
         }
         case 3:
         {
-            ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier ];
+            ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
+            [cell setupWithMovie:_movieDetail];
+            return cell;
+        }
+        case 4:
+        {
+            CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithMovie:_movieDetail];
             return cell;
         }

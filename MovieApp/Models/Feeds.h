@@ -7,11 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RSSParser.h"
+#import "RSSItem.h"
+
 
 @interface Feeds : NSObject
 
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *link;
 @property (strong, nonatomic) NSString *desc;
+
+- (id)initWithRSSItem:(RSSItem *)item;
 
 @end

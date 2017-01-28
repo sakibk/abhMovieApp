@@ -12,6 +12,7 @@
 @interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSNumber* movieID;
+@property (nonatomic,strong) Movie *singleMovie;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 -(void)setDetailPoster;

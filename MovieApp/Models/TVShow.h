@@ -18,6 +18,6 @@
 @property (strong, nonatomic) NSNumber *rating;
 @property (strong, nonatomic) NSDate *airDate;
 @property (strong, nonatomic) NSString *backdropPath;
-@property RLMArray<Genre *> *genres;
+@property (strong,nonatomic) NSArray<Genre *> *genres;
 
 @end

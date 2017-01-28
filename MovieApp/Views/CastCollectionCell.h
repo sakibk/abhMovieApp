@@ -7,10 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Movie.h"
+#import "Cast.h"
+#import <RestKit/RestKit.h>
 
 extern NSString *const castCollectionCellIdentifier;
 
 @interface CastCollectionCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+-(void) setupWithMovie:(Movie *)singleMovie;
+
+@property NSMutableArray<Cast *> *allCasts;
+@property Cast *singleCast;
+@property NSString *movieID;
 
 @end

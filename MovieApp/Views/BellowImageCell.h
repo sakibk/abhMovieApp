@@ -16,6 +16,7 @@ extern NSString * const BellowImageCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *duration;
 @property (weak, nonatomic) IBOutlet UILabel *releaseDate;
 @property (weak, nonatomic) IBOutlet UILabel *genres;
+@property (strong, nonatomic) NSMutableString *genreString;
 
 -(void) setupWithMovie:(Movie *)singleMovie;
 

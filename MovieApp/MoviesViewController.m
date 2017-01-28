@@ -79,8 +79,9 @@
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
     
+    [self getGenres];
     
-}
+  }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -93,7 +94,7 @@
 //    return 1;
 //}
 
-- (void)getGenres:(NSNumber *)oneMovie
+- (void)getGenres
 {
     
     RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
@@ -101,15 +102,14 @@
     [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
                                                        @"name": @"genreName"
                                                        }];
-    NSNumber *gid = oneMovie;
-    
-        NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/genre/", gid];
+
+        NSString *pathP =@"/3/genre/movie/list";
     
     RKResponseDescriptor *responseGenreDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:pathP
-                                                keyPath:nil
+                                                keyPath:@"genres"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
     
@@ -121,12 +121,13 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _singleGenre=[mappingResult firstObject];
+        _allGenres=[[NSMutableArray alloc]initWithArray:mappingResult.array];
         
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
+    
 
 }
 
@@ -162,18 +163,8 @@
     
     MoviesCell *cell = (MoviesCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     _test =[_allMovies objectAtIndex:indexPath.row];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd LLLL yyyy"];
-//    [self getGenres:_test.genreIds.firstObject];
-    cell.genreLabel.text = _singleGenre.genreName;
-    cell.backgroundColor = [UIColor grayColor];
-    cell.releaseDateLabel.text = [dateFormatter stringFromDate:_test.releaseDate];
-    [cell.coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",_test.posterPath]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",_test.title,@".png"]]];
-    
+    _test.genres=[[NSMutableArray alloc]initWithArray:_allGenres];
     [cell setupMovieCell:_test];
-//    _test=[_allMovies objectAtIndex:indexPath.row];
-//    NSLog(@"%@",_test.title);
     return cell;
 }
 
@@ -234,6 +225,7 @@
         MovieDetailViewController *movieDetails = segue.destinationViewController;
         NSIndexPath *indexPath = [self.collectionView.indexPathsForSelectedItems objectAtIndex:0];
         _test =[_allMovies objectAtIndex:indexPath.row];
+        movieDetails.singleMovie = _test;
         movieDetails.movieID = _test.movieID;
     }
     

@@ -10,9 +10,11 @@
 #import <RestKit/RestKit.h>
 #import "TVShow.h"
 #import "Genre.h"
+#import "Movie.h"
 
 @interface TVShowsViewController ()
 
+@property NSMutableArray<Movie *> *allMovies;
 @property NSMutableArray<TVShow *> *allShows;
 
 @end

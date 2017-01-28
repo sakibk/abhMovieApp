@@ -21,7 +21,7 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 
 -(void) setupWithMovie:(Movie *) singleMovie{
     
-    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleMovie.backdropPath]]
+    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleMovie.backdropPath]]
                        placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
     
     NSDate *releaseYear = singleMovie.releaseDate;
