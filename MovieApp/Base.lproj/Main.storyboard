@@ -9,25 +9,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--TV Shows-->
-        <scene sceneID="waX-82-wdd">
-            <objects>
-                <viewController id="iPe-0L-85r" customClass="MoviesViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8KD-aK-Rcy"/>
-                        <viewControllerLayoutGuide type="bottom" id="EiI-T9-vU7"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="Wyt-yP-BU2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="TV Shows" image="ShowsIcon" id="ien-E6-5a8"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8LP-UA-wdk" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="794" y="492"/>
-        </scene>
         <!--Movies View Controller-->
         <scene sceneID="JF5-OG-VvK">
             <objects>
@@ -207,10 +188,10 @@
             </objects>
             <point key="canvasLocation" x="-1304.3478260869567" y="477.71739130434787"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Tab Bar View Controller-->
         <scene sceneID="cDp-D3-4X9">
             <objects>
-                <tabBarController id="9aL-zB-Fmr" sceneMemberID="viewController">
+                <tabBarController id="9aL-zB-Fmr" customClass="TabBarViewController" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="SyL-Ao-EiW">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -221,7 +202,7 @@
                     <connections>
                         <segue destination="3mi-4e-jPf" kind="relationship" relationship="viewControllers" id="Ud7-3B-3u2"/>
                         <segue destination="3gw-vf-CPB" kind="relationship" relationship="viewControllers" id="cW9-Uo-Fhw"/>
-                        <segue destination="iPe-0L-85r" kind="relationship" relationship="viewControllers" id="vkI-ni-Sct"/>
+                        <segue destination="fuO-7a-ovN" kind="relationship" relationship="viewControllers" id="vkI-ni-Sct"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qpM-rD-uOi" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -247,10 +228,32 @@
             </objects>
             <point key="canvasLocation" x="-498.39999999999998" y="491.60419790104953"/>
         </scene>
+        <!--TV Shows-->
+        <scene sceneID="Eg2-Sd-rcP">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fuO-7a-ovN" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="TV Shows" image="ShowsIcon" id="ien-E6-5a8"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="W5O-pX-kiz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rfw-vF-2hG" kind="relationship" relationship="rootViewController" id="91X-ZH-XFX"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="eZC-2g-i6b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="792.75362318840587" y="491.57608695652175"/>
+        </scene>
     </scenes>
     <resources>
         <image name="ShowsIcon" width="23" height="22"/>
         <image name="moviesIcon" width="21" height="20"/>
         <image name="rssIcon" width="20" height="20"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="91X-ZH-XFX"/>
+    </inferredMetricsTieBreakers>
 </document>

@@ -35,7 +35,7 @@
     _collectionView.dataSource = self;
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
-    
+
     [self getMovies];
     
     
@@ -46,6 +46,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (id)initWithEntityType:(Class *)movieOrShow{
+    if( [self isKindOfClass:[Movie class]]){
+        [self getMovies];
+        [self setIsMovie:YES];
+    }
+    else{
+        [self getShows];
+        [self setIsMovie:NO];
+    }
+    
+    return self;
+}
+
+-(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if (navigationController == self.tabBarController.navigationController)
+    {
+        NSLog(@"more controller class: %@", NSStringFromClass([viewController class]));
+        NSLog(@"more controller title: %@", viewController.title);
+    }
+}
 
 //- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 //
