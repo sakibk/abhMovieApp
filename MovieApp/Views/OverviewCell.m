@@ -22,23 +22,23 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
 
 -(void) setupWithMovie :(Movie*) singleMovie{
     
-    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Crew class]];
+    RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
     
-    [genreMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
+    [crewMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
                                                        @"name": @"crewName"
                                                        }];
     
     NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",singleMovie.movieID];
     
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
+    RKResponseDescriptor *crewResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:crewMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:pathP
                                                 keyPath:@"crew"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
     
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    [[RKObjectManager sharedManager] addResponseDescriptor:crewResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -46,32 +46,41 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
+        _setupMovie = [[Movie alloc]init];
         singleMovie.crews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
+        _setupMovie=singleMovie;
+        [self setupOverview];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
-
+ 
     
-    _rating.text = [NSString stringWithFormat:@"%@",singleMovie.rating];
-    _overview.text = singleMovie.overview;
+}
+
+-(void)setupOverview{
+    _rating.text = [NSString stringWithFormat:@"%@",_setupMovie.rating];
+    _overview.text = _setupMovie.overview;
     _writersString = [[NSMutableString alloc]init];
     _producentString = [[NSMutableString alloc]init];
-    for(Crew *sinCrew in singleMovie.crews ){
+    for(Crew *sinCrew in _setupMovie.crews ){
         if([sinCrew.jobName isEqualToString:@"Director"]){
             _director.text=sinCrew.crewName;
         }
         else if([sinCrew.jobName isEqualToString:@"Writer"]){
-            [_writersString appendString:sinCrew.jobName];
+            [_writersString appendString:sinCrew.crewName];
             [_writersString appendString:@", "];
         }
         else if ([sinCrew.jobName isEqualToString:@"Producer"]){
-            [_producentString appendString:sinCrew.jobName];
+            [_producentString appendString:sinCrew.crewName];
             [_producentString appendString:@", "];
         }
     }
+    if(![_writersString isEqualToString:@""]){
     [_writersString deleteCharactersInRange:NSMakeRange([_writersString length]-2, 2)];
-    [_producentString deleteCharactersInRange:NSMakeRange([_writersString length]-2, 2)];
+    }
+    if(![_producentString isEqualToString:@""]){
+    [_producentString deleteCharactersInRange:NSMakeRange([_producentString length]-2, 2)];
+    }
     _stars.text=_producentString;
     _writers.text=_writersString;
 }

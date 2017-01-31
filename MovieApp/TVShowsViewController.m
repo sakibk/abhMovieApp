@@ -39,19 +39,23 @@
     
     RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
     
-    [showMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
+    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
                                                        @"vote_average": @"rating",
                                                        @"poster_path": @"posterPath",
-                                                       @"release_date": @"airDate",
+                                                       @"first_air_date": @"airDate",
                                                        @"id": @"showID",
-                                                       @"backdrop_path" : @"backdropPath"
+                                                       @"backdrop_path" : @"backdropPath",
+                                                       @"overview": @"overview",
+                                                       @"genre_ids": @"genreIds"
                                                       
                                                        }];
+    
+    NSString *pathP =@"/3/discover/tv";
     
     RKResponseDescriptor *responseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:showMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"/3/movie/popular"
+                                            pathPattern:pathP
                                                 keyPath:@"results"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
@@ -62,14 +66,13 @@
 //    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
     
     NSDictionary *queryParameters = @{
+                                      @"sort_by":@"popularity.desc",
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
                                       };
     
-    [[RKObjectManager sharedManager] getObjectsAtPath:@"/3/tv/popular" parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        for(TVShow *i in mappingResult.array){
-        [_allShows addObject:i];
-        }
+        _allShows =[[NSMutableArray alloc]initWithArray:mappingResult.array];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];

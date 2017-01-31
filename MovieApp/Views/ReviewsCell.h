@@ -7,7 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SingleReviewCell.h"
+#import "Review.h"
+
+extern NSString *const reviewsCellIdentifier;
 
 @interface ReviewsCell : UITableViewCell<UITableViewDelegate,UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property(strong,nonatomic) NSMutableArray<Review *> *allReviews;
+@property(strong,nonatomic) Review *singleReview;
+
+-(void) setupWithMovieID:(NSNumber *)singleMovieID;
+//@property(strong,nonatomic) NSString *movieID;
 
 @end

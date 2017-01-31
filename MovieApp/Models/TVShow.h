@@ -9,15 +9,22 @@
 #import <Foundation/Foundation.h>
 #import "Genre.h"
 #import <Realm/Realm.h>
+#import "Cast.h"
+#import "Crew.h"
 
 @interface TVShow : NSObject
 
-@property int showID;
-@property (strong, nonatomic) NSString *title;
+@property (strong, nonatomic) NSNumber *showID;
+@property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *posterPath;
 @property (strong, nonatomic) NSNumber *rating;
 @property (strong, nonatomic) NSDate *airDate;
 @property (strong, nonatomic) NSString *backdropPath;
 @property (strong,nonatomic) NSArray<Genre *> *genres;
+@property (strong, nonatomic) NSString *singleGenre;
+@property (strong, nonatomic) NSString *overview;
+@property (strong, nonatomic) NSMutableArray<Crew *> *crews;
+@property (strong, nonatomic) NSSet<Genre *> *genreSet;
+@property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
 @end

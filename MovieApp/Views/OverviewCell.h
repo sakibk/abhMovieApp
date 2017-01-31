@@ -23,6 +23,8 @@ extern NSString * const OverviewCellIdentifier;
 @property (strong, nonatomic) NSMutableArray <Crew *> *allCrew;
 @property (strong, nonatomic) NSMutableString *writersString;
 @property (strong, nonatomic) NSMutableString *producentString;
+@property (strong, nonatomic) Movie *setupMovie;
+
 
 -(void) setupWithMovie :(Movie*) singleMovie;
 

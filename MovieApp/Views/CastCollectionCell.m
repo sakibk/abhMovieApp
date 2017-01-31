@@ -25,8 +25,6 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 
 -(void) setupWithMovie:(Movie *)singleMovie{
     
-    _movieID = [NSString stringWithFormat:@"%@",singleMovie.movieID];
-    
     RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
     
     [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
@@ -37,16 +35,16 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
                                                        }];
     castMapping.assignsDefaultValueForMissingAttributes = YES;
     
-    NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", _movieID,@"/credits"];
+    NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",singleMovie.movieID];
     
-    RKResponseDescriptor *responseDescriptor =
+    RKResponseDescriptor *castResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:castMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:pathP
                                                 keyPath:@"cast"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -54,7 +52,14 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _allCasts=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        
+        _allCasts = [[NSMutableArray alloc] init];
+        for (Cast *cast in mappingResult.array) {
+            if ([cast isKindOfClass:[Cast class]]) {
+                [_allCasts addObject:cast];
+            }
+        }
+//        _allCasts=[[NSMutableArray alloc]initWithArray:mappingResult.array];
         
         
         [_collectionView reloadData];
@@ -88,7 +93,7 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    return CGSizeMake(160.0, 298.0);
+    return CGSizeMake(160.0, 415.0);
 }
 
 

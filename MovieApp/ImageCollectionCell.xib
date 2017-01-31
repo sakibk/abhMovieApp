@@ -11,11 +11,11 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCollectionCellIdentivier" rowHeight="168" id="2al-Ly-V41" customClass="ImageCollectionCell">
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ImageCollectionCellIdentivier" rowHeight="185" id="2al-Ly-V41" customClass="ImageCollectionCell">
             <rect key="frame" x="0.0" y="0.0" width="415" height="185"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2al-Ly-V41" id="D24-43-vpp">
-                <rect key="frame" x="0.0" y="0.0" width="415" height="185"/>
+                <rect key="frame" x="0.0" y="0.0" width="415" height="184"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="Kn6-Ye-0pq">

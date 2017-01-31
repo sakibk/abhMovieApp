@@ -51,4 +51,33 @@ NSString* const identifier= @"MovieCellIdentifier";
   _genreLabel.text=singleMovie.singleGenre;
 }
 
+-(void) setupShowCell:(TVShow *) singleShow{
+    
+    NSDate *releaseYear = singleShow.airDate;
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
+    NSInteger year = [components year];
+    
+    _title.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
+    
+    [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleShow.posterPath]]
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleShow.name,@".png"]]];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd LLLL yyyy"];
+    
+    self.backgroundColor = [UIColor grayColor];
+    _releaseDateLabel.text = [dateFormatter stringFromDate:singleShow.airDate];
+    
+    _genID = [singleShow.genreIds objectAtIndex:0];
+    
+    
+    for (Genre *gen in  singleShow.genres) {
+        if (gen.genreID == _genID) {
+            singleShow.singleGenre=gen.genreName;
+        }
+    }
+    
+    _genreLabel.text=singleShow.singleGenre;
+}
+
 @end

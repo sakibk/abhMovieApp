@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 
 extern NSString * const identifier;
 
@@ -21,5 +22,6 @@ extern NSString * const identifier;
 @property NSNumber *genID;
 
 -(void) setupMovieCell:(Movie *) singleMovie;
+-(void) setupShowCell:(TVShow *) singleShow;
 
 @end

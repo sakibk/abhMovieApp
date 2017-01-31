@@ -15,6 +15,7 @@
 #import "OverviewCell.h"
 #import "ImageCollectionCell.h"
 #import "CastCollectionCell.h"
+#import "ReviewsCell.h"
 
 @interface MovieDetailViewController ()
 
@@ -37,6 +38,8 @@
       [self.tableView registerNib:[UINib nibWithNibName:@"ImageCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:ImageCollectionCellIdentifier];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"ReviewsCellIdentifier" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:reviewsCellIdentifier];
     
     
     // Do any additional setup after loading the view.
@@ -139,6 +142,7 @@
         case 0:
         {
             PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
+            
             [cell setupWithMovie:_movieDetail];
                     return cell;
         }
@@ -149,6 +153,7 @@
             [cell setupWithMovie:_movieDetail];
             return cell;
         }
+            break;
         case 2:
         {
             OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
@@ -156,16 +161,27 @@
             [cell setupWithMovie:_movieDetail];
             return cell;
         }
+            break;
         case 3:
         {
             ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithMovie:_movieDetail];
             return cell;
         }
+            break;
         case 4:
         {
             CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithMovie:_movieDetail];
+//            UITableViewCell *cell = [UITableViewCell new];
+            return cell;
+        }
+            break;
+        case 5:
+        {
+            ReviewsCell *cell = (ReviewsCell *)[tableView dequeueReusableCellWithIdentifier:reviewsCellIdentifier forIndexPath:indexPath];
+            
+            [cell setupWithMovieID:_movieID];
             return cell;
         }
         default:
@@ -176,6 +192,29 @@
     // Configure the cell...
     UITableViewCell *cell = [UITableViewCell new];
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.section == 1 && indexPath.row == 0) {
+        return 222.0;
+    }
+    else if(indexPath.section == 1 && indexPath.row == 1) {
+        return 42.0;
+    }
+    else if(indexPath.section == 1 && indexPath.row == 2) {
+        return 179.0;
+    }
+    else if(indexPath.section == 1 && indexPath.row == 3) {
+        return 185.0;
+    }
+    else if(indexPath.section == 1 && indexPath.row == 4) {
+        return 295.0;
+    }
+    else if(indexPath.section == 1 && indexPath.row == 0) {
+        return 623.0;
+    }
+
+    return 200;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

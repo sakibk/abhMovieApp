@@ -10,6 +10,7 @@
 #import <RestKit/RestKit.h>
 #import "Movie.h"
 #import "Genre.h"
+#import "TVShow.h"
 #import "MoviesCell.h"
 #import "MovieDetailViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -18,8 +19,11 @@
 
 @property NSMutableArray<Movie *> *allMovies;
 @property NSMutableArray<Genre *> *allGenres;
+@property NSMutableArray<TVShow *> *allShows;
 @property Movie *test;
+@property TVShow *tvTest;
 @property Genre *singleGenre;
+@property (nonatomic,assign) BOOL *isMovie;
 
 @end
 
@@ -32,54 +36,8 @@
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
+    [self getMovies];
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-//    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
-//    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
-//    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    
-    
-    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
-    
-    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
-                                                       @"vote_average": @"rating",
-                                                       @"poster_path": @"posterPath",
-                                                       @"release_date": @"releaseDate",
-                                                       @"id": @"movieID",
-                                                       @"backdrop_path" : @"backdropPath",
-                                                       @"genre_ids":@"genreIds"
-                                                       }];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"/3/movie/popular"
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
-    
-//    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
-    
-    NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
-                                      };
-    
-    [[RKObjectManager sharedManager] getObjectsAtPath:@"/3/movie/popular" parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult.array);
-        _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-
-        
-        [_collectionView reloadData];
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
-    }];
-    
-    [self getGenres];
     
   }
 
@@ -93,8 +51,50 @@
 //
 //    return 1;
 //}
+-(void)getMovies{
+    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
+    
+    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
+                                                       @"vote_average": @"rating",
+                                                       @"poster_path": @"posterPath",
+                                                       @"release_date": @"releaseDate",
+                                                       @"id": @"movieID",
+                                                       @"backdrop_path" : @"backdropPath",
+                                                       @"genre_ids":@"genreIds"
+                                                       }];
+    NSString *pathP =@"/3/discover/movie";
+    
+    RKResponseDescriptor *responseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"results"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    
+    //    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
+    
+    NSDictionary *queryParameters = @{
+                                      @"sort_by":@"popularity.desc",
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [self setIsMovie:YES];
+        
+        [_collectionView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+    
+        [self getMovieGenres];
+}
 
-- (void)getGenres
+
+- (void)getMovieGenres
 {
     
     RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
@@ -131,8 +131,95 @@
 
 }
 
+-(void)getShows{
+    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
+    
+    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
+                                                      @"vote_average": @"rating",
+                                                      @"poster_path": @"posterPath",
+                                                      @"first_air_date": @"airDate",
+                                                      @"id": @"showID",
+                                                      @"backdrop_path" : @"backdropPath",
+                                                      @"overview": @"overview",
+                                                      @"genre_ids": @"genreIds"
+                                                      
+                                                      }];
+    
+    NSString *pathP =@"/3/discover/tv";
+    
+    RKResponseDescriptor *responseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"results"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    
+    //    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
+    
+    NSDictionary *queryParameters = @{
+                                      @"sort_by":@"popularity.desc",
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _allShows =[[NSMutableArray alloc]initWithArray:mappingResult.array];
+                [self setIsMovie:NO];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+    
+    [self getTVGenres];
+}
+
+- (void)getTVGenres
+{
+    
+    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
+    
+    [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
+                                                       @"name": @"genreName"
+                                                       }];
+    
+    NSString *pathP =@"/3/genre/tv/list";
+    
+    RKResponseDescriptor *responseGenreDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"genres"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseGenreDescriptor];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _allGenres=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        
+        [_collectionView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+    
+    
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return [_allMovies count];
+    if (_isMovie) {
+        return [_allMovies count];
+    }
+    else{
+        return [_allShows count];
+    }
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
@@ -162,9 +249,17 @@
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
     MoviesCell *cell = (MoviesCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
-    _test =[_allMovies objectAtIndex:indexPath.row];
-    _test.genres=[[NSMutableArray alloc]initWithArray:_allGenres];
-    [cell setupMovieCell:_test];
+    if (_isMovie) {
+        _test =[_allMovies objectAtIndex:indexPath.row];
+        _test.genres=[[NSMutableArray alloc]initWithArray:_allGenres];
+        [cell setupMovieCell:_test];
+    }
+    else {
+        _tvTest =[_allShows objectAtIndex:indexPath.row];
+        _tvTest.genres=[[NSMutableArray alloc]initWithArray:_allGenres];
+        [cell setupShowCell:_tvTest];
+    }
+    
     return cell;
 }
 
@@ -224,9 +319,16 @@
     if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
         MovieDetailViewController *movieDetails = segue.destinationViewController;
         NSIndexPath *indexPath = [self.collectionView.indexPathsForSelectedItems objectAtIndex:0];
+        if (_isMovie) {
         _test =[_allMovies objectAtIndex:indexPath.row];
         movieDetails.singleMovie = _test;
         movieDetails.movieID = _test.movieID;
+        }
+        else{
+            _tvTest =[_allShows objectAtIndex:indexPath.row];
+            movieDetails.singleShow = _tvTest;
+            movieDetails.movieID = _tvTest.showID;
+        }
     }
     
 }
