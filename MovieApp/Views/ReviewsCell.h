@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "SingleReviewCell.h"
 #import "Review.h"
-
+#import "TVShow.h"
 extern NSString *const reviewsCellIdentifier;
 
 @interface ReviewsCell : UITableViewCell<UITableViewDelegate,UITableViewDataSource>
@@ -19,6 +19,7 @@ extern NSString *const reviewsCellIdentifier;
 @property(strong,nonatomic) Review *singleReview;
 
 -(void) setupWithMovieID:(NSNumber *)singleMovieID;
+-(void) setupWithShowID:(NSNumber *)singleTVShowID;
 //@property(strong,nonatomic) NSString *movieID;
 
 @end

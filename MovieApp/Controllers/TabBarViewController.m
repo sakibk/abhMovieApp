@@ -7,6 +7,7 @@
 //
 
 #import "TabBarViewController.h"
+#import "MoviesViewController.h"
 
 @interface TabBarViewController ()
 
@@ -26,26 +27,25 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (void)tabBarController:(UITabBarController *)tabBarController
- didSelectViewController:(UIViewController *)viewController
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-    NSLog(@"controller class: %@", NSStringFromClass([viewController class]));
-    NSLog(@"controller title: %@", viewController.title);
-    
-    if (viewController == tabBarController)
-    {
-        tabBarController.delegate = self;
+    switch (tabBarController.selectedIndex) {
+        case 1:
+        {
+            MoviesViewController *moviesVC = (MoviesViewController *)[[(UINavigationController *)viewController viewControllers] objectAtIndex:0];
+            moviesVC.isMovie = YES;
+        }
+            break;
+        case 2:
+        {
+            MoviesViewController *moviesVC = (MoviesViewController *)[[(UINavigationController *)viewController viewControllers] objectAtIndex:0];
+            moviesVC.isMovie = NO;
+        }
+        default:
+            break;
     }
 }
 
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    if (navigationController == self.tabBarController.navigationController)
-    {
-        NSLog(@"more controller class: %@", NSStringFromClass([viewController class]));
-        NSLog(@"more controller title: %@", viewController.title);
-    }
-}
 
 /*
 #pragma mark - Navigation

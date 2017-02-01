@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 
 extern NSString * const pictureDetailCellIdentifier;
 
@@ -16,5 +17,6 @@ extern NSString * const pictureDetailCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *movieTitle;
 
 -(void) setupWithMovie:(Movie *) singleMovie;
+-(void) setupWithShow:(TVShow *) singleShow;
 
 @end

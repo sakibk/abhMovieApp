@@ -23,7 +23,6 @@
 @property Movie *test;
 @property TVShow *tvTest;
 @property Genre *singleGenre;
-@property (nonatomic,assign) BOOL *isMovie;
 
 @end
 
@@ -35,8 +34,14 @@
     _collectionView.dataSource = self;
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
-
-    [self getMovies];
+    
+    if(_isMovie)
+    {
+        [self getMovies];
+    }
+    else{
+        [self getShows];
+    }
     
     
   }
@@ -46,27 +51,6 @@
     // Dispose of any resources that can be recreated.
 }
 
-- (id)initWithEntityType:(Class *)movieOrShow{
-    if( [self isKindOfClass:[Movie class]]){
-        [self getMovies];
-        [self setIsMovie:YES];
-    }
-    else{
-        [self getShows];
-        [self setIsMovie:NO];
-    }
-    
-    return self;
-}
-
--(void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    if (navigationController == self.tabBarController.navigationController)
-    {
-        NSLog(@"more controller class: %@", NSStringFromClass([viewController class]));
-        NSLog(@"more controller title: %@", viewController.title);
-    }
-}
 
 //- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
 //
@@ -243,6 +227,7 @@
     }
 }
 
+
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(10, 5, 10, 5);
 }
@@ -344,11 +329,13 @@
         _test =[_allMovies objectAtIndex:indexPath.row];
         movieDetails.singleMovie = _test;
         movieDetails.movieID = _test.movieID;
+            movieDetails.isMovie=_isMovie;
         }
         else{
             _tvTest =[_allShows objectAtIndex:indexPath.row];
             movieDetails.singleShow = _tvTest;
             movieDetails.movieID = _tvTest.showID;
+            movieDetails.isMovie=_isMovie;
         }
     }
     

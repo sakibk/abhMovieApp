@@ -16,7 +16,7 @@
 @property (nonatomic,strong) Movie *singleMovie;
 @property (nonatomic,strong) TVShow *singleShow;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (nonatomic,strong) NSPredicate* isMovie;
+@property (nonatomic,assign) BOOL *isMovie;
 
 -(void)setDetailPoster;
 

@@ -26,5 +26,4 @@
 @property (strong, nonatomic) NSMutableArray<Crew *> *crews;
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
-
 @end

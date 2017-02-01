@@ -73,6 +73,42 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 
 }
 
+-(void)setupWithShow:(TVShow *)singleShow{
+    _movieID = [NSString stringWithFormat:@"%@",singleShow.showID];
+    
+    RKObjectMapping *imageMapping = [RKObjectMapping mappingForClass:[ImagePathUrl class]];
+    
+    [imageMapping addAttributeMappingsFromDictionary:@{@"file_path": @"posterPath"
+                                                       }];
+    imageMapping.assignsDefaultValueForMissingAttributes = YES;
+    
+    NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/tv/", _movieID,@"/images"];
+    
+    RKResponseDescriptor *responseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:imageMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"posters"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    NSLog(@"%@", pathP);
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _allImagePaths = [[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [_collectionView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+    
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
@@ -96,6 +132,10 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
     return CGSizeMake(184.0, 184.0);
+}
+
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
+    return UIEdgeInsetsMake(10, 5, 10, 5);
 }
 
 @end

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 #import "Crew.h"
 
 extern NSString * const OverviewCellIdentifier;
@@ -24,8 +25,10 @@ extern NSString * const OverviewCellIdentifier;
 @property (strong, nonatomic) NSMutableString *writersString;
 @property (strong, nonatomic) NSMutableString *producentString;
 @property (strong, nonatomic) Movie *setupMovie;
+@property (strong, nonatomic) TVShow *setupShow;
 
 
 -(void) setupWithMovie :(Movie*) singleMovie;
+-(void) setupWithShow :(TVShow*) singleShow;
 
 @end

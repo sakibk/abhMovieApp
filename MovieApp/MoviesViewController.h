@@ -10,5 +10,6 @@
 
 @interface MoviesViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (nonatomic,assign) BOOL *isMovie;
 
 @end

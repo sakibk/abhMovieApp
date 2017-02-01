@@ -36,9 +36,26 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     }
     [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
     _genres.text = _genreString;
-    
-    
 
+}
+
+-(void) setupWithShow:(TVShow *)singleShow{
+    _duration.text = [NSString stringWithFormat:@"%@-%@ min",[singleShow.runtime objectAtIndex:0],[singleShow.runtime objectAtIndex:1]];
+    
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy"];
+    
+    _releaseDate.text =[NSString stringWithFormat:@"TV Series (%@-)",[dateFormatter stringFromDate:singleShow.firstAirDate]];
+    
+    _genreString = [[NSMutableString alloc]init];
+    
+    for (Genre *str in singleShow.genreSet ){
+        [_genreString appendString:[str valueForKey:@"name"]];
+        [_genreString appendString:@", "];
+    }
+    [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
+    _genres.text = _genreString;
+    
 }
 
 @end

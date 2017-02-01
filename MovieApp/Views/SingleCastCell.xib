@@ -34,8 +34,8 @@
                         <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7x-nK-FD5">
-                        <rect key="frame" x="0.0" y="272.5" width="160" height="20.5"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M7x-nK-FD5">
+                        <rect key="frame" x="0.0" y="261" width="160" height="32"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
@@ -45,14 +45,15 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="Xhb-ef-6uq" firstAttribute="leading" secondItem="pUb-z1-5uV" secondAttribute="leading" id="KZ8-0Q-htC"/>
-                <constraint firstAttribute="bottom" secondItem="M7x-nK-FD5" secondAttribute="bottom" id="O66-V7-XkS"/>
                 <constraint firstItem="Xhb-ef-6uq" firstAttribute="top" secondItem="pUb-z1-5uV" secondAttribute="top" id="PEa-Pk-KK6"/>
+                <constraint firstItem="M7x-nK-FD5" firstAttribute="top" secondItem="mLw-l5-c26" secondAttribute="bottom" constant="1" id="WZu-BN-NaC"/>
                 <constraint firstItem="mLw-l5-c26" firstAttribute="leading" secondItem="Xhb-ef-6uq" secondAttribute="leading" id="X6h-sb-kk9"/>
-                <constraint firstItem="M7x-nK-FD5" firstAttribute="leading" secondItem="mLw-l5-c26" secondAttribute="leading" id="Z2R-v1-ds6"/>
+                <constraint firstAttribute="bottom" secondItem="M7x-nK-FD5" secondAttribute="bottom" id="Xmf-Kv-zdB"/>
                 <constraint firstItem="mLw-l5-c26" firstAttribute="trailing" secondItem="Xhb-ef-6uq" secondAttribute="trailing" id="ZDo-4f-E1W"/>
                 <constraint firstAttribute="trailing" secondItem="Xhb-ef-6uq" secondAttribute="trailing" id="afI-y8-k5a"/>
-                <constraint firstItem="M7x-nK-FD5" firstAttribute="trailing" secondItem="mLw-l5-c26" secondAttribute="trailing" id="hnm-ew-3jW"/>
+                <constraint firstItem="M7x-nK-FD5" firstAttribute="trailing" secondItem="mLw-l5-c26" secondAttribute="trailing" id="dXI-KS-5Sb"/>
                 <constraint firstItem="mLw-l5-c26" firstAttribute="top" secondItem="Xhb-ef-6uq" secondAttribute="bottom" constant="1" id="oll-GM-EL2"/>
+                <constraint firstItem="M7x-nK-FD5" firstAttribute="leading" secondItem="mLw-l5-c26" secondAttribute="leading" id="zeO-rR-9dT"/>
             </constraints>
             <size key="customSize" width="160" height="294"/>
             <connections>
@@ -60,7 +61,7 @@
                 <outlet property="castName" destination="mLw-l5-c26" id="Bfn-6A-pbE"/>
                 <outlet property="castRoleNames" destination="M7x-nK-FD5" id="ia2-Nq-00d"/>
             </connections>
-            <point key="canvasLocation" x="-52" y="26"/>
+            <point key="canvasLocation" x="-52" y="25.5"/>
         </collectionViewCell>
     </objects>
 </document>

@@ -20,6 +20,8 @@
 @interface MovieDetailViewController ()
 
 @property Movie *movieDetail;
+@property TVShow *showDetail;
+
 
 @end
 
@@ -43,10 +45,24 @@
     
     
     // Do any additional setup after loading the view.
-//    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
-//    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
-//    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
     
+    if(_isMovie){
+        [self getMovies];
+    }
+    else{
+        [self getShows];
+    }
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    
+}
+
+-(void)getMovies{
     RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
     
     [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
@@ -59,7 +75,7 @@
                                                        @"overview":@"overview",
                                                        @"genres":@"genreSet"
                                                        }];
-
+    
     movieMapping.assignsDefaultValueForMissingAttributes = YES;
     
     
@@ -90,30 +106,34 @@
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+-(void)getShows{
+    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
     
-    [super viewWillAppear:animated];
-    
-    
-}
-
-- (void)getOvewrviewInfo:(NSNumber *) movieID
-{
-    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Crew class]];
-    
-    [genreMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
-                                                       @"name": @"crewName"
+    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
+                                                       @"vote_average": @"rating",
+                                                       @"poster_path": @"posterPath",
+                                                       @"first_air_date": @"firstAirDate",
+                                                       @"last_air_date":@"lastAirDate",
+                                                       @"id": @"showID",
+                                                       @"episode_run_time":@"runtime",
+                                                       @"backdrop_path":@"backdropPath",
+                                                       @"overview":@"overview",
+                                                       @"genres":@"genreSet"
                                                        }];
     
-    NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",movieID];
+    showMapping.assignsDefaultValueForMissingAttributes = YES;
+    
+    
+    NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/tv/", _movieID];
     
     RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
+    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:pathP
-                                                keyPath:@"crew"
+                                                keyPath:nil
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
+    NSLog(@"%@", pathP);
     
     [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
@@ -123,8 +143,9 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _movieDetail.crews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
+        _showDetail = [mappingResult firstObject];
+        NSLog(@"%@", _showDetail.overview);
+        [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
@@ -138,13 +159,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(_isMovie){
     switch (indexPath.row) {
         case 0:
         {
             PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
-            
             [cell setupWithMovie:_movieDetail];
-                    return cell;
+            return cell;
         }
             break;
         case 1:
@@ -152,14 +173,15 @@
             BellowImageCell *cell = (BellowImageCell *)[tableView dequeueReusableCellWithIdentifier:BellowImageCellIdentifier forIndexPath:indexPath];
             [cell setupWithMovie:_movieDetail];
             return cell;
+            
         }
             break;
         case 2:
         {
             OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
- //           [self getOvewrviewInfo:_movieID];
             [cell setupWithMovie:_movieDetail];
             return cell;
+            
         }
             break;
         case 3:
@@ -173,14 +195,12 @@
         {
             CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithMovie:_movieDetail];
-//            UITableViewCell *cell = [UITableViewCell new];
             return cell;
         }
             break;
         case 5:
         {
             ReviewsCell *cell = (ReviewsCell *)[tableView dequeueReusableCellWithIdentifier:reviewsCellIdentifier forIndexPath:indexPath];
-            
             [cell setupWithMovieID:_movieID];
             return cell;
         }
@@ -192,33 +212,108 @@
     // Configure the cell...
     UITableViewCell *cell = [UITableViewCell new];
     return cell;
+    }
+    else{
+        switch (indexPath.row) {
+            case 0:
+            {
+                PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
+                [cell setupWithShow:_showDetail];
+                return cell;
+            }
+                break;
+            case 1:
+            {
+                BellowImageCell *cell = (BellowImageCell *)[tableView dequeueReusableCellWithIdentifier:BellowImageCellIdentifier forIndexPath:indexPath];
+                [cell setupWithShow:_showDetail];
+                return cell;
+                
+            }
+                break;
+            case 2:
+            {
+                OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+                [cell setupWithShow:_showDetail];
+                return cell;
+                
+            }
+                break;
+            case 3:
+            {
+                ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
+                [cell setupWithShow:_showDetail];
+                return cell;
+            }
+                break;
+            case 4:
+            {
+                CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
+                [cell setupWithShow:_showDetail];
+                return cell;
+            }
+                break;
+            case 5:
+            {
+                ReviewsCell *cell = (ReviewsCell *)[tableView dequeueReusableCellWithIdentifier:reviewsCellIdentifier forIndexPath:indexPath];
+                [cell setupWithShowID:_movieID];
+                return cell;
+            }
+            default:
+                break;
+        }
+        
+        
+        // Configure the cell...
+        UITableViewCell *cell = [UITableViewCell new];
+        return cell;
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if(indexPath.section == 1 && indexPath.row == 0) {
+    if(indexPath.section == 0 && indexPath.row == 0) {
         return 222.0;
     }
-    else if(indexPath.section == 1 && indexPath.row == 1) {
+    else if(indexPath.section == 0 && indexPath.row == 1) {
         return 42.0;
     }
-    else if(indexPath.section == 1 && indexPath.row == 2) {
-        return 179.0;
+    else if(indexPath.section == 0 && indexPath.row == 2) {
+        return 180.0;
     }
-    else if(indexPath.section == 1 && indexPath.row == 3) {
+    else if(indexPath.section == 0 && indexPath.row == 3) {
         return 185.0;
     }
-    else if(indexPath.section == 1 && indexPath.row == 4) {
-        return 295.0;
+    else if(indexPath.section == 0 && indexPath.row == 4) {
+        return 293.0;
     }
-    else if(indexPath.section == 1 && indexPath.row == 0) {
-        return 623.0;
+    else if(indexPath.section == 0 && indexPath.row == 5) {
+        return 330.0;
     }
 
     return 200;
 }
 
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    /* Create custom view to display section header... */
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
+    [label setFont:[UIFont boldSystemFontOfSize:12]];
+//    NSString *string =[list objectAtIndex:section];
+    NSString *string =@"test";
+    /* Section header is in 0th index... */
+    [label setText:string];
+    [view addSubview:label];
+    [view setBackgroundColor:[UIColor colorWithRed:166/255.0 green:177/255.0 blue:186/255.0 alpha:1.0]]; //your background color...
+    return view;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _movieDetail != nil ? 7 : 0;
+    if(_isMovie){
+        return _movieDetail != nil ? 6 : 0;
+    }
+    else{
+        return _showDetail != nil ? 7 : 0;
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -230,19 +325,6 @@
     // Dispose of any resources that can be recreated.
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-    /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:12]];
-    NSString *string =@"test";
-    /* Section header is in 0th index... */
-    [label setText:string];
-    [view addSubview:label];
-    [view setBackgroundColor:[UIColor colorWithRed:166/255.0 green:177/255.0 blue:186/255.0 alpha:1.0]]; //your background color...
-    return view;
-}
 
 /*
 #pragma mark - Navigation

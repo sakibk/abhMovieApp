@@ -20,6 +20,11 @@ NSString* const identifier= @"MovieCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     
+    _title.numberOfLines=0;
+    [_title setUserInteractionEnabled:NO];
+    [_title setTextAlignment:NSTextAlignmentLeft];
+    [_title setBaselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+    
 }
 
 -(void) setupMovieCell:(Movie *) singleMovie{
@@ -29,6 +34,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     NSInteger year = [components year];
     
     _title.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
+    [_title sizeToFit];
     
     [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleMovie.posterPath]]
                        placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
@@ -58,15 +64,16 @@ NSString* const identifier= @"MovieCellIdentifier";
     NSInteger year = [components year];
     
     _title.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
+    [_title sizeToFit];
     
     [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleShow.posterPath]]
                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleShow.name,@".png"]]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd LLLL yyyy"];
+    [dateFormatter setDateFormat:@"yyyy"];
     
     self.backgroundColor = [UIColor grayColor];
-    _releaseDateLabel.text = [dateFormatter stringFromDate:singleShow.airDate];
+    _releaseDateLabel.text = [NSString stringWithFormat:@"(TV Series %@-)",[dateFormatter stringFromDate:singleShow.airDate]];
     
     _genID = [singleShow.genreIds objectAtIndex:0];
     

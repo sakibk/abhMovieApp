@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 
 extern NSString * const BellowImageCellIdentifier;
 
@@ -19,5 +20,6 @@ extern NSString * const BellowImageCellIdentifier;
 @property (strong, nonatomic) NSMutableString *genreString;
 
 -(void) setupWithMovie:(Movie *)singleMovie;
+-(void) setupWithShow:(TVShow *)singleShow;
 
 @end

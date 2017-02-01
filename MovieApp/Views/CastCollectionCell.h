@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 #import "Cast.h"
 #import <RestKit/RestKit.h>
 
@@ -17,6 +18,7 @@ extern NSString *const castCollectionCellIdentifier;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 -(void) setupWithMovie:(Movie *)singleMovie;
+-(void) setupWithShow:(TVShow *)singleShow;
 
 @property NSMutableArray<Cast *> *allCasts;
 @property Cast *singleCast;

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 
 extern NSString * const ImageCollectionCellIdentifier;
 
@@ -15,5 +16,6 @@ extern NSString * const ImageCollectionCellIdentifier;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 -(void)setupWithMovie:(Movie *)singleMovie;
+-(void)setupWithShow:(TVShow *)singleShow;
 
 @end

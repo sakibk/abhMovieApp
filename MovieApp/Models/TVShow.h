@@ -18,6 +18,8 @@
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *posterPath;
 @property (strong, nonatomic) NSNumber *rating;
+@property (strong, nonatomic) NSDate *firstAirDate;
+@property (strong, nonatomic) NSDate *lastAirDate;
 @property (strong, nonatomic) NSDate *airDate;
 @property (strong, nonatomic) NSString *backdropPath;
 @property (strong,nonatomic) NSArray<Genre *> *genres;
@@ -26,5 +28,5 @@
 @property (strong, nonatomic) NSMutableArray<Crew *> *crews;
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
-
+@property (strong, nonatomic) NSArray <NSNumber *> *runtime;
 @end
