@@ -47,7 +47,12 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _setupMovie = [[Movie alloc]init];
-        singleMovie.crews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        singleMovie.crews=[[NSMutableArray alloc]init];
+        for (Crew *crew in mappingResult.array) {
+            if ([crew isKindOfClass:[Crew class]]) {
+                [singleMovie.crews addObject:crew];
+            }
+        }
         _setupMovie=singleMovie;
         [self setupOverview];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -62,9 +67,11 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     _overview.text = _setupMovie.overview;
     _writersString = [[NSMutableString alloc]init];
     _producentString = [[NSMutableString alloc]init];
+    Boolean tag = false;
     for(Crew *sinCrew in _setupMovie.crews ){
         if([sinCrew.jobName isEqualToString:@"Director"]){
             _director.text=sinCrew.crewName;
+            tag = true;
         }
         else if([sinCrew.jobName isEqualToString:@"Writer"]){
             [_writersString appendString:sinCrew.crewName];
@@ -83,6 +90,18 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     }
     _stars.text=_producentString;
     _writers.text=_writersString;
+    
+    if([_stars.text isEqualToString:@""]){
+        _stars.text=@"  N/A  ";
+    }
+    
+    if([_writers.text isEqualToString:@""]){
+        _writers.text=@"  N/A  ";
+    }
+    
+    if(tag==false){
+        _director.text=@"  N/A  ";
+    }
 }
 
 -(void) setupWithShow :(TVShow*) singleShow{
@@ -111,8 +130,14 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
+//        for(Crew *singleCrew)
         _setupShow = [[TVShow alloc]init];
-        singleShow.crews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        singleShow.crews=[[NSMutableArray alloc]init];
+        for (Crew *crew in mappingResult.array) {
+            if ([crew isKindOfClass:[Crew class]]) {
+                [singleShow.crews addObject:crew];
+            }
+        }
         _setupShow=singleShow;
         [self setupShowOverview];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -127,9 +152,11 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     _overview.text = _setupShow.overview;
     _writersString = [[NSMutableString alloc]init];
     _producentString = [[NSMutableString alloc]init];
+    Boolean tag = false;
     for(Crew *sinCrew in _setupShow.crews ){
         if([sinCrew.jobName isEqualToString:@"Director"]){
             _director.text=sinCrew.crewName;
+            tag=true;
         }
         else if([sinCrew.jobName isEqualToString:@"Writer"]){
             [_writersString appendString:sinCrew.crewName];
@@ -148,6 +175,18 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     }
     _stars.text=_producentString;
     _writers.text=_writersString;
+    if([_stars.text isEqualToString:@""]){
+        _stars.text=@"  N/A  ";
+    }
+    
+    if([_writers.text isEqualToString:@""]){
+        _writers.text=@"  N/A  ";
+    }
+
+    if(tag == false){
+        _director.text=@"  N/A  ";
+    }
+
 }
 
 @end

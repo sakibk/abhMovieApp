@@ -131,7 +131,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 }
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    return CGSizeMake(184.0, 184.0);
+    return CGSizeMake(165.0, 165.0);
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{

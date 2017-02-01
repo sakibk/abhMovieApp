@@ -16,6 +16,7 @@
 #import "ImageCollectionCell.h"
 #import "CastCollectionCell.h"
 #import "ReviewsCell.h"
+#import "SeasonsCell.h"
 
 @interface MovieDetailViewController ()
 
@@ -41,8 +42,12 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"ReviewsCellIdentifier" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:reviewsCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"ReviewsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:reviewsCellIdentifier];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"SeasonsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:seasonsCellIdentifier];
+    
+//    self.tableView.rowHeight = UITableViewAutomaticDimension;
+//    self.tableView.estimatedRowHeight = 40;
     
     // Do any additional setup after loading the view.
     
@@ -143,8 +148,10 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _showDetail = [mappingResult firstObject];
-        NSLog(@"%@", _showDetail.overview);
+        if([mappingResult.firstObject isKindOfClass:[TVShow class]]){
+            _showDetail = [mappingResult firstObject];
+            NSLog(@"%@", _showDetail.overview);
+            }
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
@@ -160,58 +167,58 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(_isMovie){
-    switch (indexPath.row) {
-        case 0:
-        {
-            PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
-            [cell setupWithMovie:_movieDetail];
-            return cell;
+        switch (indexPath.row) {
+            case 0:
+            {
+                PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
+                [cell setupWithMovie:_movieDetail];
+                return cell;
+            }
+                break;
+            case 1:
+            {
+                BellowImageCell *cell = (BellowImageCell *)[tableView dequeueReusableCellWithIdentifier:BellowImageCellIdentifier forIndexPath:indexPath];
+                [cell setupWithMovie:_movieDetail];
+                return cell;
+                
+            }
+                break;
+            case 2:
+            {
+                OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+                [cell setupWithMovie:_movieDetail];
+                return cell;
+                
+            }
+                break;
+            case 3:
+            {
+                ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
+                [cell setupWithMovie:_movieDetail];
+                return cell;
+            }
+                break;
+            case 4:
+            {
+                CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
+                [cell setupWithMovie:_movieDetail];
+                return cell;
+            }
+                break;
+            case 5:
+            {
+                ReviewsCell *cell = (ReviewsCell *)[tableView dequeueReusableCellWithIdentifier:reviewsCellIdentifier forIndexPath:indexPath];
+                [cell setupWithMovieID:_movieID];
+                return cell;
+            }
+            default:
+                break;
         }
-            break;
-        case 1:
-        {
-            BellowImageCell *cell = (BellowImageCell *)[tableView dequeueReusableCellWithIdentifier:BellowImageCellIdentifier forIndexPath:indexPath];
-            [cell setupWithMovie:_movieDetail];
-            return cell;
-            
-        }
-            break;
-        case 2:
-        {
-            OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
-            [cell setupWithMovie:_movieDetail];
-            return cell;
-            
-        }
-            break;
-        case 3:
-        {
-            ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
-            [cell setupWithMovie:_movieDetail];
-            return cell;
-        }
-            break;
-        case 4:
-        {
-            CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
-            [cell setupWithMovie:_movieDetail];
-            return cell;
-        }
-            break;
-        case 5:
-        {
-            ReviewsCell *cell = (ReviewsCell *)[tableView dequeueReusableCellWithIdentifier:reviewsCellIdentifier forIndexPath:indexPath];
-            [cell setupWithMovieID:_movieID];
-            return cell;
-        }
-        default:
-            break;
-    }
-    
-    
-    // Configure the cell...
-    UITableViewCell *cell = [UITableViewCell new];
-    return cell;
+        
+        
+        // Configure the cell...
+        UITableViewCell *cell = [UITableViewCell new];
+        return cell;
     }
     else{
         switch (indexPath.row) {
@@ -240,19 +247,28 @@
                 break;
             case 3:
             {
+                SeasonsCell *cell = (SeasonsCell *)[tableView dequeueReusableCellWithIdentifier:seasonsCellIdentifier forIndexPath:indexPath];
+                [cell setupWithShowID:_showDetail];
+                
+                return cell;
+                
+            }
+                break;
+            case 4:
+            {
                 ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
                 [cell setupWithShow:_showDetail];
                 return cell;
             }
                 break;
-            case 4:
+            case 5:
             {
                 CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
                 [cell setupWithShow:_showDetail];
                 return cell;
             }
                 break;
-            case 5:
+            case 6:
             {
                 ReviewsCell *cell = (ReviewsCell *)[tableView dequeueReusableCellWithIdentifier:reviewsCellIdentifier forIndexPath:indexPath];
                 [cell setupWithShowID:_movieID];
@@ -270,6 +286,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(_isMovie){
     if(indexPath.section == 0 && indexPath.row == 0) {
         return 222.0;
     }
@@ -290,6 +307,31 @@
     }
 
     return 200;
+    }
+    else{
+        if(indexPath.section == 0 && indexPath.row == 0) {
+            return 222.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 1) {
+            return 42.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 2) {
+            return 180.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 3) {
+            return 59.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 4) {
+            return 185.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 5) {
+            return 293.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 6) {
+            return 330.0;
+        }
+        return 200;
+    }
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section

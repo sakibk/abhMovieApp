@@ -18,16 +18,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="184" height="184"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="faa-Jq-pMV">
-                        <rect key="frame" x="0.0" y="0.0" width="184" height="184"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="faa-Jq-pMV">
+                        <rect key="frame" x="8" y="8" width="168" height="168"/>
                     </imageView>
                 </subviews>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="faa-Jq-pMV" firstAttribute="leading" secondItem="Adz-uW-SaI" secondAttribute="leading" id="JLs-eS-FkI"/>
-                <constraint firstAttribute="trailing" secondItem="faa-Jq-pMV" secondAttribute="trailing" id="SV8-pO-YrN"/>
-                <constraint firstAttribute="bottom" secondItem="faa-Jq-pMV" secondAttribute="bottom" id="p87-Mf-8J5"/>
-                <constraint firstItem="faa-Jq-pMV" firstAttribute="top" secondItem="Adz-uW-SaI" secondAttribute="top" id="sQf-ev-6Sz"/>
+                <constraint firstItem="faa-Jq-pMV" firstAttribute="leading" secondItem="Adz-uW-SaI" secondAttribute="leading" constant="8" id="JLs-eS-FkI"/>
+                <constraint firstAttribute="trailing" secondItem="faa-Jq-pMV" secondAttribute="trailing" constant="8" id="SV8-pO-YrN"/>
+                <constraint firstAttribute="bottom" secondItem="faa-Jq-pMV" secondAttribute="bottom" constant="8" id="p87-Mf-8J5"/>
+                <constraint firstItem="faa-Jq-pMV" firstAttribute="top" secondItem="Adz-uW-SaI" secondAttribute="top" constant="8" id="sQf-ev-6Sz"/>
             </constraints>
             <size key="customSize" width="104" height="149"/>
             <connections>

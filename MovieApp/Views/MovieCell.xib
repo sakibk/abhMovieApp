@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="199" height="254"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aGi-kG-s9n">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aGi-kG-s9n">
                         <rect key="frame" x="0.0" y="0.0" width="199" height="254"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="254" id="1xa-qO-Tb3"/>
@@ -28,22 +28,6 @@
                             <constraint firstAttribute="width" constant="199" id="OZh-Ek-9Kd"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="bottom" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyf-ZH-NRw">
-                        <rect key="frame" x="8" y="110" width="183" height="95"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="95" id="nIK-TW-3af"/>
-                        </constraints>
-                        <attributedString key="attributedText">
-                            <fragment content="Label">
-                                <attributes>
-                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <font key="NSFont" metaFont="system" size="21"/>
-                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" headIndent="1" tighteningFactorForTruncation="0.0"/>
-                                </attributes>
-                            </fragment>
-                        </attributedString>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tXf-JE-VFM">
                         <rect key="frame" x="8" y="231" width="120" height="15"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
@@ -59,17 +43,33 @@
                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yyf-ZH-NRw">
+                        <rect key="frame" x="8" y="121" width="183" height="78"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="78" id="nIK-TW-3af"/>
+                        </constraints>
+                        <attributedString key="attributedText">
+                            <fragment content="Label">
+                                <attributes>
+                                    <color key="NSColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <font key="NSFont" metaFont="system" size="21"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="leftToRight" headIndent="1" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="3zE-dv-qMb" firstAttribute="top" secondItem="yyf-ZH-NRw" secondAttribute="bottom" constant="8" symbolic="YES" id="1np-El-W7s"/>
+                <constraint firstItem="3zE-dv-qMb" firstAttribute="top" secondItem="yyf-ZH-NRw" secondAttribute="bottom" constant="14" id="1np-El-W7s"/>
                 <constraint firstItem="aGi-kG-s9n" firstAttribute="leading" secondItem="v5T-pX-Iqt" secondAttribute="leading" id="DXJ-KH-NAv"/>
                 <constraint firstAttribute="trailing" secondItem="aGi-kG-s9n" secondAttribute="trailing" id="GyA-Gv-zqH"/>
                 <constraint firstAttribute="trailing" secondItem="yyf-ZH-NRw" secondAttribute="trailing" constant="8" id="Nsr-aR-jZa"/>
                 <constraint firstItem="tXf-JE-VFM" firstAttribute="bottom" secondItem="v5T-pX-Iqt" secondAttribute="bottomMargin" id="OfZ-Xx-dpm"/>
                 <constraint firstItem="aGi-kG-s9n" firstAttribute="top" secondItem="v5T-pX-Iqt" secondAttribute="top" id="RnZ-0t-FDz"/>
-                <constraint firstAttribute="bottom" secondItem="yyf-ZH-NRw" secondAttribute="bottom" constant="49" id="WYl-pi-u8A"/>
+                <constraint firstAttribute="bottom" secondItem="yyf-ZH-NRw" secondAttribute="bottom" constant="55" id="WYl-pi-u8A"/>
                 <constraint firstAttribute="trailing" secondItem="3zE-dv-qMb" secondAttribute="trailing" constant="71" id="XSh-de-5H1"/>
                 <constraint firstItem="aGi-kG-s9n" firstAttribute="leading" secondItem="v5T-pX-Iqt" secondAttribute="leading" id="YyP-SL-vZQ"/>
                 <constraint firstAttribute="trailing" secondItem="aGi-kG-s9n" secondAttribute="trailing" id="d1K-HO-NAS"/>

@@ -87,9 +87,7 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        [self setIsMovie:YES];
-        
+        _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];        
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
@@ -146,8 +144,8 @@
                                                       @"id": @"showID",
                                                       @"backdrop_path" : @"backdropPath",
                                                       @"overview": @"overview",
-                                                      @"genre_ids": @"genreIds"
-                                                      
+                                                      @"genre_ids": @"genreIds",
+                                                      @"number_of_seasons":@"seasonCount"
                                                       }];
     
     NSString *pathP =@"/3/discover/tv";
@@ -173,7 +171,6 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allShows =[[NSMutableArray alloc]initWithArray:mappingResult.array];
-                [self setIsMovie:NO];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];

@@ -40,7 +40,12 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
 }
 
 -(void) setupWithShow:(TVShow *)singleShow{
+    if([singleShow.runtime count]>1){
     _duration.text = [NSString stringWithFormat:@"%@-%@ min",[singleShow.runtime objectAtIndex:0],[singleShow.runtime objectAtIndex:1]];
+    }
+    else{
+        _duration.text = [NSString stringWithFormat:@"%@ min",[singleShow.runtime objectAtIndex:0]];
+    }
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy"];

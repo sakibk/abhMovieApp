@@ -11,6 +11,7 @@
 #import <Realm/Realm.h>
 #import "Cast.h"
 #import "Crew.h"
+#import "Season.h"
 
 @interface TVShow : NSObject
 
@@ -29,4 +30,6 @@
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 @property (strong, nonatomic) NSArray <NSNumber *> *runtime;
+@property (strong,nonatomic) NSMutableArray<Season *> *seasons;
+@property (strong, nonatomic) NSNumber *seasonCount;
 @end
