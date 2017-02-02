@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Realm/Realm.h>
 
-@interface Genre :  RLMObject
+@interface Genre : NSObject
 
 @property (strong, nonatomic) NSNumber *genreID;
 @property (strong,nonatomic) NSString *genreName;

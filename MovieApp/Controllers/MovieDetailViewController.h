@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 
-@interface MovieDetailViewController : UIViewController
+@interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic,strong) NSNumber* movieID;
-@property (weak, nonatomic) IBOutlet UIImageView *detailPoster;
-@property (weak, nonatomic) IBOutlet UILabel *detailTitle;
+@property (nonatomic,strong) Movie *singleMovie;
+@property (nonatomic,strong) TVShow *singleShow;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic,assign) BOOL *isMovie;
 
 -(void)setDetailPoster;
 

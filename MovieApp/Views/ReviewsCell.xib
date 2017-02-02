@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ReviewsCellIdentifier" rowHeight="325" id="AnG-G8-jT6" customClass="ReviewsCell">
+            <rect key="frame" x="0.0" y="0.0" width="415" height="330"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AnG-G8-jT6" id="Vhs-hV-EVr">
+                <rect key="frame" x="0.0" y="0.0" width="415" height="329"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" style="plain" rowHeight="170" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="BOC-Wr-B0U">
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="329.5"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="separatorColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                    </tableView>
+                </subviews>
+                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                <constraints>
+                    <constraint firstItem="BOC-Wr-B0U" firstAttribute="leading" secondItem="Vhs-hV-EVr" secondAttribute="leading" id="8IW-R8-w1D"/>
+                    <constraint firstAttribute="trailing" secondItem="BOC-Wr-B0U" secondAttribute="trailing" id="TUx-zD-BeZ"/>
+                    <constraint firstItem="BOC-Wr-B0U" firstAttribute="top" secondItem="Vhs-hV-EVr" secondAttribute="top" id="oiv-P2-Gv6"/>
+                    <constraint firstItem="BOC-Wr-B0U" firstAttribute="centerY" secondItem="Vhs-hV-EVr" secondAttribute="centerY" id="y0X-ee-Be2"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="tableView" destination="BOC-Wr-B0U" id="d9G-Mw-IQV"/>
+            </connections>
+            <point key="canvasLocation" x="-10.5" y="-52"/>
+        </tableViewCell>
+    </objects>
+</document>

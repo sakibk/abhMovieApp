@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <RestKit/RestKit.h>
+#import "RKObjectManager+SharedInstances.h"
 
 @interface AppDelegate ()
 
@@ -21,6 +22,11 @@
     NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
     AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
     RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    [RKObjectManager setSharedManager:manager];
+    
+//    NSURL *baseURLBoxOffice = [NSURL URLWithString:@"http://www.boxofficemojo.com"];
+//    AFRKHTTPClient *clientBoxOffice = [[AFRKHTTPClient alloc] initWithBaseURL:baseURLBoxOffice];
+//    [[RKObjectManager boxOfficeManager] setHTTPClient:clientBoxOffice];
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     

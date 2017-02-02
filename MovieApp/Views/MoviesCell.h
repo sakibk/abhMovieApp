@@ -8,15 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "Movie.h"
+#import "TVShow.h"
 
 extern NSString * const identifier;
 
-@interface MoviesCollectionViewCell : UICollectionViewCell
+@interface MoviesCell : UICollectionViewCell
 @property (weak, nonatomic) IBOutlet UILabel *title;
 @property (weak, nonatomic) IBOutlet UIImageView *coverImage;
 @property (weak, nonatomic) IBOutlet UILabel *genreLabel;
 @property (weak, nonatomic) IBOutlet UILabel *releaseDateLabel;
 
+@property Genre *singleGerne;
+@property NSNumber *genID;
+
 -(void) setupMovieCell:(Movie *) singleMovie;
+-(void) setupShowCell:(TVShow *) singleShow;
 
 @end
