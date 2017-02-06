@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MoviesViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource>
+@interface MoviesViewController : UIViewController<UICollectionViewDelegate, UICollectionViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (nonatomic,assign) BOOL *isMovie;
+@property (nonatomic,assign) BOOL isMovie;
+@property (weak, nonatomic) IBOutlet UINavigationItem *navigationBar;
 
 @end

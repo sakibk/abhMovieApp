@@ -13,6 +13,7 @@
 #import "TVShow.h"
 #import "MoviesCell.h"
 #import "MovieDetailViewController.h"
+#import "SearchViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
 @interface MoviesViewController ()
@@ -24,10 +25,21 @@
 @property TVShow *tvTest;
 @property Genre *singleGenre;
 @property NSNumber *pageNumber;
+@property NSString *filterString;
 
+@property (nonatomic,strong) UIView *dropDown;
+@property (nonatomic,assign) BOOL isDroped;
+@property (nonatomic,assign) BOOL isNavBarSet;
 @end
 
 @implementation MoviesViewController
+{
+    CGRect initialCollectionViewFrame;
+    UIButton *optionOne;
+    UIButton *optionTwo;
+    UIButton *optionThree;
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,6 +47,13 @@
     _collectionView.dataSource = self;
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
+    initialCollectionViewFrame = self.collectionView.frame;
+    _allMovies=nil;
+    _allShows=nil;
+    _allGenres=nil;
+    _isDroped = NO;
+    _isNavBarSet=NO;
+    _filterString = @"popularity.desc";
     
     if(_isMovie)
     {
@@ -43,9 +62,160 @@
     else{
         [self getShows];
     }
+    [self CreateDropDownList];
     
-    
+//    self.navigationItem.titleView = self.searchBar;
+//    self.navigationItem.leftBarButtonItem =
+    [self setNavBar];
   }
+
+-(void)setNavBar{
+    if(!_isNavBarSet){
+    UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:identifier action:nil];
+    self.navigationItem.leftBarButtonItem=pieItem;
+    UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 40)];
+        txtSearchField.font = [UIFont systemFontOfSize:15];
+        txtSearchField.backgroundColor = [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
+        txtSearchField.tintColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
+    txtSearchField.textColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
+    txtSearchField.textAlignment = UITextAlignmentCenter;
+    txtSearchField.placeholder = @"🔍 Search";
+    txtSearchField.autocorrectionType = UITextAutocorrectionTypeNo;
+    txtSearchField.keyboardType = UIKeyboardTypeDefault;
+    txtSearchField.returnKeyType = UIReturnKeyDone;
+    txtSearchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    txtSearchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    txtSearchField.delegate = self;
+    txtSearchField.borderStyle=UITextBorderStyleRoundedRect;
+    self.navigationItem.titleView =txtSearchField;
+        _isNavBarSet=YES;
+    }
+}
+
+-(void) textFieldDidBeginEditing:(UITextField *)textField{
+
+    //    MovieDetailViewController *detailController = [[MovieDetailViewController alloc]init];
+    //    _test =[_allMovies objectAtIndex:indexPath.row];
+    //    [detailController setMovieID:[_test movieID]];
+    //     [self.navigationController pushViewController:detailController animated:YES];
+}
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    SearchViewController *searchController = [[SearchViewController alloc]init];
+    [self.navigationController pushViewController:searchController animated:YES];
+    // Here You can do additional code or task instead of writing with keyboard
+    return NO;
+}
+
+
+-(void)CreateDropDownList{
+        CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+        _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
+        [_dropDown setBackgroundColor:[UIColor blackColor]];
+        CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
+        UIButton *showList = [[UIButton alloc]init];
+        showList.frame = buttonFrame;
+        showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        [showList setTitle:@"Sorted By" forState:UIControlStateNormal];
+        [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
+        [_dropDown addSubview:showList];
+        
+        CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height/4);
+        optionOne = [[UIButton alloc]init];
+        optionOne.frame=buttonOneFrame;
+        [optionOne setTitle:@"Most Popular" forState:UIControlStateNormal];
+        [optionOne addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        optionOne.tag=0;
+        [_dropDown addSubview:optionOne];
+        
+        CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height/4);
+        optionTwo = [[UIButton alloc]init];
+        optionTwo.frame=buttonTwoFrame;
+        [optionTwo setTitle:@"Latest" forState:UIControlStateNormal];
+        [optionTwo addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        optionTwo.tag=1;
+        [_dropDown addSubview:optionTwo];
+        
+        CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height/4);
+        optionThree = [[UIButton alloc]init];
+        optionThree.frame=buttonThreeFrame;
+        [optionThree setTitle:@"Highest Rated" forState:UIControlStateNormal];
+        [optionThree addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        optionThree.tag=2;
+        [_dropDown addSubview:optionThree];
+        
+        [optionOne setAlpha:0.0];
+        [optionTwo setAlpha:0.0];
+        [optionThree setAlpha:0.0];
+        [self.view insertSubview:_dropDown aboveSubview:_collectionView];
+        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dropDown attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dropDown attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_navigationBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    
+    [self setAutomaticallyAdjustsScrollViewInsets:NO];
+}
+
+-(IBAction)ListDroped:(id)sender{
+    if(!_isDroped){
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 192, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
+            
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.2 animations:^{
+                CGRect openedListFrame = CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64*4);
+                [_dropDown setFrame:openedListFrame];
+                _isDroped = YES;
+                [optionOne setAlpha:1.0];
+                [optionTwo setAlpha:1.0];
+                [optionThree setAlpha:1.0];
+            }];
+        }];
+    } else{
+        [UIView animateWithDuration:0.05 animations:^{
+            [optionOne setAlpha:0.0];
+            [optionTwo setAlpha:0.0];
+            [optionThree setAlpha:0.0];
+        } completion:^(BOOL finished) {
+          [UIView animateWithDuration:0.2 animations:^{
+              CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+              [_dropDown setFrame:dropDownFrame];
+              self.collectionView.frame = initialCollectionViewFrame;
+              _isDroped = NO;
+          }];
+        }];
+    }
+}
+
+-(IBAction)OptionPressed:(UIButton*)sender{
+    
+    if(sender.tag==0){
+        _filterString =@"popularity.desc";
+        
+    }
+    else if(sender.tag==1){
+        _filterString =@"release_date.desc";
+        
+    }
+    else if(sender.tag==2){
+        _filterString =@"vote_average.desc";
+        
+    }
+    if(_isMovie)
+    {
+        [self getMovies];
+    }
+    else{
+        [self getShows];
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -53,11 +223,9 @@
 }
 
 
-//- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-//
-//    return 1;
-//}
+
 -(void)getMovies{
+    NSString *localFilterString = _filterString;
     RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
     
     [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
@@ -82,36 +250,56 @@
     //    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
     
     NSDictionary *queryParameters = @{
-                                      @"sort_by":@"popularity.desc",
+                                      @"sort_by":localFilterString,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        [self setPageNumber:[NSNumber numberWithInt:1]];
-        [_collectionView reloadData];
+        if(_allMovies!=nil){
+            _allMovies=nil;
+            _allMovies=[[NSMutableArray alloc]init];
+            for(Movie *m in mappingResult.array){
+                if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
+                    [_allMovies addObject:m];
+                }
+            }
+            [self setPageNumber:[NSNumber numberWithInt:1]];
+            [_collectionView reloadData];
+        }
+        else{
+            _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+            [self setPageNumber:[NSNumber numberWithInt:1]];
+            [_collectionView reloadData];
+        }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
-    
+    if(_allGenres==nil) {
         [self getMovieGenres];
+    }
 }
 
 -(void)getMoreMovies{
+    NSString *localFilterString = _filterString;
     int currentPage = [_pageNumber intValue];
     _pageNumber = [NSNumber numberWithInt:currentPage+1];
     NSString *pathP =@"/3/discover/movie";
     
     NSDictionary *queryParameters = @{
-                                      @"sort_by":@"popularity.desc",
+                                      @"sort_by":localFilterString,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
                                       @"page":_pageNumber
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        [_allMovies addObjectsFromArray:mappingResult.array];
+        for(Movie *m in mappingResult.array){
+            if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
+                [_allMovies addObject:m];
+            }
+        }
+
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
@@ -158,6 +346,9 @@
 }
 
 -(void)getShows{
+    
+    NSString *localFilterString = _filterString;
+    
     RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
     
     [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
@@ -187,23 +378,39 @@
     //    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
     
     NSDictionary *queryParameters = @{
-                                      @"sort_by":@"popularity.desc",
+                                      @"sort_by":localFilterString,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _allShows =[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        [self.collectionView reloadData];
-        [self setPageNumber:[NSNumber numberWithInt:1]];
+        if(_allShows!=nil){
+            _allShows=nil;
+            _allShows =[[NSMutableArray alloc]init];
+            for(TVShow *tv in mappingResult.array){
+                if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.airDate!=nil){
+                    [_allShows addObject:tv];
+                }
+            }
+            [self.collectionView reloadData];
+            [self setPageNumber:[NSNumber numberWithInt:1]];
+        }
+        else{
+            _allShows =[[NSMutableArray alloc]initWithArray:mappingResult.array];
+            [self.collectionView reloadData];
+            [self setPageNumber:[NSNumber numberWithInt:1]];
+        }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
-    
-    [self getTVGenres];
+    if(_allGenres==nil){
+        [self getTVGenres];
+    }
 }
 
 -(void)getMoreShows{
+    
+    NSString *localFilterString = _filterString;
     
     int currentPage = [_pageNumber intValue];
     _pageNumber = [NSNumber numberWithInt:currentPage+1];
@@ -211,14 +418,18 @@
     NSString *pathP =@"/3/discover/tv";
     
     NSDictionary *queryParameters = @{
-                                      @"sort_by":@"popularity.desc",
+                                      @"sort_by":localFilterString,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64", /*add your api*/
                                       @"page":_pageNumber
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        [_allShows addObjectsFromArray:mappingResult.array];
+        for(TVShow *tv in mappingResult.array){
+            if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.airDate!=nil){
+                [_allShows addObject:tv];
+            }
+        }
         [self.collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
@@ -282,9 +493,10 @@
 //}
 
 
-//-(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
-//    return CGSizeMake(175, 154);
-//}
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    CGFloat width = (CGRectGetWidth(self.view.bounds) - 25) / 2;
+    return CGSizeMake(width, width / 0.69);
+}
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
 //    MovieDetailViewController *detailController = [[MovieDetailViewController alloc]init];
@@ -326,51 +538,6 @@
         }
     }
 }
-
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
 
 
 #pragma mark - Navigation

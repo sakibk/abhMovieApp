@@ -32,10 +32,7 @@
     _tableView.dataSource=self;
     
     _tableView.separatorInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
-    
-    [self.tableView setBackgroundColor:[UIColor colorWithDisplayP3Red:49.0 green:49.0 blue:49.0 alpha:100.0]];
-    [self.tableView reloadData];
-    
+        
     [self.tableView registerNib:[UINib nibWithNibName:@"FeedCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:feedIdentifier];
     
 NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.boxofficemojo.com/data/rss.php?file=topstories.xml"]];
@@ -54,6 +51,12 @@ NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"htt
     } failure:^(NSError *error) {
         NSLog(@"ERROR while loading feeds: %@", error);
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [self automaticallyAdjustsScrollViewInsets];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -77,6 +80,10 @@ NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"htt
     return 252.0;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 0.0001;
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedsCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
 //        cell.contentView.backgroundColor = [UIColor clearColor];
@@ -89,5 +96,9 @@ NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"htt
     
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    _singleFeed =[_allFeeds objectAtIndex:indexPath.row];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_singleFeed.link]];
+}
 
 @end

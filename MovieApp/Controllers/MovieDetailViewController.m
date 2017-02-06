@@ -123,7 +123,8 @@
                                                        @"episode_run_time":@"runtime",
                                                        @"backdrop_path":@"backdropPath",
                                                        @"overview":@"overview",
-                                                       @"genres":@"genreSet"
+                                                       @"genres":@"genreSet",
+                                                       @"number_of_seasons":@"seasonCount"
                                                        }];
     
     showMapping.assignsDefaultValueForMissingAttributes = YES;

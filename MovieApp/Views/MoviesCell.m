@@ -24,6 +24,13 @@ NSString* const identifier= @"MovieCellIdentifier";
     [_title setUserInteractionEnabled:NO];
     [_title setTextAlignment:NSTextAlignmentLeft];
     [_title setBaselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+    CAGradientLayer *gradientMask = [CAGradientLayer layer];
+    gradientMask.frame = self.coverImage.bounds;
+    gradientMask.colors = @[(id)[UIColor whiteColor].CGColor,
+                            (id)[UIColor clearColor].CGColor];
+    gradientMask.locations = @[@0.55, @1.0];
+    
+    self.coverImage.layer.mask = gradientMask;
     
 }
 
@@ -45,6 +52,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     self.backgroundColor = [UIColor grayColor];
     _releaseDateLabel.text = [dateFormatter stringFromDate:singleMovie.releaseDate];
     
+    if( singleMovie.genreIds.count!=0){
     _genID = [singleMovie.genreIds objectAtIndex:0];
     
     
@@ -53,8 +61,11 @@ NSString* const identifier= @"MovieCellIdentifier";
             singleMovie.singleGenre=gen.genreName;
         }
     }
-    
-  _genreLabel.text=singleMovie.singleGenre;
+        _genreLabel.text=singleMovie.singleGenre;
+    }
+    else{
+        _genreLabel.text=@"N/A";
+    }
 }
 
 -(void) setupShowCell:(TVShow *) singleShow{
@@ -74,7 +85,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     
     self.backgroundColor = [UIColor grayColor];
     _releaseDateLabel.text = [NSString stringWithFormat:@"(TV Series %@-)",[dateFormatter stringFromDate:singleShow.airDate]];
-    
+        if( singleShow.genreIds.count!=0){
     _genID = [singleShow.genreIds objectAtIndex:0];
     
     
@@ -85,6 +96,10 @@ NSString* const identifier= @"MovieCellIdentifier";
     }
     
     _genreLabel.text=singleShow.singleGenre;
+        }
+        else{
+            _genreLabel.text=@"N/A";
+        }
 }
 
 @end

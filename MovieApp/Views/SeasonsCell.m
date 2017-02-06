@@ -52,8 +52,8 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-            if ([mappingResult.firstObject isKindOfClass:[Season class]]) {
-                
+//            if ([mappingResult.firstObject isKindOfClass:[Season class]]) {
+        
                 singleShow.seasons=[[NSMutableArray alloc]initWithArray:mappingResult.array];
 
                 
@@ -67,7 +67,7 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
                 _singleShow=singleShow;
                 
                 [self setupSeasons];
-            }
+//            }
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
@@ -76,15 +76,16 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
 }
 
 -(void)setupSeasons{
-    
-    NSUInteger i = _singleShow.seasonCount;
-    for(i; i>0; i--){
+    _allYearsString=[[NSMutableString alloc]init];
+    _allSeasonString=[[NSMutableString alloc]init];
+    int i = [_singleShow.seasonCount intValue]-1;
+    for(i; i>=0; i--){
         Season *oneSeason  = [_singleShow.seasons objectAtIndex:i];
         NSDate *releaseYear = oneSeason.airDate;
             NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
-        NSInteger year =[components year];
-        [_allYearsString appendString:[NSString stringWithFormat:@"%ld ",(long)year]];
-        [_allSeasonString appendString:[NSString stringWithFormat:@"%lu ",(unsigned long)i]];
+        NSNumber *year =[NSNumber numberWithInteger:[components year]];
+        [_allYearsString appendString:[NSString stringWithFormat:@"%@ ",year]];
+        [_allSeasonString appendString:[NSString stringWithFormat:@"%@ ",[NSNumber numberWithInteger:i+1]]];
     }
     _seasons.text = _allSeasonString;
     _releaseYears.text = _allYearsString;
