@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "SearchResult.h"
+#import "Movie.h"
+#import "TVShow.h"
 
 
 extern NSString *const searchCellIdentifier;
@@ -16,7 +17,9 @@ extern NSString *const searchCellIdentifier;
 @property (weak, nonatomic) IBOutlet UIImageView *searchImage;
 @property (weak, nonatomic) IBOutlet UILabel *searchTitle;
 @property (weak, nonatomic) IBOutlet UILabel *searchRating;
+@property (weak, nonatomic) IBOutlet UILabel *releaseAirDate;
 
--(void)setSearchCell:(SearchResult *)singleResult;
+-(void)setSearchCellWithMovie:(Movie *)singleMovie;
+-(void)setSearchCellWithTVShow:(TVShow *)singleShow;
 
 @end

@@ -52,6 +52,8 @@ NSString* const identifier= @"MovieCellIdentifier";
     self.backgroundColor = [UIColor grayColor];
     _releaseDateLabel.text = [dateFormatter stringFromDate:singleMovie.releaseDate];
     
+    _ratingLabel.text = [NSString stringWithFormat:@"%@",singleMovie.rating];
+    
     if( singleMovie.genreIds.count!=0){
     _genID = [singleMovie.genreIds objectAtIndex:0];
     
@@ -85,10 +87,11 @@ NSString* const identifier= @"MovieCellIdentifier";
     
     self.backgroundColor = [UIColor grayColor];
     _releaseDateLabel.text = [NSString stringWithFormat:@"(TV Series %@-)",[dateFormatter stringFromDate:singleShow.airDate]];
+    
+    _ratingLabel.text = [NSString stringWithFormat:@"%@",singleShow.rating];
+    
         if( singleShow.genreIds.count!=0){
     _genID = [singleShow.genreIds objectAtIndex:0];
-    
-    
     for (Genre *gen in  singleShow.genres) {
         if (gen.genreID == _genID) {
             singleShow.singleGenre=gen.genreName;

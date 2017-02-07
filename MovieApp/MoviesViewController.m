@@ -102,8 +102,10 @@
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    SearchViewController *searchController = [[SearchViewController alloc]init];
-    [self.navigationController pushViewController:searchController animated:YES];
+//    SearchViewController *searchController = [[SearchViewController alloc]init];
+//    [self.navigationController pushViewController:searchController animated:YES];
+    //SearchViewIdentifier
+    [self performSegueWithIdentifier:@"SearchViewIdentifier" sender:self];
     // Here You can do additional code or task instead of writing with keyboard
     return NO;
 }
@@ -563,7 +565,9 @@
             movieDetails.isMovie=_isMovie;
         }
     }
-    
+    else if ([segue.identifier isEqualToString:@"SearchViewIdentifier"]){
+        SearchViewController *searchView = segue.destinationViewController;
+    }
 }
 
 

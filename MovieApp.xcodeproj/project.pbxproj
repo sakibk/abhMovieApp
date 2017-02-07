@@ -45,7 +45,6 @@
 		AD4F936C1E48A2C300E55630 /* SearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4F936B1E48A2C300E55630 /* SearchCell.xib */; };
 		AD4F93721E48A31600E55630 /* SearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93711E48A31600E55630 /* SearchCell.m */; };
 		AD4F93751E48D4FC00E55630 /* SearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93741E48D4FC00E55630 /* SearchViewController.m */; };
-		AD4F937A1E48E1BB00E55630 /* SearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93791E48E1BB00E55630 /* SearchResult.m */; };
 		ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
@@ -121,8 +120,6 @@
 		AD4F93711E48A31600E55630 /* SearchCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchCell.m; path = Views/SearchCell.m; sourceTree = "<group>"; };
 		AD4F93731E48D4FC00E55630 /* SearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchViewController.h; path = Controllers/SearchViewController.h; sourceTree = "<group>"; };
 		AD4F93741E48D4FC00E55630 /* SearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchViewController.m; path = Controllers/SearchViewController.m; sourceTree = "<group>"; };
-		AD4F93781E48E1BB00E55630 /* SearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchResult.h; path = MovieApp/Models/SearchResult.h; sourceTree = "<group>"; };
-		AD4F93791E48E1BB00E55630 /* SearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchResult.m; path = MovieApp/Models/SearchResult.m; sourceTree = "<group>"; };
 		ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = Controllers/TabBarViewController.h; sourceTree = "<group>"; };
 		ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = Controllers/TabBarViewController.m; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -327,8 +324,6 @@
 				AD0935721E4007F70045A61F /* Review.m */,
 				AD4F93671E41D3A300E55630 /* Season.h */,
 				AD4F93681E41D3A300E55630 /* Season.m */,
-				AD4F93781E48E1BB00E55630 /* SearchResult.h */,
-				AD4F93791E48E1BB00E55630 /* SearchResult.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -506,7 +501,6 @@
 				AD17837D1E2D4C1B0037DC44 /* MoviesViewController.m in Sources */,
 				AD349FE81E35A617009C4367 /* Feeds.m in Sources */,
 				AD1783831E2D51DB0037DC44 /* TVShow.m in Sources */,
-				AD4F937A1E48E1BB00E55630 /* SearchResult.m in Sources */,
 				ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */,
 				ADF64D541E2D12B0000DFCFA /* Genre.m in Sources */,
 			);
