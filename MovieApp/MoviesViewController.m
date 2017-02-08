@@ -23,6 +23,7 @@
 @property Movie *test;
 @property TVShow *tvTest;
 @property Genre *singleGenre;
+@property NSNumber *pageNumber;
 
 @end
 
@@ -87,13 +88,35 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];        
+        _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [self setPageNumber:[NSNumber numberWithInt:1]];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
     
         [self getMovieGenres];
+}
+
+-(void)getMoreMovies{
+    int currentPage = [_pageNumber intValue];
+    _pageNumber = [NSNumber numberWithInt:currentPage+1];
+    NSString *pathP =@"/3/discover/movie";
+    
+    NSDictionary *queryParameters = @{
+                                      @"sort_by":@"popularity.desc",
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"page":_pageNumber
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        [_allMovies addObjectsFromArray:mappingResult.array];
+        [_collectionView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+
 }
 
 
@@ -171,11 +194,35 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allShows =[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [self.collectionView reloadData];
+        [self setPageNumber:[NSNumber numberWithInt:1]];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
     
     [self getTVGenres];
+}
+
+-(void)getMoreShows{
+    
+    int currentPage = [_pageNumber intValue];
+    _pageNumber = [NSNumber numberWithInt:currentPage+1];
+    
+    NSString *pathP =@"/3/discover/tv";
+    
+    NSDictionary *queryParameters = @{
+                                      @"sort_by":@"popularity.desc",
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64", /*add your api*/
+                                      @"page":_pageNumber
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        [_allShows addObjectsFromArray:mappingResult.array];
+        [self.collectionView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
 }
 
 - (void)getTVGenres
@@ -264,6 +311,20 @@
     }
     
     return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView_
+{
+    CGFloat actualPosition = scrollView_.contentOffset.y;
+    CGFloat contentHeight = scrollView_.contentSize.height - (600);
+    if (actualPosition >= contentHeight) {
+        if(_isMovie){
+            [self getMoreMovies];
+        }
+        else{
+            [self getMoreShows];
+        }
+    }
 }
 
 
