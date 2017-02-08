@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Cast.h"
+#import "Actor.h"
 
 extern NSString *const filmographyCellIdentifier;
 
@@ -17,5 +18,7 @@ extern NSString *const filmographyCellIdentifier;
 @property (strong,nonatomic) NSNumber *actorID;
 @property NSMutableArray<Cast *> *allCasts;
 @property Cast *singleCast;
+
+-(void)setupWithActor:(Actor *)singleActor;
 
 @end

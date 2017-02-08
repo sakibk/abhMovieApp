@@ -17,9 +17,50 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="160" height="293"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="B50-Do-klv">
+                        <rect key="frame" x="0.0" y="0.0" width="160" height="229"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Character role avalible!" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="G9e-eN-uIx">
+                        <rect key="frame" x="0.0" y="261" width="160" height="32"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="32" id="xfZ-0n-emP"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Title Avalible!" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="i4z-Ih-AeA">
+                        <rect key="frame" x="0.0" y="230" width="160" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="29" id="gL3-ZL-Kcs"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
             </view>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstItem="i4z-Ih-AeA" firstAttribute="trailing" secondItem="G9e-eN-uIx" secondAttribute="trailing" id="BmD-sp-9Z4"/>
+                <constraint firstItem="B50-Do-klv" firstAttribute="trailing" secondItem="i4z-Ih-AeA" secondAttribute="trailing" id="CkT-i4-ljv"/>
+                <constraint firstItem="B50-Do-klv" firstAttribute="top" secondItem="B9d-Zt-STD" secondAttribute="top" id="MyP-hq-dYG"/>
+                <constraint firstAttribute="bottom" secondItem="G9e-eN-uIx" secondAttribute="bottom" id="Opk-lY-ree"/>
+                <constraint firstItem="B50-Do-klv" firstAttribute="leading" secondItem="i4z-Ih-AeA" secondAttribute="leading" id="fAj-x7-j57"/>
+                <constraint firstItem="i4z-Ih-AeA" firstAttribute="leading" secondItem="G9e-eN-uIx" secondAttribute="leading" id="jt2-eh-BkB"/>
+                <constraint firstItem="i4z-Ih-AeA" firstAttribute="top" secondItem="B50-Do-klv" secondAttribute="bottom" constant="1" id="oI7-bi-b7Z"/>
+                <constraint firstAttribute="trailing" secondItem="G9e-eN-uIx" secondAttribute="trailing" id="oMQ-5t-I4A"/>
+                <constraint firstItem="G9e-eN-uIx" firstAttribute="top" secondItem="i4z-Ih-AeA" secondAttribute="bottom" constant="2" id="oqY-Do-g47"/>
+                <constraint firstItem="G9e-eN-uIx" firstAttribute="leading" secondItem="B9d-Zt-STD" secondAttribute="leading" id="wbl-KV-DIX"/>
+            </constraints>
             <size key="customSize" width="153" height="214"/>
-            <point key="canvasLocation" x="30.5" y="101"/>
+            <connections>
+                <outlet property="castImage" destination="B50-Do-klv" id="qi4-Q7-9nU"/>
+                <outlet property="castMovie" destination="i4z-Ih-AeA" id="Pgv-vx-Lqj"/>
+                <outlet property="castRole" destination="G9e-eN-uIx" id="obl-PA-f02"/>
+            </connections>
+            <point key="canvasLocation" x="30" y="100.5"/>
         </collectionViewCell>
     </objects>
 </document>

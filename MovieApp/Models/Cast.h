@@ -15,5 +15,6 @@
 @property (strong, nonatomic) NSString *castName;
 @property (strong, nonatomic) NSString *castRoleName;
 @property (strong, nonatomic) NSString *castImagePath;
+@property (strong, nonatomic) NSString *castMovieTitle;
 
 @end

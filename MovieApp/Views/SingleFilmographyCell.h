@@ -12,6 +12,9 @@
 extern NSString *const singleFilmographyCellIdentifier;
 
 @interface SingleFilmographyCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *castImage;
+@property (weak, nonatomic) IBOutlet UILabel *castMovie;
+@property (weak, nonatomic) IBOutlet UILabel *castRole;
 
 -(void)setupWithCast:(Cast *) singleCast;
 

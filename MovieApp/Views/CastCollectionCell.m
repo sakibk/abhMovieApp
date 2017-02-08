@@ -34,11 +34,11 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     
     RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
     
-    [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
-                                                       @"character": @"castRoleName",
-                                                       @"id": @"castWithID",
+    [castMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
+                                                       @"id": @"castID",
                                                        @"name": @"castName",
-                                                       @"profile_path": @"castImagePath"
+                                                       @"poster_path": @"castImagePath",
+                                                       @"title":@"castMovieTitle"
                                                        }];
     castMapping.assignsDefaultValueForMissingAttributes = YES;
     

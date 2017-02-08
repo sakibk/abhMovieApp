@@ -8,6 +8,7 @@
 
 #import "FilmographyCell.h"
 #import "SingleFilmographyCell.h"
+#import <RestKit/RestKit.h>
 
 NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 
@@ -20,12 +21,65 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
     _collectionView.dataSource=self;
     
     [_collectionView registerNib:[UINib nibWithNibName:@"SingleFilmographyCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:singleFilmographyCellIdentifier];
+    [self setupRestkit];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(void)setupRestkit{
+    RKObjectMapping *castsMapping = [RKObjectMapping mappingForClass:[Cast class]];
+    
+    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_singleCast.castID];
+    
+    [castsMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
+                                                      @"character": @"castRoleName",
+                                                      @"id": @"castWithID",
+                                                      @"name": @"castName",
+                                                      @"profile_path": @"castImagePath"
+                                                      }];
+    castsMapping.assignsDefaultValueForMissingAttributes = YES;
+    
+    RKResponseDescriptor *filmographyResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:castsMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"cast"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:filmographyResponseDescriptor];
+}
+
+-(void)getCasts{
+    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_singleCast.castID];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        
+        _allCasts = [[NSMutableArray alloc] init];
+        for (Cast *cast in mappingResult.array) {
+            if ([cast isKindOfClass:[Cast class]]) {
+                [_allCasts addObject:cast];
+            }
+        }
+        [_collectionView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+
+}
+
+-(void)setupWithActor:(Actor *)singleActor{
+    _singleCast.castID=singleActor.actorID;
+    [self getCasts];
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

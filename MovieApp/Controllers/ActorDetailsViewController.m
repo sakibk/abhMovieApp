@@ -9,6 +9,8 @@
 #import "ActorDetailsViewController.h"
 #import <RestKit/RestKit.h>
 #import "PictureDetailCell.h"
+#import "AboutCell.h"
+#import "FilmographyCell.h"
 
 @interface ActorDetailsViewController ()
 
@@ -24,6 +26,8 @@
     _tableView.dataSource=self;
     // Do any additional setup after loading the view.
     [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"AboutCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboutCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"FilmographyCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:filmographyCellIdentifier];
     [self setRestkit];
 }
 
@@ -93,14 +97,18 @@
         case 0:{
             PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
             [cell setupWithActor:_singleActor];
+            return cell;
         }
             break;
         case 1:{
-            
+            AboutCell *cell = (AboutCell *)[tableView dequeueReusableCellWithIdentifier:aboutCellIdentifier forIndexPath:indexPath];
+            [cell setupWithActor:_singleActor];
+            return cell;
         }
             break;
         case 2:{
-            
+            FilmographyCell *cell = (FilmographyCell *)[tableView dequeueReusableCellWithIdentifier:filmographyCellIdentifier forIndexPath:indexPath];
+            [cell setupWithActor:_singleActor];
         }
             break;
         default:
