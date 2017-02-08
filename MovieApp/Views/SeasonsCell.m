@@ -78,8 +78,8 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
 -(void)setupSeasons{
     _allYearsString=[[NSMutableString alloc]init];
     _allSeasonString=[[NSMutableString alloc]init];
-    int i = [_singleShow.seasonCount intValue]-1;
-    for(i; i>=0; i--){
+    int i;
+    for(i= [_singleShow.seasonCount intValue]-1; i>=0; i--){
         Season *oneSeason  = [_singleShow.seasons objectAtIndex:i];
         NSDate *releaseYear = oneSeason.airDate;
             NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];

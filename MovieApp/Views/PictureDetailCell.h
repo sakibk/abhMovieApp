@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Movie.h"
 #import "TVShow.h"
+#import "Actor.h"
 
 extern NSString * const pictureDetailCellIdentifier;
 
@@ -18,5 +19,6 @@ extern NSString * const pictureDetailCellIdentifier;
 
 -(void) setupWithMovie:(Movie *) singleMovie;
 -(void) setupWithShow:(TVShow *) singleShow;
+-(void) setupWithActor:(Actor *) singleActor;
 
 @end

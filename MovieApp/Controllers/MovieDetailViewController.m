@@ -17,6 +17,13 @@
 #import "CastCollectionCell.h"
 #import "ReviewsCell.h"
 #import "SeasonsCell.h"
+#import "ActorDetailsViewController.h"
+
+@protocol MyDelegate<NSObject>
+
+- (void)actorTappedInCell:(CastCollectionCell *)cell;
+
+@end
 
 @interface MovieDetailViewController ()
 
@@ -369,14 +376,15 @@
 }
 
 
-/*
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ 
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ if ([segue.identifier isEqualToString:@"ActorDetails"]){
+ ActorDetailsViewController *actorDetail = segue.destinationViewController;
+
+ }
+ 
+ }
 
 @end

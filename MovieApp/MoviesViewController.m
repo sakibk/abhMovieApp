@@ -78,7 +78,7 @@
         txtSearchField.backgroundColor = [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
         txtSearchField.tintColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
     txtSearchField.textColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
-    txtSearchField.textAlignment = UITextAlignmentCenter;
+    txtSearchField.textAlignment = NSTextAlignmentCenter;
     txtSearchField.placeholder = @"🔍 Search";
     txtSearchField.autocorrectionType = UITextAutocorrectionTypeNo;
     txtSearchField.keyboardType = UIKeyboardTypeDefault;

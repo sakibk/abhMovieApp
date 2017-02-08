@@ -8,8 +8,15 @@
 
 #import "CastCollectionCell.h"
 #import "SingleCastCell.h"
+#import "ActorDetailsViewController.h"
 
 NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
+
+@protocol MyDelegate<NSObject>
+
+- (void)actorTappedInCell:(SingleCastCell *)cell;
+
+@end
 
 @implementation CastCollectionCell
 
@@ -142,6 +149,20 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(10, 5, 10, 5);
 }
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+//    [self performSegueWithIdentifier:@"ActorDetails" sender:self]
+
+    
+}
+//
+//- (IBAction)actorCellTapped:(id)sender
+//{
+//    if ([_delegate respondsToSelector:@selector(actorTappedInCell:)])
+//    {
+//        [_delegate performSelector:@selector(actorTappedInCell:) withObject:self];
+//    }
+//}
 
 
     @end

@@ -28,10 +28,13 @@
     [super viewDidLoad];
     _tableView.delegate=self;
     _tableView.dataSource=self;
+    _searchBar.delegate=self;
     // Do any additional setup after loading the view.
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:searchCellIdentifier];
     [self searchBarSetup];
     [self setRestkit];
+    _searchResults = [[NSMutableArray alloc]init];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -42,6 +45,18 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];   //it hides
+    [self.navigationController.interactivePopGestureRecognizer setDelegate:nil];
+    _searchBar.showsCancelButton = YES;
+    //Iterate the searchbar sub views
+    for (UIView *subView in _searchBar.subviews) {
+        //Find the button
+        if([subView isKindOfClass:[UIButton class]])
+        {
+            //Change its properties
+            UIButton *cancelButton = (UIButton *)[_searchBar.subviews lastObject];
+            cancelButton=(UIButton*)self.navigationItem.backBarButtonItem;
+        }
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -109,20 +124,18 @@
 }
 
 -(void)searchForString{
-    NSString *localSearchString =[[NSString alloc]init];
-    localSearchString=_searchString;
+
     NSString *pathP = @"/3/search/multi";
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
-                                      @"query":localSearchString
+                                      @"query":_searchString
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         int i;
-        _searchResults = nil;
-        _searchResults = [[NSMutableArray alloc]init];
+        [_searchResults removeAllObjects];
         for (i=0; i< [mappingResult.array count]; i++) {
             if ([[mappingResult.array objectAtIndex:i] isKindOfClass:[Movie class]]) {
                 _tempMovie=[mappingResult.array objectAtIndex:i];
@@ -146,7 +159,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    SearchCell *cell = (SearchCell *)[tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
+    SearchCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
     if ([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[Movie class]]) {
         _tempMovie=[_searchResults objectAtIndex:indexPath.row];
         if(_tempMovie.posterPath!=nil) {
@@ -154,7 +167,7 @@
             return cell;
         }
     }
-    else{
+    else if([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[TVShow class]]){
         _tempShow =[_searchResults objectAtIndex:indexPath.row];
         if(_tempShow.posterPath!=nil){
         [cell setSearchCellWithTVShow:_tempShow];
@@ -170,11 +183,14 @@
 }
 
 
--(void)searchBarTextDidEndEditing:(UISearchBar *)searchBar{
-    _searchString=searchBar.text;
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
+    _searchString=searchText;
     [self searchForString];
 }
 
+-(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    
+}
 
 #pragma mark - Navigation
 

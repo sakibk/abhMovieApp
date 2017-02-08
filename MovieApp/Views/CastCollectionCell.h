@@ -17,6 +17,7 @@ extern NSString *const castCollectionCellIdentifier;
 @interface CastCollectionCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+
 -(void) setupWithMovie:(Movie *)singleMovie;
 -(void) setupWithShow:(TVShow *)singleShow;
 

@@ -17,6 +17,7 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+
 }
 
 
@@ -40,6 +41,13 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
+}
+
+-(void) setupWithActor:(Actor *)singleActor{
+    
+    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleActor.profilePath]]
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleActor.name,@".png"]]];
+    _movieTitle.text=singleActor.name;
 }
 
 @end

@@ -6,6 +6,8 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -68,8 +70,11 @@
                         <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7MY-Ry-kmI">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7MY-Ry-kmI">
                         <rect key="frame" x="29" y="234" width="42" height="14"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="42" id="2zM-ap-UHT"/>
+                        </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
                         <nil key="highlightedColor"/>
@@ -80,13 +85,14 @@
             <constraints>
                 <constraint firstItem="3zE-dv-qMb" firstAttribute="top" secondItem="yyf-ZH-NRw" secondAttribute="bottom" constant="2" id="1np-El-W7s"/>
                 <constraint firstAttribute="bottom" secondItem="H6l-Hd-y2E" secondAttribute="bottom" constant="7" id="7Q4-9L-UFb"/>
+                <constraint firstItem="7MY-Ry-kmI" firstAttribute="top" secondItem="tXf-JE-VFM" secondAttribute="bottom" constant="8" symbolic="YES" id="9lz-P5-Vqp"/>
                 <constraint firstItem="aGi-kG-s9n" firstAttribute="leading" secondItem="v5T-pX-Iqt" secondAttribute="leading" id="DXJ-KH-NAv"/>
                 <constraint firstItem="tXf-JE-VFM" firstAttribute="leading" secondItem="3zE-dv-qMb" secondAttribute="leading" id="Ec6-At-GVE"/>
                 <constraint firstAttribute="trailing" secondItem="aGi-kG-s9n" secondAttribute="trailing" id="GyA-Gv-zqH"/>
+                <constraint firstItem="7MY-Ry-kmI" firstAttribute="leading" secondItem="H6l-Hd-y2E" secondAttribute="trailing" constant="4" id="I8R-dD-tmA"/>
                 <constraint firstItem="tXf-JE-VFM" firstAttribute="trailing" secondItem="3zE-dv-qMb" secondAttribute="trailing" id="IEK-3b-kWy"/>
                 <constraint firstAttribute="trailing" secondItem="yyf-ZH-NRw" secondAttribute="trailing" constant="8" id="Nsr-aR-jZa"/>
                 <constraint firstItem="aGi-kG-s9n" firstAttribute="top" secondItem="v5T-pX-Iqt" secondAttribute="top" id="RnZ-0t-FDz"/>
-                <constraint firstItem="7MY-Ry-kmI" firstAttribute="leading" secondItem="H6l-Hd-y2E" secondAttribute="trailing" constant="4" id="V2F-pV-UIX"/>
                 <constraint firstAttribute="bottom" secondItem="yyf-ZH-NRw" secondAttribute="bottom" constant="64" id="WYl-pi-u8A"/>
                 <constraint firstAttribute="trailing" secondItem="3zE-dv-qMb" secondAttribute="trailing" constant="71" id="XSh-de-5H1"/>
                 <constraint firstItem="tXf-JE-VFM" firstAttribute="leading" secondItem="H6l-Hd-y2E" secondAttribute="leading" id="YeI-Bz-8nj"/>
@@ -95,11 +101,11 @@
                 <constraint firstAttribute="trailing" secondItem="aGi-kG-s9n" secondAttribute="trailing" id="d1K-HO-NAS"/>
                 <constraint firstItem="3zE-dv-qMb" firstAttribute="leading" secondItem="yyf-ZH-NRw" secondAttribute="leading" id="d3X-Yn-l7Z"/>
                 <constraint firstAttribute="bottom" secondItem="aGi-kG-s9n" secondAttribute="bottom" id="dd1-up-8rG"/>
-                <constraint firstAttribute="bottom" secondItem="7MY-Ry-kmI" secondAttribute="bottom" constant="6" id="dlc-S9-gHT"/>
                 <constraint firstItem="tXf-JE-VFM" firstAttribute="top" secondItem="3zE-dv-qMb" secondAttribute="bottom" constant="5" id="eJy-xq-tJ0"/>
                 <constraint firstItem="H6l-Hd-y2E" firstAttribute="top" secondItem="tXf-JE-VFM" secondAttribute="bottom" constant="7" id="ewz-Wo-dsJ"/>
                 <constraint firstItem="aGi-kG-s9n" firstAttribute="top" secondItem="v5T-pX-Iqt" secondAttribute="top" id="fBz-RW-DSu"/>
                 <constraint firstAttribute="bottom" secondItem="H6l-Hd-y2E" secondAttribute="bottom" constant="7" id="hRl-WV-NUZ"/>
+                <constraint firstItem="7MY-Ry-kmI" firstAttribute="baseline" secondItem="H6l-Hd-y2E" secondAttribute="firstBaseline" id="j8o-8o-yEy"/>
                 <constraint firstItem="H6l-Hd-y2E" firstAttribute="leading" secondItem="v5T-pX-Iqt" secondAttribute="leading" constant="8" id="laX-fa-KfL"/>
                 <constraint firstItem="yyf-ZH-NRw" firstAttribute="leading" secondItem="v5T-pX-Iqt" secondAttribute="leading" constant="8" id="lmO-jh-1js"/>
                 <constraint firstAttribute="bottom" secondItem="aGi-kG-s9n" secondAttribute="bottom" id="xXl-Ix-YVa"/>
