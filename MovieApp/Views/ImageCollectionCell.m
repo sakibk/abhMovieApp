@@ -130,6 +130,11 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     return cell;
 }
 
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    [self.delegate openImageGallery];
+}
+
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
     return CGSizeMake(165.0, 165.0);
 }

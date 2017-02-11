@@ -53,6 +53,16 @@
 		AD4F938E1E4B941D00E55630 /* FilmographyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F938D1E4B941D00E55630 /* FilmographyCell.m */; };
 		AD4F93901E4B944B00E55630 /* SingleFilmographyCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4F938F1E4B944B00E55630 /* SingleFilmographyCell.xib */; };
 		AD4F93931E4B946600E55630 /* SingleFilmographyCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93921E4B946600E55630 /* SingleFilmographyCell.m */; };
+		AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93951E4C78AB00E55630 /* TrailerViewController.m */; };
+		AD4F939C1E4C809700E55630 /* TrailerVideos.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F939B1E4C809700E55630 /* TrailerVideos.m */; };
+		AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F939E1E4C933600E55630 /* ImagesViewController.m */; };
+		AD4F93A21E4DCDC800E55630 /* SingleImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93A11E4DCDC800E55630 /* SingleImageViewController.m */; };
+		AD4F93A71E4E61AA00E55630 /* MultiObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93A61E4E61AA00E55630 /* MultiObject.m */; };
+		AD4F93AB1E4E771A00E55630 /* SeasonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93AA1E4E771A00E55630 /* SeasonsViewController.m */; };
+		AD4F93B01E4E838C00E55630 /* SingleSeasonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4F93AF1E4E838C00E55630 /* SingleSeasonCell.xib */; };
+		AD4F93B31E4E840D00E55630 /* SingleSeasonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93B21E4E840D00E55630 /* SingleSeasonCell.m */; };
+		AD4F93B81E4E999000E55630 /* SeasonControllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4F93B71E4E999000E55630 /* SeasonControllCell.xib */; };
+		AD4F93BB1E4E99CE00E55630 /* SeasonControllCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93BA1E4E99CE00E55630 /* SeasonControllCell.m */; };
 		ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
@@ -141,6 +151,24 @@
 		AD4F938F1E4B944B00E55630 /* SingleFilmographyCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleFilmographyCell.xib; path = Views/SingleFilmographyCell.xib; sourceTree = "<group>"; };
 		AD4F93911E4B946600E55630 /* SingleFilmographyCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleFilmographyCell.h; path = Views/SingleFilmographyCell.h; sourceTree = "<group>"; };
 		AD4F93921E4B946600E55630 /* SingleFilmographyCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleFilmographyCell.m; path = Views/SingleFilmographyCell.m; sourceTree = "<group>"; };
+		AD4F93941E4C78AB00E55630 /* TrailerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrailerViewController.h; path = Controllers/TrailerViewController.h; sourceTree = "<group>"; };
+		AD4F93951E4C78AB00E55630 /* TrailerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrailerViewController.m; path = Controllers/TrailerViewController.m; sourceTree = "<group>"; };
+		AD4F939A1E4C809700E55630 /* TrailerVideos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrailerVideos.h; path = MovieApp/Models/TrailerVideos.h; sourceTree = "<group>"; };
+		AD4F939B1E4C809700E55630 /* TrailerVideos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrailerVideos.m; path = MovieApp/Models/TrailerVideos.m; sourceTree = "<group>"; };
+		AD4F939D1E4C933600E55630 /* ImagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImagesViewController.h; path = Controllers/ImagesViewController.h; sourceTree = "<group>"; };
+		AD4F939E1E4C933600E55630 /* ImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagesViewController.m; path = Controllers/ImagesViewController.m; sourceTree = "<group>"; };
+		AD4F93A01E4DCDC800E55630 /* SingleImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleImageViewController.h; path = Controllers/SingleImageViewController.h; sourceTree = "<group>"; };
+		AD4F93A11E4DCDC800E55630 /* SingleImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleImageViewController.m; path = Controllers/SingleImageViewController.m; sourceTree = "<group>"; };
+		AD4F93A51E4E61AA00E55630 /* MultiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiObject.h; path = MovieApp/Models/MultiObject.h; sourceTree = "<group>"; };
+		AD4F93A61E4E61AA00E55630 /* MultiObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiObject.m; path = MovieApp/Models/MultiObject.m; sourceTree = "<group>"; };
+		AD4F93A91E4E771A00E55630 /* SeasonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeasonsViewController.h; path = Controllers/SeasonsViewController.h; sourceTree = "<group>"; };
+		AD4F93AA1E4E771A00E55630 /* SeasonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeasonsViewController.m; path = Controllers/SeasonsViewController.m; sourceTree = "<group>"; };
+		AD4F93AF1E4E838C00E55630 /* SingleSeasonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleSeasonCell.xib; path = Views/SingleSeasonCell.xib; sourceTree = "<group>"; };
+		AD4F93B11E4E840D00E55630 /* SingleSeasonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleSeasonCell.h; path = Views/SingleSeasonCell.h; sourceTree = "<group>"; };
+		AD4F93B21E4E840D00E55630 /* SingleSeasonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleSeasonCell.m; path = Views/SingleSeasonCell.m; sourceTree = "<group>"; };
+		AD4F93B71E4E999000E55630 /* SeasonControllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SeasonControllCell.xib; sourceTree = "<group>"; };
+		AD4F93B91E4E99CE00E55630 /* SeasonControllCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeasonControllCell.h; path = Views/SeasonControllCell.h; sourceTree = "<group>"; };
+		AD4F93BA1E4E99CE00E55630 /* SeasonControllCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeasonControllCell.m; path = Views/SeasonControllCell.m; sourceTree = "<group>"; };
 		ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = Controllers/TabBarViewController.h; sourceTree = "<group>"; };
 		ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = Controllers/TabBarViewController.m; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -188,6 +216,7 @@
 				AD4F93841E4B935100E55630 /* Actor */,
 				AD4F936A1E48A2A200E55630 /* Search */,
 				AD349FE91E395FB2009C4367 /* Feeds */,
+				AD4F93AC1E4E7D8200E55630 /* Seasons */,
 				AD1783891E2E49BB0037DC44 /* Movies */,
 				AD349FF21E397270009C4367 /* DetailView */,
 			);
@@ -210,6 +239,10 @@
 				AD4F93741E48D4FC00E55630 /* SearchViewController.m */,
 				AD4F937E1E4B38AC00E55630 /* ActorDetailsViewController.h */,
 				AD4F937F1E4B38AC00E55630 /* ActorDetailsViewController.m */,
+				AD4F93941E4C78AB00E55630 /* TrailerViewController.h */,
+				AD4F93951E4C78AB00E55630 /* TrailerViewController.m */,
+				AD4F93A81E4E76F800E55630 /* SeasonsView */,
+				AD4F93A41E4DCDE000E55630 /* ImagesView */,
 			);
 			name = Controllers;
 			path = MovieApp;
@@ -307,6 +340,39 @@
 			name = Actor;
 			sourceTree = "<group>";
 		};
+		AD4F93A41E4DCDE000E55630 /* ImagesView */ = {
+			isa = PBXGroup;
+			children = (
+				AD4F939D1E4C933600E55630 /* ImagesViewController.h */,
+				AD4F939E1E4C933600E55630 /* ImagesViewController.m */,
+				AD4F93A01E4DCDC800E55630 /* SingleImageViewController.h */,
+				AD4F93A11E4DCDC800E55630 /* SingleImageViewController.m */,
+			);
+			name = ImagesView;
+			sourceTree = "<group>";
+		};
+		AD4F93A81E4E76F800E55630 /* SeasonsView */ = {
+			isa = PBXGroup;
+			children = (
+				AD4F93A91E4E771A00E55630 /* SeasonsViewController.h */,
+				AD4F93AA1E4E771A00E55630 /* SeasonsViewController.m */,
+			);
+			name = SeasonsView;
+			sourceTree = "<group>";
+		};
+		AD4F93AC1E4E7D8200E55630 /* Seasons */ = {
+			isa = PBXGroup;
+			children = (
+				AD4F93AF1E4E838C00E55630 /* SingleSeasonCell.xib */,
+				AD4F93B11E4E840D00E55630 /* SingleSeasonCell.h */,
+				AD4F93B21E4E840D00E55630 /* SingleSeasonCell.m */,
+				AD4F93B71E4E999000E55630 /* SeasonControllCell.xib */,
+				AD4F93B91E4E99CE00E55630 /* SeasonControllCell.h */,
+				AD4F93BA1E4E99CE00E55630 /* SeasonControllCell.m */,
+			);
+			name = Seasons;
+			sourceTree = "<group>";
+		};
 		ADF64D0B1E2D0528000DFCFA = {
 			isa = PBXGroup;
 			children = (
@@ -366,6 +432,10 @@
 				AD4F93681E41D3A300E55630 /* Season.m */,
 				AD4F93811E4B38CD00E55630 /* Actor.h */,
 				AD4F93821E4B38CD00E55630 /* Actor.m */,
+				AD4F939A1E4C809700E55630 /* TrailerVideos.h */,
+				AD4F939B1E4C809700E55630 /* TrailerVideos.m */,
+				AD4F93A51E4E61AA00E55630 /* MultiObject.h */,
+				AD4F93A61E4E61AA00E55630 /* MultiObject.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -453,9 +523,11 @@
 				AD34A01F1E3B8592009C4367 /* SingleCastCell.xib in Resources */,
 				AD34A0271E3B96FD009C4367 /* ReviewsCell.xib in Resources */,
 				AD349FF41E3972F2009C4367 /* PictureDetailCell.xib in Resources */,
+				AD4F93B01E4E838C00E55630 /* SingleSeasonCell.xib in Resources */,
 				AD1783881E2E499C0037DC44 /* MovieCell.xib in Resources */,
 				AD34A0031E39FEDC009C4367 /* ImageCollectionCell.xib in Resources */,
 				ADF64D221E2D0528000DFCFA /* Main.storyboard in Resources */,
+				AD4F93B81E4E999000E55630 /* SeasonControllCell.xib in Resources */,
 				AD4F93901E4B944B00E55630 /* SingleFilmographyCell.xib in Resources */,
 				AD349FED1E39601C009C4367 /* FeedCell.xib in Resources */,
 				AD34A01A1E3B79CB009C4367 /* CastCollectionCell.xib in Resources */,
@@ -520,8 +592,11 @@
 			files = (
 				AD34A0181E3B78F3009C4367 /* Cast.m in Sources */,
 				AD4F93931E4B946600E55630 /* SingleFilmographyCell.m in Sources */,
+				AD4F93A71E4E61AA00E55630 /* MultiObject.m in Sources */,
+				AD4F93AB1E4E771A00E55630 /* SeasonsViewController.m in Sources */,
 				AD34A02A1E3B9731009C4367 /* ReviewsCell.m in Sources */,
 				AD4F938E1E4B941D00E55630 /* FilmographyCell.m in Sources */,
+				AD4F93BB1E4E99CE00E55630 /* SeasonControllCell.m in Sources */,
 				AD34A00E1E3A31AE009C4367 /* ImagePathUrl.m in Sources */,
 				AD34A0251E3B8692009C4367 /* SingleCastCell.m in Sources */,
 				AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */,
@@ -529,16 +604,21 @@
 				AD34A01D1E3B7A12009C4367 /* CastCollectionCell.m in Sources */,
 				AD4F93801E4B38AC00E55630 /* ActorDetailsViewController.m in Sources */,
 				ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */,
+				AD4F939C1E4C809700E55630 /* TrailerVideos.m in Sources */,
 				AD34A0011E39F367009C4367 /* OverviewCell.m in Sources */,
 				ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */,
+				AD4F93B31E4E840D00E55630 /* SingleSeasonCell.m in Sources */,
 				AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */,
 				AD349FFC1E39EE9E009C4367 /* BellowImageCell.m in Sources */,
+				AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */,
 				AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */,
+				AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */,
 				AD4F93721E48A31600E55630 /* SearchCell.m in Sources */,
 				ADF64D571E2D12BC000DFCFA /* Movie.m in Sources */,
 				AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */,
 				AD34A00B1E3A04F2009C4367 /* SingleImageCell.m in Sources */,
 				AD4F93691E41D3A300E55630 /* Season.m in Sources */,
+				AD4F93A21E4DCDC800E55630 /* SingleImageViewController.m in Sources */,
 				AD349FF01E396096009C4367 /* FeedsCell.m in Sources */,
 				ADF64D191E2D0528000DFCFA /* main.m in Sources */,
 				AD17838C1E2E4A810037DC44 /* MoviesCell.m in Sources */,

@@ -12,11 +12,13 @@
 #import "MovieDetailViewController.h"
 #import "Movie.h"
 #import "TVShow.h"
+#import "MultiObject.h"
 
 @interface SearchViewController ()
 
 @property NSString *searchString;
 @property NSMutableArray *searchResults;
+@property NSMutableArray <MultiObject*> *allResults;
 @property Movie *tempMovie;
 @property TVShow *tempShow;
 
@@ -34,6 +36,8 @@
     [self searchBarSetup];
     [self setRestkit];
     _searchResults = [[NSMutableArray alloc]init];
+    _tempMovie=[[Movie alloc]init];
+    _tempShow= [[TVShow alloc]init];
 
 }
 
@@ -77,49 +81,29 @@
 
 -(void)setRestkit{
         NSString *pathP = @"/3/search/multi";
-    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
+    RKObjectMapping *multiMapping = [RKObjectMapping mappingForClass:[MultiObject class]];
     
-    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
+    [multiMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
+                                                       @"release_date": @"releaseDate",
                                                        @"vote_average": @"rating",
                                                        @"poster_path": @"posterPath",
-                                                       @"release_date": @"releaseDate",
                                                        @"id": @"movieID",
                                                        @"backdrop_path" : @"backdropPath",
-                                                       @"genre_ids":@"genreIds"
+                                                       @"overview": @"overview",
+                                                       @"genre_ids":@"genreIds",
+                                                       @"name": @"name",
+                                                       @"first_air_date": @"airDate",
+                                                       @"id": @"showID",
+                                                       @"media_type":@"mediaType"
                                                        }];
     
-    RKResponseDescriptor *MovieResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
+    RKResponseDescriptor *multiResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:multiMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:pathP
                                                 keyPath:@"results"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
-    [[RKObjectManager sharedManager] addResponseDescriptor:MovieResponseDescriptor];
-    
-    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
-    
-    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
-                                                      @"vote_average": @"rating",
-                                                      @"poster_path": @"posterPath",
-                                                      @"first_air_date": @"airDate",
-                                                      @"id": @"showID",
-                                                      @"backdrop_path" : @"backdropPath",
-                                                      @"overview": @"overview",
-                                                      @"genre_ids": @"genreIds",
-                                                      @"number_of_seasons":@"seasonCount"
-                                                      }];
-
-    
-    RKResponseDescriptor *showResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:showResponseDescriptor];
-
+    [[RKObjectManager sharedManager] addResponseDescriptor:multiResponseDescriptor];
 
 }
 
@@ -136,14 +120,18 @@
         NSLog(@"%@", mappingResult.array);
         int i;
         [_searchResults removeAllObjects];
-        for (i=0; i< [mappingResult.array count]; i++) {
-            if ([[mappingResult.array objectAtIndex:i] isKindOfClass:[Movie class]]) {
-                _tempMovie=[mappingResult.array objectAtIndex:i];
-                [_searchResults addObject:_tempMovie];
-            } else if([[mappingResult.array objectAtIndex:i] isKindOfClass:[TVShow class]]) {
-                _tempShow=[mappingResult.array objectAtIndex:i];
+        _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        
+        for (i=0; i< [_allResults count]; i++) {
+            if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"tv"]) {
+                [_tempShow setupWithMultiObject:[_allResults objectAtIndex:i]];
                 [_searchResults addObject:_tempShow];
             }
+            else if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"movie"]) {
+                [_tempMovie setupWithMultiObject:[_allResults objectAtIndex:i]];
+                [_searchResults addObject:_tempMovie];
+            }
+            
         }
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -164,14 +152,12 @@
         _tempMovie=[_searchResults objectAtIndex:indexPath.row];
         if(_tempMovie.posterPath!=nil) {
         [cell setSearchCellWithMovie:_tempMovie];
-            return cell;
         }
     }
     else if([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[TVShow class]]){
         _tempShow =[_searchResults objectAtIndex:indexPath.row];
         if(_tempShow.posterPath!=nil){
         [cell setSearchCellWithTVShow:_tempShow];
-            return cell;
         }
     }
     return cell;
@@ -179,7 +165,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    [self performSegueWithIdentifier:@"SearchDetails" sender:self];
+    [self performSegueWithIdentifier:@"MovieOrTVShowDetails" sender:self];
 }
 
 
@@ -196,7 +182,7 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"SearchDetails"]) {
+    if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
         MovieDetailViewController *movieDetails = segue.destinationViewController;
         NSIndexPath *indexPath = [self.tableView.indexPathsForSelectedRows objectAtIndex:0];
         if ([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[Movie class]]) {

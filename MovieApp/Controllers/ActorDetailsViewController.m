@@ -29,6 +29,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"AboutCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboutCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"FilmographyCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:filmographyCellIdentifier];
     [self setRestkit];
+    [self searchForActor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,7 +64,7 @@
     
 }
 
--(void)searchForString{
+-(void)searchForActor{
     
     NSString *pathP = [NSString stringWithFormat:@"/3/person/%@",_actorID];
     
@@ -84,7 +85,7 @@
 
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return _singleActor != nil ? 3 : 0;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -119,6 +120,22 @@
     
     return cell;
 }
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+        if(indexPath.section == 0 && indexPath.row == 0) {
+            return 222.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 1) {
+            return 360.0;
+        }
+        else if(indexPath.section == 0 && indexPath.row == 2) {
+            return 295.0;
+        }
+        
+        return 200;
+
+}
+
 
 
 /*

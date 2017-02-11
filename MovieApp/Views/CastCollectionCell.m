@@ -12,11 +12,6 @@
 
 NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 
-@protocol MyDelegate<NSObject>
-
-- (void)actorTappedInCell:(SingleCastCell *)cell;
-
-@end
 
 @implementation CastCollectionCell
 
@@ -37,7 +32,7 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     [castMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
                                                        @"id": @"castID",
                                                        @"name": @"castName",
-                                                       @"poster_path": @"castImagePath",
+                                                       @"profile_path": @"castImagePath",
                                                        @"title":@"castMovieTitle"
                                                        }];
     castMapping.assignsDefaultValueForMissingAttributes = YES;
@@ -151,9 +146,15 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    [self performSegueWithIdentifier:@"ActorDetails" sender:self]
-
-    
+//    self.window.rootViewController = [[ActorDetailsViewController alloc] init];
+//    [self performSegueWithIdentifier:@"ActorDetails" sender:self];
+    _singleCast = [_allCasts objectAtIndex:indexPath.row];
+    if(_singleCast.castID!=nil) {
+            [self.delegate openActorWithID:_singleCast.castID];
+    }
+    else{
+            [self.delegate openActorWithID:_singleCast.castWithID];
+    }
 }
 //
 //- (IBAction)actorCellTapped:(id)sender
@@ -163,6 +164,19 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 //        [_delegate performSelector:@selector(actorTappedInCell:) withObject:self];
 //    }
 //}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    
+    if ([segue.identifier isEqualToString:@"ActorDetails"]) {
+        ActorDetailsViewController *actorDetails = segue.destinationViewController;
+        NSIndexPath *indexPath = [self.collectionView.indexPathsForSelectedItems objectAtIndex:0];
+        _singleCast = [_allCasts objectAtIndex:indexPath.row];
+        actorDetails.actorID=_singleCast.castID;
+        [actorDetails searchForActor];
+    }
+}
 
 
     @end

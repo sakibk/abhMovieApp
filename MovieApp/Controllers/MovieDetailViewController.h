@@ -9,8 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "Movie.h"
 #import "TVShow.h"
+#import "CastCollectionCell.h"
+#import "ImageCollectionCell.h"
 
-@interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, CastCollectionCellDelegate,ImageCollectionCellDelegate>
 
 @property (nonatomic,strong) NSNumber* movieID;
 @property (nonatomic,strong) Movie *singleMovie;

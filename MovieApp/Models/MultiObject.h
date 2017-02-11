@@ -1,18 +1,14 @@
 //
-//  Movie.h
+//  MultiObject.h
 //  MovieApp
 //
-//  Created by Sakib Kurtic on 16/01/2017.
+//  Created by Sakib Kurtic on 10/02/2017.
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "Genre.h"
-#import "Crew.h"
-#import <Realm/Realm.h>
-#import "MultiObject.h"
 
-@interface Movie : NSObject
+@interface MultiObject : NSObject
 
 @property (strong, nonatomic) NSNumber *movieID;
 @property (strong, nonatomic) NSString *title;
@@ -23,10 +19,12 @@
 @property (strong, nonatomic) NSString *backdropPath;
 @property (strong, nonatomic) NSString *singleGenre;
 @property (strong, nonatomic) NSString *overview;
-@property (strong, nonatomic) NSArray<Genre *> *genres;
-@property (strong, nonatomic) NSMutableArray<Crew *> *crews;
-@property (strong, nonatomic) NSSet<Genre *> *genreSet;
+@property (strong, nonatomic) NSNumber *showID;
+@property (strong, nonatomic) NSString *name;
+@property (strong, nonatomic) NSDate *firstAirDate;
+@property (strong, nonatomic) NSDate *lastAirDate;
+@property (strong, nonatomic) NSDate *airDate;
+@property (strong, nonatomic) NSString *mediaType;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
--(void)setupWithMultiObject:(MultiObject *)singleObject;
 @end

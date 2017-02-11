@@ -9,8 +9,11 @@
 #import "PictureDetailCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "TVShow.h"
+#import "TrailerViewController.h"
 
 NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
+
+
 
 @implementation PictureDetailCell
 
@@ -30,6 +33,8 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
+    _singleMovie=singleMovie;
+    
 }
 
 -(void) setupWithShow:(TVShow *) singleShow{
@@ -41,13 +46,18 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
+    [_playButton setHidden:YES];
 }
 
 -(void) setupWithActor:(Actor *)singleActor{
     
-    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleActor.profilePath]]
+    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleActor.profilePath]]
                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleActor.name,@".png"]]];
+    [_movieTitle setFont:[_movieTitle.font fontWithSize:27.0]];
     _movieTitle.text=singleActor.name;
+    [_playButton setHidden:YES];
 }
+
+
 
 @end

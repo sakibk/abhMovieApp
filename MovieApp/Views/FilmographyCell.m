@@ -21,7 +21,6 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
     _collectionView.dataSource=self;
     
     [_collectionView registerNib:[UINib nibWithNibName:@"SingleFilmographyCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:singleFilmographyCellIdentifier];
-    [self setupRestkit];
     
 }
 
@@ -34,15 +33,14 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 -(void)setupRestkit{
     RKObjectMapping *castsMapping = [RKObjectMapping mappingForClass:[Cast class]];
     
-    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_singleCast.castID];
+    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_actorID];
     
-    [castsMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
-                                                      @"character": @"castRoleName",
+    [castsMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
                                                       @"id": @"castWithID",
-                                                      @"name": @"castName",
-                                                      @"profile_path": @"castImagePath"
+                                                      @"poster_path": @"castImagePath",
+                                                       @"title":@"castMovieTitle"
                                                       }];
-    castsMapping.assignsDefaultValueForMissingAttributes = YES;
+    castsMapping.assignsNilForMissingRelationships = YES;
     
     RKResponseDescriptor *filmographyResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:castsMapping
@@ -55,7 +53,7 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 }
 
 -(void)getCasts{
-    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_singleCast.castID];
+    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_actorID];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -78,8 +76,9 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 }
 
 -(void)setupWithActor:(Actor *)singleActor{
-    _singleCast.castID=singleActor.actorID;
-    [self getCasts];
+    _actorID=singleActor.actorID;
+    [self setupRestkit];
+        [self getCasts];
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

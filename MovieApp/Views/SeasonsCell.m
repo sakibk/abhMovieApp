@@ -31,7 +31,8 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
     [seasonMapping addAttributeMappingsFromDictionary:@{@"id": @"seasonID",
                                                         @"air_date": @"airDate",
                                                         @"season_number": @"seasonNumber",
-                                                        @"poster_path": @"posterPath"
+                                                        @"poster_path": @"posterPath",
+                                                        @"episode_count":@"episodeCount"
                                                       }];
     
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@",singleShow.showID];

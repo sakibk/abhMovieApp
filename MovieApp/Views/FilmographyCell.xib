@@ -33,7 +33,7 @@
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="collectionView" destination="DQZ-WJ-nC9" id="Pwt-67-S57"/>
+                <outlet property="collectionView" destination="DQZ-WJ-nC9" id="g1J-Vq-dfJ"/>
             </connections>
             <point key="canvasLocation" x="7" y="85"/>
         </tableViewCell>

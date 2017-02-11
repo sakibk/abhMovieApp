@@ -14,6 +14,7 @@
 @property (strong, nonatomic) NSDate *airDate;
 @property (strong, nonatomic) NSNumber *seasonID;
 @property (strong, nonatomic) NSNumber *seasonNumber;
+@property (strong, nonatomic) NSNumber *episodeCount;
 @property (strong, nonatomic) NSString *posterPath;
 
 @end

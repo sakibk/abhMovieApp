@@ -18,17 +18,16 @@
 #import "ReviewsCell.h"
 #import "SeasonsCell.h"
 #import "ActorDetailsViewController.h"
+#import "TrailerViewController.h"
+#import "ImagesViewController.h"
 
-@protocol MyDelegate<NSObject>
-
-- (void)actorTappedInCell:(CastCollectionCell *)cell;
-
-@end
 
 @interface MovieDetailViewController ()
 
 @property Movie *movieDetail;
 @property TVShow *showDetail;
+@property NSNumber *actorID;
+@property NSMutableArray<Season*> *allSeasons;
 
 
 @end
@@ -39,6 +38,7 @@
     [super viewDidLoad];
     _tableView.delegate=self;
     _tableView.dataSource=self;
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"BellowImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:BellowImageCellIdentifier];
@@ -55,6 +55,7 @@
     
 //    self.tableView.rowHeight = UITableViewAutomaticDimension;
 //    self.tableView.estimatedRowHeight = 40;
+    _allSeasons=[[NSMutableArray alloc]init];
     
     // Do any additional setup after loading the view.
     
@@ -131,7 +132,8 @@
                                                        @"backdrop_path":@"backdropPath",
                                                        @"overview":@"overview",
                                                        @"genres":@"genreSet",
-                                                       @"number_of_seasons":@"seasonCount"
+                                                       @"number_of_seasons":@"seasonCount",
+                                                      @"seasons":@"seasons"
                                                        }];
     
     showMapping.assignsDefaultValueForMissingAttributes = YES;
@@ -156,10 +158,17 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        if([mappingResult.firstObject isKindOfClass:[TVShow class]]){
-            _showDetail = [mappingResult firstObject];
-            NSLog(@"%@", _showDetail.overview);
+        int i;
+        for(i=0;i<[mappingResult.array count];i++){
+            if([[mappingResult.array objectAtIndex:i] isKindOfClass:[TVShow class]]){
+                _showDetail = [mappingResult.array objectAtIndex:i];
+                NSLog(@"%@", _showDetail.overview);
             }
+            else if ([[mappingResult.array objectAtIndex:i] isKindOfClass:[Season class]]){
+                [_allSeasons addObject:[mappingResult.array objectAtIndex:i]];
+            }
+        }
+        _showDetail.seasons=_allSeasons;
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
@@ -202,6 +211,7 @@
             case 3:
             {
                 ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithMovie:_movieDetail];
                 return cell;
             }
@@ -209,6 +219,7 @@
             case 4:
             {
                 CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithMovie:_movieDetail];
                 return cell;
             }
@@ -265,6 +276,7 @@
             case 4:
             {
                 ImageCollectionCell *cell = (ImageCollectionCell *)[tableView dequeueReusableCellWithIdentifier:ImageCollectionCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithShow:_showDetail];
                 return cell;
             }
@@ -272,6 +284,7 @@
             case 5:
             {
                 CastCollectionCell *cell = (CastCollectionCell *)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithShow:_showDetail];
                 return cell;
             }
@@ -382,9 +395,51 @@
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  if ([segue.identifier isEqualToString:@"ActorDetails"]){
  ActorDetailsViewController *actorDetail = segue.destinationViewController;
+     actorDetail.actorID =_actorID;
+ }
+ else if ([segue.identifier isEqualToString:@"WatchTrailer"]){
+     TrailerViewController *trailer = segue.destinationViewController;
+     [trailer setupWithMovieID:_movieID];
+ }
+ else if ([segue.identifier isEqualToString:@"ImageCollection"]){
+     ImagesViewController *images = segue.destinationViewController;
+     if(_isMovie){
+         [images setupWithMovie:_singleMovie];
+     }
+     else{
+         [images setupWithShow:_singleShow];
+     }
+ }
+     
+ }
 
- }
- 
- }
+- (void)openImageGallery{
+    [self performSegueWithIdentifier:@"ImageCollection" sender:self];
+}
+
+- (void)openActorWithID:(NSNumber *)actorID {
+    _actorID=actorID;
+    [self performSegueWithIdentifier:@"ActorDetails" sender:self];
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(_isMovie){
+    if(indexPath.row==0){
+        [self performSegueWithIdentifier:@"WatchTrailer" sender:self];
+    }
+    else if (indexPath.row==3){
+        [self performSegueWithIdentifier:@"ImageCollection" sender:self];
+    }
+    }
+    else{
+        if (indexPath.row==4){
+            [self performSegueWithIdentifier:@"ImageCollection" sender:self];
+        }
+        if(indexPath.row == 3){
+            
+            [self performSegueWithIdentifier:@"SeasonsViewIdentifier" sender:self];
+        }
+    }
+}
 
 @end

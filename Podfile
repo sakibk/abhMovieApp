@@ -8,6 +8,7 @@ target 'MovieApp' do
  pod 'RestKit'
  pod 'SDWebImage'
  pod 'BlockRSSParser', '~> 2.1'
+ pod 'youtube-ios-player-helper', '~> 0.1'
   # Pods for MovieApp
 
 end

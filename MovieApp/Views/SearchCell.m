@@ -30,7 +30,7 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
         _releaseAirDate.text=[NSString stringWithFormat:@"(%ld )",(long)year];
     }
     else{
-        _releaseAirDate.text=[NSString stringWithFormat:@"(N/A )"];
+        _releaseAirDate.text=[NSString stringWithFormat:@"(N/A)"];
     }
 
     _searchRating.text=[NSString stringWithFormat:@"%@",singleMovie.rating];

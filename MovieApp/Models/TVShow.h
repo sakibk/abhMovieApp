@@ -12,6 +12,7 @@
 #import "Cast.h"
 #import "Crew.h"
 #import "Season.h"
+#import "MultiObject.h"
 
 @interface TVShow : NSObject
 
@@ -32,4 +33,6 @@
 @property (strong, nonatomic) NSArray <NSNumber *> *runtime;
 @property (strong,nonatomic) NSMutableArray<Season *> *seasons;
 @property (strong, nonatomic) NSNumber *seasonCount;
+
+-(void)setupWithMultiObject:(MultiObject *)singleObject;
 @end
