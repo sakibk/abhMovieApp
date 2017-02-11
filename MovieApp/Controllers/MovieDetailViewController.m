@@ -20,6 +20,7 @@
 #import "ActorDetailsViewController.h"
 #import "TrailerViewController.h"
 #import "ImagesViewController.h"
+#import "SeasonsViewController.h"
 
 
 @interface MovieDetailViewController ()
@@ -409,6 +410,14 @@
      else{
          [images setupWithShow:_singleShow];
      }
+ }
+ else if([segue.identifier isEqualToString:@"SeasonsViewIdentifier"]){
+     SeasonsViewController *seasons= segue.destinationViewController;
+     seasons.seasonCount=_showDetail.seasonCount;
+     seasons.seasons = _showDetail.seasons;
+     seasons.showID = _showDetail.showID;
+     seasons.seasonID=[NSNumber numberWithInt:1];
+     [seasons setupSeasonView];
  }
      
  }

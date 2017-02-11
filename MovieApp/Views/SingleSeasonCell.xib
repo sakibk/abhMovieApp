@@ -56,6 +56,9 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="episodeRating" destination="K0T-Kc-LqE" id="Mjm-Th-loz"/>
+                <outlet property="episodeRealeaseDate" destination="JAv-aT-aPc" id="MSa-ZH-Pj6"/>
+                <outlet property="episodeTitle" destination="5td-TC-VXU" id="m0p-Gm-TH0"/>
                 <outlet property="seasonRating" destination="K0T-Kc-LqE" id="879-zm-BwR"/>
                 <outlet property="seasonRealeaseDate" destination="JAv-aT-aPc" id="Wj4-wa-dxr"/>
                 <outlet property="seasonTitle" destination="5td-TC-VXU" id="PNi-ve-hHt"/>

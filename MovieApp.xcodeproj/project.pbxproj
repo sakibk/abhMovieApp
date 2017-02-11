@@ -63,6 +63,7 @@
 		AD4F93B31E4E840D00E55630 /* SingleSeasonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93B21E4E840D00E55630 /* SingleSeasonCell.m */; };
 		AD4F93B81E4E999000E55630 /* SeasonControllCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4F93B71E4E999000E55630 /* SeasonControllCell.xib */; };
 		AD4F93BB1E4E99CE00E55630 /* SeasonControllCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93BA1E4E99CE00E55630 /* SeasonControllCell.m */; };
+		AD4F93BE1E4F216500E55630 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93BD1E4F216500E55630 /* Episode.m */; };
 		ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
@@ -169,6 +170,8 @@
 		AD4F93B71E4E999000E55630 /* SeasonControllCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SeasonControllCell.xib; sourceTree = "<group>"; };
 		AD4F93B91E4E99CE00E55630 /* SeasonControllCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeasonControllCell.h; path = Views/SeasonControllCell.h; sourceTree = "<group>"; };
 		AD4F93BA1E4E99CE00E55630 /* SeasonControllCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeasonControllCell.m; path = Views/SeasonControllCell.m; sourceTree = "<group>"; };
+		AD4F93BC1E4F216500E55630 /* Episode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Episode.h; path = MovieApp/Models/Episode.h; sourceTree = "<group>"; };
+		AD4F93BD1E4F216500E55630 /* Episode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Episode.m; path = MovieApp/Models/Episode.m; sourceTree = "<group>"; };
 		ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = Controllers/TabBarViewController.h; sourceTree = "<group>"; };
 		ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = Controllers/TabBarViewController.m; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -436,6 +439,8 @@
 				AD4F939B1E4C809700E55630 /* TrailerVideos.m */,
 				AD4F93A51E4E61AA00E55630 /* MultiObject.h */,
 				AD4F93A61E4E61AA00E55630 /* MultiObject.m */,
+				AD4F93BC1E4F216500E55630 /* Episode.h */,
+				AD4F93BD1E4F216500E55630 /* Episode.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -623,6 +628,7 @@
 				ADF64D191E2D0528000DFCFA /* main.m in Sources */,
 				AD17838C1E2E4A810037DC44 /* MoviesCell.m in Sources */,
 				AD0935731E4007F70045A61F /* Review.m in Sources */,
+				AD4F93BE1E4F216500E55630 /* Episode.m in Sources */,
 				AD4F93751E48D4FC00E55630 /* SearchViewController.m in Sources */,
 				AD34A0061E39FF4D009C4367 /* ImageCollectionCell.m in Sources */,
 				AD34A0361E3CB852009C4367 /* Crew.m in Sources */,

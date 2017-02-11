@@ -7,16 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "Season.h"
+#import "Episode.h"
 #import "SingleSeasonCell.h"
 
 extern NSString *const singleSeasonCellIdentifier;
 
 @interface SingleSeasonCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *seasonTitle;
-@property (weak, nonatomic) IBOutlet UILabel *seasonRealeaseDate;
-@property (weak, nonatomic) IBOutlet UILabel *seasonRating;
+@property (weak, nonatomic) IBOutlet UILabel *episodeTitle;
+@property (weak, nonatomic) IBOutlet UILabel *episodeRealeaseDate;
+@property (weak, nonatomic) IBOutlet UILabel *episodeRating;
 
--(void)setupWithSeason:(Season*)seasonDetails;
+-(void)setupWithEpisode:(Episode*)episodeDetails;
 
 @end

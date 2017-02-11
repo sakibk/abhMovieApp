@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Episode.h"
 
 @interface Season : NSObject
 
@@ -16,5 +17,6 @@
 @property (strong, nonatomic) NSNumber *seasonNumber;
 @property (strong, nonatomic) NSNumber *episodeCount;
 @property (strong, nonatomic) NSString *posterPath;
+@property (strong, nonatomic) NSMutableArray<Episode*> *episodes;
 
 @end

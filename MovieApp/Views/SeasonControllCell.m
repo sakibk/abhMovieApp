@@ -8,6 +8,16 @@
 
 #import "SeasonControllCell.h"
 
+NSString *const seasonControllCellIdentifier=@"SeasonControllCellIdentifier";
+
 @implementation SeasonControllCell
 
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+}
+
+-(void)setupSeasonCellWithSeasonNumber:(NSNumber *)seasonNo{
+    _seasonNumber.text=[NSString stringWithFormat:@"%@",seasonNo];
+}
 @end

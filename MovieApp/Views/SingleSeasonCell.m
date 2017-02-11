@@ -15,8 +15,7 @@ NSString *const singleSeasonCellIdentifier=@"SingleSeasonCellIdentifier";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    // Initialization code
-    [self setRestkit];
+    //initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -25,13 +24,13 @@ NSString *const singleSeasonCellIdentifier=@"SingleSeasonCellIdentifier";
     // Configure the view for the selected state
 }
 
--(void)setRestkit{
+-(void)setupWithEpisode:(Episode*)episodeDetails{
+    _episodeRating.text=[NSString stringWithFormat:@"%@%@",_episodeRating.text,episodeDetails.rating];
+    _episodeTitle.text =[NSString stringWithFormat:@"%@. %@",episodeDetails.episodeNumber,episodeDetails.episodeName];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd LLLL yyyy"];
     
-}
-
-
--(void)setupWithSeason:(Season*)seasonDetails{
-    
+    _episodeRealeaseDate.text = [dateFormatter stringFromDate:episodeDetails.airDate];
 }
 
 @end

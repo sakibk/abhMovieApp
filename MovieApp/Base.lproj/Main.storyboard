@@ -384,7 +384,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9gL-O4-u4r">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="black" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="9gL-O4-u4r">
                                 <rect key="frame" x="0.0" y="153" width="414" height="583"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="0.0" id="5cT-zZ-igT">
@@ -407,14 +407,20 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Ddk-5R-li5">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Ddk-5R-li5">
                                 <rect key="frame" x="0.0" y="64" width="419" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="1mD-gg-STI"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRl-Dm-93a">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRl-Dm-93a">
                                 <rect key="frame" x="0.0" y="127" width="191" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="191" id="v9q-3b-KDN"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -422,16 +428,15 @@
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="9gL-O4-u4r" firstAttribute="leading" secondItem="POH-KC-gf9" secondAttribute="leadingMargin" constant="-20" id="7w5-CF-Cop"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="PRl-Dm-93a" secondAttribute="trailing" constant="203" id="BVs-h4-ylF"/>
-                            <constraint firstItem="9gL-O4-u4r" firstAttribute="top" secondItem="PRl-Dm-93a" secondAttribute="bottom" constant="5" id="BdL-rC-PsA"/>
-                            <constraint firstItem="Ddk-5R-li5" firstAttribute="top" secondItem="dzf-rO-0MW" secondAttribute="bottom" id="I9q-Gt-0cQ"/>
-                            <constraint firstItem="9gL-O4-u4r" firstAttribute="bottom" secondItem="POH-KC-gf9" secondAttribute="bottomMargin" id="QaY-aR-29w"/>
-                            <constraint firstItem="PRl-Dm-93a" firstAttribute="leading" secondItem="POH-KC-gf9" secondAttribute="leadingMargin" constant="-20" id="SOK-0H-MJh"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Ddk-5R-li5" secondAttribute="trailing" constant="-25" id="ZQK-3Q-rfx"/>
-                            <constraint firstItem="Ddk-5R-li5" firstAttribute="leading" secondItem="POH-KC-gf9" secondAttribute="leadingMargin" constant="-20" id="jEc-Gu-Ach"/>
-                            <constraint firstItem="PRl-Dm-93a" firstAttribute="top" secondItem="Ddk-5R-li5" secondAttribute="bottom" constant="8" id="moj-op-SiI"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="9gL-O4-u4r" secondAttribute="trailing" constant="-20" id="rPT-DC-qX3"/>
+                            <constraint firstItem="PRl-Dm-93a" firstAttribute="leading" secondItem="9gL-O4-u4r" secondAttribute="leading" id="4Fi-YM-XAE"/>
+                            <constraint firstAttribute="bottom" secondItem="9gL-O4-u4r" secondAttribute="bottom" id="6mf-9H-tU7"/>
+                            <constraint firstItem="Ddk-5R-li5" firstAttribute="leading" secondItem="PRl-Dm-93a" secondAttribute="leading" id="SYF-f4-A6n"/>
+                            <constraint firstAttribute="trailing" secondItem="9gL-O4-u4r" secondAttribute="trailing" id="XMP-Sk-IOj"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ddk-5R-li5" secondAttribute="trailing" constant="-25" id="Z5f-ze-7d3"/>
+                            <constraint firstItem="PRl-Dm-93a" firstAttribute="top" secondItem="Ddk-5R-li5" secondAttribute="bottom" constant="8" symbolic="YES" id="cg6-CU-0zL"/>
+                            <constraint firstItem="Ddk-5R-li5" firstAttribute="leading" secondItem="POH-KC-gf9" secondAttribute="leading" id="di6-Am-Brf"/>
+                            <constraint firstItem="9gL-O4-u4r" firstAttribute="top" secondItem="PRl-Dm-93a" secondAttribute="bottom" constant="5" id="wKi-a6-CMI"/>
+                            <constraint firstItem="Ddk-5R-li5" firstAttribute="top" secondItem="dzf-rO-0MW" secondAttribute="bottom" id="xBF-Hb-96S"/>
                         </constraints>
                     </view>
                     <connections>
@@ -470,18 +475,18 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="VVe-Y1-OIP"/>
                                 </constraints>
-                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="12" minimumInteritemSpacing="5" id="ztQ-ee-odo">
-                                    <size key="itemSize" width="25" height="25"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="20" minimumInteritemSpacing="5" id="ztQ-ee-odo">
+                                    <size key="itemSize" width="30" height="30"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="h5Z-uG-S6T">
-                                        <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="SeasonControllCellIdentifier" id="h5Z-uG-S6T" customClass="SeasonControllCell">
+                                        <rect key="frame" x="0.0" y="15" width="30" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="25" height="25"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="30" height="30"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </view>
                                     </collectionViewCell>
@@ -495,7 +500,7 @@
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q2Q-AY-Hvf">
                                 <rect key="frame" x="0.0" y="243" width="414" height="493"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" red="0.97254901959999995" green="0.79215686269999996" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>

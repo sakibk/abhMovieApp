@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const seasonControllCellIdentifier;
+
 @interface SeasonControllCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UILabel *seasonNumber;
+
+-(void)setupSeasonCellWithSeasonNumber:(NSNumber *)seasonNo;
 
 @end
