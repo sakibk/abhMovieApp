@@ -10,6 +10,7 @@
 #import "Movie.h"
 #import "TVShow.h"
 #import "Actor.h"
+#import "Episode.h"
 
 extern NSString * const pictureDetailCellIdentifier;
 
@@ -23,4 +24,5 @@ extern NSString * const pictureDetailCellIdentifier;
 -(void) setupWithMovie:(Movie *) singleMovie;
 -(void) setupWithShow:(TVShow *) singleShow;
 -(void) setupWithActor:(Actor *) singleActor;
+-(void) setupWithEpisode:(Episode *) singleEpisode;
 @end

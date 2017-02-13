@@ -17,6 +17,7 @@
 @property (strong, nonatomic) NSString *episodeName;
 @property (strong, nonatomic) NSString *overview;
 @property (strong, nonatomic) NSNumber *rating;
+@property (strong, nonatomic) NSNumber *showID;
 
 
 @end

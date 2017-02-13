@@ -70,8 +70,14 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
+    @try {
+            [super viewWillAppear:animated];
+    } @catch (NSException *exception) {
+        NSLog(@"%@",exception);
+    } @finally {
+        //
+    }
+
     
     
 }

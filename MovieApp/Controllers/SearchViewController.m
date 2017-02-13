@@ -49,7 +49,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];   //it hides
-    [self.navigationController.interactivePopGestureRecognizer setDelegate:nil];
+    [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
     _searchBar.showsCancelButton = YES;
     //Iterate the searchbar sub views
     for (UIView *subView in _searchBar.subviews) {
@@ -190,15 +190,21 @@
             movieDetails.singleMovie = _tempMovie;
             movieDetails.movieID = _tempMovie.movieID;
             movieDetails.isMovie=YES;
-            [self.navigationController pushViewController:movieDetails animated:YES];
         }
         else{
             _tempShow =[_searchResults objectAtIndex:indexPath.row];
             movieDetails.singleShow = _tempShow;
             movieDetails.movieID = _tempShow.showID;
             movieDetails.isMovie=NO;
-            [self.navigationController pushViewController:movieDetails animated:YES];
         }
+        [self.navigationController pushViewController:movieDetails animated:NO];
+//        @try {
+//            [self.navigationController pushViewController:movieDetails animated:NO];
+//        } @catch (NSException * e) {
+//            NSLog(@"Exception: %@", e);
+//        } @finally {
+//            //NSLog(@"finally");
+//        }
     }
 }
 

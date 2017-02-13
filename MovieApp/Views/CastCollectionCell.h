@@ -11,6 +11,7 @@
 #import "TVShow.h"
 #import "Cast.h"
 #import <RestKit/RestKit.h>
+#import "Episode.h"
 
 @protocol CastCollectionCellDelegate <NSObject>
 
@@ -26,6 +27,7 @@ extern NSString *const castCollectionCellIdentifier;
 
 -(void) setupWithMovie:(Movie *)singleMovie;
 -(void) setupWithShow:(TVShow *)singleShow;
+-(void) setupWithEpisode:(Episode *)singleEpisode;
 
 @property NSMutableArray<Cast *> *allCasts;
 @property Cast *singleCast;

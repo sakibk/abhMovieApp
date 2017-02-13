@@ -58,6 +58,12 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     [_playButton setHidden:YES];
 }
 
+-(void) setupWithEpisode:(Episode *) singleEpisode;{
+    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleEpisode.episodePoster]]
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleEpisode.episodeName,@".png"]]];
+    [_movieTitle setFont:[_movieTitle.font fontWithSize:27.0]];
+    _movieTitle.text=@" ";
+}
 
 
 @end

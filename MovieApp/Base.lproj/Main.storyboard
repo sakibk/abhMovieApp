@@ -527,11 +527,51 @@
                         <outlet property="collectionView" destination="qui-ua-BPQ" id="GTY-YX-dUZ"/>
                         <outlet property="seasonYear" destination="c3u-Vl-I7Z" id="1Ha-BC-uuS"/>
                         <outlet property="tableView" destination="q2Q-AY-Hvf" id="ibX-Qe-oQ2"/>
+                        <segue destination="d0y-o1-LUp" kind="show" identifier="EpisodeDetailsIdentifier" id="5Ag-ag-tHp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mVr-R7-IGZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="805.79710144927537" y="2836.9565217391305"/>
+        </scene>
+        <!--Episode Details View Controller-->
+        <scene sceneID="c8j-OV-xJg">
+            <objects>
+                <viewController id="d0y-o1-LUp" customClass="EpisodeDetailsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="44s-Xx-92i"/>
+                        <viewControllerLayoutGuide type="bottom" id="8TC-eA-FCr"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Gns-v8-Y7P">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="P1v-Ou-dqa">
+                                <rect key="frame" x="0.0" y="20" width="414" height="716"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="XrO-mV-Uww">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="XrO-mV-Uww" id="VWH-w4-spf">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="P1v-Ou-dqa" id="a2m-pR-5R5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ZEP-iP-XKZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1918.840579710145" y="2836.9565217391305"/>
         </scene>
         <!--Actor Details View Controller-->
         <scene sceneID="eIc-0X-e9f">

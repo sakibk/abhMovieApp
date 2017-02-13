@@ -12,11 +12,13 @@
 #import "SeasonControllCell.h"
 #import "Episode.h"
 #import <RestKit/RestKit.h>
+#import "EpisodeDetailsViewController.h"
 
 @interface SeasonsViewController ()
 
 @property NSMutableArray<Episode *> *allEpisodes;
 @property Season *currentSeason;
+@property Episode *singleEpisode;
 
 @end
 
@@ -25,10 +27,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _tableView.delegate =self;
-    _tableView.dataSource=self;
     _collectionView.delegate=self;
     _collectionView.dataSource=self;
+    _tableView.delegate =self;
+    _tableView.dataSource=self;
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"SeasonControllCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:seasonControllCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"SingleSeasonCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:singleSeasonCellIdentifier];
@@ -68,10 +70,16 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allEpisodes = [NSMutableArray arrayWithArray:mappingResult.array];
+        [self setupShowID];
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
+}
+-(void)setupShowID{
+    for (Episode *ep in _allEpisodes) {
+        ep.showID=_showID;
+    }
 }
 
 -(void)setupSeasonView{
@@ -109,7 +117,8 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    [self performSegueWithIdentifier:@"EpisodeDetailsIdentifier" sender:self];
+    _singleEpisode=[_allEpisodes objectAtIndex:indexPath.row];
 }
 
 
@@ -139,14 +148,18 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if([segue.identifier isEqualToString:@"EpisodeDetailsIdentifier"]){
+        EpisodeDetailsViewController *episodeDetails = segue.destinationViewController;
+        episodeDetails.singleEpisode=_singleEpisode;
+    }
 }
-*/
+
 
 @end
