@@ -22,11 +22,18 @@
     [super viewDidLoad];
     self.tableView.delegate=self;
     self.tableView.dataSource=self;
+    
+    [self setNavBarTitle];
     // Do any additional setup after loading the view.
     [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeDetailsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeDetailsCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeOverviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeOverviewCellIdentifier];
+}
+
+-(void)setNavBarTitle{
+    self.navigationItem.title =_showName;
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -42,24 +49,28 @@
         case 0:{
             PictureDetailCell *cell = (PictureDetailCell*)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
             [cell setupWithEpisode:_singleEpisode];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;
         case 1:{
             EpisodeDetailsCell *cell =(EpisodeDetailsCell*)[tableView dequeueReusableCellWithIdentifier:episodeDetailsCellIdentifier forIndexPath:indexPath];
             [cell setEpisodeDetails:_singleEpisode];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;
         case 2:{
             EpisodeOverviewCell *cell = (EpisodeOverviewCell*)[tableView dequeueReusableCellWithIdentifier:episodeOverviewCellIdentifier forIndexPath:indexPath];
             [cell setupOverviewWithText:_singleEpisode.overview];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;
         case 3:{
             CastCollectionCell *cell = (CastCollectionCell*)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithEpisode:_singleEpisode];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;

@@ -18,6 +18,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self setNavBarTitle];
     UISwipeGestureRecognizer *swipeLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipedLeft:)];
     [swipeLeft setDirection:UISwipeGestureRecognizerDirectionLeft ];
     [self.view addGestureRecognizer:swipeLeft];
@@ -31,6 +32,11 @@
 -(void)setupView{
     _galleryTitleLabel.text=_galleryTitle;
     [self setupPicture];
+}
+
+-(void)setNavBarTitle{
+    self.navigationItem.title =@"Movies";
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
 -(void)setupPicture{

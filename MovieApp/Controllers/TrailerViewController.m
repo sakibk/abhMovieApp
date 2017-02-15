@@ -12,6 +12,7 @@
 @interface TrailerViewController ()
 
 @property NSNumber *movieID;
+@property NSString *overviewString;
 @property TrailerVideos *singleTrailer;
 @property NSMutableArray <TrailerVideos *> *allTrailers;
 
@@ -22,12 +23,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
       self.playerView.delegate = self;
+    [self setNavBarTitle];
     // Do any additional setup after loading the view.
     }
 
--(void)setupWithMovieID:(NSNumber *) movieID{
-
+-(void)setupWithMovieID:(NSNumber *)movieID andOverview:(NSString *)overview{
+    
     _movieID=movieID;
+    _overviewString=overview;
     [self setRestkit];
     [self getTrailers];
 }
@@ -42,7 +45,15 @@
                                  @"fs": @1
                                  
                                  };
+    if(_allTrailers.firstObject.videoKey){
     [self.playerView loadWithVideoId:_allTrailers.firstObject.videoKey playerVars:playerVars];
+    }
+    [self appendStatusText:_overviewString];
+}
+
+-(void)setNavBarTitle{
+    self.navigationItem.title =@"Trailer";
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
 -(void)getTrailers{
@@ -102,8 +113,6 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)playerView:(YTPlayerView *)ytPlayerView didChangeToState:(YTPlayerState)state {
-    NSString *message = [NSString stringWithFormat:@"Player state changed: %ld\n", (long)state];
-    [self appendStatusText:message];
 }
 
 - (void)playerView:(YTPlayerView *)playerView didPlayTime:(float)playTime {
@@ -114,7 +123,6 @@
 - (IBAction)onSliderChange:(id)sender {
     float seekToTime = self.playerView.duration * self.slider.value;
     [self.playerView seekToSeconds:seekToTime allowSeekAhead:YES];
-    [self appendStatusText:[NSString stringWithFormat:@"Seeking to time: %.0f seconds\n", seekToTime]];
 }
 
 - (IBAction)buttonPressed:(id)sender {

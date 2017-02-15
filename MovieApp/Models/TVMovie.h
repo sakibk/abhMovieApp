@@ -8,9 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MultiObject : NSObject
+@interface TVMovie : NSObject
 
-@property (strong, nonatomic) NSNumber *movieID;
+@property (strong, nonatomic) NSNumber *TVMovieID;
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *posterPath;
 @property (strong, nonatomic) NSNumber *rating;
@@ -19,7 +19,6 @@
 @property (strong, nonatomic) NSString *backdropPath;
 @property (strong, nonatomic) NSString *singleGenre;
 @property (strong, nonatomic) NSString *overview;
-@property (strong, nonatomic) NSNumber *showID;
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSDate *firstAirDate;
 @property (strong, nonatomic) NSDate *lastAirDate;

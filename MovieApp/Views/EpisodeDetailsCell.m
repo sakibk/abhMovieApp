@@ -30,7 +30,17 @@ NSString *const episodeDetailsCellIdentifier=@"EpisodeDetailsCellIdentifier";
     [dateFormatter setDateFormat:@"dd LLLL yyyy"];
 
     _airDate.text=[dateFormatter stringFromDate:singleEpisode.airDate];
-    _rating.text=[NSString stringWithFormat:@"%@%@",singleEpisode.rating,@"/10"];
+    
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [formatter setMaximumFractionDigits:1];
+    [formatter setRoundingMode: NSNumberFormatterRoundUp];
+    
+    NSString *numberString = [formatter stringFromNumber:singleEpisode.rating];
+    
+    _rating.text=[NSString stringWithFormat:@"%@%@",numberString,@"/10"];
 }
+
 
 @end

@@ -20,6 +20,7 @@
 
 @property NSMutableArray<Feeds *> *allFeeds;
 @property Feeds *singleFeed;
+@property BOOL isNavBarSet;
 
 @end
 
@@ -32,17 +33,32 @@
     _tableView.dataSource=self;
     
     _tableView.separatorInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
+    
+    _isNavBarSet=NO;
         
     [self.tableView registerNib:[UINib nibWithNibName:@"FeedCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:feedIdentifier];
-    
-NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.boxofficemojo.com/data/rss.php?file=topstories.xml"]];
+    [self getFeeds];
+    [self setupSearchbar];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self automaticallyAdjustsScrollViewInsets];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+
+-(void)getFeeds{
+    NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.boxofficemojo.com/data/rss.php?file=topstories.xml"]];
     [RSSParser parseRSSFeedForRequest:req success:^(NSArray *feedItems) {
         _allFeeds=[[NSMutableArray alloc] init];
         for (RSSItem *item in feedItems) {
-//            [_allFeeds addObject:[[Feeds alloc] initWithRSSItem:item]];
+            //            [_allFeeds addObject:[[Feeds alloc] initWithRSSItem:item]];
             _singleFeed = [[Feeds alloc]initWithRSSItem:item];
             if([_singleFeed.desc length]>15){
-            [_allFeeds addObject:_singleFeed];
+                [_allFeeds addObject:_singleFeed];
             }
         }
         
@@ -53,10 +69,24 @@ NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"htt
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [self automaticallyAdjustsScrollViewInsets];
+-(void)setupSearchbar{
+    if(!_isNavBarSet){
+    UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:feedIdentifier action:nil];
+    self.navigationItem.leftBarButtonItem=pieItem;
+    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
+    UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
+    txtSearchField.font = [UIFont systemFontOfSize:15];
+    txtSearchField.backgroundColor = [UIColor darkGrayColor];
+    txtSearchField.tintColor= [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
+    txtSearchField.textColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
+    txtSearchField.textAlignment = NSTextAlignmentCenter;
+    txtSearchField.placeholder = @"🔍 Search";
+    txtSearchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    txtSearchField.borderStyle=UITextBorderStyleRoundedRect;
+        txtSearchField.userInteractionEnabled=NO;
+    self.navigationItem.titleView =txtSearchField;
+    _isNavBarSet=YES;
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -70,6 +100,7 @@ NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"htt
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedsCell *cell = (FeedsCell *)[tableView dequeueReusableCellWithIdentifier:feedIdentifier forIndexPath:indexPath];
     _singleFeed = [_allFeeds objectAtIndex:indexPath.row];
+     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [cell setupFeedCell:_singleFeed];
     // Configure the cell...
     
@@ -86,13 +117,13 @@ NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"htt
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedsCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-//        cell.contentView.backgroundColor = [UIColor clearColor];
-        UIView *RoundedCornerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 10.0, 409.0, 232.0)];
-        RoundedCornerView.backgroundColor = [UIColor blackColor];
-        RoundedCornerView.layer.masksToBounds = NO;
-        RoundedCornerView.layer.cornerRadius = 3.0;
-        [cell.contentView addSubview:RoundedCornerView];
-        [cell.contentView sendSubviewToBack:RoundedCornerView];
+////        cell.contentView.backgroundColor = [UIColor clearColor];
+//        UIView *RoundedCornerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 10.0, 409.0, 232.0)];
+//        RoundedCornerView.backgroundColor = [UIColor redColor];
+//        RoundedCornerView.layer.masksToBounds = NO;
+//        RoundedCornerView.layer.cornerRadius = 3.0;
+//        [cell.contentView addSubview:RoundedCornerView];
+//        [cell.contentView sendSubviewToBack:RoundedCornerView];
     
 }
 

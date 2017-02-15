@@ -6,8 +6,8 @@
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
-#import "MultiObject.h"
+#import "TVMovie.h"
 
-@implementation MultiObject
+@implementation TVMovie
 
 @end

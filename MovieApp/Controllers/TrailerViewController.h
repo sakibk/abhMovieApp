@@ -17,7 +17,6 @@
 @property(nonatomic, weak) IBOutlet UIButton *pauseButton;
 
 @property(nonatomic, weak) IBOutlet UITextView *statusTextView;
-@property (weak, nonatomic) IBOutlet UILabel *movieTitle;
 
 @property(nonatomic, weak) IBOutlet UISlider *slider;
 
@@ -25,7 +24,7 @@
 
 - (IBAction)buttonPressed:(id)sender;
 
--(void)setupWithMovieID:(NSNumber *) movieID;
+-(void)setupWithMovieID:(NSNumber *)movieID andOverview:(NSString *)overview;
 
 
 @end

@@ -13,8 +13,9 @@ extern NSString *const aboutCellIdentifier;
 
 @interface AboutCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *aboutBirth;
-@property (weak, nonatomic) IBOutlet UILabel *websiteLink;
 @property (weak, nonatomic) IBOutlet UILabel *fullBiography;
+@property (weak, nonatomic) IBOutlet UIButton *websiteLink;
+@property (strong, nonatomic) NSString *link;
 
 -(void)setupWithActor:(Actor *)singleActor;
 

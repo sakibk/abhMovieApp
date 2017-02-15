@@ -53,12 +53,8 @@ NSString *const reviewsCellIdentifier = @"ReviewsCellIdentifier";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleReviewCell *cell =(SingleReviewCell *)[tableView dequeueReusableCellWithIdentifier:singleReviewCellIdentifier forIndexPath:indexPath];
-
     _singleReview=[_allReviews objectAtIndex:indexPath.row];
-    
-    [cell setupWithReview:_singleReview];
-
-    // Configure the cell...
+    [cell setupWithReview:_singleReview]; // Configure the cell...
     
     return cell;
 }

@@ -22,7 +22,7 @@ NSString* const feedIdentifier= @"FeedCellIdentifier";
     _feed.text= singleFeed.desc;
     _sourceLink.text = singleFeed.link;
     self.layer.borderWidth=5;
-    self.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor colorWithRed:49 green:49 blue:49 alpha:100]);
+    self.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor yellowColor]);
 }
 
 @end

@@ -12,15 +12,17 @@
 #import "MovieDetailViewController.h"
 #import "Movie.h"
 #import "TVShow.h"
-#import "MultiObject.h"
+#import "TVMovie.h"
 
 @interface SearchViewController ()
 
 @property NSString *searchString;
 @property NSMutableArray *searchResults;
-@property NSMutableArray <MultiObject*> *allResults;
+@property NSMutableArray <TVMovie*> *allResults;
 @property Movie *tempMovie;
 @property TVShow *tempShow;
+@property NSNumber *pageNumber;
+@property int setupScroll;
 
 @end
 
@@ -38,6 +40,9 @@
     _searchResults = [[NSMutableArray alloc]init];
     _tempMovie=[[Movie alloc]init];
     _tempShow= [[TVShow alloc]init];
+    _pageNumber = [NSNumber numberWithInt:1];
+    _setupScroll = 0;
+    _searchString = @"";
 
 }
 
@@ -46,10 +51,17 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    [self.searchBar becomeFirstResponder];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:YES];   //it hides
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
+    
     _searchBar.showsCancelButton = YES;
     //Iterate the searchbar sub views
     for (UIView *subView in _searchBar.subviews) {
@@ -58,6 +70,7 @@
         {
             //Change its properties
             UIButton *cancelButton = (UIButton *)[_searchBar.subviews lastObject];
+            [cancelButton setTintColor:[UIColor lightGrayColor]];
             cancelButton=(UIButton*)self.navigationItem.backBarButtonItem;
         }
     }
@@ -77,23 +90,23 @@
     _searchBar.backgroundColor = [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
     _searchBar.keyboardType=UIKeyboardTypeDefault;
     _searchBar.keyboardAppearance=UIKeyboardAppearanceDark;
+    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
 -(void)setRestkit{
         NSString *pathP = @"/3/search/multi";
-    RKObjectMapping *multiMapping = [RKObjectMapping mappingForClass:[MultiObject class]];
+    RKObjectMapping *multiMapping = [RKObjectMapping mappingForClass:[TVMovie class]];
     
     [multiMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
                                                        @"release_date": @"releaseDate",
                                                        @"vote_average": @"rating",
                                                        @"poster_path": @"posterPath",
-                                                       @"id": @"movieID",
+                                                       @"id": @"TVMovieID",
                                                        @"backdrop_path" : @"backdropPath",
                                                        @"overview": @"overview",
                                                        @"genre_ids":@"genreIds",
                                                        @"name": @"name",
                                                        @"first_air_date": @"airDate",
-                                                       @"id": @"showID",
                                                        @"media_type":@"mediaType"
                                                        }];
     
@@ -110,7 +123,8 @@
 -(void)searchForString{
 
     NSString *pathP = @"/3/search/multi";
-    
+    if(![_searchString isEqualToString:@""]){
+        
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
                                       @"query":_searchString
@@ -119,26 +133,104 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         int i;
+        int custIndex=0;
         [_searchResults removeAllObjects];
         _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
         for (i=0; i< [_allResults count]; i++) {
+            
             if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"tv"]) {
-                [_tempShow setupWithMultiObject:[_allResults objectAtIndex:i]];
-                [_searchResults addObject:_tempShow];
+                TVShow *singleShow= [[TVShow alloc]init];
+                [singleShow setupWithTVMovie:[_allResults objectAtIndex:i]];
+                if(singleShow.showID==nil || singleShow.name==nil || singleShow.posterPath ==nil || singleShow.backdropPath==nil || singleShow.airDate ==nil){
+                }
+                else{
+                    [_searchResults insertObject:singleShow atIndex:custIndex];
+                    custIndex++;
+                }
             }
             else if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"movie"]) {
-                [_tempMovie setupWithMultiObject:[_allResults objectAtIndex:i]];
-                [_searchResults addObject:_tempMovie];
+                Movie *singleMovie=[[Movie alloc]init];
+                [singleMovie setupWithTVMovie:[_allResults objectAtIndex:i]];
+                if(singleMovie.movieID==nil || singleMovie.title==nil || singleMovie.posterPath ==nil || singleMovie.backdropPath==nil || singleMovie.rating==0 || [singleMovie.overview isEqualToString:@""] || singleMovie.releaseDate==nil){
+                }
+                else{
+                    [_searchResults insertObject:singleMovie atIndex:custIndex];
+                    custIndex++;
+                }
             }
             
         }
-        [self.tableView reloadData];
+        
+        [self reloadContent];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"What do you mean by 'there is no coffee?': %@", error);
     }];
-
+    }
     
+}
+
+-(void)getMoreSearchResults{
+    
+    NSString *pathP = @"/3/search/multi";
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"query":_searchString,
+                                      @"page":_pageNumber
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        int i;
+        int custIndex=[[NSNumber numberWithLong:[_searchResults count]] intValue];
+        _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        for (i=0; i< [_allResults count]; i++) {
+            
+            if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"tv"]) {
+                TVShow *singleShow= [[TVShow alloc]init];
+                [singleShow setupWithTVMovie:[_allResults objectAtIndex:i]];
+                if(singleShow.showID==nil || singleShow.name==nil || singleShow.posterPath ==nil || singleShow.backdropPath==nil || singleShow.airDate ==nil){
+                }
+                else{
+                    [_searchResults insertObject:singleShow atIndex:custIndex];
+                    custIndex++;
+                }
+            }
+            else if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"movie"]) {
+                Movie *singleMovie=[[Movie alloc]init];
+                [singleMovie setupWithTVMovie:[_allResults objectAtIndex:i]];
+                if(singleMovie.movieID==nil || singleMovie.title==nil || singleMovie.posterPath ==nil || singleMovie.backdropPath==nil || singleMovie.rating==0 || [singleMovie.overview isEqualToString:@""] || singleMovie.releaseDate==nil){
+                }
+                else{
+                    [_searchResults insertObject:singleMovie atIndex:custIndex];
+                    custIndex++;
+                }
+            }
+            
+        }
+        
+        [self reloadContent];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+    }];
+}
+
+
+- (void)reloadContent {
+    [self addGradient];
+    [self.tableView reloadData];
+}
+
+- (void)addGradient {
+    CAGradientLayer *gradientMask = [CAGradientLayer layer];
+    gradientMask.frame = self.view.bounds;
+    gradientMask.colors = @[(id)[UIColor lightGrayColor].CGColor,
+                            (id)[UIColor blackColor].CGColor];
+    gradientMask.locations = @[@0.00, @1.00];
+    
+    [self.tableView.layer insertSublayer:gradientMask atIndex:0];
+    
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleSingleLine];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -150,62 +242,73 @@
     SearchCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
     if ([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[Movie class]]) {
         _tempMovie=[_searchResults objectAtIndex:indexPath.row];
-        if(_tempMovie.posterPath!=nil) {
         [cell setSearchCellWithMovie:_tempMovie];
-        }
     }
     else if([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[TVShow class]]){
         _tempShow =[_searchResults objectAtIndex:indexPath.row];
-        if(_tempShow.posterPath!=nil){
         [cell setSearchCellWithTVShow:_tempShow];
-        }
     }
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
-    [self performSegueWithIdentifier:@"MovieOrTVShowDetails" sender:self];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    MovieDetailViewController *movieDetails = (MovieDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MovieDetails"];
+    if ([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[Movie class]]) {
+        _tempMovie=[_searchResults objectAtIndex:indexPath.row];
+        movieDetails.singleMovie = _tempMovie;
+        movieDetails.movieID = _tempMovie.movieID;
+        movieDetails.isMovie=YES;
+    }
+    else{
+        _tempShow =[_searchResults objectAtIndex:indexPath.row];
+        movieDetails.singleShow = _tempShow;
+        movieDetails.movieID = _tempShow.showID;
+        movieDetails.isMovie=NO;
+    }
+    [self.navigationController pushViewController:movieDetails animated:NO];
 }
 
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     _searchString=searchText;
     [self searchForString];
+    _pageNumber=[NSNumber numberWithInt:1];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
-    
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView_
+{
+    [self.searchBar resignFirstResponder];
+    CGFloat actualPosition = scrollView_.contentOffset.y;
+    CGFloat contentHeight = scrollView_.contentSize.height - (600);
+    if(_setupScroll>1){
+    if (actualPosition >= contentHeight) {
+        int i = [_pageNumber intValue];
+        _pageNumber = [NSNumber numberWithInt:i+1];
+        [self getMoreSearchResults];
+    }
+    }
+    else{
+        _setupScroll++;
+    }
+}
+
+- (BOOL)disablesAutomaticKeyboardDismissal {
+    return NO;
 }
 
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
-        MovieDetailViewController *movieDetails = segue.destinationViewController;
-        NSIndexPath *indexPath = [self.tableView.indexPathsForSelectedRows objectAtIndex:0];
-        if ([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[Movie class]]) {
-            _tempMovie=[_searchResults objectAtIndex:indexPath.row];
-            movieDetails.singleMovie = _tempMovie;
-            movieDetails.movieID = _tempMovie.movieID;
-            movieDetails.isMovie=YES;
-        }
-        else{
-            _tempShow =[_searchResults objectAtIndex:indexPath.row];
-            movieDetails.singleShow = _tempShow;
-            movieDetails.movieID = _tempShow.showID;
-            movieDetails.isMovie=NO;
-        }
-        [self.navigationController pushViewController:movieDetails animated:NO];
-//        @try {
-//            [self.navigationController pushViewController:movieDetails animated:NO];
-//        } @catch (NSException * e) {
-//            NSLog(@"Exception: %@", e);
-//        } @finally {
-//            //NSLog(@"finally");
-//        }
-    }
+ 
 }
 
 

@@ -7,7 +7,7 @@
 //
 
 #import "ImagesViewController.h"
-#import "SingleImageCell.h"
+#import "ImageCell.h"
 #import "ImagePathUrl.h"
 #import <RestKit/RestKit.h>
 #import "SingleImageViewController.h"
@@ -28,12 +28,19 @@
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     
-    [self.collectionView registerNib:[UINib nibWithNibName:@"SingleImageCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:SingleImageCellIdentifier];
+    [self setNavBarTitle];
+    
+    [self.collectionView registerNib:[UINib nibWithNibName:@"ImageCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:imageCellIdentifier];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setNavBarTitle{
+    self.navigationItem.title =@"Movies";
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
 
@@ -112,7 +119,7 @@
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    SingleImageCell *cell = (SingleImageCell *)[collectionView dequeueReusableCellWithReuseIdentifier:SingleImageCellIdentifier forIndexPath:indexPath];
+    ImageCell *cell = (ImageCell *)[collectionView dequeueReusableCellWithReuseIdentifier:imageCellIdentifier forIndexPath:indexPath];
     _singleImage=[_allImagePaths objectAtIndex:indexPath.row];
     
     [cell setupWithUrl:_singleImage.posterPath];

@@ -26,6 +26,9 @@
 @property Genre *singleGenre;
 @property NSNumber *pageNumber;
 @property NSString *filterString;
+@property NSString *dropDownTitle;
+@property int selectedButton;
+
 
 @property (nonatomic,strong) UIView *dropDown;
 @property (nonatomic,assign) BOOL isDroped;
@@ -35,6 +38,7 @@
 @implementation MoviesViewController
 {
     CGRect initialCollectionViewFrame;
+    UIButton *showList;
     UIButton *optionOne;
     UIButton *optionTwo;
     UIButton *optionThree;
@@ -48,13 +52,7 @@
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
     initialCollectionViewFrame = self.collectionView.frame;
-    _allMovies=nil;
-    _allShows=nil;
-    _allGenres=nil;
-    _isDroped = NO;
-    _isNavBarSet=NO;
-    _filterString = @"popularity.desc";
-    
+    [self setupVariables];
     if(_isMovie)
     {
         [self getMovies];
@@ -69,14 +67,36 @@
     [self setNavBar];
   }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [self setAutomaticallyAdjustsScrollViewInsets:NO];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+
+-(void)setupVariables{
+    _allMovies=nil;
+    _allShows=nil;
+    _allGenres=nil;
+    _isDroped = NO;
+    _isNavBarSet=NO;
+    _filterString = @"popularity.desc";
+    _dropDownTitle=@"Most popular";
+    _selectedButton = 0;
+}
+
 -(void)setNavBar{
     if(!_isNavBarSet){
     UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:identifier action:nil];
     self.navigationItem.leftBarButtonItem=pieItem;
-    UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 40)];
+    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
+    UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
         txtSearchField.font = [UIFont systemFontOfSize:15];
-        txtSearchField.backgroundColor = [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
-        txtSearchField.tintColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
+        txtSearchField.backgroundColor = [UIColor darkGrayColor];
+        txtSearchField.tintColor= [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
     txtSearchField.textColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
     txtSearchField.textAlignment = NSTextAlignmentCenter;
     txtSearchField.placeholder = @"🔍 Search";
@@ -88,6 +108,7 @@
     txtSearchField.delegate = self;
     txtSearchField.borderStyle=UITextBorderStyleRoundedRect;
     self.navigationItem.titleView =txtSearchField;
+
         _isNavBarSet=YES;
     }
 }
@@ -114,36 +135,43 @@
 -(void)CreateDropDownList{
         CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
         _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
-        [_dropDown setBackgroundColor:[UIColor blackColor]];
-        CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
-        UIButton *showList = [[UIButton alloc]init];
+        [_dropDown setBackgroundColor:[UIColor darkGrayColor]];
+        CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+        showList = [[UIButton alloc]init];
         showList.frame = buttonFrame;
+        [showList setBackgroundColor:[UIColor blackColor]];
         showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-        [showList setTitle:@"Sorted By" forState:UIControlStateNormal];
+        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ⌵",_dropDownTitle] forState:UIControlStateNormal];
         [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
         [_dropDown addSubview:showList];
         
-        CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height/4);
+        CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
         optionOne = [[UIButton alloc]init];
         optionOne.frame=buttonOneFrame;
-        [optionOne setTitle:@"Most Popular" forState:UIControlStateNormal];
+        [optionOne setBackgroundColor:[UIColor blackColor]];
+        [optionOne setTitle:[NSString stringWithFormat:@"%@ %@",@" ✓ ",@"Most Popular"] forState:UIControlStateNormal];
+        optionOne.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [optionOne addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionOne.tag=0;
         [_dropDown addSubview:optionOne];
         
-        CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height/4);
+        CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
         optionTwo = [[UIButton alloc]init];
         optionTwo.frame=buttonTwoFrame;
-        [optionTwo setTitle:@"Latest" forState:UIControlStateNormal];
+        [optionTwo setBackgroundColor:[UIColor blackColor]];
+        [optionTwo setTitle:[NSString stringWithFormat:@"%@ %@",@"   ",@"Latest"] forState:UIControlStateNormal];
+        optionTwo.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [optionTwo addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionTwo.tag=1;
         [_dropDown addSubview:optionTwo];
         
-        CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height/4);
+        CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
         optionThree = [[UIButton alloc]init];
         optionThree.frame=buttonThreeFrame;
-        [optionThree setTitle:@"Highest Rated" forState:UIControlStateNormal];
+    [optionThree setBackgroundColor:[UIColor blackColor]];
+        [optionThree setTitle:[NSString stringWithFormat:@"%@ %@",@"   ",@"Highest Rated"] forState:UIControlStateNormal];
+        optionThree.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [optionThree addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionThree.tag=2;
         [_dropDown addSubview:optionThree];
@@ -156,19 +184,13 @@
 //        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dropDown attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_navigationBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    
-    [super viewWillAppear:animated];
-    
-    [self setAutomaticallyAdjustsScrollViewInsets:NO];
-}
 
 -(IBAction)ListDroped:(id)sender{
     if(!_isDroped){
         
         [UIView animateWithDuration:0.2 animations:^{
             self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 192, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
-            
+                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ^",_dropDownTitle] forState:UIControlStateNormal];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
                 CGRect openedListFrame = CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64*4);
@@ -188,6 +210,7 @@
           [UIView animateWithDuration:0.2 animations:^{
               CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
               [_dropDown setFrame:dropDownFrame];
+              [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ⌵",_dropDownTitle] forState:UIControlStateNormal];
               self.collectionView.frame = initialCollectionViewFrame;
               _isDroped = NO;
           }];
@@ -195,20 +218,38 @@
     }
 }
 
+-(void)setDropDownTitleButton{
+    if(_isDroped){
+        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ^",_dropDownTitle] forState:UIControlStateNormal];
+    }
+    else{
+        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ⌵",_dropDownTitle] forState:UIControlStateNormal];
+    }
+}
+
 -(IBAction)OptionPressed:(UIButton*)sender{
     
     if(sender.tag==0){
         _filterString =@"popularity.desc";
+        _dropDownTitle=@"Most popular";
+        [self setDropDownTitleButton];
+        _selectedButton=0;
         
     }
     else if(sender.tag==1){
         _filterString =@"release_date.desc";
-        
+        _dropDownTitle=@"Latest";
+        [self setDropDownTitleButton];
+        _selectedButton=1;
     }
     else if(sender.tag==2){
         _filterString =@"vote_average.desc";
-        
+        _dropDownTitle=@"Highest Rated";
+        [self setDropDownTitleButton];
+        _selectedButton=2;
     }
+    [self ListDroped:sender];
+    [self setupButtons];
     if(_isMovie)
     {
         [self getMovies];
@@ -216,6 +257,34 @@
     else{
         [self getShows];
     }
+}
+
+-(void)setupButtons{
+    NSString *selectedButton =@" ✓ ";
+    NSString *notSelectedButton=@"   ";
+    NSString *buttonOne;
+    NSString *buttonTwo;
+    NSString *buttonThree;
+
+    if(_selectedButton ==0){
+        buttonOne=selectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+    }
+    else if(_selectedButton ==1){
+        buttonOne=notSelectedButton;
+        buttonTwo=selectedButton;
+        buttonThree=notSelectedButton;
+    }
+    else if(_selectedButton ==2){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=selectedButton;
+    }
+    
+    [optionOne setTitle:[NSString stringWithFormat:@"%@ %@",buttonOne,@"Most Popular"] forState:UIControlStateNormal];
+    [optionTwo setTitle:[NSString stringWithFormat:@"%@ %@",buttonTwo,@"Latest"] forState:UIControlStateNormal];
+    [optionThree setTitle:[NSString stringWithFormat:@"%@ %@",buttonThree,@"Highest Rated"] forState:UIControlStateNormal];
 }
 
 
@@ -249,12 +318,22 @@
     
     [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
-    //    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
-    
-    NSDictionary *queryParameters = @{
+        NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
+    
+    if([localFilterString isEqualToString:@"release_date.desc"]){
+        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+        NSDictionary *queryParams = @{
+                                          @"sort_by":localFilterString,
+                                          @"primary_release_date.lte":currentDate,
+                                          @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                          };
+        queryParameters=queryParams;
+    }
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
@@ -293,6 +372,19 @@
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
                                       @"page":_pageNumber
                                       };
+    
+    if([localFilterString isEqualToString:@"release_date.desc"]){
+        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+        NSDictionary *queryParams = @{
+                                      @"sort_by":localFilterString,
+                                      @"primary_release_date.lte":currentDate,
+                                      @"page":_pageNumber,
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+        queryParameters=queryParams;
+    }
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
@@ -384,6 +476,18 @@
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
                                       };
     
+    if([localFilterString isEqualToString:@"release_date.desc"]){
+        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+        NSDictionary *queryParams = @{
+                                      @"sort_by":localFilterString,
+                                      @"primary_release_date.lte":currentDate,
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+        queryParameters=queryParams;
+    }
+    
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         if(_allShows!=nil){
@@ -424,6 +528,18 @@
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64", /*add your api*/
                                       @"page":_pageNumber
                                       };
+    if([localFilterString isEqualToString:@"release_date.desc"]){
+        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+        NSDictionary *queryParams = @{
+                                      @"sort_by":localFilterString,
+                                      @"primary_release_date.lte":currentDate,
+                                      @"page":_pageNumber,
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+        queryParameters=queryParams;
+    }
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);

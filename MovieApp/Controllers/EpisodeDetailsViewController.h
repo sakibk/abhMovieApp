@@ -12,5 +12,6 @@
 @interface EpisodeDetailsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(strong, nonatomic) Episode *singleEpisode;
+@property (strong, nonatomic) NSString *showName;
 
 @end

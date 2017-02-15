@@ -7,7 +7,7 @@
 //
 
 #import "Movie.h"
-#import "MultiObject.h"
+#import "TVMovie.h"
 
 @implementation Movie
 
@@ -16,8 +16,8 @@
     return [NSString stringWithFormat:@"MovieId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@ , BackdropPath: %@",self.movieID, self.title, self.rating, self.posterPath, self.releaseDate, self.backdropPath];
 }
 
--(void)setupWithMultiObject:(MultiObject *)singleObject{
-    self.movieID=singleObject.movieID;
+-(void)setupWithTVMovie:(TVMovie *)singleObject{
+    self.movieID=singleObject.TVMovieID;
     self.backdropPath=singleObject.backdropPath;
     self.releaseDate=singleObject.releaseDate;
     self.genreIds=singleObject.genreIds;

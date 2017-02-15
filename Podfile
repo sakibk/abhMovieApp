@@ -9,6 +9,8 @@ target 'MovieApp' do
  pod 'SDWebImage'
  pod 'BlockRSSParser', '~> 2.1'
  pod 'youtube-ios-player-helper', '~> 0.1'
+ pod 'Fabric'
+ pod 'Crashlytics'
   # Pods for MovieApp
 
 end

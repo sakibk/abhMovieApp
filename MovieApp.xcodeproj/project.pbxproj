@@ -57,7 +57,7 @@
 		AD4F939C1E4C809700E55630 /* TrailerVideos.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F939B1E4C809700E55630 /* TrailerVideos.m */; };
 		AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F939E1E4C933600E55630 /* ImagesViewController.m */; };
 		AD4F93A21E4DCDC800E55630 /* SingleImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93A11E4DCDC800E55630 /* SingleImageViewController.m */; };
-		AD4F93A71E4E61AA00E55630 /* MultiObject.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93A61E4E61AA00E55630 /* MultiObject.m */; };
+		AD4F93A71E4E61AA00E55630 /* TVMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93A61E4E61AA00E55630 /* TVMovie.m */; };
 		AD4F93AB1E4E771A00E55630 /* SeasonsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93AA1E4E771A00E55630 /* SeasonsViewController.m */; };
 		AD4F93B01E4E838C00E55630 /* SingleSeasonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4F93AF1E4E838C00E55630 /* SingleSeasonCell.xib */; };
 		AD4F93B31E4E840D00E55630 /* SingleSeasonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93B21E4E840D00E55630 /* SingleSeasonCell.m */; };
@@ -65,6 +65,8 @@
 		AD4F93BB1E4E99CE00E55630 /* SeasonControllCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93BA1E4E99CE00E55630 /* SeasonControllCell.m */; };
 		AD4F93BE1E4F216500E55630 /* Episode.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93BD1E4F216500E55630 /* Episode.m */; };
 		AD4F93C11E4FBC6500E55630 /* EpisodeDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93C01E4FBC6500E55630 /* EpisodeDetailsViewController.m */; };
+		AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD8696131E53B721009B75F0 /* ImageCell.xib */; };
+		AD8696171E53B795009B75F0 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8696161E53B795009B75F0 /* ImageCell.m */; };
 		ADADC9661E50692800EF25D8 /* EpisodeOverviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADADC9651E50692800EF25D8 /* EpisodeOverviewCell.xib */; };
 		ADADC9691E50695300EF25D8 /* EpisodeOverviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADADC9681E50695300EF25D8 /* EpisodeOverviewCell.m */; };
 		ADADC96B1E506ADB00EF25D8 /* EpisodeDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */; };
@@ -165,8 +167,8 @@
 		AD4F939E1E4C933600E55630 /* ImagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImagesViewController.m; path = Controllers/ImagesViewController.m; sourceTree = "<group>"; };
 		AD4F93A01E4DCDC800E55630 /* SingleImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SingleImageViewController.h; path = Controllers/SingleImageViewController.h; sourceTree = "<group>"; };
 		AD4F93A11E4DCDC800E55630 /* SingleImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SingleImageViewController.m; path = Controllers/SingleImageViewController.m; sourceTree = "<group>"; };
-		AD4F93A51E4E61AA00E55630 /* MultiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiObject.h; path = MovieApp/Models/MultiObject.h; sourceTree = "<group>"; };
-		AD4F93A61E4E61AA00E55630 /* MultiObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiObject.m; path = MovieApp/Models/MultiObject.m; sourceTree = "<group>"; };
+		AD4F93A51E4E61AA00E55630 /* TVMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TVMovie.h; path = MovieApp/Models/TVMovie.h; sourceTree = "<group>"; };
+		AD4F93A61E4E61AA00E55630 /* TVMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TVMovie.m; path = MovieApp/Models/TVMovie.m; sourceTree = "<group>"; };
 		AD4F93A91E4E771A00E55630 /* SeasonsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeasonsViewController.h; path = Controllers/SeasonsViewController.h; sourceTree = "<group>"; };
 		AD4F93AA1E4E771A00E55630 /* SeasonsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeasonsViewController.m; path = Controllers/SeasonsViewController.m; sourceTree = "<group>"; };
 		AD4F93AF1E4E838C00E55630 /* SingleSeasonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleSeasonCell.xib; path = Views/SingleSeasonCell.xib; sourceTree = "<group>"; };
@@ -179,6 +181,9 @@
 		AD4F93BD1E4F216500E55630 /* Episode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Episode.m; path = MovieApp/Models/Episode.m; sourceTree = "<group>"; };
 		AD4F93BF1E4FBC6500E55630 /* EpisodeDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeDetailsViewController.h; path = Controllers/EpisodeDetailsViewController.h; sourceTree = "<group>"; };
 		AD4F93C01E4FBC6500E55630 /* EpisodeDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeDetailsViewController.m; path = Controllers/EpisodeDetailsViewController.m; sourceTree = "<group>"; };
+		AD8696131E53B721009B75F0 /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
+		AD8696151E53B795009B75F0 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCell.h; path = Views/ImageCell.h; sourceTree = "<group>"; };
+		AD8696161E53B795009B75F0 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCell.m; path = Views/ImageCell.m; sourceTree = "<group>"; };
 		ADADC9651E50692800EF25D8 /* EpisodeOverviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EpisodeOverviewCell.xib; path = Views/EpisodeOverviewCell.xib; sourceTree = "<group>"; };
 		ADADC9671E50695300EF25D8 /* EpisodeOverviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeOverviewCell.h; path = Views/EpisodeOverviewCell.h; sourceTree = "<group>"; };
 		ADADC9681E50695300EF25D8 /* EpisodeOverviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeOverviewCell.m; path = Views/EpisodeOverviewCell.m; sourceTree = "<group>"; };
@@ -233,6 +238,7 @@
 				AD4F936A1E48A2A200E55630 /* Search */,
 				AD349FE91E395FB2009C4367 /* Feeds */,
 				AD4F93AC1E4E7D8200E55630 /* Seasons */,
+				AD8696121E53B6F5009B75F0 /* Image */,
 				AD1783891E2E49BB0037DC44 /* Movies */,
 				AD349FF21E397270009C4367 /* DetailView */,
 			);
@@ -397,6 +403,16 @@
 			name = Seasons;
 			sourceTree = "<group>";
 		};
+		AD8696121E53B6F5009B75F0 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				AD8696131E53B721009B75F0 /* ImageCell.xib */,
+				AD8696151E53B795009B75F0 /* ImageCell.h */,
+				AD8696161E53B795009B75F0 /* ImageCell.m */,
+			);
+			name = Image;
+			sourceTree = "<group>";
+		};
 		ADF64D0B1E2D0528000DFCFA = {
 			isa = PBXGroup;
 			children = (
@@ -458,8 +474,8 @@
 				AD4F93821E4B38CD00E55630 /* Actor.m */,
 				AD4F939A1E4C809700E55630 /* TrailerVideos.h */,
 				AD4F939B1E4C809700E55630 /* TrailerVideos.m */,
-				AD4F93A51E4E61AA00E55630 /* MultiObject.h */,
-				AD4F93A61E4E61AA00E55630 /* MultiObject.m */,
+				AD4F93A51E4E61AA00E55630 /* TVMovie.h */,
+				AD4F93A61E4E61AA00E55630 /* TVMovie.m */,
 				AD4F93BC1E4F216500E55630 /* Episode.h */,
 				AD4F93BD1E4F216500E55630 /* Episode.m */,
 			);
@@ -487,6 +503,7 @@
 				ADF64D121E2D0528000DFCFA /* Resources */,
 				CDCD460C5FEB904FA99F1256 /* [CP] Embed Pods Frameworks */,
 				062A3B5F630A299E9EA76141 /* [CP] Copy Pods Resources */,
+				ADADC96F1E52944100EF25D8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -546,6 +563,7 @@
 				AD349FF91E39EE84009C4367 /* BellowImageCell.xib in Resources */,
 				AD34A0331E3BDDC3009C4367 /* SingleReviewCell.xib in Resources */,
 				AD4F938B1E4B93FF00E55630 /* FilmographyCell.xib in Resources */,
+				AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */,
 				AD4F936C1E48A2C300E55630 /* SearchCell.xib in Resources */,
 				ADF64D241E2D0528000DFCFA /* Assets.xcassets in Resources */,
 				AD34A01F1E3B8592009C4367 /* SingleCastCell.xib in Resources */,
@@ -580,6 +598,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MovieApp/Pods-MovieApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		ADADC96F1E52944100EF25D8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" eb05767ce17f28bc18531c873fae60a9249d8459 4e1af2296e8485fa922e73cecf7e8b262087b230db7fcd329db26ed581af3bd4";
 		};
 		CDCD460C5FEB904FA99F1256 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -620,7 +651,7 @@
 			files = (
 				AD34A0181E3B78F3009C4367 /* Cast.m in Sources */,
 				AD4F93931E4B946600E55630 /* SingleFilmographyCell.m in Sources */,
-				AD4F93A71E4E61AA00E55630 /* MultiObject.m in Sources */,
+				AD4F93A71E4E61AA00E55630 /* TVMovie.m in Sources */,
 				AD4F93C11E4FBC6500E55630 /* EpisodeDetailsViewController.m in Sources */,
 				AD4F93AB1E4E771A00E55630 /* SeasonsViewController.m in Sources */,
 				AD34A02A1E3B9731009C4367 /* ReviewsCell.m in Sources */,
@@ -643,6 +674,7 @@
 				AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */,
 				AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */,
 				AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */,
+				AD8696171E53B795009B75F0 /* ImageCell.m in Sources */,
 				AD4F93721E48A31600E55630 /* SearchCell.m in Sources */,
 				ADF64D571E2D12BC000DFCFA /* Movie.m in Sources */,
 				AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */,
@@ -784,6 +816,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8VJJXE7D98;
 				INFOPLIST_FILE = MovieApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -801,6 +834,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 8VJJXE7D98;
 				INFOPLIST_FILE = MovieApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

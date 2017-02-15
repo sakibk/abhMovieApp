@@ -15,8 +15,8 @@
     return [NSString stringWithFormat:@"ShowId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@",self.showID, self.name, self.rating, self.posterPath, self.airDate];
 }
 
--(void)setupWithMultiObject:(MultiObject *)singleObject{
-    self.showID=singleObject.showID;
+-(void)setupWithTVMovie:(TVMovie *)singleObject{
+    self.showID=singleObject.TVMovieID;
     self.backdropPath=singleObject.backdropPath;
     self.airDate=singleObject.airDate;
     self.genreIds=singleObject.genreIds;

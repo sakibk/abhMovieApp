@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Season.h"
+#import "TVShow.h"
 
 @interface SeasonsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -17,7 +18,7 @@
 
 @property(strong, nonatomic) NSNumber *seasonCount;
 @property (strong,nonatomic) NSMutableArray<Season*> *seasons;
-@property (strong,nonatomic) NSNumber *showID;
+@property (strong,nonatomic) TVShow *singleShow;
 @property (strong,nonatomic) NSNumber *seasonID;
 
 -(void)setupSeasonView;

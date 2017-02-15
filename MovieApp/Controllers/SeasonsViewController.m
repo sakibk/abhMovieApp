@@ -31,6 +31,7 @@
     _collectionView.dataSource=self;
     _tableView.delegate =self;
     _tableView.dataSource=self;
+    [self setNavBarTitle];
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"SeasonControllCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:seasonControllCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"SingleSeasonCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:singleSeasonCellIdentifier];
@@ -38,8 +39,13 @@
     
 }
 
+-(void)setNavBarTitle{
+    self.navigationItem.title = _singleShow.name;
+    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
+}
+
 -(void)setRestkit{
-    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_showID,@"/season/",_seasonID];
+    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
     
     RKObjectMapping *episodeMapping = [RKObjectMapping mappingForClass:[Episode class]];
     
@@ -54,7 +60,7 @@
     RKResponseDescriptor *episodeResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:episodeMapping
                                                  method:RKRequestMethodGET
-                                                pathPattern:pathP
+                                                pathPattern:nil
                                                 keyPath:@"episodes"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
@@ -62,7 +68,7 @@
 }
 
 -(void)getAllEpisodes{
-    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_showID,@"/season/",_seasonID];
+    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -78,13 +84,11 @@
 }
 -(void)setupShowID{
     for (Episode *ep in _allEpisodes) {
-        ep.showID=_showID;
+        ep.showID=_singleShow.showID;
     }
 }
 
 -(void)setupSeasonView{
-    [self.collectionView reloadData];
-    [self.tableView reloadData];
     [self setRestkit];
     [self getAllEpisodes];
     _currentSeason=_seasons.firstObject;
@@ -113,12 +117,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     SingleSeasonCell *cell = (SingleSeasonCell*)[tableView dequeueReusableCellWithIdentifier:singleSeasonCellIdentifier forIndexPath:indexPath];
     [cell setupWithEpisode:[_allEpisodes objectAtIndex:indexPath.row]];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"EpisodeDetailsIdentifier" sender:self];
     _singleEpisode=[_allEpisodes objectAtIndex:indexPath.row];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    EpisodeDetailsViewController *episodeDetails = (EpisodeDetailsViewController *)[storyboard instantiateViewControllerWithIdentifier:@"EpisodeDetails"];
+    episodeDetails.singleEpisode=_singleEpisode;
+    episodeDetails.showName=_singleShow.name;
+    [self.navigationController pushViewController:episodeDetails animated:YES];
 }
 
 
@@ -139,7 +149,7 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    _seasonID = [NSNumber numberWithLong:indexPath.row+1];
+    _seasonID = [NSNumber numberWithLong:indexPath.row];
     [self getAllEpisodes];
 }
 
@@ -153,12 +163,7 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-    if([segue.identifier isEqualToString:@"EpisodeDetailsIdentifier"]){
-        EpisodeDetailsViewController *episodeDetails = segue.destinationViewController;
-        episodeDetails.singleEpisode=_singleEpisode;
-    }
+
 }
 
 

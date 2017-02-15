@@ -59,7 +59,7 @@
                     </label>
                 </subviews>
             </tableViewCellContentView>
-            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="releaseAirDate" destination="3eE-kg-Rfq" id="eHz-33-XMF"/>
                 <outlet property="searchImage" destination="3mR-qm-5Vy" id="95a-ZJ-Jg3"/>

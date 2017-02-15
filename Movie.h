@@ -10,7 +10,7 @@
 #import "Genre.h"
 #import "Crew.h"
 #import <Realm/Realm.h>
-#import "MultiObject.h"
+#import "TVMovie.h"
 
 @interface Movie : NSObject
 
@@ -28,5 +28,5 @@
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
--(void)setupWithMultiObject:(MultiObject *)singleObject;
+-(void)setupWithTVMovie:(TVMovie *)singleObject;
 @end

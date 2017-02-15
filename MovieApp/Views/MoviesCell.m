@@ -20,17 +20,10 @@ NSString* const identifier= @"MovieCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     
-    _title.numberOfLines=0;
-    [_title setUserInteractionEnabled:NO];
-    [_title setTextAlignment:NSTextAlignmentLeft];
-    [_title setBaselineAdjustment:UIBaselineAdjustmentAlignBaselines];
-    CAGradientLayer *gradientMask = [CAGradientLayer layer];
-    gradientMask.frame = self.coverImage.bounds;
-    gradientMask.colors = @[(id)[UIColor whiteColor].CGColor,
-                            (id)[UIColor clearColor].CGColor];
-    gradientMask.locations = @[@0.55, @1.0];
-    
-    self.coverImage.layer.mask = gradientMask;
+//    _title.numberOfLines=0;
+//    [_title setUserInteractionEnabled:NO];
+//    [_title setTextAlignment:NSTextAlignmentLeft];
+//    [_title setBaselineAdjustment:UIBaselineAdjustmentAlignBaselines];
     
 }
 
@@ -41,7 +34,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     NSInteger year = [components year];
     
     _title.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
-    [_title sizeToFit];
+//    [_title sizeToFit];
     
     [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleMovie.posterPath]]
                        placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
@@ -68,6 +61,19 @@ NSString* const identifier= @"MovieCellIdentifier";
     else{
         _genreLabel.text=@"N/A";
     }
+    [self setCellGradient];
+}
+
+-(void)setCellGradient{
+    if (![self.coverImage.layer sublayers]) {
+        CAGradientLayer *gradientMask = [CAGradientLayer layer];
+        gradientMask.frame = self.bounds;
+        gradientMask.colors = @[(id)[UIColor clearColor].CGColor,
+                                (id)[UIColor blackColor].CGColor];
+        gradientMask.locations = @[@0.00, @0.90];
+        
+        [self.coverImage.layer insertSublayer:gradientMask atIndex:0];
+    }
 }
 
 -(void) setupShowCell:(TVShow *) singleShow{
@@ -77,7 +83,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     NSInteger year = [components year];
     
     _title.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
-    [_title sizeToFit];
+//    [_title sizeToFit];
     
     [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleShow.posterPath]]
                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleShow.name,@".png"]]];
@@ -103,6 +109,8 @@ NSString* const identifier= @"MovieCellIdentifier";
         else{
             _genreLabel.text=@"N/A";
         }
+    
+    [self setCellGradient];
 }
 
 @end

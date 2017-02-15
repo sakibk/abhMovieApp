@@ -33,7 +33,7 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
         _releaseAirDate.text=[NSString stringWithFormat:@"(N/A)"];
     }
 
-    _searchRating.text=[NSString stringWithFormat:@"%@",singleMovie.rating];
+    [self setRating:singleMovie.rating];
     _searchTitle.text=[NSString stringWithFormat:@"%@",singleMovie.title];
 
 }
@@ -57,8 +57,20 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
 
     
     
-    _searchRating.text=[NSString stringWithFormat:@"%@",singleShow.rating];
+    [self setRating:singleShow.rating];
     _searchTitle.text=[NSString stringWithFormat:@"%@",singleShow.name];
+}
+
+-(void)setRating:(NSNumber*)rate{
+    NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+    
+    [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [formatter setMaximumFractionDigits:1];
+    [formatter setRoundingMode: NSNumberFormatterRoundUp];
+    
+    NSString *numberString = [formatter stringFromNumber:rate];
+    
+    _searchRating.text=[NSString stringWithFormat:@"%@",numberString];
 }
 
 
