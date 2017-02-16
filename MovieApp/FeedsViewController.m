@@ -14,6 +14,9 @@
 #import "Feeds.h"
 #import "RSSParser.h"
 #import "RSSItem.h"
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
+#import "LeftViewController.h"
 
 
 @interface FeedsViewController ()
@@ -25,6 +28,13 @@
 @end
 
 @implementation FeedsViewController
+{
+    
+    UITableViewController *leftViewController;
+    UITableViewController *rightViewController;
+    LGSideMenuController *sideMenuController;
+
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -71,7 +81,7 @@
 
 -(void)setupSearchbar{
     if(!_isNavBarSet){
-    UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:feedIdentifier action:nil];
+    UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(pushSideBar:)];
     self.navigationItem.leftBarButtonItem=pieItem;
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
@@ -87,6 +97,10 @@
     self.navigationItem.titleView =txtSearchField;
     _isNavBarSet=YES;
     }
+}
+
+-(IBAction)pushSideBar:(id)sender{
+    [self.sideMenuController showLeftViewAnimated:YES completionHandler:nil];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -117,14 +131,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedsCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-////        cell.contentView.backgroundColor = [UIColor clearColor];
-//        UIView *RoundedCornerView = [[UIView alloc] initWithFrame:CGRectMake(10.0, 10.0, 409.0, 232.0)];
-//        RoundedCornerView.backgroundColor = [UIColor redColor];
-//        RoundedCornerView.layer.masksToBounds = NO;
-//        RoundedCornerView.layer.cornerRadius = 3.0;
-//        [cell.contentView addSubview:RoundedCornerView];
-//        [cell.contentView sendSubviewToBack:RoundedCornerView];
-    
+
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

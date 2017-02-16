@@ -70,7 +70,7 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
         }
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 
 }

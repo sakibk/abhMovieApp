@@ -26,4 +26,6 @@
 @property (strong, nonatomic) NSString *mediaType;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
+-(BOOL)isMovie;
+
 @end

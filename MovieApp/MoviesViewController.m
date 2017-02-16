@@ -15,6 +15,9 @@
 #import "MovieDetailViewController.h"
 #import "SearchViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
+#import "LeftViewController.h"
 
 @interface MoviesViewController ()
 
@@ -42,6 +45,10 @@
     UIButton *optionOne;
     UIButton *optionTwo;
     UIButton *optionThree;
+    UIViewController *rootViewController;
+    UITableViewController *leftViewController;
+    UITableViewController *rightViewController;
+    LGSideMenuController *sideMenuController;
 }
 
 
@@ -61,11 +68,8 @@
         [self getShows];
     }
     [self CreateDropDownList];
-    
-//    self.navigationItem.titleView = self.searchBar;
-//    self.navigationItem.leftBarButtonItem =
-    [self setNavBar];
-  }
+    [self setNavBar];  }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     
@@ -90,7 +94,7 @@
 
 -(void)setNavBar{
     if(!_isNavBarSet){
-    UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:identifier action:nil];
+        UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(pushSideBar:)];
     self.navigationItem.leftBarButtonItem=pieItem;
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
@@ -113,21 +117,17 @@
     }
 }
 
--(void) textFieldDidBeginEditing:(UITextField *)textField{
+-(IBAction)pushSideBar:(id)sender{
+     [self.sideMenuController showLeftViewAnimated:YES completionHandler:nil];
+}
 
-    //    MovieDetailViewController *detailController = [[MovieDetailViewController alloc]init];
-    //    _test =[_allMovies objectAtIndex:indexPath.row];
-    //    [detailController setMovieID:[_test movieID]];
-    //     [self.navigationController pushViewController:detailController animated:YES];
+-(void) textFieldDidBeginEditing:(UITextField *)textField{
 }
 
 -(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-//    SearchViewController *searchController = [[SearchViewController alloc]init];
-//    [self.navigationController pushViewController:searchController animated:YES];
     //SearchViewIdentifier
     [self performSegueWithIdentifier:@"SearchViewIdentifier" sender:self];
-    // Here You can do additional code or task instead of writing with keyboard
     return NO;
 }
 
@@ -152,7 +152,7 @@
         [optionOne setBackgroundColor:[UIColor blackColor]];
         [optionOne setTitle:[NSString stringWithFormat:@"%@ %@",@" ✓ ",@"Most Popular"] forState:UIControlStateNormal];
         optionOne.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [optionOne addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [optionOne addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionOne.tag=0;
         [_dropDown addSubview:optionOne];
         
@@ -162,7 +162,7 @@
         [optionTwo setBackgroundColor:[UIColor blackColor]];
         [optionTwo setTitle:[NSString stringWithFormat:@"%@ %@",@"   ",@"Latest"] forState:UIControlStateNormal];
         optionTwo.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [optionTwo addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [optionTwo addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionTwo.tag=1;
         [_dropDown addSubview:optionTwo];
         
@@ -172,7 +172,7 @@
     [optionThree setBackgroundColor:[UIColor blackColor]];
         [optionThree setTitle:[NSString stringWithFormat:@"%@ %@",@"   ",@"Highest Rated"] forState:UIControlStateNormal];
         optionThree.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [optionThree addTarget:self action:@selector(OptionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [optionThree addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionThree.tag=2;
         [_dropDown addSubview:optionThree];
         
@@ -181,7 +181,6 @@
         [optionThree setAlpha:0.0];
         [self.view insertSubview:_dropDown aboveSubview:_collectionView];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dropDown attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-//        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_dropDown attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_navigationBar attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
 }
 
 
@@ -227,7 +226,7 @@
     }
 }
 
--(IBAction)OptionPressed:(UIButton*)sender{
+-(IBAction)optionPressed:(UIButton*)sender{
     
     if(sender.tag==0){
         _filterString =@"popularity.desc";
@@ -354,7 +353,7 @@
             [_collectionView reloadData];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     if(_allGenres==nil) {
         [self getMovieGenres];
@@ -396,7 +395,7 @@
 
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 
 }
@@ -433,7 +432,7 @@
         
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     
 
@@ -469,7 +468,6 @@
     
     [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
-    //    [RKMIMETypeSerialization registerClass:[RKURLEncodedSerialization class] forMIMEType:@"text/html"];
     
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
@@ -507,7 +505,7 @@
             [self setPageNumber:[NSNumber numberWithInt:1]];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     if(_allGenres==nil){
         [self getTVGenres];
@@ -550,7 +548,7 @@
         }
         [self.collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
@@ -585,7 +583,7 @@
         
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     
     
@@ -605,11 +603,6 @@
     return UIEdgeInsetsMake(10, 5, 10, 5);
 }
 
-//- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    return CGSizeMake(199, 254);
-//}
-
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
     CGFloat width = (CGRectGetWidth(self.view.bounds) - 25) / 2;
@@ -617,11 +610,7 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
-//    MovieDetailViewController *detailController = [[MovieDetailViewController alloc]init];
-//    _test =[_allMovies objectAtIndex:indexPath.row];
-//    [detailController setMovieID:[_test movieID]];
-//     [self.navigationController pushViewController:detailController animated:YES];
-    
+ 
     [self performSegueWithIdentifier:@"MovieOrTVShowDetails" sender:self];
 }
 

@@ -46,26 +46,8 @@
 
 -(void)setupWithMovie:(Movie *)singleMovie{
     _movieID = [NSString stringWithFormat:@"%@",singleMovie.movieID];
-    
-//    RKObjectMapping *imageMapping = [RKObjectMapping mappingForClass:[ImagePathUrl class]];
-//    
-//    [imageMapping addAttributeMappingsFromDictionary:@{@"file_path": @"posterPath"
-//                                                       }];
-//    imageMapping.assignsDefaultValueForMissingAttributes = YES;
-    
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", _movieID,@"/images"];
-//    
-//    RKResponseDescriptor *responseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:imageMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"posters"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    NSLog(@"%@", pathP);
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
-    
+
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
@@ -76,7 +58,7 @@
         [self setupMovieLabels:singleMovie.title];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     
 }
@@ -102,7 +84,7 @@
         [self setupShowLabels:singleShow.name];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     
 }

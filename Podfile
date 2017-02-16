@@ -11,6 +11,7 @@ target 'MovieApp' do
  pod 'youtube-ios-player-helper', '~> 0.1'
  pod 'Fabric'
  pod 'Crashlytics'
+ pod 'LGSideMenuController'
   # Pods for MovieApp
 
 end

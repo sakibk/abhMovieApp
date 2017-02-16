@@ -20,6 +20,4 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,assign) BOOL isMovie;
 
--(void)setDetailPoster;
-
 @end

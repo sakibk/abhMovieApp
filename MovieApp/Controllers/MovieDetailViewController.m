@@ -34,6 +34,16 @@
 
 @property NSMutableArray<Review *> *allReviews;
 @property Review *singleReview;
+
+@property CGFloat imageCellHeigh;
+@property CGFloat detailsCellHeight;
+@property CGFloat overviewCellHeight;
+@property CGFloat imageGalleryCellHeight;
+@property CGFloat castCellHeight;
+@property CGFloat reviewCellHeight;
+@property CGFloat seasonsCellHeight;
+@property CGFloat noCellHeight;
+
 @end
 
 @implementation MovieDetailViewController
@@ -57,10 +67,9 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"SeasonsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:seasonsCellIdentifier];
     
-//    self.tableView.rowHeight = UITableViewAutomaticDimension;
-//    self.tableView.estimatedRowHeight = 40;
     _allSeasons=[[NSMutableArray alloc]init];
     // Do any additional setup after loading the view.
+    [self setSizes];
     
     if(_isMovie){
         [self getMovies];
@@ -71,6 +80,7 @@
     
 }
 
+
 - (void)viewWillAppear:(BOOL)animated {
         [super viewWillAppear:animated];
     }
@@ -78,6 +88,17 @@
     - (void)viewWillDisappear:(BOOL)animated {
         [super viewWillDisappear:animated];
     }
+
+-(void)setSizes{
+    _imageCellHeigh =222.0;
+    _detailsCellHeight =42.0;
+    _overviewCellHeight =180.0;
+    _imageGalleryCellHeight =185.0;
+    _castCellHeight =293.0;
+    _reviewCellHeight =160.0;
+    _seasonsCellHeight =59.0;
+    _noCellHeight =0.0;
+}
 
 -(void)setNavBarTitle{
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
@@ -130,7 +151,7 @@
         [self setupReviewsWithMovieID:_movieDetail.movieID];
         [self setNavBarTitle];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
@@ -165,7 +186,7 @@
         
         [_tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
@@ -223,17 +244,11 @@
         [self setNavBarTitle];
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
 
--(void)setDetailPoster
-{
-//    [_detailPoster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w500",_movieDetail.backdropPath]]
-//                     placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",_movieDetail.title,@".png"]]];
-    
-}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(_isMovie){
@@ -493,57 +508,74 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+
     if(_isMovie){
     if(indexPath.section == 0 && indexPath.row == 0) {
-        return 222.0;
+        return _imageCellHeigh;
     }
     else if(indexPath.section == 1 && indexPath.row == 0) {
-        return 42.0;
+        return _detailsCellHeight;
     }
     else if(indexPath.section == 2 && indexPath.row == 0) {
-        return 180.0;
+        return _overviewCellHeight;
     }
     else if(indexPath.section == 3 && indexPath.row == 0) {
-        return 185.0;
+        return _imageGalleryCellHeight;
     }
     else if(indexPath.section == 4 && indexPath.row == 0) {
-        return 293.0;
+        return _castCellHeight;
     }
     else if(indexPath.section == 5) {
-        return 160.0;
+        return _reviewCellHeight;
     }
 
-    return 0.0;
+    return _noCellHeight;
     }
     else{
         if(indexPath.section == 0 && indexPath.row == 0) {
-            return 222.0;
+            return _imageCellHeigh;
         }
         else if(indexPath.section == 1 && indexPath.row == 0) {
-            return 42.0;
+            return _detailsCellHeight;
         }
         else if(indexPath.section == 2 && indexPath.row == 0) {
-            return 180.0;
+            return _overviewCellHeight;
         }
         else if(indexPath.section == 3 && indexPath.row == 0) {
-            return 59.0;
+            return _seasonsCellHeight;
         }
         else if(indexPath.section == 4 && indexPath.row == 0) {
-            return 185.0;
+            return _imageGalleryCellHeight;
         }
         else if(indexPath.section == 5 && indexPath.row == 0) {
-            return 293.0;
+            return _castCellHeight;
         }
-        return 0.0;
+        return _noCellHeight;
     }
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if(section >0 && section <5){
+    return 15;
+    }
+    else
+        return 0.0001;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
+    if(section>0) {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
     /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width/2, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:12]];
+        if(section>1 || (_isMovie && section==5 && _allReviews!=nil)){
+            UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
+            lineview.layer.borderColor = [UIColor yellowColor].CGColor;
+            lineview.layer.borderWidth = 0.5;
+            [view addSubview:lineview];
+        }
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
 //    NSString *string =[list objectAtIndex:section];
     NSString *string =[self stringForSection:section];
     /* Section header is in 0th index... */
@@ -552,6 +584,9 @@
     [label setTextColor:[UIColor whiteColor]];
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
     return view;
+    }
+    else
+        return nil;
 }
 
 -(NSString*)stringForSection:(long)section{
@@ -578,7 +613,7 @@
             }
                 break;
             case 5:{
-                return @"Review";
+                return _allReviews !=nil ? @"Review":nil;
             }
                 break;
             default: return nil;

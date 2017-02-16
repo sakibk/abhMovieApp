@@ -45,7 +45,7 @@
 }
 
 -(void)setRestkit{
-    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
+//    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
     
     RKObjectMapping *episodeMapping = [RKObjectMapping mappingForClass:[Episode class]];
     
@@ -79,7 +79,7 @@
         [self setupShowID];
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 -(void)setupShowID{
@@ -111,7 +111,16 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60.0;
+    CGFloat tableViewCellHeight=60.0;
+    return tableViewCellHeight;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0.0001;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.0001;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

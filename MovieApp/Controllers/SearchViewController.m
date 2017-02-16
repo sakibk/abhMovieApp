@@ -37,6 +37,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:searchCellIdentifier];
     [self searchBarSetup];
     [self setRestkit];
+    [self setGestures];
     _searchResults = [[NSMutableArray alloc]init];
     _tempMovie=[[Movie alloc]init];
     _tempShow= [[TVShow alloc]init];
@@ -63,12 +64,9 @@
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
     
     _searchBar.showsCancelButton = YES;
-    //Iterate the searchbar sub views
     for (UIView *subView in _searchBar.subviews) {
-        //Find the button
         if([subView isKindOfClass:[UIButton class]])
         {
-            //Change its properties
             UIButton *cancelButton = (UIButton *)[_searchBar.subviews lastObject];
             [cancelButton setTintColor:[UIColor lightGrayColor]];
             cancelButton=(UIButton*)self.navigationItem.backBarButtonItem;
@@ -84,6 +82,15 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _searchResults != nil ? [_searchResults count] : 0;
 
+}
+
+-(void)setGestures{
+    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyboard)];
+    [self.view addGestureRecognizer:tapGesture];
+}
+
+-(void)hideKeyboard{
+    [self.searchBar resignFirstResponder];
 }
 
 -(void)searchBarSetup{
@@ -132,38 +139,34 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        int i;
         int custIndex=0;
         [_searchResults removeAllObjects];
         _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        for (i=0; i< [_allResults count]; i++) {
+        for (TVMovie *TVorMovie in _allResults) {
             
-            if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"tv"]) {
+            if (![TVorMovie isMovie]) {
                 TVShow *singleShow= [[TVShow alloc]init];
-                [singleShow setupWithTVMovie:[_allResults objectAtIndex:i]];
-                if(singleShow.showID==nil || singleShow.name==nil || singleShow.posterPath ==nil || singleShow.backdropPath==nil || singleShow.airDate ==nil){
-                }
-                else{
+                [singleShow setupWithTVMovie:TVorMovie];
+                if(singleShow.showID!=nil && singleShow.name!=nil){
                     [_searchResults insertObject:singleShow atIndex:custIndex];
                     custIndex++;
                 }
             }
-            else if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"movie"]) {
+            else if ([TVorMovie isMovie]) {
                 Movie *singleMovie=[[Movie alloc]init];
-                [singleMovie setupWithTVMovie:[_allResults objectAtIndex:i]];
-                if(singleMovie.movieID==nil || singleMovie.title==nil || singleMovie.posterPath ==nil || singleMovie.backdropPath==nil || singleMovie.rating==0 || [singleMovie.overview isEqualToString:@""] || singleMovie.releaseDate==nil){
-                }
-                else{
+                [singleMovie setupWithTVMovie:TVorMovie];
+                if(singleMovie.movieID!=nil && singleMovie.title!=nil){
                     [_searchResults insertObject:singleMovie atIndex:custIndex];
                     custIndex++;
                 }
             }
             
         }
+
         
         [self reloadContent];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     }
     
@@ -181,28 +184,23 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        int i;
         int custIndex=[[NSNumber numberWithLong:[_searchResults count]] intValue];
         _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        for (i=0; i< [_allResults count]; i++) {
+        for (TVMovie *TVorMovie in _allResults) {
             
-            if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"tv"]) {
+            if (![TVorMovie isMovie]) {
                 TVShow *singleShow= [[TVShow alloc]init];
-                [singleShow setupWithTVMovie:[_allResults objectAtIndex:i]];
-                if(singleShow.showID==nil || singleShow.name==nil || singleShow.posterPath ==nil || singleShow.backdropPath==nil || singleShow.airDate ==nil){
-                }
-                else{
+                [singleShow setupWithTVMovie:TVorMovie];
+                if(singleShow.showID!=nil && singleShow.name!=nil){
                     [_searchResults insertObject:singleShow atIndex:custIndex];
                     custIndex++;
                 }
             }
-            else if ([[_allResults objectAtIndex:i].mediaType isEqualToString:@"movie"]) {
+            else if ([TVorMovie isMovie]) {
                 Movie *singleMovie=[[Movie alloc]init];
-                [singleMovie setupWithTVMovie:[_allResults objectAtIndex:i]];
-                if(singleMovie.movieID==nil || singleMovie.title==nil || singleMovie.posterPath ==nil || singleMovie.backdropPath==nil || singleMovie.rating==0 || [singleMovie.overview isEqualToString:@""] || singleMovie.releaseDate==nil){
-                }
-                else{
-                    [_searchResults insertObject:singleMovie atIndex:custIndex];
+                [singleMovie setupWithTVMovie:TVorMovie];
+                if(singleMovie.movieID!=nil && singleMovie.title!=nil){
+                 [_searchResults insertObject:singleMovie atIndex:custIndex];
                     custIndex++;
                 }
             }
@@ -211,7 +209,7 @@
         
         [self reloadContent];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
@@ -285,9 +283,8 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView_
 {
-    [self.searchBar resignFirstResponder];
     CGFloat actualPosition = scrollView_.contentOffset.y;
-    CGFloat contentHeight = scrollView_.contentSize.height - (600);
+    CGFloat contentHeight = scrollView_.contentSize.height - (550);
     if(_setupScroll>1){
     if (actualPosition >= contentHeight) {
         int i = [_pageNumber intValue];

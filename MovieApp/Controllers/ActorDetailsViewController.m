@@ -16,6 +16,11 @@
 
 @property Actor *singleActor;
 
+@property CGFloat actorPosterHeight;
+@property CGFloat actorOverviewHeight;
+@property CGFloat actorFilmographyHeight;
+@property CGFloat noHeight;
+
 @end
 
 @implementation ActorDetailsViewController
@@ -28,6 +33,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"AboutCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboutCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"FilmographyCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:filmographyCellIdentifier];
+    [self setSizes];
     [self setRestkit];
     [self searchForActor];
 }
@@ -35,6 +41,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setSizes{
+    _actorPosterHeight = 222.0;
+    _actorOverviewHeight = 360.0;
+    _actorFilmographyHeight = 305.0;
+    _noHeight=0.0;
 }
 
 -(void)setNavBarTitle{
@@ -83,7 +96,7 @@
         [self setNavBarTitle];
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     
     
@@ -94,40 +107,58 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (section==0)
-    {
-        return 1;
+    switch (section) {
+        case 0:
+            return 1;
+            break;
+        case 1:
+            return 1;
+            break;
+        case 2:
+            return 1;
+            break;
+        default: return 0;
+            break;
     }
-    else if(section==1){
-        return 1;
-    }
-    else if(section==2){
-        return 1;
-    }
-    else
-        return 0;
+
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(section == 0)
-        return @"";
-    else if (section==1)
-        return @"";
-    else if(section==2)
-        return @"Filmography";
+    switch (section) {
+        case 0:
+            return nil;
+            break;
+        case 1:
+            return @"";
+            break;
+        case 2:
+            return @"Filmography";
+            break;
+        default: return @"";
+            break;
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    if(section !=2){
+        return 20;
+    }
     else
-        return @"";
+        return 0.0001;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 18)];
-    /* Create custom view to display section header... */
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 5, tableView.frame.size.width/2, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:12]];
-    //    NSString *string =[list objectAtIndex:section];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 40)];
+    if(section==2){
+        UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
+        lineview.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        lineview.layer.borderWidth = 0.5;
+        [view addSubview:lineview];
+    }
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
+    [label setFont:[UIFont boldSystemFontOfSize:14]];
     NSString *string =[self stringForSection:section];
-    /* Section header is in 0th index... */
     [label setText:string];
     [view addSubview:label];
     [label setTextColor:[UIColor whiteColor]];
@@ -136,14 +167,19 @@
 }
 
 -(NSString*)stringForSection:(long)section{
-    if(section == 0)
-        return nil;
-    else if (section==1)
-        return @"";
-    else if(section==2)
-        return @"Filmography";
-    else
-        return @"";
+    switch (section) {
+        case 0:
+            return nil;
+            break;
+        case 1:
+            return @"";
+            break;
+        case 2:
+            return @"Filmography";
+            break;
+        default: return @"";
+            break;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -179,18 +215,20 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-        if(indexPath.section == 0 && indexPath.row == 0) {
-            return 222.0;
-        }
-        else if(indexPath.section == 1 && indexPath.row == 0) {
-            return 360.0;
-        }
-        else if(indexPath.section == 2 && indexPath.row == 0) {
-            return 295.0;
-        }
-        
-        return 0.0;
-
+    
+    switch (indexPath.section) {
+        case 0:
+            return _actorPosterHeight;
+            break;
+        case 1:
+            return _actorOverviewHeight;
+            break;
+        case 2:
+            return _actorFilmographyHeight;
+            break;
+        default: return _noHeight;
+            break;
+    }
 }
 
 

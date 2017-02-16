@@ -10,4 +10,9 @@
 
 @implementation TVMovie
 
+
+-(BOOL)isMovie{
+    return [self.mediaType isEqualToString:@"movie"];
+}
+
 @end

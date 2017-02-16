@@ -90,7 +90,7 @@ NSString *const reviewsCellIdentifier = @"ReviewsCellIdentifier";
         
         [_tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
@@ -125,7 +125,7 @@ NSString *const reviewsCellIdentifier = @"ReviewsCellIdentifier";
         
         [_tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 }
 

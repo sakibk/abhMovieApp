@@ -74,13 +74,12 @@
         [self setupPlayer];
 
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 
 }
 
 -(void)playerViewDidBecomeReady:(YTPlayerView *)playerView{
-    //            [self.playerView loadPlaylistByVideos:ids index:0 startSeconds:0 suggestedQuality:kYTPlaybackQualityAuto ];
     int i;
     for (i=1; i<[_allTrailers count]; i++) {
         [self.playerView cueVideoById:[_allTrailers objectAtIndex:i].videoKey startSeconds:0 suggestedQuality:kYTPlaybackQualityAuto];

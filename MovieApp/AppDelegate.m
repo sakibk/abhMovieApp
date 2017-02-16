@@ -9,6 +9,10 @@
 #import "AppDelegate.h"
 #import <RestKit/RestKit.h>
 #import "RKObjectManager+SharedInstances.h"
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
+#import "LeftViewController.h"
+#import "TabBarViewController.h"
 
 @interface AppDelegate ()
 
@@ -31,11 +35,35 @@
     
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     
-    
+    [self setupSidebar];
     
     return YES;
 }
 
+
+-(void)setupSidebar{
+    LeftViewController *leftViewController = [LeftViewController new];
+    //    rightViewController= [UITableViewController new];
+    
+    LGSideMenuController *sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:[[[[UIApplication sharedApplication] delegate] window] rootViewController]
+                                                                     leftViewController:leftViewController
+                                                                    rightViewController:nil];
+    
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:sideMenuController];
+
+    
+//    sideMenuController.leftViewController=leftViewController;
+    sideMenuController.leftViewWidth = [[[[[UIApplication sharedApplication] delegate] window] rootViewController].view bounds].size.width/4+[[[[[UIApplication sharedApplication] delegate] window] rootViewController].view bounds].size.width/64;
+    sideMenuController.leftViewBackgroundColor=[UIColor clearColor];
+    sideMenuController.rootViewCoverColorForLeftView = [UIColor blackColor];
+    sideMenuController.rootViewCoverAlphaForLeftView=0.3;
+    sideMenuController.rootViewCoverBlurEffectForLeftView =[UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
+    sideMenuController.rightViewWidth = 0.0;
+    [sideMenuController.navigationController.navigationBar setHidden:YES];
+    UIWindow *window = UIApplication.sharedApplication.delegate.window;
+    window.rootViewController = navigationController;
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

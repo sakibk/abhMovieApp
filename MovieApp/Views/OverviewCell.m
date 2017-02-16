@@ -56,7 +56,7 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
         _setupMovie=singleMovie;
         [self setupOverview];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
  
     
@@ -141,7 +141,7 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
         _setupShow=singleShow;
         [self setupShowOverview];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     
     

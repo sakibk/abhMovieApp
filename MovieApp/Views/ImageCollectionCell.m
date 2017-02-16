@@ -68,7 +68,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
         _allImagePaths = [[NSMutableArray alloc]initWithArray:mappingResult.array];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
 
 }
@@ -104,7 +104,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
         _allImagePaths = [[NSMutableArray alloc]initWithArray:mappingResult.array];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"What do you mean by 'there is no coffee?': %@", error);
+        NSLog(@"RestKit returned error: %@", error);
     }];
     
 }
@@ -140,7 +140,25 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 }
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(10, 5, 10, 5);
+    return UIEdgeInsetsZero;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout *)collectionViewLayout
+minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0.0;
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView
+                   layout:(UICollectionViewLayout *)collectionViewLayout
+minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 0.0;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    return CGSizeZero;
 }
 
 @end
