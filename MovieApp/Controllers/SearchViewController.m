@@ -85,7 +85,7 @@
 }
 
 -(void)setGestures{
-    UITapGestureRecognizer *tapGesture=[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyboard)];
+    UILongPressGestureRecognizer *tapGesture=[[UILongPressGestureRecognizer alloc]initWithTarget:self action:@selector(hideKeyboard)];
     [self.view addGestureRecognizer:tapGesture];
 }
 
