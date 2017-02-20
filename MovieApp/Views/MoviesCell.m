@@ -19,11 +19,14 @@ NSString* const identifier= @"MovieCellIdentifier";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
 }
 
 -(void) setupMovieCell:(Movie *) singleMovie{
-    
+    _isLoged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
+    if(!_isLoged){
+        [_watchlisted setHidden:YES];
+        [_favoured setHidden:YES];
+    }
     NSDate *releaseYear = singleMovie.releaseDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
@@ -71,7 +74,11 @@ NSString* const identifier= @"MovieCellIdentifier";
 }
 
 -(void) setupShowCell:(TVShow *) singleShow{
-    
+    _isLoged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
+    if(!_isLoged){
+        [_watchlisted setHidden:YES];
+        [_favoured setHidden:YES];
+    }
     NSDate *releaseYear = singleShow.airDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];

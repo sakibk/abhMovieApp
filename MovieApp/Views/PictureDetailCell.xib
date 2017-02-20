@@ -16,17 +16,17 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdE-S7-LcC" id="4uN-ze-v9e">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="221"/>
+                <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z4y-Au-Dc2">
                         <rect key="frame" x="0.0" y="0.0" width="418" height="221"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ea-Hc-CcX">
-                        <rect key="frame" x="8" y="168" width="231" height="45"/>
+                        <rect key="frame" x="8" y="168" width="398" height="45"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="45" id="IlK-fR-6Gn"/>
-                            <constraint firstAttribute="width" constant="231" id="iw8-5V-0Lm"/>
+                            <constraint firstAttribute="width" constant="398" id="iw8-5V-0Lm"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -39,11 +39,32 @@
                             <action selector="buttonPressed:" destination="jdE-S7-LcC" eventType="touchUpInside" id="f0W-3m-dhh"/>
                         </connections>
                     </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0c-UW-f2h">
+                        <rect key="frame" x="373" y="183" width="33" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="30" id="liH-c1-2S2"/>
+                            <constraint firstAttribute="width" constant="33" id="vKd-yy-ApZ"/>
+                        </constraints>
+                        <state key="normal" image="NonLikedMedia"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8E8-gp-DlF">
+                        <rect key="frame" x="347" y="183" width="18" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="18" id="yuG-aG-JkA"/>
+                        </constraints>
+                        <state key="normal" image="NonWatchedMedia"/>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leading" id="1yG-ye-CK3"/>
+                    <constraint firstItem="8E8-gp-DlF" firstAttribute="top" secondItem="s0c-UW-f2h" secondAttribute="top" id="8Dh-kx-nRl"/>
+                    <constraint firstItem="8E8-gp-DlF" firstAttribute="bottom" secondItem="s0c-UW-f2h" secondAttribute="bottom" id="8jN-BR-txv"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="leading" secondItem="8E8-gp-DlF" secondAttribute="trailing" constant="8" id="ANA-qA-vHg"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="bottom" secondItem="0Ea-Hc-CcX" secondAttribute="bottom" id="StG-p5-bCU"/>
+                    <constraint firstItem="8E8-gp-DlF" firstAttribute="baseline" secondItem="s0c-UW-f2h" secondAttribute="baseline" id="Thu-lj-MoI"/>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="centerX" secondItem="Wd8-fJ-ahh" secondAttribute="centerX" id="WKC-fE-qOY"/>
                     <constraint firstAttribute="trailingMargin" secondItem="z4y-Au-Dc2" secondAttribute="trailing" constant="-12" id="ZYO-qx-EOa"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="trailing" secondItem="0Ea-Hc-CcX" secondAttribute="trailing" id="fRh-BP-wOk"/>
                     <constraint firstAttribute="bottom" secondItem="z4y-Au-Dc2" secondAttribute="bottom" id="hVu-Gf-LpF"/>
                     <constraint firstItem="0Ea-Hc-CcX" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leadingMargin" id="j4y-v6-Xw7"/>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="centerY" secondItem="Wd8-fJ-ahh" secondAttribute="centerY" id="oKs-1S-V4u"/>
@@ -52,14 +73,18 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="favouriteButton" destination="s0c-UW-f2h" id="a6n-zt-QbQ"/>
                 <outlet property="movieTitle" destination="0Ea-Hc-CcX" id="Tdu-vS-L0z"/>
                 <outlet property="playButton" destination="Wd8-fJ-ahh" id="OOB-PE-ND9"/>
                 <outlet property="poster" destination="z4y-Au-Dc2" id="bHm-di-Dxg"/>
+                <outlet property="watchButton" destination="8E8-gp-DlF" id="S2d-Ou-Pf2"/>
             </connections>
             <point key="canvasLocation" x="13" y="11"/>
         </tableViewCell>
     </objects>
     <resources>
+        <image name="NonLikedMedia" width="16" height="14"/>
+        <image name="NonWatchedMedia" width="12" height="15"/>
         <image name="Play" width="45" height="45"/>
     </resources>
 </document>

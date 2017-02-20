@@ -11,6 +11,7 @@
 #import "TVShow.h"
 #import "Actor.h"
 #import "Episode.h"
+#import "ListPost.h"
 
 extern NSString * const pictureDetailCellIdentifier;
 
@@ -20,9 +21,17 @@ extern NSString * const pictureDetailCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *movieTitle;
 @property (weak, nonatomic) IBOutlet UIButton *playButton;
 @property (strong, nonatomic) Movie *singleMovie;
+@property (weak, nonatomic) IBOutlet UIButton *favouriteButton;
+@property (weak, nonatomic) IBOutlet UIButton *watchButton;
+
+@property(strong, nonatomic) NSDictionary *userCredits;
+@property(strong, nonatomic) ListPost *listToPost;
 
 -(void) setupWithMovie:(Movie *) singleMovie;
 -(void) setupWithShow:(TVShow *) singleShow;
 -(void) setupWithActor:(Actor *) singleActor;
 -(void) setupWithEpisode:(Episode *) singleEpisode;
+
+
+@property BOOL isLoged;
 @end

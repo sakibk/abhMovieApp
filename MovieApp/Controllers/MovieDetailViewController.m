@@ -302,6 +302,7 @@
                 SingleReviewCell *cell =(SingleReviewCell *)[tableView dequeueReusableCellWithIdentifier:singleReviewCellIdentifier forIndexPath:indexPath];
                 _singleReview=[_allReviews objectAtIndex:indexPath.row];
                 [cell setupWithReview:_singleReview]; // Configure the cell...
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 
                 return cell;
             }

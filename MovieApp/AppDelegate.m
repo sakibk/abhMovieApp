@@ -23,7 +23,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         [Fabric with:@[[Crashlytics class]]];
-    
     NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
     AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
     RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];

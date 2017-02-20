@@ -45,6 +45,10 @@
     UIButton *optionOne;
     UIButton *optionTwo;
     UIButton *optionThree;
+    UIImageView *imageOne;
+    UIImageView *imageTwo;
+    UIImageView *imageThree;
+    UIImageView *dropDownImage;
     UIViewController *rootViewController;
     UITableViewController *leftViewController;
     UITableViewController *rightViewController;
@@ -72,7 +76,7 @@
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    
+    [self.collectionView reloadData];
     [super viewWillAppear:animated];
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
 }
@@ -133,6 +137,9 @@
 
 
 -(void)CreateDropDownList{
+        CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/16, 23 , 20 , 15);
+    dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
+    [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
         CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
         _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
         [_dropDown setBackgroundColor:[UIColor darkGrayColor]];
@@ -142,43 +149,63 @@
         [showList setBackgroundColor:[UIColor blackColor]];
         showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ⌵",_dropDownTitle] forState:UIControlStateNormal];
+        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
-        [_dropDown addSubview:showList];
-        
+    [_dropDown addSubview:showList];
+    [_dropDown addSubview:dropDownImage];
+    
+    CGRect pictureOneFrame = CGRectMake(22, 64+24 , 20, 15);
+    imageOne = [[UIImageView alloc]initWithFrame:pictureOneFrame];
+    [imageOne setImage:[UIImage imageNamed:@"DropDownSelected"]];
         CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
         optionOne = [[UIButton alloc]init];
         optionOne.frame=buttonOneFrame;
+        optionOne.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
         [optionOne setBackgroundColor:[UIColor blackColor]];
-        [optionOne setTitle:[NSString stringWithFormat:@"%@ %@",@" ✓ ",@"Most Popular"] forState:UIControlStateNormal];
+        [optionOne setTitle:@"Most Popular" forState:UIControlStateNormal];
         optionOne.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [optionOne addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionOne.tag=0;
-        [_dropDown addSubview:optionOne];
-        
+    [_dropDown addSubview:optionOne];
+    [_dropDown addSubview:imageOne];
+    
+    CGRect pictureTwoFrame = CGRectMake(22, 64*2+24 , 20, 15);
+    imageTwo = [[UIImageView alloc]initWithFrame:pictureTwoFrame];
+    [imageTwo setImage:[UIImage imageNamed:@""]];
         CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
         optionTwo = [[UIButton alloc]init];
         optionTwo.frame=buttonTwoFrame;
+        optionTwo.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
         [optionTwo setBackgroundColor:[UIColor blackColor]];
-        [optionTwo setTitle:[NSString stringWithFormat:@"%@ %@",@"   ",@"Latest"] forState:UIControlStateNormal];
+        [optionTwo setTitle:@"Latest" forState:UIControlStateNormal];
         optionTwo.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [optionTwo addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionTwo.tag=1;
-        [_dropDown addSubview:optionTwo];
-        
+    [_dropDown addSubview:optionTwo];
+    [_dropDown addSubview:imageTwo];
+    
+    
+    CGRect pictureThreeFrame = CGRectMake(22, 64*3+24 , 20, 15);
+    imageThree = [[UIImageView alloc]initWithFrame:pictureThreeFrame];
+    [imageThree setImage:[UIImage imageNamed:@""]];
         CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
         optionThree = [[UIButton alloc]init];
         optionThree.frame=buttonThreeFrame;
+        optionThree.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
     [optionThree setBackgroundColor:[UIColor blackColor]];
-        [optionThree setTitle:[NSString stringWithFormat:@"%@ %@",@"   ",@"Highest Rated"] forState:UIControlStateNormal];
+        [optionThree setTitle:@"Highest Rated" forState:UIControlStateNormal];
         optionThree.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         [optionThree addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
         optionThree.tag=2;
-        [_dropDown addSubview:optionThree];
-        
+    [_dropDown addSubview:optionThree];
+    [_dropDown addSubview:imageThree];
+    
         [optionOne setAlpha:0.0];
         [optionTwo setAlpha:0.0];
         [optionThree setAlpha:0.0];
+        [imageOne setAlpha:0.0];
+        [imageTwo setAlpha:0.0];
+        [imageThree setAlpha:0.0];
         [self.view insertSubview:_dropDown aboveSubview:_collectionView];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dropDown attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
 }
@@ -189,12 +216,16 @@
         
         [UIView animateWithDuration:0.2 animations:^{
             self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 192, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
-                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ^",_dropDownTitle] forState:UIControlStateNormal];
+                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+            [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
                 CGRect openedListFrame = CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64*4);
                 [_dropDown setFrame:openedListFrame];
                 _isDroped = YES;
+                [imageOne setAlpha:1.0];
+                [imageTwo setAlpha:1.0];
+                [imageThree setAlpha:1.0];
                 [optionOne setAlpha:1.0];
                 [optionTwo setAlpha:1.0];
                 [optionThree setAlpha:1.0];
@@ -205,11 +236,16 @@
             [optionOne setAlpha:0.0];
             [optionTwo setAlpha:0.0];
             [optionThree setAlpha:0.0];
+            [imageOne setAlpha:0.0];
+            [imageTwo setAlpha:0.0];
+            [imageThree setAlpha:0.0];
         } completion:^(BOOL finished) {
           [UIView animateWithDuration:0.2 animations:^{
               CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
               [_dropDown setFrame:dropDownFrame];
-              [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ⌵",_dropDownTitle] forState:UIControlStateNormal];
+              [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+              [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
+
               self.collectionView.frame = initialCollectionViewFrame;
               _isDroped = NO;
           }];
@@ -219,10 +255,14 @@
 
 -(void)setDropDownTitleButton{
     if(_isDroped){
-        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ^",_dropDownTitle] forState:UIControlStateNormal];
+        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+        [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
+
     }
     else{
-        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@ ⌵",_dropDownTitle] forState:UIControlStateNormal];
+        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+        [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
+
     }
 }
 
@@ -259,8 +299,8 @@
 }
 
 -(void)setupButtons{
-    NSString *selectedButton =@" ✓ ";
-    NSString *notSelectedButton=@"   ";
+    NSString *selectedButton =@"DropDownSelected";
+    NSString *notSelectedButton=@"";
     NSString *buttonOne;
     NSString *buttonTwo;
     NSString *buttonThree;
@@ -280,10 +320,10 @@
         buttonTwo=notSelectedButton;
         buttonThree=selectedButton;
     }
-    
-    [optionOne setTitle:[NSString stringWithFormat:@"%@ %@",buttonOne,@"Most Popular"] forState:UIControlStateNormal];
-    [optionTwo setTitle:[NSString stringWithFormat:@"%@ %@",buttonTwo,@"Latest"] forState:UIControlStateNormal];
-    [optionThree setTitle:[NSString stringWithFormat:@"%@ %@",buttonThree,@"Highest Rated"] forState:UIControlStateNormal];
+    [imageOne setImage:[UIImage imageNamed:buttonOne]];
+    [imageTwo setImage:[UIImage imageNamed:buttonTwo]];
+    [imageThree setImage:[UIImage imageNamed:buttonThree]];
+
 }
 
 
