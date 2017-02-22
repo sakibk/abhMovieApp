@@ -9,6 +9,7 @@
 #import "OverviewCell.h"
 #import <RestKit/RestKit.h>
 #import "Crew.h"
+#import "RatingViewController.h"
 
 NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
 
@@ -19,8 +20,23 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     // Initialization code
 }
 
+-(void)setHidenButtons{
+    _isLoged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
+    if(!_isLoged){
+        [_rateButton setHidden:YES];
+    }
+    else{
+        _userCredits=[[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+        [_rateButton addTarget:self action:@selector(rateMedia:) forControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
+-(IBAction)rateMedia:(id)sender{
+    [self.delegate rateMedia];
+}
 
 -(void) setupWithMovie :(Movie*) singleMovie{
+    [self setHidenButtons];
     
     RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
     
@@ -105,6 +121,7 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
 }
 
 -(void) setupWithShow :(TVShow*) singleShow{
+    [self setHidenButtons];
     
     RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
     

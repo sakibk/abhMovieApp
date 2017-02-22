@@ -12,7 +12,6 @@
 
 @property (strong, nonatomic) NSString *mediaType;
 @property (strong, nonatomic) NSNumber *mediaID;
-@property (nonatomic) NSNumber *isFavorite;
-@property (nonatomic) NSNumber *isWatchlist;
+@property (nonatomic) NSString *isWatchlist;
 
 @end

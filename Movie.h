@@ -11,6 +11,7 @@
 #import "Crew.h"
 #import <Realm/Realm.h>
 #import "TVMovie.h"
+#import "RLMovie.h"
 
 @interface Movie : NSObject
 
@@ -28,5 +29,6 @@
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
+- (id) initWithObject:(RLMovie *)movie;
 -(void)setupWithTVMovie:(TVMovie *)singleObject;
 @end

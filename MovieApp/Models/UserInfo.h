@@ -8,6 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import "Token.h"
+#import <Realm/Realm.h>
+#import "Movie.h"
+#import "TVShow.h"
 
 @interface UserInfo : NSObject
 
@@ -15,5 +18,13 @@
 @property (strong, nonatomic)NSString *name;
 @property (strong, nonatomic)NSString *userName;
 @property (strong, nonatomic)Token *session;
+@property (strong, nonatomic)NSMutableArray<Movie*> *favoriteMovies;
+@property (strong, nonatomic)NSMutableArray<TVShow*> *favoriteShows;
+@property (strong, nonatomic)NSMutableArray<Movie*> *watchlistMovies;
+@property (strong, nonatomic)NSMutableArray<TVShow*> *watchlistShows;
+@property (strong, nonatomic)NSMutableArray<Movie*> *ratedMovies;
+@property (strong, nonatomic)NSMutableArray<TVShow*> *ratedShows;
 
+
+- (id) initWithObject:(UserInfo *)user;
 @end

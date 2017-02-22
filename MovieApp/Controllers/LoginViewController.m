@@ -11,6 +11,7 @@
 #import <RestKit/RestKit.h>
 #import "Token.h"
 #import "UserInfo.h"
+#import "RLUserInfo.h"
 
 @interface LoginViewController ()
 
@@ -18,6 +19,9 @@
 @property Token *sessionToken;
 @property Token *session;
 @property UserInfo *currentUser;
+@property RLMRealm *realm;
+
+@property RLMArray<RLUserInfo*> <RLUserInfo> *users;
 
 @end
 
@@ -32,6 +36,7 @@
     [self setLoginRestkit];
     [self setSessionRestkit];
     [self setAccountRestkit];
+    _realm = [RLMRealm defaultRealm];
     //[NSUserDefaults standardUserDefaults]
     // dodati restkit za statuscode 401 i provjeriti tekst koji se dobije ako nije nil !!
 }
@@ -271,6 +276,20 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _currentUser=mappingResult.array.firstObject;
+        
+        RLMResults<RLUserInfo*> *userss= [RLUserInfo objectsWhere:@"userID = %@", _currentUser.userID];
+        
+        if (![userss count]) {
+            RLUserInfo *usr = [[RLUserInfo alloc] init];
+            usr.userID=_currentUser.userID;
+            usr.userName=_currentUser.userName;
+            usr.name=_currentUser.userName;
+            usr.session= [usr.session initWithToken:_session];
+            [_realm beginWriteTransaction];
+            [_realm addObject:usr];
+            [_realm commitWriteTransaction];
+
+        }
         
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"isLoged"];
         NSDictionary *loginData = @{@"userID":_currentUser.userID,

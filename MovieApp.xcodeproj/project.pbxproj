@@ -79,6 +79,11 @@
 		ADADC9691E50695300EF25D8 /* EpisodeOverviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADADC9681E50695300EF25D8 /* EpisodeOverviewCell.m */; };
 		ADADC96B1E506ADB00EF25D8 /* EpisodeDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */; };
 		ADADC96E1E506B1100EF25D8 /* EpisodeDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADADC96D1E506B1100EF25D8 /* EpisodeDetailsCell.m */; };
+		ADC07D101E5C289200172221 /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D0F1E5C289200172221 /* RatingViewController.m */; };
+		ADC07D141E5C6A2700172221 /* RLMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D131E5C6A2700172221 /* RLMovie.m */; };
+		ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D161E5C6FA500172221 /* RLTVShow.m */; };
+		ADC07D1A1E5C70B300172221 /* RLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D191E5C70B300172221 /* RLToken.m */; };
+		ADC07D201E5C718E00172221 /* RLUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D1F1E5C718E00172221 /* RLUserInfo.m */; };
 		ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
@@ -214,6 +219,16 @@
 		ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EpisodeDetailsCell.xib; path = Views/EpisodeDetailsCell.xib; sourceTree = "<group>"; };
 		ADADC96C1E506B1100EF25D8 /* EpisodeDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeDetailsCell.h; path = Views/EpisodeDetailsCell.h; sourceTree = "<group>"; };
 		ADADC96D1E506B1100EF25D8 /* EpisodeDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeDetailsCell.m; path = Views/EpisodeDetailsCell.m; sourceTree = "<group>"; };
+		ADC07D0E1E5C289200172221 /* RatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RatingViewController.h; path = Controllers/RatingViewController.h; sourceTree = "<group>"; };
+		ADC07D0F1E5C289200172221 /* RatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RatingViewController.m; path = Controllers/RatingViewController.m; sourceTree = "<group>"; };
+		ADC07D121E5C6A2700172221 /* RLMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMovie.h; path = MovieApp/PersistentModels/RLMovie.h; sourceTree = "<group>"; };
+		ADC07D131E5C6A2700172221 /* RLMovie.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMovie.m; path = MovieApp/PersistentModels/RLMovie.m; sourceTree = "<group>"; };
+		ADC07D151E5C6FA500172221 /* RLTVShow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLTVShow.h; path = MovieApp/PersistentModels/RLTVShow.h; sourceTree = "<group>"; };
+		ADC07D161E5C6FA500172221 /* RLTVShow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLTVShow.m; path = MovieApp/PersistentModels/RLTVShow.m; sourceTree = "<group>"; };
+		ADC07D181E5C70B300172221 /* RLToken.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLToken.h; path = MovieApp/PersistentModels/RLToken.h; sourceTree = "<group>"; };
+		ADC07D191E5C70B300172221 /* RLToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLToken.m; path = MovieApp/PersistentModels/RLToken.m; sourceTree = "<group>"; };
+		ADC07D1E1E5C718E00172221 /* RLUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLUserInfo.h; path = MovieApp/PersistentModels/RLUserInfo.h; sourceTree = "<group>"; };
+		ADC07D1F1E5C718E00172221 /* RLUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLUserInfo.m; path = MovieApp/PersistentModels/RLUserInfo.m; sourceTree = "<group>"; };
 		ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = Controllers/TabBarViewController.h; sourceTree = "<group>"; };
 		ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = Controllers/TabBarViewController.m; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -292,6 +307,8 @@
 				AD8696181E55975C009B75F0 /* SidebarView */,
 				AD4F93A81E4E76F800E55630 /* SeasonsView */,
 				AD4F93A41E4DCDE000E55630 /* ImagesView */,
+				ADC07D0E1E5C289200172221 /* RatingViewController.h */,
+				ADC07D0F1E5C289200172221 /* RatingViewController.m */,
 			);
 			name = Controllers;
 			path = MovieApp;
@@ -471,11 +488,27 @@
 			name = SideBar;
 			sourceTree = "<group>";
 		};
+		ADC07D111E5C69E800172221 /* Persistent Models */ = {
+			isa = PBXGroup;
+			children = (
+				ADC07D121E5C6A2700172221 /* RLMovie.h */,
+				ADC07D131E5C6A2700172221 /* RLMovie.m */,
+				ADC07D151E5C6FA500172221 /* RLTVShow.h */,
+				ADC07D161E5C6FA500172221 /* RLTVShow.m */,
+				ADC07D181E5C70B300172221 /* RLToken.h */,
+				ADC07D191E5C70B300172221 /* RLToken.m */,
+				ADC07D1E1E5C718E00172221 /* RLUserInfo.h */,
+				ADC07D1F1E5C718E00172221 /* RLUserInfo.m */,
+			);
+			name = "Persistent Models";
+			sourceTree = "<group>";
+		};
 		ADF64D0B1E2D0528000DFCFA = {
 			isa = PBXGroup;
 			children = (
 				AD34A00F1E3A4997009C4367 /* Extensions */,
 				ADF64D451E2D0C8C000DFCFA /* Models */,
+				ADC07D111E5C69E800172221 /* Persistent Models */,
 				AD1783841E2E45A80037DC44 /* Views */,
 				AD1783851E2E45CA0037DC44 /* Controllers */,
 				ADF64D171E2D0528000DFCFA /* Supporting Files */,
@@ -724,6 +757,7 @@
 				AD34430A1E5B044E00CD2DD9 /* UserInfo.m in Sources */,
 				AD4F93BB1E4E99CE00E55630 /* SeasonControllCell.m in Sources */,
 				AD34A00E1E3A31AE009C4367 /* ImagePathUrl.m in Sources */,
+				ADC07D1A1E5C70B300172221 /* RLToken.m in Sources */,
 				AD34A0251E3B8692009C4367 /* SingleCastCell.m in Sources */,
 				ADADC9691E50695300EF25D8 /* EpisodeOverviewCell.m in Sources */,
 				AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */,
@@ -731,6 +765,7 @@
 				AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */,
 				AD86961E1E559984009B75F0 /* LeftViewCell.m in Sources */,
 				AD34A01D1E3B7A12009C4367 /* CastCollectionCell.m in Sources */,
+				ADC07D101E5C289200172221 /* RatingViewController.m in Sources */,
 				AD4F93801E4B38AC00E55630 /* ActorDetailsViewController.m in Sources */,
 				ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */,
 				AD4F939C1E4C809700E55630 /* TrailerVideos.m in Sources */,
@@ -740,6 +775,7 @@
 				AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */,
 				AD349FFC1E39EE9E009C4367 /* BellowImageCell.m in Sources */,
 				AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */,
+				ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */,
 				AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */,
 				AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */,
 				AD8696171E53B795009B75F0 /* ImageCell.m in Sources */,
@@ -764,7 +800,9 @@
 				AD4F93831E4B38CD00E55630 /* Actor.m in Sources */,
 				AD4F93891E4B93E000E55630 /* AboutCell.m in Sources */,
 				AD64D8371E5A196D00DAE191 /* ListsViewController.m in Sources */,
+				ADC07D141E5C6A2700172221 /* RLMovie.m in Sources */,
 				AD349FE81E35A617009C4367 /* Feeds.m in Sources */,
+				ADC07D201E5C718E00172221 /* RLUserInfo.m in Sources */,
 				AD1783831E2D51DB0037DC44 /* TVShow.m in Sources */,
 				ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */,
 				ADADC96E1E506B1100EF25D8 /* EpisodeDetailsCell.m in Sources */,

@@ -9,14 +9,19 @@
 #import <UIKit/UIKit.h>
 #import "Movie.h"
 #import "TVShow.h"
+#import "RLMovie.h"
+#import "RLTVShow.h"
 
 @interface ListsViewController : UIViewController <UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIImageView *noListImage;
 @property (weak, nonatomic) IBOutlet UILabel *noListLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) NSMutableArray <Movie*> *movieList;
-@property (strong, nonatomic) NSMutableArray <TVShow*> *showsList;
+@property (strong, nonatomic) RLMArray<RLMovie*><RLMovie> *movieList;
+@property (strong, nonatomic) RLMArray<RLTVShow*><RLTVShow> *showsList;
 @property (nonatomic) BOOL isMovie;
 
+@property (nonatomic) BOOL isFavorites;
+@property (nonatomic) BOOL isWatchlist;
+@property (nonatomic) BOOL isRating;
 @end

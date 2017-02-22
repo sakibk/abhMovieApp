@@ -18,6 +18,8 @@
 #import <LGSideMenuController/LGSideMenuController.h>
 #import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "LeftViewController.h"
+#import "RLUserInfo.h"
+RLM_ARRAY_TYPE(Movie);
 
 @interface MoviesViewController ()
 
@@ -32,6 +34,11 @@
 @property NSString *dropDownTitle;
 @property int selectedButton;
 
+@property NSDictionary *userCredits;
+@property BOOL isLoged;
+@property RLUserInfo *user;
+
+@property RLMRealm *realm;
 
 @property (nonatomic,strong) UIView *dropDown;
 @property (nonatomic,assign) BOOL isDroped;
@@ -60,9 +67,15 @@
     [super viewDidLoad];
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
-    
     [self.collectionView registerNib:[UINib nibWithNibName:@"MovieCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:identifier];
     initialCollectionViewFrame = self.collectionView.frame;
+    _isLoged = [[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
+    if(_isLoged){
+        _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+        RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+        _user = [users firstObject];
+    }
+    _realm=[RLMRealm defaultRealm];
     [self setupVariables];
     if(_isMovie)
     {
@@ -656,7 +669,6 @@
 
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    
     MoviesCell *cell = (MoviesCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     if (_isMovie) {
         _test =[_allMovies objectAtIndex:indexPath.row];
@@ -669,6 +681,36 @@
         [cell setupShowCell:_tvTest];
     }
     
+    if(_isLoged){
+        if(_isMovie){
+            if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_test.movieID]){
+                [cell watchIt];
+            }
+            else{
+                [cell unWatchIt];
+            }
+            if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_test.movieID]){
+                [cell favoureIt];
+            }
+            else{
+                [cell unFavoureIt];
+            }
+        }
+        else{
+            if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_tvTest.showID]){
+                [cell favoureIt];
+            }
+            else{
+                [cell unFavoureIt];
+            }
+            if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_tvTest.showID]){
+                [cell watchIt];
+            }
+            else{
+                [cell unWatchIt];
+            }
+        }
+    }
     return cell;
 }
 

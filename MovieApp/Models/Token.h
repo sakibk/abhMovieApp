@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Realm/Realm.h>
 
 @interface Token : NSObject
 
@@ -17,5 +18,7 @@
 @property (nonatomic, strong) NSNumber *statusCode;
 @property (nonatomic, strong) NSString *statusMessage;
 @property (nonatomic, strong) NSString *logedUsername;
+
+- (id) initWithObject:(Token *)token;
 
 @end

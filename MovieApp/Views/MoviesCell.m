@@ -27,6 +27,9 @@ NSString* const identifier= @"MovieCellIdentifier";
         [_watchlisted setHidden:YES];
         [_favoured setHidden:YES];
     }
+    else{
+        
+    }
     NSDate *releaseYear = singleMovie.releaseDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
@@ -79,6 +82,9 @@ NSString* const identifier= @"MovieCellIdentifier";
         [_watchlisted setHidden:YES];
         [_favoured setHidden:YES];
     }
+    else{
+        
+    }
     NSDate *releaseYear = singleShow.airDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
@@ -111,6 +117,22 @@ NSString* const identifier= @"MovieCellIdentifier";
         }
     
     [self setCellGradient];
+}
+
+-(void)favoureIt{
+    [_favoured setImage:[UIImage imageNamed:@"YellowFavouritesButton"]];
+}
+
+-(void)unFavoureIt{
+    [_favoured setImage:[UIImage imageNamed:@"NonLikedMedia"]];
+}
+
+-(void)watchIt{
+    [_watchlisted setImage:[UIImage imageNamed:@"YellowWatchlistButton"]];
+}
+
+-(void)unWatchIt{
+    [_watchlisted setImage:[UIImage imageNamed:@"NonWatchedMedia"]];
 }
 
 @end

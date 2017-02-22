@@ -1,14 +1,14 @@
 //
-//  Token.m
+//  RLToken.m
 //  MovieApp
 //
-//  Created by Sakib Kurtic on 17/02/2017.
+//  Created by Sakib Kurtic on 21/02/2017.
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
-#import "Token.h"
+#import "RLToken.h"
 
-@implementation Token
+@implementation RLToken
 
 -(id) init{
     self=[super init];
@@ -16,7 +16,7 @@
 }
 
 
-- (id) initWithObject:(Token *)token{
+- (id) initWithToken:(Token *)token{
     self = [super init];
     
     self.requestToken=token.requestToken;
@@ -28,4 +28,5 @@
     
     return self;
 }
+
 @end

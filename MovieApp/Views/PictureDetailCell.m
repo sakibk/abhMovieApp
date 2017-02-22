@@ -11,6 +11,7 @@
 #import "TVShow.h"
 #import "TrailerViewController.h"
 #import <RestKit/RestKit.h>
+#import "RLUserInfo.h"
 
 NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 
@@ -21,8 +22,10 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+//    [self setWatchlistRestkit];
     [_watchButton addTarget:self action:@selector(addToWatchList:) forControlEvents:UIControlEventTouchUpInside];
     [_favouriteButton addTarget:self action:@selector(addToFavoriteList:) forControlEvents:UIControlEventTouchUpInside];
+    _realm =[RLMRealm defaultRealm];
 }
 
 -(void)setHidenButtons{
@@ -33,20 +36,17 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     }
     else{
         _userCredits=[[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
-        
     }
 }
 
 -(IBAction)addToWatchList:(id)sender{
-    _listToPost.isFavorite=nil;
-    _listToPost.isWatchlist=[NSNumber numberWithBool:YES];
-    [self addToWatchlist];
+    
+    [self.delegate addWatchlist];
 }
 
 -(IBAction)addToFavoriteList:(id)sender{
-    _listToPost.isFavorite=[NSNumber numberWithBool:YES];
-    _listToPost.isWatchlist=nil;
-    [self addToFavourites];
+
+    [self.delegate addFavorite];
 }
 
 -(void) setupWithMovie:(Movie *) singleMovie{
@@ -59,13 +59,25 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     NSInteger year = [components year];
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
     _singleMovie=singleMovie;
-    _listToPost.mediaID=singleMovie.movieID;
-    _listToPost.mediaType=@"movie";
-    _listToPost.isFavorite=[NSNumber numberWithBool:YES];
-    _listToPost.isWatchlist=[NSNumber numberWithBool:YES];
-    if(singleMovie){
-        
-    }
+    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+        if(![users count]){
+            RLUserInfo *user =[users firstObject];
+                //            RLMResults<RLUserInfo *> *movies = [RLUserInfo objectsWhere:@"userID = %@ AND watchlistMovies.movieID = %@", [_userCredits objectForKey:@"userID"], _movieID];
+                
+                if(![[[user watchlistMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
+                    [self watchIt];
+                }
+                else{
+                    [self unWatchIt];
+                }
+            
+                if(![[[user favoriteMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
+                    [self favoureIt];
+                }
+                else{
+                    [self unFavoureIt];
+                }
+        }
     [self setCellGradient];
     
 }
@@ -80,11 +92,24 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     NSInteger year = [components year];
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
     [_playButton setHidden:YES];
-    _listToPost.mediaID=singleShow.showID;
-    _listToPost.mediaType=@"tv";
-    _listToPost.isFavorite=[NSNumber numberWithBool:YES];
-    _listToPost.isWatchlist=[NSNumber numberWithBool:YES];
-    [self setWatchlistRestkit];
+     RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+    if(![users count]){
+        RLUserInfo *user =[users firstObject];
+        if(![[[user watchlistShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
+            [self watchIt];
+        }
+        else{
+            [self unWatchIt];
+        }
+        if(![[[user favoriteShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
+            [self favoureIt];
+        }
+        else{
+            [self unFavoureIt];
+        }
+        
+    }
+
     [self setCellGradient];
 }
 
@@ -122,48 +147,20 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     }
 }
 
--(void)setWatchlistRestkit{
-    RKObjectMapping *watchlistMapping = [RKObjectMapping mappingForClass:[ListPost class]];
-    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
-    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:401]];
-    
-    NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/watchlist",[_userCredits objectForKey:@"userID"]];
-    
-    [watchlistMapping addAttributeMappingsFromDictionary:@{@"media_type":_listToPost.mediaType,
-                                                           @"media_id": _listToPost.mediaID,
-                                                           @"watchlist": _listToPost.isWatchlist
-                                                           }];
-    
-    watchlistMapping.assignsNilForMissingRelationships=YES;
-    
-    RKRequestDescriptor *watchlistRequestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:[watchlistMapping inverseMapping]
-                                                                                             objectClass:[ListPost class]
-                                                                                             rootKeyPath:nil
-                                                                                            method:RKRequestMethodPOST];
-    
-    
-    [[RKObjectManager sharedManager] addRequestDescriptor:watchlistRequestDescriptor];
+-(void)favoureIt{
+    [_favouriteButton setImage:[UIImage imageNamed:@"YellowFavouritesButton"] forState:UIControlStateNormal];
 }
 
--(void)addToWatchlist{
-    NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/watchlist",[_userCredits objectForKey:@"userID"]];
-    
-    NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
-                                      @"session_id":[_userCredits objectForKey:@"sessionID"]
-                                      };
-    
-    [[RKObjectManager sharedManager] postObject:_listToPost path:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult.array);
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"RestKit returned error: %@", error);
-    }];
-
+-(void)unFavoureIt{
+    [_favouriteButton setImage:[UIImage imageNamed:@"NonLikedMedia"] forState:UIControlStateNormal];
 }
 
--(void)addToFavourites{
-    
+-(void)watchIt{
+    [_watchButton setImage:[UIImage imageNamed:@"YellowWatchlistButton"] forState:UIControlStateNormal];
+}
+
+-(void)unWatchIt{
+    [_watchButton setImage:[UIImage imageNamed:@"NonWatchedMedia"] forState:UIControlStateNormal];
 }
 
 

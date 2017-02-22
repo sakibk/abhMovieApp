@@ -12,6 +12,7 @@ target 'MovieApp' do
  pod 'Fabric'
  pod 'Crashlytics'
  pod 'LGSideMenuController'
+ pod 'HCSStarRatingView', '~> 1.4.5'
   # Pods for MovieApp
 
 end

@@ -22,11 +22,18 @@ extern NSString * const identifier;
 @property (weak, nonatomic) IBOutlet UIImageView *watchlisted;
 @property (weak, nonatomic) IBOutlet UIImageView *favoured;
 
+@property(strong, nonatomic)NSDictionary *userCredits;
+
 @property Genre *singleGerne;
 @property NSNumber *genID;
 @property BOOL isLoged;
 
 -(void) setupMovieCell:(Movie *) singleMovie;
 -(void) setupShowCell:(TVShow *) singleShow;
+
+-(void)favoureIt;
+-(void)unFavoureIt;
+-(void)watchIt;
+-(void)unWatchIt;
 
 @end

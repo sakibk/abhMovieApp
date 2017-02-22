@@ -23,6 +23,9 @@
 #import "SeasonsViewController.h"
 #import "SingleReviewCell.h"
 #import "Review.h"
+#import "RatingViewController.h"
+#import "ListPost.h"
+#import "RLUserInfo.h"
 
 
 @interface MovieDetailViewController ()
@@ -34,6 +37,7 @@
 
 @property NSMutableArray<Review *> *allReviews;
 @property Review *singleReview;
+@property NSIndexPath *pictureIndexPath;
 
 @property CGFloat imageCellHeigh;
 @property CGFloat detailsCellHeight;
@@ -44,6 +48,8 @@
 @property CGFloat seasonsCellHeight;
 @property CGFloat noCellHeight;
 
+@property RLMRealm *realm;
+
 @end
 
 @implementation MovieDetailViewController
@@ -52,22 +58,10 @@
     [super viewDidLoad];
     _tableView.delegate=self;
     _tableView.dataSource=self;
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"BellowImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:BellowImageCellIdentifier];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"OverviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:OverviewCellIdentifier];
-    
-      [self.tableView registerNib:[UINib nibWithNibName:@"ImageCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:ImageCollectionCellIdentifier];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"SingleReviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:singleReviewCellIdentifier];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"SeasonsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:seasonsCellIdentifier];
+    [self setCells];
     
     _allSeasons=[[NSMutableArray alloc]init];
+    _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
     // Do any additional setup after loading the view.
     [self setSizes];
     
@@ -98,6 +92,25 @@
     _reviewCellHeight =160.0;
     _seasonsCellHeight =59.0;
     _noCellHeight =0.0;
+}
+
+-(void)setCells{
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"BellowImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:BellowImageCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"OverviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:OverviewCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"ImageCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:ImageCollectionCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"SingleReviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:singleReviewCellIdentifier];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"SeasonsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:seasonsCellIdentifier];
+    
+    _realm=[RLMRealm defaultRealm];
 }
 
 -(void)setNavBarTitle{
@@ -256,6 +269,7 @@
             case 0:
             {
                 PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithMovie:_movieDetail];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
@@ -273,6 +287,7 @@
             case 2:
             {
                 OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithMovie:_movieDetail];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
@@ -319,7 +334,9 @@
         switch (indexPath.section) {
             case 0:
             {
+                _pictureIndexPath=indexPath;
                 PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithShow:_showDetail];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
@@ -337,6 +354,7 @@
             case 2:
             {
                 OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+                cell.delegate=self;
                 [cell setupWithShow:_showDetail];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 return cell;
@@ -701,6 +719,15 @@
      seasons.seasonID=[NSNumber numberWithInt:1];
      [seasons setupSeasonView];
  }
+ else if ([segue.identifier isEqualToString:@"RateMedia"]){
+     RatingViewController *rateMe = segue.destinationViewController;
+     if(_isMovie){
+         [rateMe setupWithMovie:_singleMovie];
+     }
+     else{
+         [rateMe setupWithShow:_singleShow];
+     }
+ }
      
  }
 
@@ -711,6 +738,10 @@
 - (void)openActorWithID:(NSNumber *)actorID {
     _actorID=actorID;
     [self performSegueWithIdentifier:@"ActorDetails" sender:self];
+}
+
+-(void)rateMedia{
+    [self performSegueWithIdentifier:@"RateMedia" sender:self];
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -731,6 +762,131 @@
             [self performSegueWithIdentifier:@"SeasonsViewIdentifier" sender:self];
         }
     }
+}
+
+-(void)addFavorite{
+    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+    if([users count]){
+        RLUserInfo *user = [users firstObject];
+        PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
+        if(_isMovie){
+            if(![[[user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+                [user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [cell favoureIt];
+            }
+            else{
+                [user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [cell unFavoureIt];
+            }
+        }
+        else{
+            if(![[[user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
+                [user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [cell favoureIt];
+            }
+            else{
+                [user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [cell unFavoureIt];
+            }
+        }
+        
+    }
+    
+    
+//    [self postToList:@"favorites"];
+}
+
+
+-(void)addWatchlist{
+    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+    if([users count]){
+        RLUserInfo *user = [users firstObject];
+        PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
+        if(_isMovie){
+//            RLMResults<RLUserInfo *> *movies = [RLUserInfo objectsWhere:@"userID = %@ AND watchlistMovies.movieID = %@", [_userCredits objectForKey:@"userID"], _movieID];
+
+            if(![[[user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+                [user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [cell watchIt];
+            }
+            else{
+                [user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [cell unWatchIt];
+            }
+        }
+        else{
+//            RLMResults<RLTVShow*> *shows = [[[users firstObject] watchlistShows] objectsWhere:@"showID = %@",_movieID];
+            if(![[[user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
+                [user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [cell watchIt];
+            }
+            else{
+                [user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [cell unWatchIt];
+            }
+        }
+        
+    }
+    
+//    [self postToList:@"watchlist"];
+}
+
+-(void)postToList:(NSString*)list{
+    NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+    
+    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
+    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:201]];
+    
+    RKObjectMapping *requestMapping= [RKObjectMapping requestMapping];
+    [requestMapping addAttributeMappingsFromArray:@[@"status_code", @"status_message"]];
+    
+    RKRequestDescriptor *watchlistRequestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[NSDictionary class] rootKeyPath:nil method:RKRequestMethodAny];
+    
+    RKObjectMapping *watchlistMapping = [RKObjectMapping mappingForClass:[NSDictionary class]];
+    
+    [watchlistMapping addAttributeMappingsFromArray:@[@"status_code", @"status_message"]];
+    
+    watchlistMapping.assignsNilForMissingRelationships=YES;
+    
+    RKResponseDescriptor *watchlistResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:watchlistMapping
+                                                                                                     method:RKRequestMethodGET
+                                                                                                pathPattern:pathP
+                                                                                                    keyPath:nil statusCodes:statusCodesRK];
+//
+    [[RKObjectManager sharedManager] setRequestSerializationMIMEType:@"application/json"];
+    [[RKObjectManager sharedManager] addRequestDescriptor:watchlistRequestDescriptor];
+    [[RKObjectManager sharedManager] addResponseDescriptor:watchlistResponseDescriptor];
+    
+    
+    
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    RKLogConfigureByName("Restkit/Network", RKLogLevelDebug);
+    
+    ListPost *postObject = [ListPost new];
+    if(_isMovie){
+    postObject.mediaID= _singleMovie.movieID;
+    postObject.mediaType=@"movie";
+    }
+    else{
+        postObject.mediaID=_singleShow.showID;
+        postObject.mediaType=@"tv";
+    }
+    postObject.isWatchlist=@"true";
+    
+    NSDictionary *queryParameters = @{
+                                      @"media_type" : postObject.mediaType,
+                                      @"media_id" : postObject.mediaID,
+                                      @"watchlist" : @"true"
+                                      };
+
+    
+    
+    [[RKObjectManager sharedManager] postObject:nil path:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
 }
 
 @end

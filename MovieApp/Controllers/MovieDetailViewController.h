@@ -11,13 +11,18 @@
 #import "TVShow.h"
 #import "CastCollectionCell.h"
 #import "ImageCollectionCell.h"
+#import "OverviewCell.h"
+#import "PictureDetailCell.h"
 
-@interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, CastCollectionCellDelegate,ImageCollectionCellDelegate>
+@interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, CastCollectionCellDelegate,ImageCollectionCellDelegate,OverviewCellDelegate,PictureCellDelegate>
 
 @property (nonatomic,strong) NSNumber* movieID;
 @property (nonatomic,strong) Movie *singleMovie;
 @property (nonatomic,strong) TVShow *singleShow;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic,assign) BOOL isMovie;
+
+@property (strong, nonatomic) NSDictionary *userCredits;
+@property BOOL isLoged;
 
 @end

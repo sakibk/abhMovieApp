@@ -11,6 +11,12 @@
 #import "TVShow.h"
 #import "Crew.h"
 
+@protocol OverviewCellDelegate <NSObject>
+
+- (void)rateMedia;
+
+@end
+
 extern NSString * const OverviewCellIdentifier;
 
 @interface OverviewCell : UITableViewCell
@@ -20,12 +26,18 @@ extern NSString * const OverviewCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *stars;
 @property (weak, nonatomic) IBOutlet UILabel *rating;
 @property (weak, nonatomic) IBOutlet UILabel *overview;
+@property (weak, nonatomic) IBOutlet UIButton *rateButton;
 
 @property (strong, nonatomic) NSMutableArray <Crew *> *allCrew;
 @property (strong, nonatomic) NSMutableString *writersString;
 @property (strong, nonatomic) NSMutableString *producentString;
 @property (strong, nonatomic) Movie *setupMovie;
 @property (strong, nonatomic) TVShow *setupShow;
+
+@property (strong, nonatomic) NSDictionary *userCredits;
+@property BOOL isLoged;
+
+@property (strong, nonatomic) id<OverviewCellDelegate> delegate;
 
 
 -(void) setupWithMovie :(Movie*) singleMovie;

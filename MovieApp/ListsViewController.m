@@ -8,6 +8,7 @@
 
 #import "ListsViewController.h"
 #import "SearchCell.h"
+#import "RLUserInfo.h"
 
 @interface ListsViewController ()
 @property NSString *dropDownTitle;
@@ -16,6 +17,11 @@
 @property (nonatomic,strong) UIView *dropDown;
 @property (nonatomic,assign) BOOL isDroped;
 @property (nonatomic,assign) BOOL isNavBarSet;
+
+@property NSDictionary *userCredits;
+@property RLUserInfo *user;
+@property RLMRealm *realm;
+
 @end
 
 @implementation ListsViewController
@@ -38,8 +44,32 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:searchCellIdentifier];
     initialTableViewFrame = self.tableView.frame;
     [self setupView];
+    [self setupUser];
     [self setupVariables];
     [self CreateDropDownList];
+}
+
+-(void)setupWhenListType:(BOOL)isWatchlist : (BOOL)isFavorites : (BOOL)isRating{
+    _isWatchlist=isWatchlist;
+    _isFavorites=isFavorites;
+    _isRating=isRating;
+    if(_isWatchlist && !_isFavorites && !_isRating){
+        _movieList=[_user watchlistMovies];
+        _showsList=[_user watchlistShows];    }
+    else if(_isFavorites && !_isWatchlist &&  !_isRating){
+        _movieList=[_user favoriteMovies];
+        _showsList=[_user favoriteShows];
+    }
+    else if(_isRating  && !_isFavorites && !_isWatchlist){
+        _movieList=[_user ratedMovies];
+        _showsList=[_user ratedShows];    }
+}
+
+-(void)setupUser{
+        _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+        RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+        _user = [users firstObject];
+        _realm=[RLMRealm defaultRealm];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,6 +91,7 @@
     _isNavBarSet=NO;
     _dropDownTitle=@"Movies";
     _selectedButton = 0;
+    _isMovie=YES;
 }
 
 -(void)CreateDropDownList{
@@ -174,13 +205,13 @@
 -(IBAction)optionPressed:(UIButton*)sender{
     
     if(sender.tag==0){
-        _dropDownTitle=@"Movies";
+        _isMovie=YES;
         [self setDropDownTitleButton];
         _selectedButton=0;
         
     }
     else if(sender.tag==1){
-        _dropDownTitle=@"TV Shows";
+        _isMovie=NO;
         [self setDropDownTitleButton];
         _selectedButton=1;
     }
@@ -218,18 +249,29 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 0;
+    return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 0;
+    if(_isMovie){
+        return _movieList != nil ? [_movieList count] : 0;
+    }
+    else{
+        return _showsList != nil ? [_showsList count] : 0;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:searchCellIdentifier];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     // Configure the cell...
-    
+    if(_isMovie){
+        [cell setSearchCellWithMovie:[[Movie alloc]initWithObject:[_movieList objectAtIndex:indexPath.row]]];
+    }
+    else{
+        [cell setSearchCellWithTVShow:[[TVShow alloc]initWithObject:[_showsList objectAtIndex:indexPath.row]]];
+    }
+        
     return cell;
 }
 

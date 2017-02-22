@@ -329,6 +329,7 @@
                     <navigationItem key="navigationItem" id="P1X-mx-DcR"/>
                     <connections>
                         <outlet property="tableView" destination="3iG-F4-Mob" id="tPH-3q-nc0"/>
+                        <segue destination="f53-Il-0GK" kind="show" identifier="RateMedia" id="bfT-yN-Zzn"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vkF-HT-qBC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -473,6 +474,41 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0fy-HU-uwQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1304" y="2837"/>
+        </scene>
+        <!--Rating View Controller-->
+        <scene sceneID="wmB-7q-3WH">
+            <objects>
+                <viewController storyboardIdentifier="RatingViewController" id="f53-Il-0GK" customClass="RatingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TUD-OI-RoE"/>
+                        <viewControllerLayoutGuide type="bottom" id="oyQ-wq-aRP"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="CON-Bb-E4Y">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate: " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULH-Gz-OOj">
+                                <rect key="frame" x="0.0" y="64" width="414" height="60"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="lGi-Qo-jKy"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ULH-Gz-OOj" firstAttribute="top" secondItem="TUD-OI-RoE" secondAttribute="bottom" id="6ac-ub-K1L"/>
+                            <constraint firstItem="ULH-Gz-OOj" firstAttribute="leading" secondItem="CON-Bb-E4Y" secondAttribute="leading" id="7RW-Xx-hE9"/>
+                            <constraint firstAttribute="trailing" secondItem="ULH-Gz-OOj" secondAttribute="trailing" id="GLf-8k-5w0"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="l95-AR-7j4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-294" y="2837"/>
         </scene>
         <!--Seasons View Controller-->
         <scene sceneID="bfN-6I-ii1">

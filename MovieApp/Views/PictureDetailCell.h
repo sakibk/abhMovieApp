@@ -13,6 +13,14 @@
 #import "Episode.h"
 #import "ListPost.h"
 
+@protocol PictureCellDelegate <NSObject>
+
+- (void)addFavorite;
+- (void)addWatchlist;
+
+@end
+
+
 extern NSString * const pictureDetailCellIdentifier;
 
 
@@ -27,11 +35,18 @@ extern NSString * const pictureDetailCellIdentifier;
 @property(strong, nonatomic) NSDictionary *userCredits;
 @property(strong, nonatomic) ListPost *listToPost;
 
+@property(strong, nonatomic) id<PictureCellDelegate> delegate;
+
 -(void) setupWithMovie:(Movie *) singleMovie;
 -(void) setupWithShow:(TVShow *) singleShow;
 -(void) setupWithActor:(Actor *) singleActor;
 -(void) setupWithEpisode:(Episode *) singleEpisode;
 
+-(void)favoureIt;
+-(void)unFavoureIt;
+-(void)watchIt;
+-(void)unWatchIt;
 
+@property RLMRealm *realm;
 @property BOOL isLoged;
 @end
