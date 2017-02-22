@@ -497,18 +497,47 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="eTG-Dl-Rdd">
+                                <rect key="frame" x="0.0" y="124" width="414" height="1"/>
+                                <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="qhY-Xn-4nd"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LBy-Mr-iV4">
+                                <rect key="frame" x="0.0" y="125" width="414" height="75"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="75" id="z1d-n0-qvK"/>
+                                </constraints>
+                                <state key="normal" title="Tap to rate">
+                                    <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="eTG-Dl-Rdd" secondAttribute="trailing" id="235-Bq-IN7"/>
                             <constraint firstItem="ULH-Gz-OOj" firstAttribute="top" secondItem="TUD-OI-RoE" secondAttribute="bottom" id="6ac-ub-K1L"/>
                             <constraint firstItem="ULH-Gz-OOj" firstAttribute="leading" secondItem="CON-Bb-E4Y" secondAttribute="leading" id="7RW-Xx-hE9"/>
+                            <constraint firstItem="eTG-Dl-Rdd" firstAttribute="trailing" secondItem="ULH-Gz-OOj" secondAttribute="trailing" id="EbU-Ad-96J"/>
                             <constraint firstAttribute="trailing" secondItem="ULH-Gz-OOj" secondAttribute="trailing" id="GLf-8k-5w0"/>
+                            <constraint firstItem="LBy-Mr-iV4" firstAttribute="leading" secondItem="CON-Bb-E4Y" secondAttribute="leading" id="Jmm-5S-ez3"/>
+                            <constraint firstAttribute="trailing" secondItem="LBy-Mr-iV4" secondAttribute="trailing" id="M7c-GT-uDB"/>
+                            <constraint firstItem="eTG-Dl-Rdd" firstAttribute="top" secondItem="ULH-Gz-OOj" secondAttribute="bottom" id="aWM-ba-p9N"/>
+                            <constraint firstItem="eTG-Dl-Rdd" firstAttribute="top" secondItem="ULH-Gz-OOj" secondAttribute="bottom" id="bez-r5-6VS"/>
+                            <constraint firstItem="eTG-Dl-Rdd" firstAttribute="leading" secondItem="ULH-Gz-OOj" secondAttribute="leading" id="rsa-h9-uHl"/>
+                            <constraint firstItem="LBy-Mr-iV4" firstAttribute="top" secondItem="eTG-Dl-Rdd" secondAttribute="bottom" id="xVn-RB-aE2"/>
+                            <constraint firstItem="eTG-Dl-Rdd" firstAttribute="leading" secondItem="CON-Bb-E4Y" secondAttribute="leading" id="yAG-QE-q8h"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="mediaTitle" destination="ULH-Gz-OOj" id="4ZD-qT-vum"/>
+                        <outlet property="rateButton" destination="LBy-Mr-iV4" id="FBQ-I0-BHv"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="l95-AR-7j4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-294" y="2837"/>
+            <point key="canvasLocation" x="-294.20289855072468" y="2836.9565217391305"/>
         </scene>
         <!--Seasons View Controller-->
         <scene sceneID="bfN-6I-ii1">

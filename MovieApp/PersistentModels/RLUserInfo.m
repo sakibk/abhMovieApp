@@ -11,13 +11,8 @@
 @implementation RLUserInfo
 
 
--(id)init{
-    self=[super init];
-    return self;
-}
-
 - (id) initWithUser:(UserInfo *)user{
-    self = [super init];
+        self=[super init];
     
     self.name=user.name;
     self.userID=user.userID;

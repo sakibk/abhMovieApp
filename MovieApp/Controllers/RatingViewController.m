@@ -26,7 +26,7 @@
 }
 
 -(void)setupRatings{
-    starRatingView = [[HCSStarRatingView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 184, [UIScreen mainScreen].bounds.size.width/2, 60)];
+    starRatingView = [[HCSStarRatingView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 200, [UIScreen mainScreen].bounds.size.width/2, 60)];
     starRatingView.maximumValue = 10;
     starRatingView.minimumValue = 0.5;
     starRatingView.value = 0.5f;
@@ -36,6 +36,7 @@
     starRatingView.emptyStarImage = [UIImage imageNamed:@"NonRatedButton"];
     starRatingView.filledStarImage = [UIImage imageNamed:@"YellowRatingsButton"];
     [starRatingView addTarget:self action:@selector(didChangeValue:) forControlEvents:UIControlEventValueChanged];
+    
     [self.view addSubview:starRatingView];
 }
 

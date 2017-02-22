@@ -14,6 +14,8 @@
 
 @property (strong,nonatomic) Movie *singleMovie;
 @property (strong,nonatomic) TVShow *singleShow;
+@property (weak, nonatomic) IBOutlet UILabel *mediaTitle;
+@property (weak, nonatomic) IBOutlet UIButton *rateButton;
 
 -(void)setupWithMovie:(Movie*)movie;
 -(void)setupWithShow:(TVShow*)show;

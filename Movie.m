@@ -8,14 +8,10 @@
 
 #import "Movie.h"
 #import "TVMovie.h"
+#import "RLMovie.h"
 
 @implementation Movie
 
-- (id) init
-{
-    self=[super init];
-    return self;
-}
 
 - (NSString *)description
 {
@@ -35,6 +31,8 @@
 }
 
 - (id) initWithObject:(RLMovie *)movie{
+    self=[super init];
+    
     self.movieID=movie.movieID;
     self.backdropPath=movie.backdropPath;
     self.releaseDate=movie.releaseDate;

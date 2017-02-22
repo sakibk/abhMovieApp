@@ -10,10 +10,6 @@
 
 @implementation RLTVShow
 
--(id) init{
-    self=[super init];
-    return self;
-}
 
 -(void)setupWithShow:(TVShow *)singleObject{
     self.showID=singleObject.showID;
@@ -27,7 +23,7 @@
 }
 
 - (id) initWithShow:(TVShow *)show{
-    self=[super init];
+        self=[super init];
     
     self.showID=show.showID ;
     self.backdropPath=show.backdropPath;

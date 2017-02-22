@@ -13,7 +13,7 @@
 #import "Crew.h"
 #import "Season.h"
 #import "TVMovie.h"
-#import "RLTVShow.h"
+@class RLTVShow;
 
 @interface TVShow : NSObject
 

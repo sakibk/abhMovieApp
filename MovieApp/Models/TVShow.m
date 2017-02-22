@@ -7,14 +7,10 @@
 //
 
 #import "TVShow.h"
+#import "RLTVShow.h"
 
 @implementation TVShow
 
-- (id) init
-{
-    self=[super init];
-    return self;
-}
 
 - (NSString *)description
 {
@@ -34,6 +30,8 @@
 }
 
 - (id) initWithObject:(RLTVShow *)show{
+        self=[super init];
+    
     self.showID=show.showID ;
     self.backdropPath=show.backdropPath;
     self.airDate=show.airDate;

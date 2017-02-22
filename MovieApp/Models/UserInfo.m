@@ -10,13 +10,8 @@
 
 @implementation UserInfo
 
--(id)init{
-    self=[super init];
-    return self;
-}
 
 - (id) initWithObject:(UserInfo *)user{
-    self = [super init];
     
     self.name=user.name;
     self.userID=user.userID;

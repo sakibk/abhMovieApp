@@ -11,6 +11,7 @@
 
 @interface RLMovie : RLMObject
 
+
 @property NSNumber<RLMInt> *movieID;
 @property NSString *title;
 @property NSString *posterPath;
@@ -20,7 +21,8 @@
 @property NSString *singleGenre;
 @property NSString *overview;
 
-- (id) initWithMovie:(Movie *)movie;
+
+-(id) initWithMovie:(Movie *)movie;
 -(void)setupWithMovie:(Movie *)singleObject;
 
 @end

@@ -10,10 +10,6 @@
 
 @implementation RLMovie
 
--(id) init{
-    self=[super init];
-    return self;
-}
 
 -(void)setupWithMovie:(Movie *)singleObject{
     self.movieID=singleObject.movieID;
@@ -28,7 +24,8 @@
 
 
 - (id) initWithMovie:(Movie *)movie{
-    self=[super init];
+        self=[super init];
+    
     self.movieID=movie.movieID;
     self.backdropPath=movie.backdropPath;
     self.releaseDate=movie.releaseDate;

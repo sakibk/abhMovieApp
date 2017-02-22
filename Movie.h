@@ -11,7 +11,7 @@
 #import "Crew.h"
 #import <Realm/Realm.h>
 #import "TVMovie.h"
-#import "RLMovie.h"
+@class RLMovie;
 
 @interface Movie : NSObject
 
