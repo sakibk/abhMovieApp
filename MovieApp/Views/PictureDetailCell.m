@@ -60,18 +60,18 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
     _singleMovie=singleMovie;
     RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
-        if(![users count]){
+        if([users count]){
             RLUserInfo *user =[users firstObject];
                 //            RLMResults<RLUserInfo *> *movies = [RLUserInfo objectsWhere:@"userID = %@ AND watchlistMovies.movieID = %@", [_userCredits objectForKey:@"userID"], _movieID];
                 
-                if(![[[user watchlistMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
+                if([[[user watchlistMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
                     [self watchIt];
                 }
                 else{
                     [self unWatchIt];
                 }
             
-                if(![[[user favoriteMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
+                if([[[user favoriteMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
                     [self favoureIt];
                 }
                 else{
@@ -95,13 +95,13 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
      RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
     if(![users count]){
         RLUserInfo *user =[users firstObject];
-        if(![[[user watchlistShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
+        if([[[user watchlistShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
             [self watchIt];
         }
         else{
             [self unWatchIt];
         }
-        if(![[[user favoriteShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
+        if([[[user favoriteShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
             [self favoureIt];
         }
         else{
@@ -148,7 +148,7 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 }
 
 -(void)favoureIt{
-    [_favouriteButton setImage:[UIImage imageNamed:@"YellowFavouritesButton"] forState:UIControlStateNormal];
+    [_favouriteButton setImage:[UIImage imageNamed:@"YellowFavoritesButton"] forState:UIControlStateNormal];
 }
 
 -(void)unFavoureIt{

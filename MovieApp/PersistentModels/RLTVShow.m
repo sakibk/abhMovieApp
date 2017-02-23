@@ -19,6 +19,7 @@
     self.rating=singleObject.rating;
     self.posterPath=singleObject.posterPath;
     self.overview=singleObject.overview;
+    self.userRate=singleObject.userRate;
     
 }
 
@@ -33,6 +34,7 @@
     self.posterPath=show.posterPath;
     self.overview=show.overview;
     self.singleGenre=show.singleGenre;
+    self.userRate=show.userRate;
     
     return self;
 }

@@ -28,6 +28,7 @@
 @property (strong, nonatomic) NSArray<Genre *> *genres;
 @property (strong, nonatomic) NSString *singleGenre;
 @property (strong, nonatomic) NSString *overview;
+@property (strong, nonatomic) NSNumber *userRate;
 @property (strong, nonatomic) NSMutableArray<Crew *> *crews;
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;

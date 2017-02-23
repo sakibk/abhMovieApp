@@ -31,6 +31,14 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     }
 }
 
+-(void)setupUser{
+    _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+    if([users count]){
+        _user = [users firstObject];
+    }
+}
+
 -(IBAction)rateMedia:(id)sender{
     [self.delegate rateMedia];
 }
@@ -79,6 +87,10 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
 }
 
 -(void)setupOverview{
+    if([[[_user ratedMovies] valueForKey:@"movieID"] containsObject:_setupMovie.movieID]){
+        [_rateButton setImage:[UIImage imageNamed:@"YellowRatingsButton"] forState:UIControlStateNormal];
+    }
+    
     _rating.text = [NSString stringWithFormat:@"%@",_setupMovie.rating];
     _overview.text = _setupMovie.overview;
     _writersString = [[NSMutableString alloc]init];
@@ -165,6 +177,10 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
 }
 
 -(void)setupShowOverview{
+    if([[[_user ratedShows] valueForKey:@"showID"] containsObject:_setupShow.showID]){
+        [_rateButton setImage:[UIImage imageNamed:@"YellowRatingsButton"] forState:UIControlStateNormal];
+    }
+    
     _rating.text = [NSString stringWithFormat:@"%@",_setupShow.rating];
     _overview.text = _setupShow.overview;
     _writersString = [[NSMutableString alloc]init];

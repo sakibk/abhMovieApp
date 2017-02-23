@@ -40,6 +40,7 @@
     self.rating=movie.rating;
     self.posterPath=movie.posterPath;
     self.overview=movie.overview;
+    self.userRate=movie.userRate;
     return self;
 }
 

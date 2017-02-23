@@ -49,6 +49,7 @@
 @property CGFloat noCellHeight;
 
 @property RLMRealm *realm;
+@property RLUserInfo *user;
 
 @end
 
@@ -59,9 +60,7 @@
     _tableView.delegate=self;
     _tableView.dataSource=self;
     [self setCells];
-    
-    _allSeasons=[[NSMutableArray alloc]init];
-    _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+    [self setupUser];
     // Do any additional setup after loading the view.
     [self setSizes];
     
@@ -72,6 +71,15 @@
         [self getShows];
     }
     
+}
+
+-(void)setupUser{
+    _allSeasons=[[NSMutableArray alloc]init];
+    _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+    if([users count]){
+        _user = [users firstObject];
+    }
 }
 
 
@@ -268,6 +276,7 @@
         switch (indexPath.section) {
             case 0:
             {
+                _pictureIndexPath=indexPath;
                 PictureDetailCell *cell = (PictureDetailCell *)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
                 cell.delegate=self;
                 [cell setupWithMovie:_movieDetail];
@@ -764,69 +773,59 @@
     }
 }
 
+
 -(void)addFavorite{
-    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
-    if([users count]){
-        RLUserInfo *user = [users firstObject];
+
         PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
         if(_isMovie){
-            if(![[[user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-                [user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+                [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                 [cell favoureIt];
             }
             else{
-                [user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                 [cell unFavoureIt];
             }
         }
         else{
-            if(![[[user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
-                [user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
+                [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                 [cell favoureIt];
             }
             else{
-                [user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                 [cell unFavoureIt];
             }
         }
-        
-    }
-    
     
 //    [self postToList:@"favorites"];
 }
 
 
 -(void)addWatchlist{
-    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
-    if([users count]){
-        RLUserInfo *user = [users firstObject];
+
         PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
         if(_isMovie){
-//            RLMResults<RLUserInfo *> *movies = [RLUserInfo objectsWhere:@"userID = %@ AND watchlistMovies.movieID = %@", [_userCredits objectForKey:@"userID"], _movieID];
 
-            if(![[[user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-                [user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+                [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                 [cell watchIt];
             }
             else{
-                [user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                 [cell unWatchIt];
             }
         }
         else{
-//            RLMResults<RLTVShow*> *shows = [[[users firstObject] watchlistShows] objectsWhere:@"showID = %@",_movieID];
-            if(![[[user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
-                [user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
+                [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                 [cell watchIt];
             }
             else{
-                [user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                 [cell unWatchIt];
             }
         }
-        
-    }
     
 //    [self postToList:@"watchlist"];
 }

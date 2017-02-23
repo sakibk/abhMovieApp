@@ -24,4 +24,5 @@
 @property (nonatomic) BOOL isFavorites;
 @property (nonatomic) BOOL isWatchlist;
 @property (nonatomic) BOOL isRating;
+
 @end

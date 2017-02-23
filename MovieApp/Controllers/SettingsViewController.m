@@ -10,6 +10,8 @@
 
 @interface SettingsViewController ()
 
+@property NSDictionary *userCredits;
+
 @end
 
 @implementation SettingsViewController
@@ -27,6 +29,10 @@
 
 -(void)setupView{
 //    .contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+    _accountName.text=[_userCredits valueForKey:@"name"];
+    _accountUsername.text=[_userCredits valueForKey:@"username"];
+    
     if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
         self.navigationController.interactivePopGestureRecognizer.enabled = NO;
     }

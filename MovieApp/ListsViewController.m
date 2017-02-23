@@ -9,6 +9,9 @@
 #import "ListsViewController.h"
 #import "SearchCell.h"
 #import "RLUserInfo.h"
+#import "MovieDetailViewController.h"
+#import "Movie.h"
+#import "TVShow.h"
 
 @interface ListsViewController ()
 @property NSString *dropDownTitle;
@@ -43,26 +46,32 @@
     _tableView.dataSource= self;
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:searchCellIdentifier];
     initialTableViewFrame = self.tableView.frame;
-    [self setupView];
     [self setupUser];
+    [self setupView];
     [self setupVariables];
     [self CreateDropDownList];
+    [self setupTableviewData];
 }
 
--(void)setupWhenListType:(BOOL)isWatchlist : (BOOL)isFavorites : (BOOL)isRating{
-    _isWatchlist=isWatchlist;
-    _isFavorites=isFavorites;
-    _isRating=isRating;
+-(void)setupTableviewData{
     if(_isWatchlist && !_isFavorites && !_isRating){
         _movieList=[_user watchlistMovies];
-        _showsList=[_user watchlistShows];    }
+        _showsList=[_user watchlistShows];
+        _noListLabel.text=@"No Watchlist";
+    }
     else if(_isFavorites && !_isWatchlist &&  !_isRating){
         _movieList=[_user favoriteMovies];
         _showsList=[_user favoriteShows];
+        _noListLabel.text=@"No Favorites";
     }
     else if(_isRating  && !_isFavorites && !_isWatchlist){
         _movieList=[_user ratedMovies];
-        _showsList=[_user ratedShows];    }
+        _showsList=[_user ratedShows];
+        _noListLabel.text=@"No Rated";
+    }
+    [_noListImage setHidden:NO];
+    [_noListLabel setHidden:NO];
+    [self.tableView reloadData];
 }
 
 -(void)setupUser{
@@ -208,15 +217,17 @@
         _isMovie=YES;
         [self setDropDownTitleButton];
         _selectedButton=0;
-        
+        _dropDownTitle=@"Movies";
     }
     else if(sender.tag==1){
         _isMovie=NO;
         [self setDropDownTitleButton];
         _selectedButton=1;
+        _dropDownTitle=@"TV Shows";
     }
     [self ListDroped:sender];
     [self setupButtons];
+    [self.tableView reloadData];
     if(_isMovie)
     {
 //        [self getMovies];
@@ -254,10 +265,28 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(_isMovie){
-        return _movieList != nil ? [_movieList count] : 0;
+        if(_movieList!=nil){
+            [_noListLabel setAlpha:0.0];
+            [_noListImage setAlpha:0.0];
+            return [_movieList count];
+        }
+        else{
+            [_noListLabel setAlpha:1.0];
+            [_noListImage setAlpha:1.0];
+            return 0;
+        }
     }
     else{
-        return _showsList != nil ? [_showsList count] : 0;
+        if(_showsList!=nil){
+            [_noListLabel setAlpha:0.0];
+            [_noListImage setAlpha:0.0];
+            return [_showsList count];
+        }
+        else{
+            [_noListLabel setAlpha:1.0];
+            [_noListImage setAlpha:1.0];
+            return 0;
+        }
     }
 }
 
@@ -271,19 +300,40 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
     else{
         [cell setSearchCellWithTVShow:[[TVShow alloc]initWithObject:[_showsList objectAtIndex:indexPath.row]]];
     }
-        
+    [cell setBackgroundColor:[UIColor blackColor]];
     return cell;
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+       [self performSegueWithIdentifier:@"MovieOrTVShowDetails" sender:self];
+}
 
-/*
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 105.0;
+}
+
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
+        MovieDetailViewController *movieDetails = segue.destinationViewController;
+        NSIndexPath *indexPath = [self.tableView.indexPathsForSelectedRows objectAtIndex:0];
+        if (_isMovie) {
+            Movie *test =[[Movie alloc] initWithObject:[_movieList objectAtIndex:indexPath.row]];
+            movieDetails.singleMovie = test;
+            movieDetails.movieID = test.movieID;
+            movieDetails.isMovie=_isMovie;
+        }
+        else{
+            TVShow *tvTest =[[TVShow alloc]initWithObject:[_showsList objectAtIndex:indexPath.row]];
+            movieDetails.singleShow = tvTest;
+            movieDetails.movieID = tvTest.showID;
+            movieDetails.isMovie=_isMovie;
+        }
+    }
 }
-*/
+
 
 @end

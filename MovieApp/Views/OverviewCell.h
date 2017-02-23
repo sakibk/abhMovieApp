@@ -10,6 +10,7 @@
 #import "Movie.h"
 #import "TVShow.h"
 #import "Crew.h"
+#import "RLUserInfo.h"
 
 @protocol OverviewCellDelegate <NSObject>
 
@@ -35,7 +36,9 @@ extern NSString * const OverviewCellIdentifier;
 @property (strong, nonatomic) TVShow *setupShow;
 
 @property (strong, nonatomic) NSDictionary *userCredits;
+@property RLUserInfo *user;
 @property BOOL isLoged;
+
 
 @property (strong, nonatomic) id<OverviewCellDelegate> delegate;
 

@@ -20,6 +20,7 @@
 @property NSString *backdropPath;
 @property NSString *singleGenre;
 @property NSString *overview;
+@property NSNumber<RLMInt> *userRate;
 
 
 -(id) initWithMovie:(Movie *)movie;

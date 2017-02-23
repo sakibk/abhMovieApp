@@ -51,7 +51,7 @@
 -(void)deleteFavoriteMovies:(RLMovie*)movie{
     int i,j = 0;
     BOOL didFound=NO;
-    for (i=0;i<[self.favoriteMovies count]; i--) {
+    for (i=0;i<[self.favoriteMovies count]; i++) {
         if([[[self.favoriteMovies objectAtIndex:i] movieID] isEqualToNumber:movie.movieID]){
             j=i;
             didFound=YES;
@@ -73,15 +73,38 @@
 -(void)deleteWatchlistMovies:(RLMovie*)movie{
     int i,j = 0;
     BOOL didFound=NO;
-    for (i=0;i<[self.watchlistMovies count]; i--) {
+    for (i=0;i<[self.watchlistMovies count]; i++) {
         if([[[self.watchlistMovies objectAtIndex:i] movieID] isEqualToNumber:movie.movieID]){
+            j=i;
+            didFound=YES;
+        }
+    }
+    
+    if(didFound){
+        [[RLMRealm defaultRealm] beginWriteTransaction];
+        [self.watchlistMovies removeObjectAtIndex:j];
+        [[RLMRealm defaultRealm] commitWriteTransaction];
+    }
+}
+
+-(void)addToRatedMovies:(RLMovie*)movie{
+    [[RLMRealm defaultRealm] beginWriteTransaction];
+    [self.ratedMovies addObject:movie];
+    [[RLMRealm defaultRealm] commitWriteTransaction];
+}
+
+-(void)deleteRatedMovies:(RLMovie*)movie{
+    int i,j = 0;
+    BOOL didFound=NO;
+    for (i=0;i<[self.ratedMovies count]; i++) {
+        if([[[self.ratedMovies objectAtIndex:i] movieID] isEqualToNumber:movie.movieID]){
             j=i;
             didFound=YES;
         }
     }
     if(didFound){
         [[RLMRealm defaultRealm] beginWriteTransaction];
-        [self.watchlistMovies removeObjectAtIndex:j];
+        [self.ratedMovies removeObjectAtIndex:j];
         [[RLMRealm defaultRealm] commitWriteTransaction];
     }
 }
@@ -95,7 +118,7 @@
 -(void)deleteFavoriteShows:(RLTVShow*)show{
     int i,j = 0;
     BOOL didFound=NO;
-    for (i=0;i<[self.favoriteShows count]; i--) {
+    for (i=0;i<[self.favoriteShows count]; i++) {
         if([[[self.favoriteShows objectAtIndex:i] showID] isEqualToNumber:show.showID]){
             j=i;
             didFound=YES;
@@ -117,7 +140,7 @@
 -(void)deleteWatchlistShows:(RLTVShow*)show{
     int i,j = 0;
     BOOL didFound=NO;
-    for (i=0;i<[self.watchlistShows count]; i--) {
+    for (i=0;i<[self.watchlistShows count]; i++) {
         if([[[self.watchlistShows objectAtIndex:i] showID] isEqualToNumber:show.showID]){
             j=i;
             didFound=YES;
@@ -126,6 +149,28 @@
     if(didFound){
         [[RLMRealm defaultRealm] beginWriteTransaction];
         [self.watchlistShows removeObjectAtIndex:j];
+        [[RLMRealm defaultRealm] commitWriteTransaction];
+    }
+}
+
+-(void)addToRatedShows:(RLTVShow*)show{
+    [[RLMRealm defaultRealm] beginWriteTransaction];
+    [self.ratedShows addObject:show];
+    [[RLMRealm defaultRealm] commitWriteTransaction];
+}
+
+-(void)deleteRatedShows:(RLTVShow*)show{
+    int i,j = 0;
+    BOOL didFound=NO;
+    for (i=0;i<[self.ratedShows count]; i++) {
+        if([[[self.ratedShows objectAtIndex:i] showID] isEqualToNumber:show.showID]){
+            j=i;
+            didFound=YES;
+        }
+    }
+    if(didFound){
+        [[RLMRealm defaultRealm] beginWriteTransaction];
+        [self.ratedShows removeObjectAtIndex:j];
         [[RLMRealm defaultRealm] commitWriteTransaction];
     }
 }

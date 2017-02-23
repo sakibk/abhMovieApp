@@ -120,7 +120,7 @@ NSString* const identifier= @"MovieCellIdentifier";
 }
 
 -(void)favoureIt{
-    [_favoured setImage:[UIImage imageNamed:@"YellowFavouritesButton"]];
+    [_favoured setImage:[UIImage imageNamed:@"YellowFavoritesButton"]];
 }
 
 -(void)unFavoureIt{

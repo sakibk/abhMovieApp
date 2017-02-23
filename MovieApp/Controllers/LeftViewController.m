@@ -248,6 +248,9 @@
             case 1:{
                 [cell.imageView setImage:[UIImage imageNamed:@"YellowFavoritesButton"]];
                 ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
+                listsController.isFavorites=YES;
+                listsController.isWatchlist=NO;
+                listsController.isRating=NO;
                 [self.navigationController pushViewController:listsController animated:YES];
                 [self.sideMenuController showLeftViewAnimated:NO completionHandler:nil];
             }
@@ -255,6 +258,9 @@
             case 2:{
                 [cell.imageView setImage:[UIImage imageNamed:@"YellowWatchlistButton"]];
                 ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
+                listsController.isFavorites=NO;
+                listsController.isWatchlist=YES;
+                listsController.isRating=NO;
                 [self.navigationController pushViewController:listsController animated:YES];
                 [self.sideMenuController showLeftViewAnimated:NO completionHandler:nil];
             }
@@ -262,6 +268,9 @@
             case 3:{
                 [cell.imageView setImage:[UIImage imageNamed:@"YellowRatingsButton"]];
                 ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
+                listsController.isFavorites=NO;
+                listsController.isWatchlist=NO;
+                listsController.isRating=YES;
                 [self.navigationController pushViewController:listsController animated:YES];
                 [self.sideMenuController showLeftViewAnimated:NO completionHandler:nil];
             }

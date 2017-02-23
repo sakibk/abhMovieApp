@@ -683,13 +683,13 @@ RLM_ARRAY_TYPE(Movie);
     
     if(_isLoged){
         if(_isMovie){
-            if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_test.movieID]){
+            if([[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_test.movieID]){
                 [cell watchIt];
             }
             else{
                 [cell unWatchIt];
             }
-            if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_test.movieID]){
+            if([[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_test.movieID]){
                 [cell favoureIt];
             }
             else{
@@ -697,13 +697,13 @@ RLM_ARRAY_TYPE(Movie);
             }
         }
         else{
-            if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_tvTest.showID]){
+            if([[[_user favoriteShows] valueForKey:@"showID"] containsObject:_tvTest.showID]){
                 [cell favoureIt];
             }
             else{
                 [cell unFavoureIt];
             }
-            if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_tvTest.showID]){
+            if([[[_user watchlistShows] valueForKey:@"showID"] containsObject:_tvTest.showID]){
                 [cell watchIt];
             }
             else{

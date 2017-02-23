@@ -39,6 +39,7 @@
     self.rating=show.rating;
     self.posterPath=show.posterPath;
     self.overview=show.overview;
+    self.userRate=show.userRate;
     
     return self;
 }

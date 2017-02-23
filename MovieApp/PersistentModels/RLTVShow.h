@@ -19,7 +19,7 @@
 @property NSString *backdropPath;
 @property NSString *singleGenre;
 @property NSString *overview;
-
+@property NSNumber<RLMInt> *userRate;
 
 - (id) initWithShow:(TVShow *)show;
 -(void)setupWithShow:(TVShow *)singleObject;
