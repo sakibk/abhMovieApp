@@ -202,9 +202,13 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 //    self.window.rootViewController = [[ActorDetailsViewController alloc] init];
 //    [self performSegueWithIdentifier:@"ActorDetails" sender:self];
+    
     _singleCast = [_allCasts objectAtIndex:indexPath.row];
     if(_singleCast.castID!=nil) {
-            [self.delegate openActorWithID:_singleCast.castID];
+            [_delegate openActorWithID:_singleCast.castID];
+    }
+    else{
+        [_delegate openActorWithID:_singleCast.castWithID];
     }
 }
 //

@@ -48,7 +48,6 @@
 
 -(void)setNavBarTitle{
     self.navigationItem.title =_showName;
-    [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

@@ -164,6 +164,7 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="director" destination="u0g-1j-jsK" id="gCC-Al-Tys"/>
+                <outlet property="lineSeparator" destination="LCM-uo-QXu" id="8aD-uM-Th9"/>
                 <outlet property="overview" destination="BAB-bu-ejN" id="nGk-Yk-Tvi"/>
                 <outlet property="rateButton" destination="6GU-7F-U58" id="E05-ka-PzG"/>
                 <outlet property="rating" destination="1gJ-BP-igo" id="bWG-FH-ZJl"/>

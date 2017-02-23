@@ -28,6 +28,7 @@ extern NSString * const OverviewCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *rating;
 @property (weak, nonatomic) IBOutlet UILabel *overview;
 @property (weak, nonatomic) IBOutlet UIButton *rateButton;
+@property (weak, nonatomic) IBOutlet UILabel *lineSeparator;
 
 @property (strong, nonatomic) NSMutableArray <Crew *> *allCrew;
 @property (strong, nonatomic) NSMutableString *writersString;

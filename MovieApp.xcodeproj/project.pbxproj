@@ -319,6 +319,58 @@
 			name = TrailerView;
 			sourceTree = "<group>";
 		};
+		AD13A6091E5F337700671C41 /* Cast */ = {
+			isa = PBXGroup;
+			children = (
+				AD34A0191E3B79CB009C4367 /* CastCollectionCell.xib */,
+				AD34A01B1E3B7A12009C4367 /* CastCollectionCell.h */,
+				AD34A01C1E3B7A12009C4367 /* CastCollectionCell.m */,
+				AD34A01E1E3B8592009C4367 /* SingleCastCell.xib */,
+				AD34A0231E3B8692009C4367 /* SingleCastCell.h */,
+				AD34A0241E3B8692009C4367 /* SingleCastCell.m */,
+			);
+			name = Cast;
+			sourceTree = "<group>";
+		};
+		AD13A60B1E5F339600671C41 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				AD34A0261E3B96FD009C4367 /* ReviewsCell.xib */,
+				AD34A0281E3B9731009C4367 /* ReviewsCell.h */,
+				AD34A0291E3B9731009C4367 /* ReviewsCell.m */,
+				AD34A0321E3BDDC3009C4367 /* SingleReviewCell.xib */,
+				AD34A02F1E3BDD9E009C4367 /* SingleReviewCell.h */,
+				AD34A0301E3BDD9E009C4367 /* SingleReviewCell.m */,
+			);
+			name = Reviews;
+			sourceTree = "<group>";
+		};
+		AD13A60C1E5F33A700671C41 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				AD34A0021E39FEDC009C4367 /* ImageCollectionCell.xib */,
+				AD34A0041E39FF4D009C4367 /* ImageCollectionCell.h */,
+				AD34A0051E39FF4D009C4367 /* ImageCollectionCell.m */,
+				AD34A0071E3A0489009C4367 /* SingleImageCell.xib */,
+				AD34A0091E3A04F2009C4367 /* SingleImageCell.h */,
+				AD34A00A1E3A04F2009C4367 /* SingleImageCell.m */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		AD13A60D1E5F33C900671C41 /* Filmography */ = {
+			isa = PBXGroup;
+			children = (
+				AD4F938A1E4B93FF00E55630 /* FilmographyCell.xib */,
+				AD4F938C1E4B941D00E55630 /* FilmographyCell.h */,
+				AD4F938D1E4B941D00E55630 /* FilmographyCell.m */,
+				AD4F938F1E4B944B00E55630 /* SingleFilmographyCell.xib */,
+				AD4F93911E4B946600E55630 /* SingleFilmographyCell.h */,
+				AD4F93921E4B946600E55630 /* SingleFilmographyCell.m */,
+			);
+			name = Filmography;
+			sourceTree = "<group>";
+		};
 		AD1783841E2E45A80037DC44 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,11 +399,11 @@
 				AD17838E1E323ACE0037DC44 /* MovieDetailViewController.m */,
 				ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */,
 				ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */,
-				AD13A6071E5F32F500671C41 /* SearchView */,
 				AD13A6061E5F32DC00671C41 /* ActorView */,
 				AD13A6081E5F330500671C41 /* TrailerView */,
 				AD13A6011E5E566600671C41 /* LoginView */,
 				AD64D8341E5A17BA00DAE191 /* ListView */,
+				AD13A6071E5F32F500671C41 /* SearchView */,
 				AD8696181E55975C009B75F0 /* SidebarView */,
 				AD4F93A81E4E76F800E55630 /* SeasonsView */,
 				AD4F93A41E4DCDE000E55630 /* ImagesView */,
@@ -393,24 +445,9 @@
 				AD349FFD1E39F29F009C4367 /* OverviewCell.xib */,
 				AD349FFF1E39F367009C4367 /* OverviewCell.h */,
 				AD34A0001E39F367009C4367 /* OverviewCell.m */,
-				AD34A0021E39FEDC009C4367 /* ImageCollectionCell.xib */,
-				AD34A0041E39FF4D009C4367 /* ImageCollectionCell.h */,
-				AD34A0051E39FF4D009C4367 /* ImageCollectionCell.m */,
-				AD34A0071E3A0489009C4367 /* SingleImageCell.xib */,
-				AD34A0091E3A04F2009C4367 /* SingleImageCell.h */,
-				AD34A00A1E3A04F2009C4367 /* SingleImageCell.m */,
-				AD34A0191E3B79CB009C4367 /* CastCollectionCell.xib */,
-				AD34A01B1E3B7A12009C4367 /* CastCollectionCell.h */,
-				AD34A01C1E3B7A12009C4367 /* CastCollectionCell.m */,
-				AD34A01E1E3B8592009C4367 /* SingleCastCell.xib */,
-				AD34A0231E3B8692009C4367 /* SingleCastCell.h */,
-				AD34A0241E3B8692009C4367 /* SingleCastCell.m */,
-				AD34A0261E3B96FD009C4367 /* ReviewsCell.xib */,
-				AD34A0281E3B9731009C4367 /* ReviewsCell.h */,
-				AD34A0291E3B9731009C4367 /* ReviewsCell.m */,
-				AD34A0321E3BDDC3009C4367 /* SingleReviewCell.xib */,
-				AD34A02F1E3BDD9E009C4367 /* SingleReviewCell.h */,
-				AD34A0301E3BDD9E009C4367 /* SingleReviewCell.m */,
+				AD13A60C1E5F33A700671C41 /* Images */,
+				AD13A6091E5F337700671C41 /* Cast */,
+				AD13A60B1E5F339600671C41 /* Reviews */,
 				AD4F93621E41CE1C00E55630 /* SeasonsCell.xib */,
 				AD4F93641E41CE4900E55630 /* SeasonsCell.h */,
 				AD4F93651E41CE4900E55630 /* SeasonsCell.m */,
@@ -443,12 +480,7 @@
 				AD4F93851E4B937800E55630 /* AboutCell.xib */,
 				AD4F93871E4B93E000E55630 /* AboutCell.h */,
 				AD4F93881E4B93E000E55630 /* AboutCell.m */,
-				AD4F938A1E4B93FF00E55630 /* FilmographyCell.xib */,
-				AD4F938C1E4B941D00E55630 /* FilmographyCell.h */,
-				AD4F938D1E4B941D00E55630 /* FilmographyCell.m */,
-				AD4F938F1E4B944B00E55630 /* SingleFilmographyCell.xib */,
-				AD4F93911E4B946600E55630 /* SingleFilmographyCell.h */,
-				AD4F93921E4B946600E55630 /* SingleFilmographyCell.m */,
+				AD13A60D1E5F33C900671C41 /* Filmography */,
 			);
 			name = Actor;
 			sourceTree = "<group>";

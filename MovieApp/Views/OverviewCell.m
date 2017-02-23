@@ -24,6 +24,7 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     _isLoged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
     if(!_isLoged){
         [_rateButton setHidden:YES];
+        [_lineSeparator setHidden:YES];
     }
     else{
         _userCredits=[[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
@@ -87,6 +88,7 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
 }
 
 -(void)setupOverview{
+    [self setupUser];
     if([[[_user ratedMovies] valueForKey:@"movieID"] containsObject:_setupMovie.movieID]){
         [_rateButton setImage:[UIImage imageNamed:@"YellowRatingsButton"] forState:UIControlStateNormal];
     }

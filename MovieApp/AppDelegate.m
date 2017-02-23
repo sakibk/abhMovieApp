@@ -32,11 +32,12 @@
 //    NSURL *baseURLBoxOffice = [NSURL URLWithString:@"http://www.boxofficemojo.com"];
 //    AFRKHTTPClient *clientBoxOffice = [[AFRKHTTPClient alloc] initWithBaseURL:baseURLBoxOffice];
 //    [[RKObjectManager boxOfficeManager] setHTTPClient:clientBoxOffice];
-    
+    [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor lightGrayColor]];
     
     [self setupSidebar];
-
+    
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     // Set the new schema version. This must be greater than the previously used
     // version (if you've never set a schema version before, the version is 0).

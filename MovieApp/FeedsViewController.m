@@ -81,21 +81,20 @@
 
 -(void)setupSearchbar{
     if(!_isNavBarSet){
-    UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(pushSideBar:)];
-    self.navigationItem.leftBarButtonItem=pieItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
-    txtSearchField.font = [UIFont systemFontOfSize:15];
-    txtSearchField.backgroundColor = [UIColor darkGrayColor];
-    txtSearchField.tintColor= [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
-    txtSearchField.textColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
-    txtSearchField.textAlignment = NSTextAlignmentCenter;
-    txtSearchField.placeholder = @"🔍 Search";
-    txtSearchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    txtSearchField.borderStyle=UITextBorderStyleRoundedRect;
-        txtSearchField.userInteractionEnabled=NO;
-    self.navigationItem.titleView =txtSearchField;
-    _isNavBarSet=YES;
+        self.navigationController.navigationBar.titleTextAttributes = @{NSForegroundColorAttributeName : [UIColor whiteColor]};
+        UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(pushSideBar:)];
+        self.navigationItem.leftBarButtonItem=pieItem;
+        self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
+        UIView *iv = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
+        [iv setBackgroundColor:[UIColor clearColor]];
+        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 300, 27)];
+        titleLabel.textAlignment=NSTextAlignmentCenter;
+        titleLabel.font=[UIFont systemFontOfSize:18];
+        titleLabel.text=@"News feeds";
+        titleLabel.textColor=[UIColor whiteColor];
+        [iv addSubview:titleLabel];
+        self.navigationItem.titleView = iv;
+        _isNavBarSet=YES;
     }
 }
 

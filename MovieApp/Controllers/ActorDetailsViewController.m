@@ -264,6 +264,7 @@
     }
     
     [viewControllers removeLastObject];
+    [viewControllers removeLastObject];
     [viewControllers addObject:movieDetails];
     [[self navigationController] setViewControllers:viewControllers animated:YES];
 }
