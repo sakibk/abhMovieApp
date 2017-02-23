@@ -292,6 +292,33 @@
 			name = Ratings;
 			sourceTree = "<group>";
 		};
+		AD13A6061E5F32DC00671C41 /* ActorView */ = {
+			isa = PBXGroup;
+			children = (
+				AD4F937E1E4B38AC00E55630 /* ActorDetailsViewController.h */,
+				AD4F937F1E4B38AC00E55630 /* ActorDetailsViewController.m */,
+			);
+			name = ActorView;
+			sourceTree = "<group>";
+		};
+		AD13A6071E5F32F500671C41 /* SearchView */ = {
+			isa = PBXGroup;
+			children = (
+				AD4F93731E48D4FC00E55630 /* SearchViewController.h */,
+				AD4F93741E48D4FC00E55630 /* SearchViewController.m */,
+			);
+			name = SearchView;
+			sourceTree = "<group>";
+		};
+		AD13A6081E5F330500671C41 /* TrailerView */ = {
+			isa = PBXGroup;
+			children = (
+				AD4F93941E4C78AB00E55630 /* TrailerViewController.h */,
+				AD4F93951E4C78AB00E55630 /* TrailerViewController.m */,
+			);
+			name = TrailerView;
+			sourceTree = "<group>";
+		};
 		AD1783841E2E45A80037DC44 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -320,12 +347,9 @@
 				AD17838E1E323ACE0037DC44 /* MovieDetailViewController.m */,
 				ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */,
 				ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */,
-				AD4F93731E48D4FC00E55630 /* SearchViewController.h */,
-				AD4F93741E48D4FC00E55630 /* SearchViewController.m */,
-				AD4F937E1E4B38AC00E55630 /* ActorDetailsViewController.h */,
-				AD4F937F1E4B38AC00E55630 /* ActorDetailsViewController.m */,
-				AD4F93941E4C78AB00E55630 /* TrailerViewController.h */,
-				AD4F93951E4C78AB00E55630 /* TrailerViewController.m */,
+				AD13A6071E5F32F500671C41 /* SearchView */,
+				AD13A6061E5F32DC00671C41 /* ActorView */,
+				AD13A6081E5F330500671C41 /* TrailerView */,
 				AD13A6011E5E566600671C41 /* LoginView */,
 				AD64D8341E5A17BA00DAE191 /* ListView */,
 				AD8696181E55975C009B75F0 /* SidebarView */,

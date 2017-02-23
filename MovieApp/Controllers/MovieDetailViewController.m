@@ -699,11 +699,7 @@
 
  
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- if ([segue.identifier isEqualToString:@"ActorDetails"]){
- ActorDetailsViewController *actorDetail = segue.destinationViewController;
-     actorDetail.actorID =_actorID;
- }
- else if ([segue.identifier isEqualToString:@"WatchTrailer"]){
+     if ([segue.identifier isEqualToString:@"WatchTrailer"]){
      TrailerViewController *trailer = segue.destinationViewController;
      if(_isMovie){
         [trailer setupWithMovieID:_movieID andOverview:_movieDetail.overview];     }
@@ -745,8 +741,15 @@
 }
 
 - (void)openActorWithID:(NSNumber *)actorID {
-    _actorID=actorID;
-    [self performSegueWithIdentifier:@"ActorDetails" sender:self];
+    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ActorDetailsViewController *actorDetails = [storyboard instantiateViewControllerWithIdentifier:@"ActorDetails"];
+    actorDetails.actorID = actorID;
+    
+    [viewControllers removeLastObject];
+    [viewControllers addObject:actorDetails];
+    [[self navigationController] setViewControllers:viewControllers animated:YES];
 }
 
 -(void)rateMedia{

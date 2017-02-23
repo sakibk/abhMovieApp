@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "Actor.h"
+#import "FilmographyCell.h"
+#import "Cast.h"
 
-@interface ActorDetailsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface ActorDetailsViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,FilmographyCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSNumber *actorID;

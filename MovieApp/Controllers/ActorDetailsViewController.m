@@ -11,6 +11,9 @@
 #import "PictureDetailCell.h"
 #import "AboutCell.h"
 #import "FilmographyCell.h"
+#import "MovieDetailViewController.h"
+#import "Movie.h"
+#import "TVShow.h"
 
 @interface ActorDetailsViewController ()
 
@@ -202,7 +205,9 @@
         case 2:{
             FilmographyCell *cell = (FilmographyCell *)[tableView dequeueReusableCellWithIdentifier:filmographyCellIdentifier forIndexPath:indexPath];
             [cell setupWithActor:_singleActor];
+            cell.delegate=self;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return cell;
         }
             break;
         default:
@@ -230,6 +235,39 @@
             break;
     }
 }
+
+- (void)MediaWithCast:(Cast *)castForMedia{
+    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MovieDetailViewController *movieDetails= [storyboard instantiateViewControllerWithIdentifier:@"MovieDetails"];
+
+    if([castForMedia.mediaType isEqualToString:@"movie"]){
+        Movie *movie = [[Movie alloc]init];
+        movie.movieID = castForMedia.castWithID;
+        movie.title=castForMedia.castMovieTitle;
+        movie.posterPath=castForMedia.castImagePath;
+        movie.releaseDate=castForMedia.releaseDate;
+        movieDetails.isMovie=YES;
+        movieDetails.movieID=movie.movieID;
+        movieDetails.singleMovie=movie;
+    }
+    else if([castForMedia.mediaType isEqualToString:@"tv"])
+    {
+        TVShow *show = [[TVShow alloc]init];
+        show.showID = castForMedia.castWithID;
+        show.name = castForMedia.castMovieTitle;
+        show.posterPath = castForMedia.castImagePath;
+        show.airDate = castForMedia.releaseDate;
+        movieDetails.isMovie=NO;
+        movieDetails.movieID = show.showID;
+        movieDetails.singleShow=show;
+    }
+    
+    [viewControllers removeLastObject];
+    [viewControllers addObject:movieDetails];
+    [[self navigationController] setViewControllers:viewControllers animated:YES];
+}
+
 
 
 

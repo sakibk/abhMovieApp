@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "Episode.h"
+#import "CastCollectionCell.h"
 
-@interface EpisodeDetailsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface EpisodeDetailsViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,CastCollectionCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(strong, nonatomic) Episode *singleEpisode;
 @property (strong, nonatomic) NSString *showName;

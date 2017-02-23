@@ -206,9 +206,6 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     if(_singleCast.castID!=nil) {
             [self.delegate openActorWithID:_singleCast.castID];
     }
-    else{
-            [self.delegate openActorWithID:_singleCast.castWithID];
-    }
 }
 //
 //- (IBAction)actorCellTapped:(id)sender

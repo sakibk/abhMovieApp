@@ -139,7 +139,7 @@
     CGRect pictureTwoFrame = CGRectMake(22, 64*2+24 , 20, 15);
     imageTwo = [[UIImageView alloc]initWithFrame:pictureTwoFrame];
     [imageTwo setImage:[UIImage imageNamed:@""]];
-    CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
+    CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
     optionTwo = [[UIButton alloc]init];
     optionTwo.frame=buttonTwoFrame;
     optionTwo.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
@@ -300,40 +300,81 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
     else{
         [cell setSearchCellWithTVShow:[[TVShow alloc]initWithObject:[_showsList objectAtIndex:indexPath.row]]];
     }
+    [cell setAccessoryType:UITableViewCellAccessoryNone];
     [cell setBackgroundColor:[UIColor blackColor]];
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-       [self performSegueWithIdentifier:@"MovieOrTVShowDetails" sender:self];
+       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    MovieDetailViewController *movieDetails = [storyboard instantiateViewControllerWithIdentifier:@"MovieDetails"];
+    if (_isMovie) {
+        Movie *test =[[Movie alloc] initWithObject:[_movieList objectAtIndex:indexPath.row]];
+        movieDetails.singleMovie = test;
+        movieDetails.movieID = test.movieID;
+        movieDetails.isMovie=_isMovie;
+    }
+    else{
+        TVShow *tvTest =[[TVShow alloc]initWithObject:[_showsList objectAtIndex:indexPath.row]];
+        movieDetails.singleShow = tvTest;
+        movieDetails.movieID = tvTest.showID;
+        movieDetails.isMovie=_isMovie;
+    }
+    [self.navigationController pushViewController:movieDetails animated:YES];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 105.0;
 }
 
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
-        MovieDetailViewController *movieDetails = segue.destinationViewController;
-        NSIndexPath *indexPath = [self.tableView.indexPathsForSelectedRows objectAtIndex:0];
-        if (_isMovie) {
-            Movie *test =[[Movie alloc] initWithObject:[_movieList objectAtIndex:indexPath.row]];
-            movieDetails.singleMovie = test;
-            movieDetails.movieID = test.movieID;
-            movieDetails.isMovie=_isMovie;
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        if(_isMovie){
+            if(_isFavorites){
+                [_user deleteFavoriteMovies:[_movieList objectAtIndex:indexPath.row]];
+            }
+            else if(_isWatchlist){
+                [_user deleteWatchlistMovies:[_movieList objectAtIndex:indexPath.row]];
+            }
+            else if (_isRating){
+                [_user deleteRatedMovies:[_movieList objectAtIndex:indexPath.row]];
+            }
         }
         else{
-            TVShow *tvTest =[[TVShow alloc]initWithObject:[_showsList objectAtIndex:indexPath.row]];
-            movieDetails.singleShow = tvTest;
-            movieDetails.movieID = tvTest.showID;
-            movieDetails.isMovie=_isMovie;
+            if(_isFavorites){
+                [_user deleteFavoriteShows:[_showsList objectAtIndex:indexPath.row]];
+            }
+            else if(_isWatchlist){
+                [_user deleteWatchlistShows:[_showsList objectAtIndex:indexPath.row]];
+            }
+            else if (_isRating){
+                [_user deleteRatedShows:[_showsList objectAtIndex:indexPath.row]];
+            }
         }
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
 
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        //insert your deleteAction here
+    }];
+    deleteAction.backgroundColor = [UIColor yellowColor];
+    [[UIButton appearance] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    return @[deleteAction];
+}
+
+
+#pragma mark - Navigation
+/*
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
+//        MovieDetailViewController *movieDetails = segue.destinationViewController;
+//        NSIndexPath *indexPath = [self.tableView.indexPathsForSelectedRows objectAtIndex:0];
+//        }
+}
+*/
 
 @end

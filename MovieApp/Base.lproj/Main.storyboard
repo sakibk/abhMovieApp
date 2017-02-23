@@ -679,7 +679,7 @@
         <!--Actor Details View Controller-->
         <scene sceneID="eIc-0X-e9f">
             <objects>
-                <viewController id="vzD-Xy-VFD" customClass="ActorDetailsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ActorDetails" id="vzD-Xy-VFD" customClass="ActorDetailsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="b96-LB-7qE"/>
                         <viewControllerLayoutGuide type="bottom" id="vYJ-D4-NhY"/>

@@ -11,6 +11,7 @@
 #import "CastCollectionCell.h"
 #import "EpisodeDetailsCell.h"
 #import "EpisodeOverviewCell.h"
+#import "ActorDetailsViewController.h"
 
 @interface EpisodeDetailsViewController ()
 
@@ -85,6 +86,7 @@
             CastCollectionCell *cell = (CastCollectionCell*)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithEpisode:_singleEpisode];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            cell.delegate=self;
             return cell;
         }
             break;
@@ -164,6 +166,18 @@
     [label setTextColor:[UIColor whiteColor]];
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
     return view;
+}
+
+- (void)openActorWithID:(NSNumber *)actorID{
+        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ActorDetailsViewController *actorDetails = [storyboard instantiateViewControllerWithIdentifier:@"ActorDetails"];
+    actorDetails.actorID = actorID;
+    
+    [viewControllers removeLastObject];
+    [viewControllers addObject:actorDetails];
+    [[self navigationController] setViewControllers:viewControllers animated:YES];
 }
 
 /*

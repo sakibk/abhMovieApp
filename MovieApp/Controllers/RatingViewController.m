@@ -110,7 +110,7 @@
         }
         }
     else{
-        if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_singleShow.showID]){
+        if(![[[_user ratedShows] valueForKey:@"showID"] containsObject:_singleShow.showID]){
             _singleShow.userRate=_rate;
             [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
             [self postStatusError:@"Successfuly rated Show"];

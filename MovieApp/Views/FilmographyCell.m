@@ -38,7 +38,9 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
     [castsMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
                                                       @"id": @"castWithID",
                                                       @"poster_path": @"castImagePath",
-                                                       @"title":@"castMovieTitle"
+                                                       @"title":@"castMovieTitle",
+                                                       @"release_date":@"releaseDate",
+                                                       @"media_type":@"mediaType"
                                                       }];
     castsMapping.assignsNilForMissingRelationships = YES;
     
@@ -102,6 +104,19 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 
 -(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
     return UIEdgeInsetsMake(10, 5, 10, 5);
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    _singleCast = [_allCasts objectAtIndex:indexPath.row];
+    if(_singleCast.castWithID!=nil) {
+        [self.delegate MediaWithCast:_singleCast];
+    }
+    else{
+        [self.delegate MediaWithCast:_singleCast];
+    }
+}
+- (void)MediaWithCast:(Cast *)castForMedia{
+    
 }
 
 @end
