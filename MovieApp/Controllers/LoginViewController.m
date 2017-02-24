@@ -57,7 +57,7 @@
 }
 
 -(void)setVariables{
-    _currentPage =[NSNumber numberWithInteger:1];
+    _currentPage =[NSNumber numberWithInt:1];
     _onePageFavMovieList = [[ListMapping alloc]init];
     _onePageWtchMovieList = [[ListMapping alloc]init];
     _onePageRateMovieList = [[ListMapping alloc]init];
@@ -329,7 +329,6 @@
                                     };
         [[NSUserDefaults standardUserDefaults] setObject:loginData forKey:@"SessionCredentials"];
         [self setFavoriteMovieLists];
-        [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -390,14 +389,15 @@
             [_user addToFavoriteMovies:[[RLMovie alloc] initWithMovie:muv]];
         }
         
-        if([_onePageFavMovieList pageCount]>_currentPage){
+        if([[_onePageFavMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageFavMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            _currentPage=[NSNumber numberWithInt:1];
+            [self setWatchlistMovieLists];
+        }
+        
+        else if([_onePageFavMovieList pageCount]>_currentPage){
             int i = [_currentPage intValue];
             _currentPage = [NSNumber numberWithInt:i+1];
             [self getFavoriteMovieLists];
-        }
-        else if([_onePageFavMovieList pageCount] == _currentPage){
-            _currentPage=[NSNumber numberWithInt:1];
-            [self setWatchlistMovieLists];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -455,15 +455,14 @@
             muv.releaseDate = [dateFormatter dateFromString:[mv valueForKey:@"release_date"]];
             [_user addToWatchlistMovies:[[RLMovie alloc] initWithMovie:muv]];
         }
-        
-        if([_onePageWtchMovieList pageCount]>_currentPage){
+        if([[_onePageWtchMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageWtchMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            _currentPage=[NSNumber numberWithInt:1];
+            [self setRatedMovieLists];
+        }
+        else if([_onePageWtchMovieList pageCount]>_currentPage){
             int i = [_currentPage intValue];
             _currentPage = [NSNumber numberWithInt:i+1];
             [self getWatchlistMovieLists];
-        }
-        else if([_onePageWtchMovieList pageCount] == _currentPage){
-            _currentPage=[NSNumber numberWithInt:1];
-            [self setRatedMovieLists];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -521,15 +520,15 @@
             muv.releaseDate = [dateFormatter dateFromString:[mv valueForKey:@"release_date"]];
             [_user addToRatedMovies:[[RLMovie alloc] initWithMovie:muv]];
         }
+        if([[_onePageRateMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageRateMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            _currentPage=[NSNumber numberWithInt:1];
+            [self setFavoriteShowLists];
+        }
         
-        if([_onePageRateMovieList pageCount]>_currentPage){
+        else if([_onePageRateMovieList pageCount]>_currentPage){
             int i = [_currentPage intValue];
             _currentPage = [NSNumber numberWithInt:i+1];
             [self getRatedMovieLists];
-        }
-        else if([_onePageRateMovieList pageCount] == _currentPage){
-            _currentPage=[NSNumber numberWithInt:1];
-            [self setFavoriteShowLists];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -588,15 +587,15 @@
             tvs.airDate = [dateFormatter dateFromString:[tv valueForKey:@"first_air_date"]];
             [_user addToFavoriteShows:[[RLTVShow alloc] initWithShow:tvs]];
         }
+        if([[_onePageFavShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageFavShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            _currentPage=[NSNumber numberWithInt:1];
+            [self setWatchlistShowLists];
+        }
         
-        if([_onePageFavShowList pageCount]>_currentPage){
+        else if([_onePageFavShowList pageCount]>_currentPage){
             int i = [_currentPage intValue];
             _currentPage = [NSNumber numberWithInt:i+1];
             [self getFavoriteShowLists];
-        }
-        else if([_onePageFavShowList pageCount] == _currentPage){
-            _currentPage=[NSNumber numberWithInt:1];
-            [self setWatchlistShowLists];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -654,15 +653,15 @@
             tvs.airDate = [dateFormatter dateFromString:[tv valueForKey:@"first_air_date"]];
             [_user addToWatchlistShows:[[RLTVShow alloc] initWithShow:tvs]];
         }
+        if([[_onePageWtchShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageWtchShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            _currentPage=[NSNumber numberWithInt:1];
+            [self setRatedShowLists];
+        }
         
-        if([_onePageWtchShowList pageCount]>_currentPage){
+        else if([_onePageWtchShowList pageCount]>_currentPage){
             int i = [_currentPage intValue];
             _currentPage = [NSNumber numberWithInt:i+1];
             [self getWatchlistShowLists];
-        }
-        else if([_onePageWtchShowList pageCount] == _currentPage){
-            _currentPage=[NSNumber numberWithInt:1];
-            [self setRatedShowLists];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -722,13 +721,15 @@
             [_user addToRatedShows:[[RLTVShow alloc] initWithShow:tvs]];
         }
         
-        if([_onePageRateShowList pageCount]>_currentPage){
+        if([[_onePageRateShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageRateShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            _currentPage=[NSNumber numberWithInt:1];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+        
+        else if([_onePageRateShowList pageCount]>_currentPage){
             int i = [_currentPage intValue];
             _currentPage = [NSNumber numberWithInt:i+1];
             [self getRatedShowLists];
-        }
-        else if([_onePageRateShowList pageCount] == _currentPage){
-            _currentPage=[NSNumber numberWithInt:1];
         }
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
