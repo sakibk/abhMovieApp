@@ -71,6 +71,7 @@
 		AD64D8331E5733F100DAE191 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8321E5733F100DAE191 /* Token.m */; };
 		AD64D8371E5A196D00DAE191 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8361E5A196D00DAE191 /* ListsViewController.m */; };
 		AD64D83A1E5AD73100DAE191 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8391E5AD73100DAE191 /* SettingsViewController.m */; };
+		AD8521451E6072CA008F235D /* ListMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8521441E6072CA008F235D /* ListMapping.m */; };
 		AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD8696131E53B721009B75F0 /* ImageCell.xib */; };
 		AD8696171E53B795009B75F0 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8696161E53B795009B75F0 /* ImageCell.m */; };
 		AD86961B1E559860009B75F0 /* LeftViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD86961A1E559860009B75F0 /* LeftViewController.m */; };
@@ -207,6 +208,8 @@
 		AD64D8361E5A196D00DAE191 /* ListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsViewController.m; sourceTree = "<group>"; };
 		AD64D8381E5AD73100DAE191 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
 		AD64D8391E5AD73100DAE191 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
+		AD8521431E6072CA008F235D /* ListMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListMapping.h; path = MovieApp/Models/ListMapping.h; sourceTree = "<group>"; };
+		AD8521441E6072CA008F235D /* ListMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListMapping.m; path = MovieApp/Models/ListMapping.m; sourceTree = "<group>"; };
 		AD8696131E53B721009B75F0 /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
 		AD8696151E53B795009B75F0 /* ImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageCell.h; path = Views/ImageCell.h; sourceTree = "<group>"; };
 		AD8696161E53B795009B75F0 /* ImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ImageCell.m; path = Views/ImageCell.m; sourceTree = "<group>"; };
@@ -652,6 +655,8 @@
 				AD3443091E5B044E00CD2DD9 /* UserInfo.m */,
 				AD34430B1E5B261900CD2DD9 /* ListPost.h */,
 				AD34430C1E5B261900CD2DD9 /* ListPost.m */,
+				AD8521431E6072CA008F235D /* ListMapping.h */,
+				AD8521441E6072CA008F235D /* ListMapping.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -880,6 +885,7 @@
 				AD64D8371E5A196D00DAE191 /* ListsViewController.m in Sources */,
 				ADC07D141E5C6A2700172221 /* RLMovie.m in Sources */,
 				AD349FE81E35A617009C4367 /* Feeds.m in Sources */,
+				AD8521451E6072CA008F235D /* ListMapping.m in Sources */,
 				ADC07D201E5C718E00172221 /* RLUserInfo.m in Sources */,
 				AD1783831E2D51DB0037DC44 /* TVShow.m in Sources */,
 				ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */,

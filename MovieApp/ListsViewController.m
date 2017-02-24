@@ -329,6 +329,14 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+-(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+        //insert your deleteAction here
         if(_isMovie){
             if(_isFavorites){
                 [_user deleteFavoriteMovies:[_movieList objectAtIndex:indexPath.row]];
@@ -351,14 +359,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
                 [_user deleteRatedShows:[_showsList objectAtIndex:indexPath.row]];
             }
         }
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-}
-
--(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
-        //insert your deleteAction here
+        [self.tableView reloadData];
     }];
     deleteAction.backgroundColor = [UIColor yellowColor];
     [[UIButton appearance] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
