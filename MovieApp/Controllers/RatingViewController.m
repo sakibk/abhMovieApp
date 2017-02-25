@@ -58,10 +58,28 @@
         _mediaTitle.text=[NSString stringWithFormat:@"Rate:    %@",_singleShow.name];
         _isRated = [_user ratedShows];
     }
+    
+    if(_isMovie){
+        if([[[_user ratedMovies] valueForKey:@"movieID"] containsObject:_singleMovie.movieID]){
+            [_rateButton setHidden:YES];
+            RLMResults<RLMovie*> *movies=[[_user ratedMovies] objectsWhere:@"movieID = %@",_singleMovie.movieID];
+            RLMovie *result = movies.firstObject;
+            starRatingView.value = [result.userRate doubleValue];
+            [starRatingView setUserInteractionEnabled:NO];
+        }
+    }
+    else{
+        if([[[_user ratedShows] valueForKey:@"showID"] containsObject:_singleShow.showID]){
+            [_rateButton setHidden:YES];
+            RLMResults<RLTVShow*> *shows=[[_user ratedShows] objectsWhere:@"showID = %@",_singleShow.showID];
+            RLTVShow *result = shows.firstObject;
+            starRatingView.value = [result.userRate doubleValue];
+            [starRatingView setUserInteractionEnabled:NO];
+        }
+    }
 }
 
 -(void)setupRatings{
-
     
 
     
@@ -100,24 +118,14 @@
 
 -(IBAction)rateMe:(id)sender{
     if(_isMovie){
-        if(![[[_user ratedMovies] valueForKey:@"movieID"] containsObject:_singleMovie.movieID]){
-            _singleMovie.userRate=_rate;
-            [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-            [self postStatusError:@"Successfuly rated Movie"];
-        }
-        else{
-            
-        }
+        _singleMovie.userRate=_rate;
+        [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+        [self postStatusError:@"Successfuly rated Movie"];
         }
     else{
-        if(![[[_user ratedShows] valueForKey:@"showID"] containsObject:_singleShow.showID]){
-            _singleShow.userRate=_rate;
-            [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
-            [self postStatusError:@"Successfuly rated Show"];
-        }
-        else{
-
-        }
+        _singleShow.userRate=_rate;
+        [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
+        [self postStatusError:@"Successfuly rated Show"];
     }
 
 }

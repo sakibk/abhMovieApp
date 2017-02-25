@@ -363,10 +363,35 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
         [self.tableView reloadData];
     }];
     deleteAction.backgroundColor = [UIColor yellowColor];
-    [[UIButton appearance] setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    UIFont *font = [UIFont systemFontOfSize:19];
+    
+    NSDictionary *attributes = @{NSFontAttributeName: font,
+                                 NSForegroundColorAttributeName: [UIColor blackColor]};
+    
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString: @"Delete"
+                                                                          attributes: attributes];
+    [[UIButton appearanceWhenContainedIn:[UIView class], [SearchCell class], nil] setAttributedTitle: attributedTitle
+                                                                                            forState: UIControlStateNormal];
     return @[deleteAction];
 }
 
++ (void)setUpDeleteRowActionStyleForUserCell {
+    
+    UIFont *font = [UIFont systemFontOfSize:19];
+    
+    NSDictionary *attributes = @{NSFontAttributeName: font,
+                                 NSForegroundColorAttributeName: [UIColor blackColor]};
+    
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString: @"Delete"
+                                                                          attributes: attributes];
+    
+    /*
+     * We include UIView in the containment hierarchy because there is another button in UserCell that is a direct descendant of UserCell that we don't want this to affect.
+     */
+    [[UIButton appearanceWhenContainedIn:[UIView class], [SearchCell class], nil] setAttributedTitle: attributedTitle
+                                                                                          forState: UIControlStateNormal];
+}
 
 #pragma mark - Navigation
 /*
