@@ -538,6 +538,14 @@
 			name = ListView;
 			sourceTree = "<group>";
 		};
+		AD8521461E610637008F235D /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				ADF64D251E2D0528000DFCFA /* LaunchScreen.storyboard */,
+			);
+			name = LaunchScreen;
+			sourceTree = "<group>";
+		};
 		AD8696121E53B6F5009B75F0 /* Image */ = {
 			isa = PBXGroup;
 			children = (
@@ -609,8 +617,8 @@
 		ADF64D171E2D0528000DFCFA /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				AD8521461E610637008F235D /* LaunchScreen */,
 				ADF64D231E2D0528000DFCFA /* Assets.xcassets */,
-				ADF64D251E2D0528000DFCFA /* LaunchScreen.storyboard */,
 				ADF64D281E2D0528000DFCFA /* Info.plist */,
 				ADF64D181E2D0528000DFCFA /* main.m */,
 				ADF64D1A1E2D0528000DFCFA /* AppDelegate.h */,

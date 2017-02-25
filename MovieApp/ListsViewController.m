@@ -69,8 +69,26 @@
         _showsList=[_user ratedShows];
         _noListLabel.text=@"No Rated";
     }
-    [_noListImage setHidden:NO];
-    [_noListLabel setHidden:NO];
+    if(_isMovie){
+        if(_movieList.firstObject!=nil){
+            [_noListLabel setAlpha:0.0];
+            [_noListImage setAlpha:0.0];
+        }
+        else{
+            [_noListLabel setAlpha:1.0];
+            [_noListImage setAlpha:1.0];
+        }
+    }
+    else{
+        if(_showsList.firstObject!=nil){
+            [_noListLabel setAlpha:0.0];
+            [_noListImage setAlpha:0.0];
+        }
+        else{
+            [_noListLabel setAlpha:1.0];
+            [_noListImage setAlpha:1.0];
+        }
+    }
     [self.tableView reloadData];
 }
 
@@ -266,7 +284,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(_isMovie){
-        if(_movieList!=nil){
+        if(_movieList.firstObject!=nil){
             [_noListLabel setAlpha:0.0];
             [_noListImage setAlpha:0.0];
             return [_movieList count];
@@ -278,7 +296,7 @@
         }
     }
     else{
-        if(_showsList!=nil){
+        if(_showsList.firstObject!=nil){
             [_noListLabel setAlpha:0.0];
             [_noListImage setAlpha:0.0];
             return [_showsList count];

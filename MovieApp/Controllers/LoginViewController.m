@@ -375,6 +375,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
         _onePageFavMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageFavMovieList movieList]){
@@ -385,7 +386,7 @@
             muv.posterPath = [mv valueForKey:@"poster_path"];
             muv.backdropPath = [mv valueForKey:@"backdrop_path"];
             muv.overview = [mv valueForKey:@"overview"];
-            muv.releaseDate = [dateFormatter dateFromString:[mv valueForKey:@"release_date"]];
+            muv.releaseDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@",[mv valueForKey:@"release_date"]]];
             [_user addToFavoriteMovies:[[RLMovie alloc] initWithMovie:muv]];
         }
         
@@ -442,6 +443,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
         _onePageWtchMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageWtchMovieList movieList]){
@@ -452,7 +454,7 @@
             muv.posterPath = [mv valueForKey:@"poster_path"];
             muv.backdropPath = [mv valueForKey:@"backdrop_path"];
             muv.overview = [mv valueForKey:@"overview"];
-            muv.releaseDate = [dateFormatter dateFromString:[mv valueForKey:@"release_date"]];
+            muv.releaseDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@",[mv valueForKey:@"release_date"]]];
             [_user addToWatchlistMovies:[[RLMovie alloc] initWithMovie:muv]];
         }
         if([[_onePageWtchMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageWtchMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
@@ -507,6 +509,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
         _onePageRateMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageRateMovieList movieList]){
@@ -574,6 +577,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
         _onePageFavShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageFavShowList showList]){
@@ -640,6 +644,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
         _onePageWtchShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageWtchShowList showList]){
@@ -707,6 +712,7 @@
         NSLog(@"%@", mappingResult.array);
 
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
         _onePageRateShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageRateShowList showList]){
