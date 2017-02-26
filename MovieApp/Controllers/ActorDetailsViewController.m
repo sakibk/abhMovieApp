@@ -47,7 +47,7 @@
 }
 
 -(void)setSizes{
-    _actorPosterHeight = 222.0;
+    _actorPosterHeight = 250.0;
     _actorOverviewHeight = 360.0;
     _actorFilmographyHeight = 305.0;
     _noHeight=0.0;

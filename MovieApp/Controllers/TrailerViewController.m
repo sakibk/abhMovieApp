@@ -8,6 +8,7 @@
 
 #import "TrailerViewController.h"
 #import <RestKit/RestKit.h>
+#import "TrailerVideos.h"
 
 @interface TrailerViewController ()
 
@@ -24,6 +25,9 @@
     [super viewDidLoad];
       self.playerView.delegate = self;
     [self setNavBarTitle];
+    if(_isEpisode){
+        [self setupWithTVEpisode];
+    }
     // Do any additional setup after loading the view.
     }
 
@@ -33,6 +37,12 @@
     _overviewString=overview;
     [self setRestkit];
     [self getTrailers];
+}
+
+-(void)setupWithTVEpisode{
+    _singleTrailer=_episodeTrailer;
+    _overviewString=_episodeOverview;
+    [self setupPlayer];
 }
 
 -(void)setupPlayer{
@@ -48,6 +58,8 @@
     if(_allTrailers.firstObject.videoKey){
     [self.playerView loadWithVideoId:_allTrailers.firstObject.videoKey playerVars:playerVars];
     }
+    if(_isEpisode)
+       [self.playerView loadWithVideoId:_singleTrailer.videoKey playerVars:playerVars];
     [self appendStatusText:_overviewString];
 }
 

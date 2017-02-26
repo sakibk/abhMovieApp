@@ -10,6 +10,8 @@
 #import <HCSStarRatingView/HCSStarRatingView.h>
 #import <Realm/Realm.h>
 #import "RLUserInfo.h"
+#import <RestKit/RestKit.h>
+#import "ListPost.h"
 
 @interface RatingViewController ()
 
@@ -17,6 +19,7 @@
 @property NSDictionary *userCredits;
 @property RLMRealm *realm;
 @property RLUserInfo *user;
+@property NSString *pathP;
 
 @property BOOL isMovie;
 @property BOOL isRated;
@@ -120,11 +123,13 @@
     if(_isMovie){
         _singleMovie.userRate=_rate;
         [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+        [self postToRateList];
         [self postStatusError:@"Successfuly rated Movie"];
         }
     else{
         _singleShow.userRate=_rate;
         [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
+        [self postToRateList];
         [self postStatusError:@"Successfuly rated Show"];
     }
 
@@ -144,6 +149,57 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)postToRateList{
+    if(_isMovie){
+    _pathP = [NSString stringWithFormat:@"/3/movie/%@/rating?api_key=%@&session_id=%@",_singleMovie.movieID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+    }
+    else{
+    _pathP = [NSString stringWithFormat:@"/3/tv/%@/rating?api_key=%@&session_id=%@",_singleShow.showID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+    }
+    
+    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
+    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:201]];
+    
+    RKObjectMapping *requestMapping= [RKObjectMapping requestMapping];
+    [requestMapping addAttributeMappingsFromArray:@[@"status_code", @"status_message"]];
+    
+    RKRequestDescriptor *watchlistRequestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[NSDictionary class] rootKeyPath:nil method:RKRequestMethodAny];
+    
+    RKObjectMapping *watchlistMapping = [RKObjectMapping mappingForClass:[NSDictionary class]];
+    
+    [watchlistMapping addAttributeMappingsFromArray:@[@"status_code", @"status_message"]];
+    
+    watchlistMapping.assignsNilForMissingRelationships=YES;
+    
+    RKResponseDescriptor *watchlistResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:watchlistMapping
+                                                                                                     method:RKRequestMethodGET
+                                                                                                pathPattern:_pathP
+                                                                                                    keyPath:nil statusCodes:statusCodesRK];
+    //
+    [[RKObjectManager sharedManager] setRequestSerializationMIMEType:@"application/json"];
+    [[RKObjectManager sharedManager] addRequestDescriptor:watchlistRequestDescriptor];
+    [[RKObjectManager sharedManager] addResponseDescriptor:watchlistResponseDescriptor];
+    
+    
+    
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    RKLogConfigureByName("Restkit/Network", RKLogLevelDebug);
+
+    
+    NSDictionary *queryParameters = @{
+                                      @"value" : _rate
+                                      };
+    
+    
+    
+    [[RKObjectManager sharedManager] postObject:nil path:_pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
 }
 
 /*

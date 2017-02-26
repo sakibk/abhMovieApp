@@ -12,6 +12,9 @@
 #import "MovieDetailViewController.h"
 #import "Movie.h"
 #import "TVShow.h"
+#import <RestKit/RestKit.h>
+#import "PostResponse.h"
+#import "ListPost.h"
 
 @interface ListsViewController ()
 @property NSString *dropDownTitle;
@@ -358,9 +361,11 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
         //insert your deleteAction here
         if(_isMovie){
             if(_isFavorites){
+                [self deleteFromList:@"favorite": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
                 [_user deleteFavoriteMovies:[_movieList objectAtIndex:indexPath.row]];
             }
             else if(_isWatchlist){
+                [self deleteFromList:@"watchlist": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
                 [_user deleteWatchlistMovies:[_movieList objectAtIndex:indexPath.row]];
             }
             else if (_isRating){
@@ -369,9 +374,11 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
         }
         else{
             if(_isFavorites){
+                [self deleteFromList:@"favorite": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
                 [_user deleteFavoriteShows:[_showsList objectAtIndex:indexPath.row]];
             }
             else if(_isWatchlist){
+                [self deleteFromList:@"watchlist": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
                 [_user deleteWatchlistShows:[_showsList objectAtIndex:indexPath.row]];
             }
             else if (_isRating){
@@ -409,6 +416,50 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
      */
     [[UIButton appearanceWhenContainedIn:[UIView class], [SearchCell class], nil] setAttributedTitle: attributedTitle
                                                                                           forState: UIControlStateNormal];
+}
+
+-(void)deleteFromList:(NSString *)listName :(NSString *)mediaType :(NSNumber *)mediaID{
+        NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],listName,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
+    
+    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[PostResponse class]];
+    [responseMapping addAttributeMappingsFromDictionary:@{@"status_code":@"statusCode",
+                                                          @"status_message":@"statusMessage"
+                                                          }];
+    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
+    RKResponseDescriptor *postDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodPOST pathPattern:pathP keyPath:nil statusCodes:statusCodes];
+    
+    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
+    [requestMapping addAttributeMappingsFromDictionary:@{@"status_code":@"statusCode",
+                                                         @"status_message":@"statusMessage"
+                                                         }];
+    
+    
+    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
+    RKLogConfigureByName("Restkit/Network", RKLogLevelDebug);
+    
+    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[PostResponse class] rootKeyPath:nil method:RKRequestMethodPOST];
+    [[RKObjectManager sharedManager] setRequestSerializationMIMEType:@"application/json"];
+    [[RKObjectManager sharedManager] addRequestDescriptor:requestDescriptor];
+    [[RKObjectManager sharedManager] addResponseDescriptor:postDescriptor];
+    
+    ListPost *lp = [ListPost new];
+    lp.mediaID=mediaID;
+    lp.mediaType=mediaType;
+    lp.isWatchlist=@"false";
+    
+    NSDictionary *dict =@{@"media_type":mediaType,
+                          @"media_id":mediaID,
+                          listName:@"false"};
+    
+    // POST to create
+    [[RKObjectManager sharedManager] postObject:nil path:pathP parameters:dict success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        PostResponse *pr=mappingResult.array.firstObject;
+        NSLog(@"status message: %@, status code %@",pr.statusMessage,pr.statusCode);
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
+    
 }
 
 #pragma mark - Navigation

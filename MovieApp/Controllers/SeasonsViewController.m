@@ -19,6 +19,7 @@
 @property NSMutableArray<Episode *> *allEpisodes;
 @property Season *currentSeason;
 @property Episode *singleEpisode;
+@property NSNumberFormatter *formatter;
 
 @end
 
@@ -44,8 +45,15 @@
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
+-(void)setFormater{
+    _formatter = [[NSNumberFormatter alloc] init];
+    
+    [_formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    [_formatter setMaximumFractionDigits:1];
+    [_formatter setRoundingMode: NSNumberFormatterRoundUp];
+}
+
 -(void)setRestkit{
-//    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
     
     RKObjectMapping *episodeMapping = [RKObjectMapping mappingForClass:[Episode class]];
     
@@ -84,11 +92,13 @@
 }
 -(void)setupShowID{
     for (Episode *ep in _allEpisodes) {
+        ep.rating=[_formatter numberFromString:[_formatter stringFromNumber:ep.rating]];
         ep.showID=_singleShow.showID;
     }
 }
 
 -(void)setupSeasonView{
+    [self setFormater];
     [self setRestkit];
     [self getAllEpisodes];
     _currentSeason=_seasons.firstObject;

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TrailerVideos.h"
 
 @interface Episode : NSObject
 
@@ -18,6 +19,7 @@
 @property (strong, nonatomic) NSString *overview;
 @property (strong, nonatomic) NSNumber *rating;
 @property (strong, nonatomic) NSNumber *showID;
+@property (strong,nonatomic) NSMutableArray<TrailerVideos*> *trailers;
 
 
 @end

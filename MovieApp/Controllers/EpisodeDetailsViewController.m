@@ -12,6 +12,9 @@
 #import "EpisodeDetailsCell.h"
 #import "EpisodeOverviewCell.h"
 #import "ActorDetailsViewController.h"
+#import <RestKit/RestKit.h>
+#import "TrailerVideos.h"
+#import "TrailerViewController.h"
 
 @interface EpisodeDetailsViewController ()
 
@@ -37,17 +40,49 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeDetailsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeDetailsCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeOverviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeOverviewCellIdentifier];
     [self setupSizes];
+    [self getTrailers];
 }
 
 -(void)setupSizes{
-    _episodePosterHeight=220.0;
+    _episodePosterHeight=230.0;
     _episodeDetailsHeight=85.0;
     _episodeOverviewHeight=85.0;
-    _episodeCastHeight=305;
+    _episodeCastHeight=330.0;
 }
 
 -(void)setNavBarTitle{
     self.navigationItem.title =_showName;
+}
+
+-(void)getTrailers{
+    RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
+    
+    [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
+                                                         @"name": @"videoName",
+                                                         @"id":@"videoID"
+                                                         }];
+    RKResponseDescriptor *trailerResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:nil
+                                                keyPath:@"results"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
+    
+    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"/3/tv/",_singleEpisode.showID,@"/season/",_singleEpisode.seasonNumber,@"/episode/",_singleEpisode.episodeNumber,@"/videos"];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _singleEpisode.trailers=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [_tableView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
+
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -124,7 +159,7 @@
 -(NSString*)stringForSection:(long)section{
     switch (section) {
         case 0:
-            return nil;
+            return @"Trailer";
             break;
         case 1:
             return @"";
@@ -133,7 +168,7 @@
             return @"";
             break;
         case 3:
-            return @"Filmography";
+            return @"Cast";
             break;
         default: return @"";
             break;
@@ -141,16 +176,17 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if(section !=2){
-        return 20;
+    if(section==0){
+        return 0.0001;
     }
     else
-        return 0.0001;
+        return 10.0;
 }
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
+    if(section!=1){
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
     if(section==2 || section==3){
         UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
         lineview.layer.borderColor = [UIColor yellowColor].CGColor;
@@ -165,6 +201,23 @@
     [label setTextColor:[UIColor whiteColor]];
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
     return view;
+    }
+    else
+        return nil;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(_singleEpisode.trailers.firstObject)
+    if(indexPath.section==0 && indexPath.row == 0){
+         NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        TrailerViewController *trailer = [storyboard instantiateViewControllerWithIdentifier:@"TrailerView"];
+        trailer.episodeTrailer=_singleEpisode.trailers.firstObject;
+        trailer.isEpisode=YES;
+        trailer.episodeOverview=_singleEpisode.overview;
+        [viewControllers addObject:trailer];
+        [[self navigationController] setViewControllers:viewControllers animated:YES];
+    }
 }
 
 - (void)openActorWithID:(NSNumber *)actorID{

@@ -26,5 +26,9 @@
 
 -(void)setupWithMovieID:(NSNumber *)movieID andOverview:(NSString *)overview;
 
+@property TrailerVideos *episodeTrailer;
+@property NSString *episodeOverview;
+@property BOOL isEpisode;
+
 
 @end

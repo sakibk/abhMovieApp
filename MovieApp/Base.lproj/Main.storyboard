@@ -140,7 +140,7 @@
         <!--Trailer View Controller-->
         <scene sceneID="5h9-6h-vWc">
             <objects>
-                <viewController id="TJ3-5N-Nro" customClass="TrailerViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="TrailerView" id="TJ3-5N-Nro" customClass="TrailerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="XW4-7e-1Oj"/>
                         <viewControllerLayoutGuide type="bottom" id="h9f-lW-V0G"/>
@@ -608,9 +608,10 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="q2Q-AY-Hvf">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" rowHeight="44" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="q2Q-AY-Hvf">
                                 <rect key="frame" x="0.0" y="179" width="414" height="444"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>

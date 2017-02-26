@@ -791,20 +791,24 @@
         if(_isMovie){
             if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
                 [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [self postToList:@"favorite":@"true"];
                 [cell favoureIt];
             }
             else{
                 [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [self postToList:@"favorite":@"false"];
                 [cell unFavoureIt];
             }
         }
         else{
             if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
                 [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [self postToList:@"favorite":@"true"];
                 [cell favoureIt];
             }
             else{
                 [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [self postToList:@"favorite":@"false"];
                 [cell unFavoureIt];
             }
         }
@@ -820,28 +824,31 @@
 
             if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
                 [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [self postToList:@"watchlist":@"true"];
                 [cell watchIt];
             }
             else{
                 [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [self postToList:@"watchlist":@"false"];
                 [cell unWatchIt];
             }
         }
         else{
             if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
                 [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [self postToList:@"watchlist":@"true"];
                 [cell watchIt];
             }
             else{
                 [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                [self postToList:@"watchlist":@"false"];
                 [cell unWatchIt];
             }
         }
     
-//    [self postToList:@"watchlist"];
 }
 
--(void)postToList:(NSString*)list{
+-(void)postToList:(NSString*)list :(NSString*)postOrDelete{
     NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
     
     NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
@@ -886,7 +893,7 @@
     NSDictionary *queryParameters = @{
                                       @"media_type" : postObject.mediaType,
                                       @"media_id" : postObject.mediaID,
-                                      @"watchlist" : @"true"
+                                      [NSString stringWithFormat:@"%@",list] : [NSString stringWithFormat:@"%@",postOrDelete]
                                       };
 
     

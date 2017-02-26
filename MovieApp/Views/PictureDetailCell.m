@@ -93,7 +93,7 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
     [_playButton setHidden:YES];
      RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
-    if(![users count]){
+    if([users count]){
         RLUserInfo *user =[users firstObject];
         if([[[user watchlistShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
             [self watchIt];
@@ -122,7 +122,7 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     [_playButton setHidden:YES];
     [_favouriteButton setHidden:YES];
     [_watchButton setHidden:YES];
-    [self setCellGradient];
+    [self setActorCellGradient];
 }
 
 -(void) setupWithEpisode:(Episode *) singleEpisode;{
@@ -131,8 +131,15 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleEpisode.episodeName,@".png"]]];
     [_movieTitle setFont:[_movieTitle.font fontWithSize:27.0]];
     _movieTitle.text=@" ";
-    [self setCellGradient];
-    [_playButton setHidden:YES];
+//    [self setCellGradient];
+    if(singleEpisode.trailers.firstObject!=nil){
+    [_playButton setHidden:NO];
+    }
+    else{
+        [_playButton setHidden:YES];
+    }
+    [_favouriteButton setHidden:YES];
+    [_watchButton setHidden:YES];
 }
 
 -(void)setCellGradient{
@@ -146,6 +153,19 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
         [self.poster.layer insertSublayer:gradientMask atIndex:0];
     }
 }
+
+-(void)setActorCellGradient{
+    if (![self.poster.layer sublayers]) {
+        CAGradientLayer *gradientMask = [CAGradientLayer layer];
+        gradientMask.frame = self.bounds;
+        gradientMask.colors = @[(id)[UIColor clearColor].CGColor,
+                                (id)[UIColor blackColor].CGColor];
+        gradientMask.locations = @[@0.00, @1.00];
+        
+        [self.poster.layer insertSublayer:gradientMask atIndex:0];
+    }
+}
+
 
 -(void)favoureIt{
     [_favouriteButton setImage:[UIImage imageNamed:@"YellowFavoritesButton"] forState:UIControlStateNormal];
