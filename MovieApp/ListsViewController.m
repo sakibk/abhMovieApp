@@ -319,6 +319,7 @@
 SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:searchCellIdentifier];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     // Configure the cell...
+    cell.isSideBar=YES;
     if(_isMovie){
         [cell setSearchCellWithMovie:[[Movie alloc]initWithObject:[_movieList objectAtIndex:indexPath.row]]];
     }

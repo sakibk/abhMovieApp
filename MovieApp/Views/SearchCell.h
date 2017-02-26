@@ -22,4 +22,7 @@ extern NSString *const searchCellIdentifier;
 -(void)setSearchCellWithMovie:(Movie *)singleMovie;
 -(void)setSearchCellWithTVShow:(TVShow *)singleShow;
 
+@property (strong,nonatomic) UIView *separatorView;
+@property BOOL isSideBar;
+
 @end

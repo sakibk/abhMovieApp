@@ -46,6 +46,7 @@
     if([users count]){
         _user = [users firstObject];
     }
+    self.navigationItem.title=@"Rating";
 }
 
 -(void)setupView{

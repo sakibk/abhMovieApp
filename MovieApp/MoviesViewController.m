@@ -153,7 +153,7 @@ RLM_ARRAY_TYPE(Movie);
         CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/16, 23 , 20 , 15);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
-        CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+        CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
         _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
         [_dropDown setBackgroundColor:[UIColor darkGrayColor]];
         CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
@@ -233,7 +233,7 @@ RLM_ARRAY_TYPE(Movie);
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
-                CGRect openedListFrame = CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64*4);
+                CGRect openedListFrame = CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64*4);
                 [_dropDown setFrame:openedListFrame];
                 _isDroped = YES;
                 [imageOne setAlpha:1.0];
@@ -254,7 +254,7 @@ RLM_ARRAY_TYPE(Movie);
             [imageThree setAlpha:0.0];
         } completion:^(BOOL finished) {
           [UIView animateWithDuration:0.2 animations:^{
-              CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+              CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
               [_dropDown setFrame:dropDownFrame];
               [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
               [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];

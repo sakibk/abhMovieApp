@@ -332,12 +332,14 @@
                 break;
             case 5:
             {
+                if(_allReviews.firstObject != nil ){
                 SingleReviewCell *cell =(SingleReviewCell *)[tableView dequeueReusableCellWithIdentifier:singleReviewCellIdentifier forIndexPath:indexPath];
                 _singleReview=[_allReviews objectAtIndex:indexPath.row];
                 [cell setupWithReview:_singleReview]; // Configure the cell...
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 
                 return cell;
+                }
             }
             default:
                 break;
@@ -442,7 +444,7 @@
         }
             break;
         case 5:{
-            return _allReviews != nil ? [_allReviews count] : 0;;
+            return _allReviews.firstObject != nil ? [_allReviews count] : 0;;
         }
             break;
         default: return 0;
@@ -505,7 +507,7 @@
             }
                 break;
             case 5:{
-                return _allReviews != nil ?  @"Review" : @"";
+                return _allReviews.firstObject != nil ?  @"Review" : @"";
             }
                 break;
             default: return nil;
@@ -562,7 +564,7 @@
     else if(indexPath.section == 4 && indexPath.row == 0) {
         return _castCellHeight;
     }
-    else if(indexPath.section == 5) {
+    else if(indexPath.section == 5 && _allReviews.firstObject != nil) {
         return _reviewCellHeight;
     }
 
@@ -602,17 +604,16 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if(section>0) {
+    if(section>1) {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
     /* Create custom view to display section header... */
-        if(section>1 || (_isMovie && section==5 && _allReviews!=nil)){
             UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
             lineview.layer.borderColor = [UIColor yellowColor].CGColor;
             lineview.layer.borderWidth = 0.5;
             [view addSubview:lineview];
-        }
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:14]];
+        UIFont *font1 = [UIFont boldSystemFontOfSize:14];
+    [label setFont:font1];
 //    NSString *string =[list objectAtIndex:section];
     NSString *string =[self stringForSection:section];
     /* Section header is in 0th index... */
@@ -620,10 +621,38 @@
     [view addSubview:label];
     [label setTextColor:[UIColor whiteColor]];
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
+        if((section == 4 && !_isMovie) || section==3){
+            CGFloat buttonSize = 70;
+            UIButton * seeAll = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width-buttonSize, 10,buttonSize,20)];
+            NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+            UIColor *yCol = [UIColor yellowColor];
+            [style setAlignment:NSTextAlignmentCenter];
+            NSDictionary *dict1 = @{NSFontAttributeName:font1,
+                                    NSParagraphStyleAttributeName:style,
+                                    NSForegroundColorAttributeName:yCol};
+            NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] init];
+            [attString appendAttributedString:[[NSAttributedString alloc] initWithString:@"See All" attributes:dict1]];
+            [seeAll setAttributedTitle:attString forState:UIControlStateNormal];
+            if(section == 3 && !_isMovie){
+                [seeAll addTarget:self action:@selector(openSeasons:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            else{
+                [seeAll addTarget:self action:@selector(openImages:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            [view addSubview:seeAll];
+        }
     return view;
     }
     else
         return nil;
+}
+
+-(IBAction)openSeasons:(id)sender{
+    [self performSegueWithIdentifier:@"SeasonsViewIdentifier" sender:self];
+}
+
+-(IBAction)openImages:(id)sender{
+    [self performSegueWithIdentifier:@"ImageCollection" sender:self];
 }
 
 -(NSString*)stringForSection:(long)section{
@@ -650,7 +679,7 @@
             }
                 break;
             case 5:{
-                return _allReviews !=nil ? @"Review":nil;
+                return _allReviews.firstObject !=nil ? @"Review":nil;
             }
                 break;
             default: return nil;
@@ -691,7 +720,17 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if(_isMovie){
-        return _movieDetail != nil ? 6 : 0;
+        if(_movieDetail != nil){
+            if(_allReviews.firstObject != nil){
+                return 6;
+            }
+            else{
+                return 5;
+            }
+        }
+        else{
+            return 0;
+        }
     }
     else{
         return _showDetail != nil ? 6 : 0;
@@ -746,7 +785,7 @@
  }
 
 - (void)openImageGallery{
-    [self performSegueWithIdentifier:@"ImageCollection" sender:self];
+//    [self performSegueWithIdentifier:@"ImageCollection" sender:self];
 }
 
 - (void)openActorWithID:(NSNumber *)actorID {
@@ -769,18 +808,8 @@
     if(indexPath.section==0){
         [self performSegueWithIdentifier:@"WatchTrailer" sender:self];
     }
-    else if (indexPath.section==3){
-        [self performSegueWithIdentifier:@"ImageCollection" sender:self];
-    }
     }
     else{
-        if (indexPath.section==4){
-            [self performSegueWithIdentifier:@"ImageCollection" sender:self];
-        }
-        if(indexPath.section == 3){
-            
-            [self performSegueWithIdentifier:@"SeasonsViewIdentifier" sender:self];
-        }
     }
 }
 

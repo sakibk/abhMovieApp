@@ -25,4 +25,6 @@
 @property (nonatomic) BOOL isWatchlist;
 @property (nonatomic) BOOL isRating;
 
+@property (weak, nonatomic) UIView *separatorView;
+
 @end

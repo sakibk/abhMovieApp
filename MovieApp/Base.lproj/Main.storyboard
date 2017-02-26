@@ -48,7 +48,7 @@
                                 </cells>
                             </collectionView>
                         </subviews>
-                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.19215686274509802" green="0.19215686274509802" blue="0.19215686274509802" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="SqA-8q-lzT" firstAttribute="top" secondItem="hE4-vZ-MZh" secondAttribute="bottom" id="9dZ-Cn-QW1"/>
                             <constraint firstAttribute="trailing" secondItem="hE4-vZ-MZh" secondAttribute="trailing" id="9xs-a7-szV"/>
@@ -512,6 +512,8 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="75" id="z1d-n0-qvK"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="20" maxX="0.0" maxY="0.0"/>
                                 <state key="normal" title="Tap to rate">
                                     <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>

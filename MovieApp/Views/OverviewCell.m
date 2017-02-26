@@ -179,6 +179,7 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
 }
 
 -(void)setupShowOverview{
+    [self setupUser];
     if([[[_user ratedShows] valueForKey:@"showID"] containsObject:_setupShow.showID]){
         [_rateButton setImage:[UIImage imageNamed:@"YellowRatingsButton"] forState:UIControlStateNormal];
     }

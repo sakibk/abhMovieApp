@@ -18,6 +18,17 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
     // Initialization code
 }
 
+-(void)setupSeparator{
+    self.separatorView = [UIView new];
+    CGFloat height = UIScreen.mainScreen.scale == 1.0 ? 1.0 : 0.5;
+    self.separatorView.frame = CGRectMake(0.0,
+                                          0.0,
+                                          CGRectGetWidth(self.frame),
+                                          height);
+    self.separatorView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.4];
+    [self addSubview:self.separatorView];
+}
+
 -(void)setSearchCellWithMovie:(Movie *)singleMovie{
     
     [_searchImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleMovie.posterPath]]
@@ -35,6 +46,8 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
 
     [self setRating:singleMovie.rating];
     _searchTitle.text=[NSString stringWithFormat:@"%@",singleMovie.title];
+    if(_isSideBar)
+        [self setupSeparator];
 
 }
 
@@ -55,10 +68,10 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
         _releaseAirDate.text=[NSString stringWithFormat:@"(TV series N/A- )"];
     }
 
-    
-    
     [self setRating:singleShow.rating];
     _searchTitle.text=[NSString stringWithFormat:@"%@",singleShow.name];
+    if(_isSideBar)
+        [self setupSeparator];
 }
 
 -(void)setRating:(NSNumber*)rate{

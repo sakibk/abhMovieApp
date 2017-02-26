@@ -20,6 +20,8 @@
 @property Season *currentSeason;
 @property Episode *singleEpisode;
 @property NSNumberFormatter *formatter;
+@property NSIndexPath *selectedSeason;
+@property BOOL firstTime;
 
 @end
 
@@ -37,7 +39,7 @@
     [self.collectionView registerNib:[UINib nibWithNibName:@"SeasonControllCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:seasonControllCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"SingleSeasonCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:singleSeasonCellIdentifier];
     _allEpisodes =[[NSMutableArray alloc]init];
-    
+    _firstTime=YES;
 }
 
 -(void)setNavBarTitle{
@@ -85,6 +87,7 @@
         NSLog(@"%@", mappingResult.array);
         _allEpisodes = [NSMutableArray arrayWithArray:mappingResult.array];
         [self setupShowID];
+        [self setupSeasonYear];
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -102,7 +105,6 @@
     [self setRestkit];
     [self getAllEpisodes];
     _currentSeason=_seasons.firstObject;
-    [self setupSeasonYear];
 }
 
 -(void)setupSeasonYear{
@@ -164,11 +166,26 @@
     SeasonControllCell *cell = (SeasonControllCell *)[collectionView dequeueReusableCellWithReuseIdentifier:seasonControllCellIdentifier forIndexPath:indexPath];
     [cell sizeThatFits:CGSizeMake(30, 30)];
     [cell setupSeasonCellWithSeasonNumber:[[_seasons objectAtIndex:indexPath.row] seasonNumber]];
+    if(indexPath.row==1 && _firstTime){
+        [cell.seasonNumber setTextColor:[UIColor yellowColor]];
+        _selectedSeason=indexPath;
+        _firstTime=NO;
+    }
     return cell;
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    SeasonControllCell *previusCell = (SeasonControllCell *)[_tableView cellForRowAtIndexPath:_selectedSeason];
+        SeasonControllCell *cell = (SeasonControllCell *)[_tableView cellForRowAtIndexPath:indexPath];
+    if(indexPath !=_selectedSeason){
+        [previusCell.seasonNumber setTextColor:[UIColor whiteColor]];
+        [cell.seasonNumber setTextColor:[UIColor yellowColor]];
+        _selectedSeason=indexPath;
+    }
     _seasonID = [NSNumber numberWithLong:indexPath.row];
+    _currentSeason=[_seasons objectAtIndex:indexPath.row];
+    
+    [self setupSeasonYear];
     [self getAllEpisodes];
 }
 
