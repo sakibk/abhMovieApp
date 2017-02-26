@@ -14,5 +14,7 @@ extern NSString *const seasonControllCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *seasonNumber;
 
 -(void)setupSeasonCellWithSeasonNumber:(NSNumber *)seasonNo;
+-(void)setupWhiteColor;
+-(void)setupYellowColor;
 
 @end

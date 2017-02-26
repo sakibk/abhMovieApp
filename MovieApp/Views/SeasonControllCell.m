@@ -20,4 +20,12 @@ NSString *const seasonControllCellIdentifier=@"SeasonControllCellIdentifier";
 -(void)setupSeasonCellWithSeasonNumber:(NSNumber *)seasonNo{
     _seasonNumber.text=[NSString stringWithFormat:@"%@",seasonNo];
 }
+
+-(void)setupWhiteColor{
+    [_seasonNumber setTextColor:[UIColor whiteColor]];
+}
+
+-(void)setupYellowColor{
+    [_seasonNumber setTextColor:[UIColor yellowColor]];
+}
 @end

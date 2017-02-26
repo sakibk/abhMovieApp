@@ -175,11 +175,13 @@
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    SeasonControllCell *previusCell = (SeasonControllCell *)[_tableView cellForRowAtIndexPath:_selectedSeason];
-        SeasonControllCell *cell = (SeasonControllCell *)[_tableView cellForRowAtIndexPath:indexPath];
     if(indexPath !=_selectedSeason){
-        [previusCell.seasonNumber setTextColor:[UIColor whiteColor]];
-        [cell.seasonNumber setTextColor:[UIColor yellowColor]];
+        SeasonControllCell *previusCell = (SeasonControllCell *)[_collectionView cellForItemAtIndexPath:_selectedSeason];
+        SeasonControllCell *cell = (SeasonControllCell *)[_collectionView cellForItemAtIndexPath:indexPath];
+        
+        [previusCell setupWhiteColor];
+        [cell setupYellowColor];
+        
         _selectedSeason=indexPath;
     }
     _seasonID = [NSNumber numberWithLong:indexPath.row];

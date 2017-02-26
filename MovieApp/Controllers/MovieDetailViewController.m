@@ -386,6 +386,7 @@
                 SeasonsCell *cell = (SeasonsCell *)[tableView dequeueReusableCellWithIdentifier:seasonsCellIdentifier forIndexPath:indexPath];
                 [cell setupWithShowID:_showDetail];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                cell.delegate = self;
                 return cell;
                 
             }
@@ -621,7 +622,7 @@
     [view addSubview:label];
     [label setTextColor:[UIColor whiteColor]];
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
-        if((section == 4 && !_isMovie) || section==3){
+        if((section == 4 && !_isMovie) || (section==3 && _isMovie)){
             CGFloat buttonSize = 70;
             UIButton * seeAll = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width-buttonSize, 10,buttonSize,20)];
             NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -633,22 +634,13 @@
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] init];
             [attString appendAttributedString:[[NSAttributedString alloc] initWithString:@"See All" attributes:dict1]];
             [seeAll setAttributedTitle:attString forState:UIControlStateNormal];
-            if(section == 3 && !_isMovie){
-                [seeAll addTarget:self action:@selector(openSeasons:) forControlEvents:UIControlEventTouchUpInside];
-            }
-            else{
                 [seeAll addTarget:self action:@selector(openImages:) forControlEvents:UIControlEventTouchUpInside];
-            }
             [view addSubview:seeAll];
         }
     return view;
     }
     else
         return nil;
-}
-
--(IBAction)openSeasons:(id)sender{
-    [self performSegueWithIdentifier:@"SeasonsViewIdentifier" sender:self];
 }
 
 -(IBAction)openImages:(id)sender{
@@ -783,6 +775,10 @@
  }
      
  }
+
+-(void)allSeasonsView{
+    [self performSegueWithIdentifier:@"SeasonsViewIdentifier" sender:self];
+}
 
 - (void)openImageGallery{
 //    [self performSegueWithIdentifier:@"ImageCollection" sender:self];

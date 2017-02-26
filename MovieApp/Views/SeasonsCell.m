@@ -16,6 +16,7 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    [_seeAllButton addTarget:self action:@selector(seeSeasons:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -90,6 +91,14 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
     }
     _seasons.text = _allSeasonString;
     _releaseYears.text = _allYearsString;
+}
+
+-(IBAction)seeSeasons:(id)sender{
+    [_delegate allSeasonsView];
+}
+
+-(void)allSeasonsView{
+    
 }
 
 @end

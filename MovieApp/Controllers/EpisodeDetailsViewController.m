@@ -176,17 +176,40 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if(section==0){
+    if(section==0 || section == 3){
         return 0.0001;
     }
     else
         return 10.0;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    switch (section) {
+        case 0:{
+            return 30.0;
+        }
+            break;
+        case 1:{
+            return 5.0;
+        }
+            break;
+        case 2:{
+            return 5.0;
+        }
+            break;
+        case 3:{
+            return 30.0;
+        }
+            break;
+        default:return 30.0;
+            break;
+    }
+}
+
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if(section!=1){
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
+    if(section!=0 || section!=1){
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
     if(section==2 || section==3){
         UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
         lineview.layer.borderColor = [UIColor yellowColor].CGColor;
@@ -201,6 +224,26 @@
     [label setTextColor:[UIColor whiteColor]];
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
     return view;
+    }
+    else if (section==0){
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 128)];
+        UIView *topSeparator = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
+        [topSeparator setBackgroundColor:[UIColor whiteColor]];
+        [view addSubview:topSeparator];
+        UILabel *aboveImageLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, tableView.frame.size.width, 24)];
+        [aboveImageLabel setTextColor:[UIColor whiteColor]];
+        [aboveImageLabel setFont:[UIFont boldSystemFontOfSize:17]];
+        [aboveImageLabel setText:[NSString stringWithFormat:@"Season %@   Episode %@",_singleEpisode.seasonNumber,_singleEpisode.episodeNumber]];
+        [view addSubview:aboveImageLabel];
+        UIView *separator = [[UIView alloc]initWithFrame:CGRectMake(0, 63, tableView.frame.size.width, 1)];
+        [separator setBackgroundColor:[UIColor lightGrayColor]];
+        [view addSubview:separator];
+        UILabel *aboveImageUnderTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 84, tableView.frame.size.width, 24)];
+        [aboveImageUnderTitle setTextColor:[UIColor whiteColor]];
+        [aboveImageUnderTitle setFont:[UIFont boldSystemFontOfSize:17]];
+        [aboveImageUnderTitle setText:@"Trailer"];
+        [view addSubview:aboveImageUnderTitle];
+        return view;
     }
     else
         return nil;

@@ -87,6 +87,8 @@
 		ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D161E5C6FA500172221 /* RLTVShow.m */; };
 		ADC07D1A1E5C70B300172221 /* RLToken.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D191E5C70B300172221 /* RLToken.m */; };
 		ADC07D201E5C718E00172221 /* RLUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D1F1E5C718E00172221 /* RLUserInfo.m */; };
+		ADC9A91C1E6370E0006C9B1A /* AboveImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC9A91B1E6370E0006C9B1A /* AboveImageCell.xib */; };
+		ADC9A9221E637132006C9B1A /* AboveImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC9A9211E637132006C9B1A /* AboveImageCell.m */; };
 		ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
@@ -238,6 +240,9 @@
 		ADC07D191E5C70B300172221 /* RLToken.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLToken.m; path = MovieApp/PersistentModels/RLToken.m; sourceTree = "<group>"; };
 		ADC07D1E1E5C718E00172221 /* RLUserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLUserInfo.h; path = MovieApp/PersistentModels/RLUserInfo.h; sourceTree = "<group>"; };
 		ADC07D1F1E5C718E00172221 /* RLUserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLUserInfo.m; path = MovieApp/PersistentModels/RLUserInfo.m; sourceTree = "<group>"; };
+		ADC9A91B1E6370E0006C9B1A /* AboveImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboveImageCell.xib; path = Views/AboveImageCell.xib; sourceTree = "<group>"; };
+		ADC9A9201E637132006C9B1A /* AboveImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboveImageCell.h; path = Views/AboveImageCell.h; sourceTree = "<group>"; };
+		ADC9A9211E637132006C9B1A /* AboveImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboveImageCell.m; path = Views/AboveImageCell.m; sourceTree = "<group>"; };
 		ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = Controllers/TabBarViewController.h; sourceTree = "<group>"; };
 		ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = Controllers/TabBarViewController.m; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -517,6 +522,9 @@
 				ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */,
 				ADADC96C1E506B1100EF25D8 /* EpisodeDetailsCell.h */,
 				ADADC96D1E506B1100EF25D8 /* EpisodeDetailsCell.m */,
+				ADC9A91B1E6370E0006C9B1A /* AboveImageCell.xib */,
+				ADC9A9201E637132006C9B1A /* AboveImageCell.h */,
+				ADC9A9211E637132006C9B1A /* AboveImageCell.m */,
 			);
 			name = Seasons;
 			sourceTree = "<group>";
@@ -764,6 +772,7 @@
 			files = (
 				ADADC9661E50692800EF25D8 /* EpisodeOverviewCell.xib in Resources */,
 				AD349FFE1E39F29F009C4367 /* OverviewCell.xib in Resources */,
+				ADC9A91C1E6370E0006C9B1A /* AboveImageCell.xib in Resources */,
 				ADADC96B1E506ADB00EF25D8 /* EpisodeDetailsCell.xib in Resources */,
 				ADF64D271E2D0528000DFCFA /* LaunchScreen.storyboard in Resources */,
 				AD4F93631E41CE1C00E55630 /* SeasonsCell.xib in Resources */,
@@ -898,6 +907,7 @@
 				AD4F93691E41D3A300E55630 /* Season.m in Sources */,
 				AD4F93A21E4DCDC800E55630 /* SingleImageViewController.m in Sources */,
 				AD349FF01E396096009C4367 /* FeedsCell.m in Sources */,
+				ADC9A9221E637132006C9B1A /* AboveImageCell.m in Sources */,
 				ADF64D191E2D0528000DFCFA /* main.m in Sources */,
 				AD17838C1E2E4A810037DC44 /* MoviesCell.m in Sources */,
 				AD0935731E4007F70045A61F /* Review.m in Sources */,

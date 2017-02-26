@@ -13,8 +13,9 @@
 #import "ImageCollectionCell.h"
 #import "OverviewCell.h"
 #import "PictureDetailCell.h"
+#import "SeasonsCell.h"
 
-@interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, CastCollectionCellDelegate,ImageCollectionCellDelegate,OverviewCellDelegate,PictureCellDelegate>
+@interface MovieDetailViewController : UIViewController<UITableViewDelegate,UITableViewDataSource, CastCollectionCellDelegate,ImageCollectionCellDelegate,OverviewCellDelegate,PictureCellDelegate, SeasonsCellDelegate>
 
 @property (nonatomic,strong) NSNumber* movieID;
 @property (nonatomic,strong) Movie *singleMovie;

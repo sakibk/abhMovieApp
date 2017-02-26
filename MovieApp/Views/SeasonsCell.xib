@@ -26,14 +26,14 @@
                         <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tBe-gu-419">
-                        <rect key="frame" x="75" y="7" width="332" height="14"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No seasons avalible" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tBe-gu-419">
+                        <rect key="frame" x="74" y="7" width="288" height="14"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAH-7u-kCe">
-                        <rect key="frame" x="74" y="21" width="333" height="30"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No release years avalible" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UAH-7u-kCe">
+                        <rect key="frame" x="74" y="21" width="288" height="30"/>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" red="0.53725490196078429" green="0.53333333333333333" blue="0.52156862745098043" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
@@ -48,20 +48,31 @@
                         <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o5n-4Q-jVt">
+                        <rect key="frame" x="362" y="19" width="45" height="20"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <state key="normal" title="See all">
+                            <color key="titleColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="jsL-2P-83H" firstAttribute="leading" secondItem="c8d-bV-XLQ" secondAttribute="leading" id="6mY-UZ-8AY"/>
                     <constraint firstItem="UAH-7u-kCe" firstAttribute="leading" secondItem="c8d-bV-XLQ" secondAttribute="trailing" constant="27" id="AMw-wI-DNg"/>
                     <constraint firstAttribute="bottomMargin" secondItem="c8d-bV-XLQ" secondAttribute="bottom" constant="15" id="I4D-G9-FSx"/>
                     <constraint firstItem="c8d-bV-XLQ" firstAttribute="firstBaseline" secondItem="UAH-7u-kCe" secondAttribute="firstBaseline" id="Ijm-xF-o1k"/>
+                    <constraint firstItem="o5n-4Q-jVt" firstAttribute="trailing" secondItem="K97-dr-t8d" secondAttribute="trailingMargin" id="PDG-Xl-5F8"/>
                     <constraint firstItem="jsL-2P-83H" firstAttribute="top" secondItem="K97-dr-t8d" secondAttribute="topMargin" constant="-1" id="R6c-bx-Pro"/>
+                    <constraint firstItem="o5n-4Q-jVt" firstAttribute="top" secondItem="K97-dr-t8d" secondAttribute="topMargin" constant="11" id="YiO-6b-FFJ"/>
                     <constraint firstItem="tBe-gu-419" firstAttribute="centerX" secondItem="UAH-7u-kCe" secondAttribute="centerX" id="egp-8T-Kte"/>
                     <constraint firstItem="c8d-bV-XLQ" firstAttribute="top" secondItem="jsL-2P-83H" secondAttribute="bottom" id="gfl-yM-dMN"/>
-                    <constraint firstItem="tBe-gu-419" firstAttribute="trailing" secondItem="K97-dr-t8d" secondAttribute="trailingMargin" id="gwe-fO-i1W"/>
+                    <constraint firstItem="tBe-gu-419" firstAttribute="trailing" secondItem="K97-dr-t8d" secondAttribute="trailingMargin" constant="-45" id="gwe-fO-i1W"/>
+                    <constraint firstItem="o5n-4Q-jVt" firstAttribute="centerY" secondItem="K97-dr-t8d" secondAttribute="centerY" id="iQs-Jc-lOb"/>
                     <constraint firstItem="jsL-2P-83H" firstAttribute="leading" secondItem="K97-dr-t8d" secondAttribute="leadingMargin" id="kxW-Es-M0N"/>
                     <constraint firstItem="jsL-2P-83H" firstAttribute="firstBaseline" secondItem="tBe-gu-419" secondAttribute="firstBaseline" id="mRe-zj-SJ1"/>
                     <constraint firstItem="tBe-gu-419" firstAttribute="trailing" secondItem="UAH-7u-kCe" secondAttribute="trailing" id="nZO-o7-7hN"/>
                     <constraint firstItem="jsL-2P-83H" firstAttribute="baseline" secondItem="tBe-gu-419" secondAttribute="baseline" id="sH3-m6-WF7"/>
+                    <constraint firstItem="o5n-4Q-jVt" firstAttribute="leading" secondItem="UAH-7u-kCe" secondAttribute="trailing" id="vNk-yw-6Zk"/>
                     <constraint firstAttribute="bottomMargin" secondItem="UAH-7u-kCe" secondAttribute="bottom" constant="-1" id="viN-9W-UhI"/>
                 </constraints>
             </tableViewCellContentView>
@@ -69,6 +80,7 @@
             <connections>
                 <outlet property="releaseYears" destination="UAH-7u-kCe" id="fIn-Rt-1bA"/>
                 <outlet property="seasons" destination="tBe-gu-419" id="dY0-Pp-ePA"/>
+                <outlet property="seeAllButton" destination="o5n-4Q-jVt" id="gHS-O0-1g2"/>
             </connections>
             <point key="canvasLocation" x="46.5" y="72.5"/>
         </tableViewCell>
