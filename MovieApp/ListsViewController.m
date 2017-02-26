@@ -61,16 +61,19 @@
         _movieList=[_user watchlistMovies];
         _showsList=[_user watchlistShows];
         _noListLabel.text=@"No Watchlist";
+        self.navigationItem.title =@"Watchlist";
     }
     else if(_isFavorites && !_isWatchlist &&  !_isRating){
         _movieList=[_user favoriteMovies];
         _showsList=[_user favoriteShows];
         _noListLabel.text=@"No Favorites";
+        self.navigationItem.title =@"Favorites";
     }
     else if(_isRating  && !_isFavorites && !_isWatchlist){
         _movieList=[_user ratedMovies];
         _showsList=[_user ratedShows];
         _noListLabel.text=@"No Rated";
+        self.navigationItem.title =@"Ratings";
     }
     if(_isMovie){
         if(_movieList.firstObject!=nil){

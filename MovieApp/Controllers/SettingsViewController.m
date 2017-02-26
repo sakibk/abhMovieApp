@@ -39,6 +39,7 @@
     [self.navigationController.navigationBar setHidden:NO];
     _movieNotification.layer.cornerRadius = 16.0;
     _showNotification.layer.cornerRadius = 16.0;
+    self.navigationItem.title =@"Settings";
 }
 
 /*
