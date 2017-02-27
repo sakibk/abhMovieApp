@@ -19,7 +19,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="414" height="221"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z4y-Au-Dc2">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackdropNoImageAvalible" translatesAutoresizingMaskIntoConstraints="NO" id="z4y-Au-Dc2">
                         <rect key="frame" x="0.0" y="0.0" width="418" height="221"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No title avalible" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="16" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Ea-Hc-CcX">
@@ -83,6 +83,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="BackdropNoImageAvalible" width="225" height="170"/>
         <image name="NonLikedMedia" width="16" height="14"/>
         <image name="NonWatchedMedia" width="12" height="15"/>
         <image name="Play" width="45" height="45"/>

@@ -18,7 +18,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="199" height="254"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aGi-kG-s9n">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="imagePlaceholder" translatesAutoresizingMaskIntoConstraints="NO" id="aGi-kG-s9n">
                         <rect key="frame" x="0.0" y="0.0" width="199" height="254"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </imageView>
@@ -128,5 +128,6 @@
         <image name="NonLikedMedia" width="16" height="14"/>
         <image name="NonWatchedMedia" width="12" height="15"/>
         <image name="YellowRatingsButton" width="19" height="17"/>
+        <image name="imagePlaceholder" width="100" height="167"/>
     </resources>
 </document>

@@ -46,10 +46,19 @@
     if([users count]){
         _user = [users firstObject];
     }
-    self.navigationItem.title=@"Rating";
 }
 
 -(void)setupView{
+    self.navigationItem.leftBarButtonItem.title=@"Cancel";
+    
+    UIBarButtonItem *anotherButton = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonItemStylePlain target:self action:@selector(rateMe:)];
+    self.navigationItem.rightBarButtonItem = anotherButton;
+    if(_isMovie){
+        self.navigationItem.title=_singleMovie.title;
+    }
+    else{
+        self.navigationItem.title=_singleShow.name;
+    }
     _ratingStatus.layer.cornerRadius=29;
     _ratingStatus.clipsToBounds = YES;
     _ratingStatus.textAlignment = NSTextAlignmentCenter;
@@ -66,6 +75,7 @@
     if(_isMovie){
         if([[[_user ratedMovies] valueForKey:@"movieID"] containsObject:_singleMovie.movieID]){
             [_rateButton setHidden:YES];
+            [self.navigationItem.rightBarButtonItem setTarget:nil];
             RLMResults<RLMovie*> *movies=[[_user ratedMovies] objectsWhere:@"movieID = %@",_singleMovie.movieID];
             RLMovie *result = movies.firstObject;
             starRatingView.value = [result.userRate doubleValue];
@@ -75,6 +85,7 @@
     else{
         if([[[_user ratedShows] valueForKey:@"showID"] containsObject:_singleShow.showID]){
             [_rateButton setHidden:YES];
+            [self.navigationItem.rightBarButtonItem setTarget:nil];
             RLMResults<RLTVShow*> *shows=[[_user ratedShows] objectsWhere:@"showID = %@",_singleShow.showID];
             RLTVShow *result = shows.firstObject;
             starRatingView.value = [result.userRate doubleValue];

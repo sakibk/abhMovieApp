@@ -57,6 +57,7 @@
                     <constraint firstItem="lrd-5b-PJ8" firstAttribute="leading" secondItem="dQs-Ra-JKL" secondAttribute="leading" constant="8" id="x6j-1q-bdc"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="authorLabel" destination="Umh-b3-8AM" id="8Hq-8l-iaO"/>
                 <outlet property="contentLabel" destination="t7L-he-lGV" id="JkS-WZ-GF7"/>
