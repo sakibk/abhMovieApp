@@ -17,6 +17,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSString *fullURL = @"https://www.themoviedb.org/account/reset-password";
+    NSURL *url = [NSURL URLWithString:fullURL];
+    NSURLRequest *requestObj = [NSURLRequest requestWithURL:url];
+    [_webView loadRequest:requestObj];
 }
 
 - (void)didReceiveMemoryWarning {

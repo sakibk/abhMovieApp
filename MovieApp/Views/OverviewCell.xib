@@ -46,7 +46,7 @@
                         <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No writers avalible" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W4D-CT-mNh">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No writers avalible" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="none" minimumFontSize="13" translatesAutoresizingMaskIntoConstraints="NO" id="W4D-CT-mNh">
                         <rect key="frame" x="64" y="27" width="293" height="28"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="28" id="CQt-7Z-EUj"/>
@@ -64,7 +64,7 @@
                         <color key="textColor" red="0.80784313730000001" green="0.80784313730000001" blue="0.80784313730000001" alpha="0.90000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No stars avalible" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="none" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rr2-ib-zSp">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="TopLeft" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No stars avalible" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="none" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="rr2-ib-zSp">
                         <rect key="frame" x="64" y="62" width="293" height="28"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="28" id="jbc-Kb-Acw"/>

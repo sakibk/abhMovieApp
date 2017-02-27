@@ -52,9 +52,13 @@ RLM_ARRAY_TYPE(Movie);
     UIButton *optionOne;
     UIButton *optionTwo;
     UIButton *optionThree;
+    UIButton *optionFour;
+    UIButton *optionFive;
     UIImageView *imageOne;
     UIImageView *imageTwo;
     UIImageView *imageThree;
+    UIImageView *imageFour;
+    UIImageView *imageFive;
     UIImageView *dropDownImage;
     UIViewController *rootViewController;
     UITableViewController *leftViewController;
@@ -91,6 +95,8 @@ RLM_ARRAY_TYPE(Movie);
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     self.sideMenuController.leftViewSwipeGestureEnabled = YES;
+    [self.collectionView reloadData];
+
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
 }
 
@@ -155,7 +161,7 @@ RLM_ARRAY_TYPE(Movie);
 
 
 -(void)CreateDropDownList{
-        CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 23 , 20 , 15);
+        CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
         CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
@@ -208,6 +214,9 @@ RLM_ARRAY_TYPE(Movie);
     imageThree = [[UIImageView alloc]initWithFrame:pictureThreeFrame];
     [imageThree setImage:[UIImage imageNamed:@""]];
         CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
+    if(!_isMovie){
+        buttonThreeFrame.size.height = buttonThreeFrame.size.height-1;
+    }
         optionThree = [[UIButton alloc]init];
         optionThree.frame=buttonThreeFrame;
         optionThree.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
@@ -218,13 +227,52 @@ RLM_ARRAY_TYPE(Movie);
         optionThree.tag=2;
     [_dropDown addSubview:optionThree];
     [_dropDown addSubview:imageThree];
+    if(!_isMovie){
+        
+        CGRect pictureFourFrame = CGRectMake(22, 64*4+24 , 20, 15);
+        imageFour = [[UIImageView alloc]initWithFrame:pictureFourFrame];
+        [imageFour setImage:[UIImage imageNamed:@""]];
+        CGRect buttonFourFrame = CGRectMake(0, 64*4, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+        optionFour = [[UIButton alloc]init];
+        optionFour.frame=buttonFourFrame;
+        optionFour.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+        [optionFour setBackgroundColor:[UIColor blackColor]];
+        [optionFour setTitle:@"Airing Today" forState:UIControlStateNormal];
+        optionFour.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [optionFour addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        optionFour.tag=3;
+        [_dropDown addSubview:optionFour];
+        [_dropDown addSubview:imageFour];
+        
+        CGRect pictureFiveFrame = CGRectMake(22, 64*5+24 , 20, 15);
+        imageFive = [[UIImageView alloc]initWithFrame:pictureFiveFrame];
+        [imageFive setImage:[UIImage imageNamed:@""]];
+        CGRect buttonFiveFrame = CGRectMake(0, 64*5, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
+        optionFive = [[UIButton alloc]init];
+        optionFive.frame=buttonFiveFrame;
+        optionFive.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+        [optionFive setBackgroundColor:[UIColor blackColor]];
+        [optionFive setTitle:@"On Air" forState:UIControlStateNormal];
+        optionFive.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [optionFive addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+        optionFive.tag=4;
+        [_dropDown addSubview:optionFive];
+        [_dropDown addSubview:imageFive];
+        
+    }
+    
     
         [optionOne setAlpha:0.0];
         [optionTwo setAlpha:0.0];
         [optionThree setAlpha:0.0];
+        [optionFour setAlpha:0.0];
+        [optionFive setAlpha:0.0];
         [imageOne setAlpha:0.0];
         [imageTwo setAlpha:0.0];
         [imageThree setAlpha:0.0];
+        [imageFour setAlpha:0.0];
+        [imageFive setAlpha:0.0];
+    
         [self.view insertSubview:_dropDown aboveSubview:_collectionView];
         [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dropDown attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
 }
@@ -234,12 +282,23 @@ RLM_ARRAY_TYPE(Movie);
     if(!_isDroped){
         
         [UIView animateWithDuration:0.2 animations:^{
-            self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 192, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
+            if(_isMovie){
+                self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 192, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
+            }
+            else{
+                self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 320, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
+            }
                 [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
-                CGRect openedListFrame = CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64*4);
+                CGRect openedListFrame;
+                if(_isMovie){
+                    openedListFrame = CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64*4);
+                }
+                else{
+                    openedListFrame = CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64*6);
+                }
                 [_dropDown setFrame:openedListFrame];
                 _isDroped = YES;
                 [imageOne setAlpha:1.0];
@@ -248,6 +307,12 @@ RLM_ARRAY_TYPE(Movie);
                 [optionOne setAlpha:1.0];
                 [optionTwo setAlpha:1.0];
                 [optionThree setAlpha:1.0];
+                if(!_isMovie){
+                    [imageFour setAlpha:1.0];
+                    [imageFive setAlpha:1.0];
+                    [optionFour setAlpha:1.0];
+                    [optionFive setAlpha:1.0];
+                }
             }];
         }];
     } else{
@@ -258,6 +323,12 @@ RLM_ARRAY_TYPE(Movie);
             [imageOne setAlpha:0.0];
             [imageTwo setAlpha:0.0];
             [imageThree setAlpha:0.0];
+            if(!_isMovie){
+                [imageFour setAlpha:0.0];
+                [imageFive setAlpha:0.0];
+                [optionFour setAlpha:0.0];
+                [optionFive setAlpha:0.0];
+            }
         } completion:^(BOOL finished) {
           [UIView animateWithDuration:0.2 animations:^{
               CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
@@ -306,18 +377,32 @@ RLM_ARRAY_TYPE(Movie);
         [self setDropDownTitleButton];
         _selectedButton=2;
     }
+    else if(sender.tag==3){
+        _filterString =@"air_date.desc";
+        _dropDownTitle=@"Airing Today";
+        [self setDropDownTitleButton];
+        _selectedButton=3;
+    }
+    else if(sender.tag==4){
+        _filterString =@"first_air_date.desc";
+        _dropDownTitle=@"On Air";
+        [self setDropDownTitleButton];
+        _selectedButton=4;
+    }
+    _pageNumber = [NSNumber numberWithInt:1];
     [self ListDroped:sender];
-    [self setupButtons];
     if(_isMovie)
     {
+        [self setupButtonsMovie];
         [self getMovies];
     }
     else{
+        [self setupButtonsShows];
         [self getShows];
     }
 }
 
--(void)setupButtons{
+-(void)setupButtonsMovie{
     NSString *selectedButton =@"DropDownSelected";
     NSString *notSelectedButton=@"";
     NSString *buttonOne;
@@ -343,6 +428,57 @@ RLM_ARRAY_TYPE(Movie);
     [imageTwo setImage:[UIImage imageNamed:buttonTwo]];
     [imageThree setImage:[UIImage imageNamed:buttonThree]];
 
+}
+
+-(void)setupButtonsShows{
+    NSString *selectedButton =@"DropDownSelected";
+    NSString *notSelectedButton=@"";
+    NSString *buttonOne;
+    NSString *buttonTwo;
+    NSString *buttonThree;
+    NSString *buttonFour;
+    NSString *buttonFive;
+    
+    if(_selectedButton ==0){
+        buttonOne=selectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+    }
+    else if(_selectedButton ==1){
+        buttonOne=notSelectedButton;
+        buttonTwo=selectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+    }
+    else if(_selectedButton ==2){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=selectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+    }
+    else if(_selectedButton ==3){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=selectedButton;
+        buttonFive=notSelectedButton;
+    }
+    else if(_selectedButton ==4){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=selectedButton;
+    }
+    [imageOne setImage:[UIImage imageNamed:buttonOne]];
+    [imageTwo setImage:[UIImage imageNamed:buttonTwo]];
+    [imageThree setImage:[UIImage imageNamed:buttonThree]];
+    [imageFour setImage:[UIImage imageNamed:buttonFour]];
+    [imageFive setImage:[UIImage imageNamed:buttonFive]];
 }
 
 
@@ -386,10 +522,18 @@ RLM_ARRAY_TYPE(Movie);
         [DateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
         NSDictionary *queryParams = @{
-                                          @"sort_by":localFilterString,
-                                          @"primary_release_date.lte":currentDate,
+                                          @"sort_by":@"primary_release_date.desc",
+                                          @"primary_release_date.lte":[DateFormatter dateFromString:currentDate],
                                           @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                           };
+        queryParameters=queryParams;
+    }
+    if([localFilterString isEqualToString:@"vote_average.desc"]){
+        NSDictionary *queryParams = @{
+                                      @"sort_by":localFilterString,
+                                      @"vote_count.gte":@250,
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
         queryParameters=queryParams;
     }
     
@@ -436,10 +580,20 @@ RLM_ARRAY_TYPE(Movie);
         [DateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
         NSDictionary *queryParams = @{
+                                      @"sort_by":@"primary_release_date.desc",
+                                      @"primary_release_date.lte":[DateFormatter dateFromString:currentDate],
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"page":_pageNumber
+                                      };
+        queryParameters=queryParams;
+    }
+    
+    if([localFilterString isEqualToString:@"vote_average.desc"]){
+        NSDictionary *queryParams = @{
                                       @"sort_by":localFilterString,
-                                      @"primary_release_date.lte":currentDate,
-                                      @"page":_pageNumber,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"vote_count.gte":@250,
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"page":_pageNumber
                                       };
         queryParameters=queryParams;
     }
@@ -513,13 +667,26 @@ RLM_ARRAY_TYPE(Movie);
                                                       @"genre_ids": @"genreIds",
                                                       @"number_of_seasons":@"seasonCount"
                                                       }];
+    [showMapping assignsNilForMissingRelationships];
     
     NSString *pathP =@"/3/discover/tv";
+    
+    if([localFilterString isEqualToString:@"first_air_date.desc"]){
+        pathP = @"3/tv/on_the_air";
+    }
+    if([localFilterString isEqualToString:@"air_date.desc"]){
+        pathP = @"3/tv/airing_today";
+    }
+
+    if([localFilterString isEqualToString:@"vote_average.desc"]){
+        pathP = @"3/tv/top_rated";
+    }
+    
     
     RKResponseDescriptor *responseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:showMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:pathP
+                                            pathPattern:nil
                                                 keyPath:@"results"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
@@ -533,17 +700,25 @@ RLM_ARRAY_TYPE(Movie);
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
                                       };
     
-    if([localFilterString isEqualToString:@"release_date.desc"]){
-        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
-        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+    if([localFilterString isEqualToString:@"air_date.desc"] || [localFilterString isEqualToString:@"first_air_date.desc"]||[localFilterString isEqualToString:@"vote_average.desc"]){
         NSDictionary *queryParams = @{
-                                      @"sort_by":localFilterString,
-                                      @"primary_release_date.lte":currentDate,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
         queryParameters=queryParams;
     }
+    if([localFilterString isEqualToString:@"release_date.desc"]){
+        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+        
+        NSDictionary *queryParams = @{
+                                      @"sort_by": @"first_air_date.desc",
+                                      @"first_air_date.lte":[DateFormatter dateFromString:currentDate],
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+        queryParameters=queryParams;
+    }
+    
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
@@ -554,6 +729,9 @@ RLM_ARRAY_TYPE(Movie);
                 if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.airDate!=nil){
                     [_allShows addObject:tv];
                 }
+            }
+            if([_allShows count]<4){
+                [self getMoreShows];
             }
             [self.collectionView reloadData];
             [self setPageNumber:[NSNumber numberWithInt:1]];
@@ -580,20 +758,42 @@ RLM_ARRAY_TYPE(Movie);
     
     NSString *pathP =@"/3/discover/tv";
     
+    if([localFilterString isEqualToString:@"first_air_date.desc"]){
+        pathP = @"3/tv/on_the_air";
+    }
+    if([localFilterString isEqualToString:@"air_date.desc"]){
+        pathP = @"3/tv/airing_today";
+    }
+    
+    if([localFilterString isEqualToString:@"vote_average.desc"]){
+        pathP = @"3/tv/top_rated";
+    }
+    
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64", /*add your api*/
                                       @"page":_pageNumber
                                       };
+    
+
+    if([localFilterString isEqualToString:@"air_date.desc"] || [localFilterString isEqualToString:@"first_air_date.desc"] || [localFilterString isEqualToString:@"vote_average.desc"]){
+        NSDictionary *queryParams = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"page":_pageNumber
+                                      };
+        queryParameters=queryParams;
+    }
+    
     if([localFilterString isEqualToString:@"release_date.desc"]){
         NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
         [DateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+        
         NSDictionary *queryParams = @{
-                                      @"sort_by":localFilterString,
-                                      @"primary_release_date.lte":currentDate,
-                                      @"page":_pageNumber,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"sort_by": @"first_air_date.desc",
+                                      @"first_air_date.lte":[DateFormatter dateFromString:currentDate],
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"page":_pageNumber
                                       };
         queryParameters=queryParams;
     }

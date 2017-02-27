@@ -45,6 +45,7 @@
 @property CGFloat imageGalleryCellHeight;
 @property CGFloat castCellHeight;
 @property CGFloat reviewCellHeight;
+@property CGFloat openReviewCellHeight;
 @property CGFloat seasonsCellHeight;
 @property CGFloat noCellHeight;
 
@@ -52,7 +53,7 @@
 @property RLUserInfo *user;
 
 @property NSIndexPath *reviewIndexPath;
-
+@property BOOL isOpened;
 
 @end
 
@@ -104,6 +105,7 @@
     _imageGalleryCellHeight =185.0;
     _castCellHeight =293.0;
     _reviewCellHeight =190.0;
+    _openReviewCellHeight=290.0;
     _seasonsCellHeight =59.0;
     _noCellHeight =0.0;
 }
@@ -125,6 +127,7 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"SeasonsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:seasonsCellIdentifier];
     
     _realm=[RLMRealm defaultRealm];
+    _isOpened=NO;
 }
 
 -(void)setNavBarTitle{
@@ -575,37 +578,7 @@
         return _castCellHeight;
     }
     else if(indexPath.section == 5 && _allReviews.firstObject != nil) {
-        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        [style setAlignment:NSTextAlignmentCenter];
-        UIFont *font1 = [UIFont systemFontOfSize:14];
-        UIColor *yCol = [UIColor yellowColor];
-        NSDictionary *dict1 = @{NSFontAttributeName:font1,
-                                NSParagraphStyleAttributeName:style,
-                                NSForegroundColorAttributeName:yCol};
-        
-        
-        CGFloat height = _reviewCellHeight; // assign initial height
-//        CGRect lblFrame = cell.contentLabel.frame; //assign initial frame
-//        
-//        NSString *strText = [_allReviews objectAtIndex:indexPath.row].text;
-//        CGRect rect = [strText boundingRectWithSize:CGSizeMake(lblFrame.size.height, FLT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict1 context:nil];
-//        
-//        if (rect.size.height > lblFrame.size.height || rect.size.height < lblFrame.size.height) {
-//            float diff = rect.size.height - lblFrame.size.height;
-//            height = height+diff+20;
-//        }
-//        
-//        if (isRowOpen[indexPath.row] == TRUE) {
-//            
-//            CGRect rect = [strText boundingRectWithSize:CGSizeMake(lblFrame.size.height, FLT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict1 context:nil];
-//            
-//            
-//            if (rect.size.height > lblFrame.size.height || rect.size.height < lblFrame.size.height) {
-//                float diff = rect.size.height - lblFrame.size.height;
-//                height = height+diff+20;
-//            }
-//        }
-        return height;
+        return _reviewCellHeight;
     }
 
     return _noCellHeight;
@@ -857,13 +830,48 @@
     if(indexPath.section==0){
         [self performSegueWithIdentifier:@"WatchTrailer" sender:self];
     }
-    }
     else if(indexPath.section==5){
         _reviewIndexPath=indexPath;
+        [self changeCellSize];
+    }
     }
 }
 
+-(void) changeCellSize{
+    SingleReviewCell *cell = (SingleReviewCell*)[_tableView cellForRowAtIndexPath:_reviewIndexPath];
+    _reviewCellHeight=[self heightForView:[[_allReviews objectAtIndex:_reviewIndexPath.row] text] :[UIFont systemFontOfSize:14.0] :cell.textLabel.frame.size.width];
+    NSArray *indexPaths = [NSArray arrayWithObject:_reviewIndexPath];
+    [self reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    if(!_isOpened){
+        _reviewCellHeight=_openReviewCellHeight;
+        _isOpened=YES;
+    }
+    else{
+        _reviewCellHeight=190.0;
+        _isOpened=NO;
+    }
+}
 
+-(CGFloat)heightForView :(NSString*)text :(UIFont *)font : (CGFloat)width{
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, width, CGFLOAT_MAX)];
+    [label setNumberOfLines:0];
+    [label setLineBreakMode: NSLineBreakByWordWrapping];
+    [label setFont:font];
+    [label setText:text];
+    [label sizeToFit];
+    return  label.frame.size.height;
+}
+
+//func heightForView(text:String, #font:UIFont, #width:CGFloat) -> CGFloat{
+//    let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
+//    label.numberOfLines = 0
+//    label.lineBreakMode = NSLineBreakMode.ByWordWrapping
+//    label.font = font
+//    label.text = text
+//    
+//    label.sizeToFit()
+//    return label.frame.height
+//}
 -(void)addFavorite{
 
         PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];

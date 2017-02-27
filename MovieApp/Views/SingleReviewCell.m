@@ -47,6 +47,7 @@ NSString *const singleReviewCellIdentifier = @"SingleReviewCellIdentifier";
 
 -(IBAction)readButton:(id)sender{
     [self.delegate readMore];
+    [self readMore];
 }
 
 -(void)readMore{
