@@ -89,13 +89,18 @@ RLM_ARRAY_TYPE(Movie);
 
 
 - (void)viewWillAppear:(BOOL)animated {
-    [self.collectionView reloadData];
     [super viewWillAppear:animated];
+    self.sideMenuController.leftViewSwipeGestureEnabled = YES;
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
+}
+
+-(void)viewDidAppear:(BOOL)animated{
+    [self.collectionView reloadData];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    self.sideMenuController.leftViewSwipeGestureEnabled = NO;
 }
 
 -(void)setupVariables{

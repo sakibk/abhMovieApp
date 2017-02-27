@@ -202,6 +202,8 @@
         if(![self.imagesArray[indexPath.row] isEqualToString:@""]){
             [cell.imageView setImage:[UIImage imageNamed:self.imageTitlesArray[indexPath.row]]];
             [cell.imageView sizeToFit];
+        }
+        if(indexPath.row==2){
             [cell setUserInteractionEnabled:YES];
         }
     }

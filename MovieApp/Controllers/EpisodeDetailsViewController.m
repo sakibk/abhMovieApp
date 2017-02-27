@@ -15,9 +15,11 @@
 #import <RestKit/RestKit.h>
 #import "TrailerVideos.h"
 #import "TrailerViewController.h"
+#import "AboveImageCell.h"
 
 @interface EpisodeDetailsViewController ()
 
+@property CGFloat aboveEpisodePosterHeight;
 @property CGFloat episodePosterHeight;
 @property CGFloat episodeOverviewHeight;
 @property CGFloat episodeDetailsHeight;
@@ -35,6 +37,7 @@
     
     [self setNavBarTitle];
     // Do any additional setup after loading the view.
+    [self.tableView registerNib:[UINib nibWithNibName:@"AboveImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboveImageCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeDetailsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeDetailsCellIdentifier];
@@ -44,10 +47,12 @@
 }
 
 -(void)setupSizes{
+    _aboveEpisodePosterHeight=60.0;
     _episodePosterHeight=230.0;
     _episodeDetailsHeight=85.0;
     _episodeOverviewHeight=85.0;
     _episodeCastHeight=330.0;
+    _noHeight=0.00001;
 }
 
 -(void)setNavBarTitle{
@@ -86,7 +91,7 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _singleEpisode != nil ? 4 : 0;
+    return _singleEpisode != nil ? 5 : 0;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -96,27 +101,34 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.section) {
         case 0:{
+            AboveImageCell *cell = (AboveImageCell*)[tableView dequeueReusableCellWithIdentifier:aboveImageCellIdentifier forIndexPath:indexPath];
+            [cell setupTitleWithString:[NSString stringWithFormat:@"Season %@   Episode %@",_singleEpisode.seasonNumber,_singleEpisode.episodeNumber]];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            return cell;
+        }
+            break;
+        case 1:{
             PictureDetailCell *cell = (PictureDetailCell*)[tableView dequeueReusableCellWithIdentifier:pictureDetailCellIdentifier forIndexPath:indexPath];
             [cell setupWithEpisode:_singleEpisode];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;
-        case 1:{
+        case 2:{
             EpisodeDetailsCell *cell =(EpisodeDetailsCell*)[tableView dequeueReusableCellWithIdentifier:episodeDetailsCellIdentifier forIndexPath:indexPath];
             [cell setEpisodeDetails:_singleEpisode];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;
-        case 2:{
+        case 3:{
             EpisodeOverviewCell *cell = (EpisodeOverviewCell*)[tableView dequeueReusableCellWithIdentifier:episodeOverviewCellIdentifier forIndexPath:indexPath];
             [cell setupOverviewWithText:_singleEpisode.overview];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
             break;
-        case 3:{
+        case 4:{
             CastCollectionCell *cell = (CastCollectionCell*)[tableView dequeueReusableCellWithIdentifier:castCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithEpisode:_singleEpisode];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -139,15 +151,18 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.section) {
         case 0:
-            return _episodePosterHeight;
+            return _aboveEpisodePosterHeight;
             break;
         case 1:
-            return _episodeDetailsHeight;
+            return _episodePosterHeight;
             break;
         case 2:
-            return _episodeOverviewHeight;
+            return _episodeDetailsHeight;
             break;
         case 3:
+            return _episodeOverviewHeight;
+            break;
+        case 4:
             return _episodeCastHeight;
             break;
         default: return _noHeight;
@@ -159,15 +174,18 @@
 -(NSString*)stringForSection:(long)section{
     switch (section) {
         case 0:
-            return @"Trailer";
+            return @"";
             break;
         case 1:
-            return @"";
+            return @"Trailer";
             break;
         case 2:
             return @"";
             break;
         case 3:
+            return @"";
+            break;
+        case 4:
             return @"Cast";
             break;
         default: return @"";
@@ -176,7 +194,7 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    if(section==0 || section == 3){
+    if(section==0 || section==1 || section == 4){
         return 0.0001;
     }
     else
@@ -186,11 +204,10 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     switch (section) {
         case 0:{
-            return 30.0;
+            return 0.0001;
         }
-            break;
         case 1:{
-            return 5.0;
+            return 30.0;
         }
             break;
         case 2:{
@@ -198,6 +215,10 @@
         }
             break;
         case 3:{
+            return 5.0;
+        }
+            break;
+        case 4:{
             return 30.0;
         }
             break;
@@ -208,16 +229,23 @@
 
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if(section!=0 || section!=1){
+    if(section!=0 || section!=2 ){
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
-    if(section==2 || section==3){
+    if(section==3 || section==4){
         UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
         lineview.layer.borderColor = [UIColor yellowColor].CGColor;
         lineview.layer.borderWidth = 0.5;
         [view addSubview:lineview];
     }
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
-    [label setFont:[UIFont boldSystemFontOfSize:14]];
+        UILabel *label;
+        if(section!=1){
+            label= [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
+            [label setFont:[UIFont boldSystemFontOfSize:14]];
+        }
+        else{
+            label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, tableView.frame.size.width/2, 18)];
+            [label setFont:[UIFont systemFontOfSize:17]];
+        }
     NSString *string =[self stringForSection:section];
     [label setText:string];
     [view addSubview:label];
@@ -225,33 +253,13 @@
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
     return view;
     }
-    else if (section==0){
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 128)];
-        UIView *topSeparator = [[UIView alloc]initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 1)];
-        [topSeparator setBackgroundColor:[UIColor whiteColor]];
-        [view addSubview:topSeparator];
-        UILabel *aboveImageLabel = [[UILabel alloc]initWithFrame:CGRectMake(20, 20, tableView.frame.size.width, 24)];
-        [aboveImageLabel setTextColor:[UIColor whiteColor]];
-        [aboveImageLabel setFont:[UIFont boldSystemFontOfSize:17]];
-        [aboveImageLabel setText:[NSString stringWithFormat:@"Season %@   Episode %@",_singleEpisode.seasonNumber,_singleEpisode.episodeNumber]];
-        [view addSubview:aboveImageLabel];
-        UIView *separator = [[UIView alloc]initWithFrame:CGRectMake(0, 63, tableView.frame.size.width, 1)];
-        [separator setBackgroundColor:[UIColor lightGrayColor]];
-        [view addSubview:separator];
-        UILabel *aboveImageUnderTitle = [[UILabel alloc]initWithFrame:CGRectMake(20, 84, tableView.frame.size.width, 24)];
-        [aboveImageUnderTitle setTextColor:[UIColor whiteColor]];
-        [aboveImageUnderTitle setFont:[UIFont boldSystemFontOfSize:17]];
-        [aboveImageUnderTitle setText:@"Trailer"];
-        [view addSubview:aboveImageUnderTitle];
-        return view;
-    }
     else
         return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(_singleEpisode.trailers.firstObject)
-    if(indexPath.section==0 && indexPath.row == 0){
+    if(indexPath.section==1 && indexPath.row == 0){
          NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         TrailerViewController *trailer = [storyboard instantiateViewControllerWithIdentifier:@"TrailerView"];

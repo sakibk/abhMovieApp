@@ -261,6 +261,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         int i;
+        if(mappingResult.array.firstObject!= nil){
         for(i=0;i<[mappingResult.array count];i++){
             if([[mappingResult.array objectAtIndex:i] isKindOfClass:[TVShow class]]){
                 _showDetail = [mappingResult.array objectAtIndex:i];
@@ -269,6 +270,7 @@
             else if ([[mappingResult.array objectAtIndex:i] isKindOfClass:[Season class]]){
                 [_allSeasons addObject:[mappingResult.array objectAtIndex:i]];
             }
+        }
         }
         _showDetail.seasons=_allSeasons;
         [self setNavBarTitle];
@@ -615,7 +617,6 @@
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
         UIFont *font1 = [UIFont boldSystemFontOfSize:14];
     [label setFont:font1];
-//    NSString *string =[list objectAtIndex:section];
     NSString *string =[self stringForSection:section];
     /* Section header is in 0th index... */
     [label setText:string];
@@ -623,7 +624,7 @@
     [label setTextColor:[UIColor whiteColor]];
     [view setBackgroundColor:[UIColor blackColor]]; //your background color...
         if((section == 4 && !_isMovie) || (section==3 && _isMovie)){
-            CGFloat buttonSize = 70;
+            CGFloat buttonSize = 60;
             UIButton * seeAll = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width-buttonSize, 10,buttonSize,20)];
             NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
             UIColor *yCol = [UIColor yellowColor];

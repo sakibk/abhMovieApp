@@ -56,6 +56,10 @@
     [self automaticallyAdjustsScrollViewInsets];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    self.sideMenuController.leftViewSwipeGestureEnabled = YES;
+}
+
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 }

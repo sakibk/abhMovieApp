@@ -21,7 +21,14 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
 }
 
 -(void) setupWithMovie:(Movie *)singleMovie{
+    int mins = [singleMovie.runtime intValue] %60;
+    int hours = [singleMovie.runtime intValue] /60;
+    if(hours==0){
     _duration.text = [NSString stringWithFormat:@"%@ min",singleMovie.runtime];
+    }
+    else{
+        _duration.text = [NSString stringWithFormat:@"%dh %dmin",hours,mins];
+    }
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd LLLL yyyy"];
@@ -34,17 +41,25 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
         [_genreString appendString:[str valueForKey:@"name"]];
         [_genreString appendString:@", "];
     }
-    [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
+    if([_genreString length]>3){
+        [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
+    }
+    else{
+        [_genreString appendString:@"Genres not avalible"];
+    }
     _genres.text = _genreString;
 
 }
 
 -(void) setupWithShow:(TVShow *)singleShow{
-    if([singleShow.runtime count]>1){
+    if([singleShow.runtime count]>=2){
     _duration.text = [NSString stringWithFormat:@"%@-%@ min",[singleShow.runtime objectAtIndex:0],[singleShow.runtime objectAtIndex:1]];
     }
-    else{
+    else if ([singleShow.runtime count] == 1){
         _duration.text = [NSString stringWithFormat:@"%@ min",[singleShow.runtime objectAtIndex:0]];
+    }
+    else{
+        _duration.text = [NSString stringWithFormat:@"N/A"];
     }
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -58,7 +73,12 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
         [_genreString appendString:[str valueForKey:@"name"]];
         [_genreString appendString:@", "];
     }
-    [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
+    if([_genreString length]>3){
+        [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
+    }
+    else{
+        [_genreString appendString:@"Genres not avalible"];
+    }
     _genres.text = _genreString;
     
 }

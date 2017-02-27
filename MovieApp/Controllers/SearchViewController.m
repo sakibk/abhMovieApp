@@ -142,6 +142,7 @@
         int custIndex=0;
         [_searchResults removeAllObjects];
         _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        if([_allResults.firstObject isKindOfClass:[TVMovie class]]){
         for (TVMovie *TVorMovie in _allResults) {
             
             if (![TVorMovie isMovie]) {
@@ -162,7 +163,7 @@
             }
             
         }
-
+    }
         
         [self reloadContent];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
