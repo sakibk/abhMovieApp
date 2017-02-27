@@ -155,7 +155,7 @@ RLM_ARRAY_TYPE(Movie);
 
 
 -(void)CreateDropDownList{
-        CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/16, 23 , 20 , 15);
+        CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 23 , 20 , 15);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
         CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
@@ -169,6 +169,7 @@ RLM_ARRAY_TYPE(Movie);
         showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
         [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
+
     [_dropDown addSubview:showList];
     [_dropDown addSubview:dropDownImage];
     

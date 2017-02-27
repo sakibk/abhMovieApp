@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdE-S7-LcC" id="4uN-ze-v9e">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="221"/>
+                <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackdropNoImageAvalible" translatesAutoresizingMaskIntoConstraints="NO" id="z4y-Au-Dc2">
@@ -40,7 +40,7 @@
                         </connections>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0c-UW-f2h">
-                        <rect key="frame" x="359" y="173.5" width="47" height="40"/>
+                        <rect key="frame" x="359" y="174" width="47" height="40"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="40" id="liH-c1-2S2"/>
                             <constraint firstAttribute="width" constant="47" id="vKd-yy-ApZ"/>
@@ -48,7 +48,7 @@
                         <state key="normal" image="NonLikedMedia"/>
                     </button>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8E8-gp-DlF">
-                        <rect key="frame" x="313" y="172.5" width="33" height="40"/>
+                        <rect key="frame" x="313" y="173" width="33" height="40"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="33" id="yuG-aG-JkA"/>
                         </constraints>
@@ -61,9 +61,11 @@
                     <constraint firstItem="8E8-gp-DlF" firstAttribute="bottom" secondItem="s0c-UW-f2h" secondAttribute="bottom" constant="-1" id="8jN-BR-txv"/>
                     <constraint firstItem="s0c-UW-f2h" firstAttribute="leading" secondItem="8E8-gp-DlF" secondAttribute="trailing" constant="13" id="ANA-qA-vHg"/>
                     <constraint firstItem="s0c-UW-f2h" firstAttribute="bottom" secondItem="0Ea-Hc-CcX" secondAttribute="bottom" id="StG-p5-bCU"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="bottom" secondItem="4uN-ze-v9e" secondAttribute="bottomMargin" id="TIo-l5-PJN"/>
                     <constraint firstItem="8E8-gp-DlF" firstAttribute="baseline" secondItem="s0c-UW-f2h" secondAttribute="baseline" id="Thu-lj-MoI"/>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="centerX" secondItem="Wd8-fJ-ahh" secondAttribute="centerX" id="WKC-fE-qOY"/>
                     <constraint firstAttribute="trailingMargin" secondItem="z4y-Au-Dc2" secondAttribute="trailing" constant="-12" id="ZYO-qx-EOa"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="trailing" secondItem="4uN-ze-v9e" secondAttribute="trailingMargin" id="cIY-IK-NH7"/>
                     <constraint firstItem="s0c-UW-f2h" firstAttribute="trailing" secondItem="0Ea-Hc-CcX" secondAttribute="trailing" constant="95" id="fRh-BP-wOk"/>
                     <constraint firstAttribute="bottom" secondItem="z4y-Au-Dc2" secondAttribute="bottom" id="hVu-Gf-LpF"/>
                     <constraint firstItem="0Ea-Hc-CcX" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leadingMargin" id="j4y-v6-Xw7"/>

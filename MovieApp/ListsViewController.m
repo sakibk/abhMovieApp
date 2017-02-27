@@ -128,7 +128,7 @@
 }
 
 -(void)CreateDropDownList{
-    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2-[[UIScreen mainScreen] bounds].size.width/32, 23 , 20 , 15);
+    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/32, 23 , 20 , 15);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
     CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);

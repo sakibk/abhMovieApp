@@ -71,6 +71,7 @@
 		AD64D8331E5733F100DAE191 /* Token.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8321E5733F100DAE191 /* Token.m */; };
 		AD64D8371E5A196D00DAE191 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8361E5A196D00DAE191 /* ListsViewController.m */; };
 		AD64D83A1E5AD73100DAE191 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8391E5AD73100DAE191 /* SettingsViewController.m */; };
+		AD7DE4F51E64371000866A93 /* ForgottenPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7DE4F41E64371000866A93 /* ForgottenPasswordViewController.m */; };
 		AD8521451E6072CA008F235D /* ListMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8521441E6072CA008F235D /* ListMapping.m */; };
 		AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD8696131E53B721009B75F0 /* ImageCell.xib */; };
 		AD8696171E53B795009B75F0 /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8696161E53B795009B75F0 /* ImageCell.m */; };
@@ -211,6 +212,8 @@
 		AD64D8361E5A196D00DAE191 /* ListsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListsViewController.m; sourceTree = "<group>"; };
 		AD64D8381E5AD73100DAE191 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Controllers/SettingsViewController.h; sourceTree = "<group>"; };
 		AD64D8391E5AD73100DAE191 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
+		AD7DE4F31E64371000866A93 /* ForgottenPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgottenPasswordViewController.h; path = Controllers/ForgottenPasswordViewController.h; sourceTree = "<group>"; };
+		AD7DE4F41E64371000866A93 /* ForgottenPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForgottenPasswordViewController.m; path = Controllers/ForgottenPasswordViewController.m; sourceTree = "<group>"; };
 		AD8521431E6072CA008F235D /* ListMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListMapping.h; path = MovieApp/Models/ListMapping.h; sourceTree = "<group>"; };
 		AD8521441E6072CA008F235D /* ListMapping.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListMapping.m; path = MovieApp/Models/ListMapping.m; sourceTree = "<group>"; };
 		AD8696131E53B721009B75F0 /* ImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ImageCell.xib; sourceTree = "<group>"; };
@@ -290,6 +293,8 @@
 				AD8696211E55CAE5009B75F0 /* LoginViewController.m */,
 				AD13A6021E5E569300671C41 /* RegistrationViewController.h */,
 				AD13A6031E5E569300671C41 /* RegistrationViewController.m */,
+				AD7DE4F31E64371000866A93 /* ForgottenPasswordViewController.h */,
+				AD7DE4F41E64371000866A93 /* ForgottenPasswordViewController.m */,
 			);
 			name = LoginView;
 			sourceTree = "<group>";
@@ -914,6 +919,7 @@
 				AD13A6041E5E569300671C41 /* RegistrationViewController.m in Sources */,
 				AD4F93BE1E4F216500E55630 /* Episode.m in Sources */,
 				AD4F93751E48D4FC00E55630 /* SearchViewController.m in Sources */,
+				AD7DE4F51E64371000866A93 /* ForgottenPasswordViewController.m in Sources */,
 				AD34A0061E39FF4D009C4367 /* ImageCollectionCell.m in Sources */,
 				AD86961B1E559860009B75F0 /* LeftViewController.m in Sources */,
 				AD8696221E55CAE5009B75F0 /* LoginViewController.m in Sources */,

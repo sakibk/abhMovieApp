@@ -18,37 +18,16 @@
 
 @implementation TabBarViewController
 {
-    LGSideMenuController *sideMenuController;
-    UITableViewController *leftViewController;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.delegate = self;
     // Do any additional setup after loading the view.
-//    [self setupSidebar];
+    [self setupTabbar];
 }
-//
-//-(void)setupSidebar{
-//    leftViewController = [LeftViewController new];
-////    rightViewController= [UITableViewController new];
-//    
-//    
-//    sideMenuController = [LGSideMenuController sideMenuControllerWithRootViewController:self
-//                                                                     leftViewController:leftViewController
-//                                                                    rightViewController:nil];
-//    
-//    
-//    
-//    sideMenuController.leftViewController=leftViewController;
-//    sideMenuController.leftViewWidth = 250.0;
-//    sideMenuController.rootViewCoverColorForLeftView = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:1.00];
-//    sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
-//    
-//    sideMenuController.rightViewWidth = 0.0;
-//    sideMenuController.leftViewPresentationStyle = LGSideMenuPresentationStyleSlideAbove;
-//    UIWindow *window = UIApplication.sharedApplication.delegate.window;
-//    window.rootViewController = sideMenuController;
-//}
+
+-(void)setupTabbar{
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

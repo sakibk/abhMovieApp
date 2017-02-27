@@ -35,6 +35,7 @@
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor lightGrayColor]];
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor yellowColor]];
     
     [self setupSidebar];
     

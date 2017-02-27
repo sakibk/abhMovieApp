@@ -51,9 +51,15 @@
 @property RLMRealm *realm;
 @property RLUserInfo *user;
 
+@property NSIndexPath *reviewIndexPath;
+
+
 @end
 
 @implementation MovieDetailViewController
+{
+    bool isRowOpen[20];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -97,7 +103,7 @@
     _overviewCellHeight =180.0;
     _imageGalleryCellHeight =185.0;
     _castCellHeight =293.0;
-    _reviewCellHeight =160.0;
+    _reviewCellHeight =190.0;
     _seasonsCellHeight =59.0;
     _noCellHeight =0.0;
 }
@@ -338,6 +344,7 @@
                 SingleReviewCell *cell =(SingleReviewCell *)[tableView dequeueReusableCellWithIdentifier:singleReviewCellIdentifier forIndexPath:indexPath];
                 _singleReview=[_allReviews objectAtIndex:indexPath.row];
                 [cell setupWithReview:_singleReview]; // Configure the cell...
+                    cell.delegate = self;
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 
                 return cell;
@@ -568,7 +575,37 @@
         return _castCellHeight;
     }
     else if(indexPath.section == 5 && _allReviews.firstObject != nil) {
-        return _reviewCellHeight;
+        NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [style setAlignment:NSTextAlignmentCenter];
+        UIFont *font1 = [UIFont systemFontOfSize:14];
+        UIColor *yCol = [UIColor yellowColor];
+        NSDictionary *dict1 = @{NSFontAttributeName:font1,
+                                NSParagraphStyleAttributeName:style,
+                                NSForegroundColorAttributeName:yCol};
+        
+        
+        CGFloat height = _reviewCellHeight; // assign initial height
+//        CGRect lblFrame = cell.contentLabel.frame; //assign initial frame
+//        
+//        NSString *strText = [_allReviews objectAtIndex:indexPath.row].text;
+//        CGRect rect = [strText boundingRectWithSize:CGSizeMake(lblFrame.size.height, FLT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict1 context:nil];
+//        
+//        if (rect.size.height > lblFrame.size.height || rect.size.height < lblFrame.size.height) {
+//            float diff = rect.size.height - lblFrame.size.height;
+//            height = height+diff+20;
+//        }
+//        
+//        if (isRowOpen[indexPath.row] == TRUE) {
+//            
+//            CGRect rect = [strText boundingRectWithSize:CGSizeMake(lblFrame.size.height, FLT_MAX) options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:dict1 context:nil];
+//            
+//            
+//            if (rect.size.height > lblFrame.size.height || rect.size.height < lblFrame.size.height) {
+//                float diff = rect.size.height - lblFrame.size.height;
+//                height = height+diff+20;
+//            }
+//        }
+        return height;
     }
 
     return _noCellHeight;
@@ -594,6 +631,21 @@
         }
         return _noCellHeight;
     }
+}
+
+- (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
+    
+}
+
+- (void)readMore{
+    if(isRowOpen[_reviewIndexPath.row]){
+        isRowOpen[_reviewIndexPath.row]=NO;
+    }
+    else{
+        isRowOpen[_reviewIndexPath.row]=YES;
+    }
+    NSArray* rowsToReload = [NSArray arrayWithObjects:_reviewIndexPath, nil];
+    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
 }
 
 
@@ -806,7 +858,8 @@
         [self performSegueWithIdentifier:@"WatchTrailer" sender:self];
     }
     }
-    else{
+    else if(indexPath.section==5){
+        _reviewIndexPath=indexPath;
     }
 }
 
