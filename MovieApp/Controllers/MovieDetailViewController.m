@@ -622,7 +622,9 @@
 }
 
 - (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
-     [self tableView:_tableView heightForRowAtIndexPath:[indexPaths objectAtIndex:0]];
+    for(NSIndexPath *path in indexPaths){
+        [self tableView:_tableView heightForRowAtIndexPath:path];
+      }
 }
 
 
@@ -642,7 +644,8 @@
     CGFloat beforeHeight = cell.contentLabel.frame.size.height;
     CGFloat afterHeight=[self heightForView:[[_allReviews objectAtIndex:currentIndexPath.row] text] :[UIFont systemFontOfSize:14.0] :cell.contentLabel.frame.size.width];
     _openReviewCellHeight=_reviewCellHeight + (afterHeight - beforeHeight);
-    if(!isRowOpen[[sender tag]]){
+    BOOL isSelectedRowOpened = isRowOpen[[sender tag]];
+    if(!isSelectedRowOpened){
         [_cellReviewHeights setObject:[NSNumber numberWithFloat:_openReviewCellHeight] atIndexedSubscript:[sender tag]];
         [cell.readMoreButton setTitle:@"Read less" forState:UIControlStateNormal];
         isRowOpen[[sender tag]]=YES;
@@ -653,8 +656,8 @@
         isRowOpen[[sender tag]]=NO;
     }
     _reviewIndexPath = currentIndexPath;
-    NSArray* rowsToReload = [NSArray arrayWithObjects:_reviewIndexPath, nil];
-    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationBottom];
+    NSArray* rowsToReload = [NSArray arrayWithArray:_buttonsIndexPath];
+    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationFade];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
