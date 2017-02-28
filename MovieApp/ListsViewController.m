@@ -361,7 +361,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
 
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Delete"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
+    UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Remove"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         //insert your deleteAction here
         if(_isMovie){
             if(_isFavorites){
@@ -398,7 +398,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
     NSDictionary *attributes = @{NSFontAttributeName: font,
                                  NSForegroundColorAttributeName: [UIColor blackColor]};
     
-    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString: @"Delete"
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString: @"Remove"
                                                                           attributes: attributes];
     [[UIButton appearanceWhenContainedIn:[UIView class], [SearchCell class], nil] setAttributedTitle: attributedTitle
                                                                                             forState: UIControlStateNormal];
@@ -412,7 +412,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
     NSDictionary *attributes = @{NSFontAttributeName: font,
                                  NSForegroundColorAttributeName: [UIColor blackColor]};
     
-    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString: @"Delete"
+    NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString: @"Remove"
                                                                           attributes: attributes];
     
     /*

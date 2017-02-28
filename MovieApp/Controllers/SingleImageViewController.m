@@ -35,7 +35,12 @@
 }
 
 -(void)setNavBarTitle{
-    self.navigationItem.title =@"Movies";
+    if(_isMovie){
+        self.navigationItem.title =@"Movie";
+    }
+    else{
+        self.navigationItem.title =@"TV Show";
+    }
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 

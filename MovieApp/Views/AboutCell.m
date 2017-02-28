@@ -48,7 +48,7 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
 
 -(IBAction)changeButton:(id)sender{
     [self.delegate colideColapse];
-    [self colideColapse];
+//    [self colideColapse];
 }
 
 -(void)colideColapse{

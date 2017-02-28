@@ -90,6 +90,8 @@
 		ADC07D201E5C718E00172221 /* RLUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D1F1E5C718E00172221 /* RLUserInfo.m */; };
 		ADC9A91C1E6370E0006C9B1A /* AboveImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADC9A91B1E6370E0006C9B1A /* AboveImageCell.xib */; };
 		ADC9A9221E637132006C9B1A /* AboveImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC9A9211E637132006C9B1A /* AboveImageCell.m */; };
+		ADD9C7BE1E65A6B7001A1809 /* sub.caf in Resources */ = {isa = PBXBuildFile; fileRef = ADD9C7BD1E65A6B7001A1809 /* sub.caf */; };
+		ADD9C7C21E65D194001A1809 /* NotificationListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADD9C7C11E65D194001A1809 /* NotificationListViewController.m */; };
 		ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */; };
 		ADF64D191E2D0528000DFCFA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D181E2D0528000DFCFA /* main.m */; };
 		ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */; };
@@ -246,6 +248,9 @@
 		ADC9A91B1E6370E0006C9B1A /* AboveImageCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AboveImageCell.xib; path = Views/AboveImageCell.xib; sourceTree = "<group>"; };
 		ADC9A9201E637132006C9B1A /* AboveImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboveImageCell.h; path = Views/AboveImageCell.h; sourceTree = "<group>"; };
 		ADC9A9211E637132006C9B1A /* AboveImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboveImageCell.m; path = Views/AboveImageCell.m; sourceTree = "<group>"; };
+		ADD9C7BD1E65A6B7001A1809 /* sub.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sub.caf; sourceTree = "<group>"; };
+		ADD9C7C01E65D194001A1809 /* NotificationListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NotificationListViewController.h; path = Controllers/NotificationListViewController.h; sourceTree = "<group>"; };
+		ADD9C7C11E65D194001A1809 /* NotificationListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NotificationListViewController.m; path = Controllers/NotificationListViewController.m; sourceTree = "<group>"; };
 		ADEA6D461E40DB8000B4F89C /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TabBarViewController.h; path = Controllers/TabBarViewController.h; sourceTree = "<group>"; };
 		ADEA6D471E40DB8000B4F89C /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = Controllers/TabBarViewController.m; sourceTree = "<group>"; };
 		ADF64D141E2D0528000DFCFA /* MovieApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MovieApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -413,6 +418,7 @@
 				AD8696181E55975C009B75F0 /* SidebarView */,
 				AD13A6011E5E566600671C41 /* LoginView */,
 				AD64D8341E5A17BA00DAE191 /* ListView */,
+				ADD9C7C31E65D19C001A1809 /* InAppNotificationView */,
 			);
 			name = Controllers;
 			path = MovieApp;
@@ -623,6 +629,23 @@
 			name = "Persistent Models";
 			sourceTree = "<group>";
 		};
+		ADD9C7BF1E65A6BE001A1809 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				ADD9C7BD1E65A6B7001A1809 /* sub.caf */,
+			);
+			name = Sounds;
+			sourceTree = "<group>";
+		};
+		ADD9C7C31E65D19C001A1809 /* InAppNotificationView */ = {
+			isa = PBXGroup;
+			children = (
+				ADD9C7C01E65D194001A1809 /* NotificationListViewController.h */,
+				ADD9C7C11E65D194001A1809 /* NotificationListViewController.m */,
+			);
+			name = InAppNotificationView;
+			sourceTree = "<group>";
+		};
 		ADF64D0B1E2D0528000DFCFA = {
 			isa = PBXGroup;
 			children = (
@@ -650,6 +673,7 @@
 			isa = PBXGroup;
 			children = (
 				AD8521461E610637008F235D /* LaunchScreen */,
+				ADD9C7BF1E65A6BE001A1809 /* Sounds */,
 				ADF64D231E2D0528000DFCFA /* Assets.xcassets */,
 				ADF64D281E2D0528000DFCFA /* Info.plist */,
 				ADF64D181E2D0528000DFCFA /* main.m */,
@@ -749,6 +773,11 @@
 						DevelopmentTeam = 8VJJXE7D98;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -786,6 +815,7 @@
 				AD34A0331E3BDDC3009C4367 /* SingleReviewCell.xib in Resources */,
 				AD4F938B1E4B93FF00E55630 /* FilmographyCell.xib in Resources */,
 				AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */,
+				ADD9C7BE1E65A6B7001A1809 /* sub.caf in Resources */,
 				AD4F936C1E48A2C300E55630 /* SearchCell.xib in Resources */,
 				ADF64D241E2D0528000DFCFA /* Assets.xcassets in Resources */,
 				AD34A01F1E3B8592009C4367 /* SingleCastCell.xib in Resources */,
@@ -872,6 +902,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AD34A0181E3B78F3009C4367 /* Cast.m in Sources */,
+				ADD9C7C21E65D194001A1809 /* NotificationListViewController.m in Sources */,
 				AD4F93931E4B946600E55630 /* SingleFilmographyCell.m in Sources */,
 				AD4F93A71E4E61AA00E55630 /* TVMovie.m in Sources */,
 				AD64D83A1E5AD73100DAE191 /* SettingsViewController.m in Sources */,

@@ -39,7 +39,7 @@ NSString *const episodeDetailsCellIdentifier=@"EpisodeDetailsCellIdentifier";
     
     NSString *numberString = [formatter stringFromNumber:singleEpisode.rating];
     
-    _rating.text=[NSString stringWithFormat:@"%@%@",numberString,@"/10"];
+    _rating.text=[NSString stringWithFormat:@"%@",numberString];
 }
 
 

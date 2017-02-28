@@ -325,6 +325,8 @@
                                     @"token":_session.requestToken,
                                     @"username":_currentUser.userName,
                                     @"name":_currentUser.name,
+                                    @"movieNotification":[NSNumber numberWithBool:NO],
+                                    @"showNotification":[NSNumber numberWithBool:NO],
                                     @"apiKey": @"893050c58b2e2dfe6fa9f3fae12eaf64"
                                     };
         [[NSUserDefaults standardUserDefaults] setObject:loginData forKey:@"SessionCredentials"];

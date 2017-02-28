@@ -24,6 +24,7 @@
 @property CGFloat actorFilmographyHeight;
 @property CGFloat noHeight;
 
+@property CGFloat openedActorOverviewHeight;
 @property NSIndexPath *actorIndexPath;
 @property BOOL isOpened;
 
@@ -55,6 +56,7 @@
     _actorFilmographyHeight = 305.0;
     _noHeight=0.0;
     _isOpened=NO;
+    _openedActorOverviewHeight=360.0;
 }
 
 -(void)setNavBarTitle{
@@ -230,7 +232,7 @@
         return _actorPosterHeight;
     }
     else if(indexPath.section==1 && indexPath.row==0){
-        return _actorOverviewHeight;
+        return _openedActorOverviewHeight;
     }
     else if(indexPath.section==2 && indexPath.row==0){
         return _actorFilmographyHeight;
@@ -246,14 +248,20 @@
     CGFloat OverviewHeight=[self heightForView:[_singleActor biography] :[UIFont systemFontOfSize:15.0] :cell.fullBiography.frame.size.width];
     NSArray* rowsToReload = [NSArray arrayWithObjects:_actorIndexPath, nil];
     if(!_isOpened){
-        _actorOverviewHeight=_actorOverviewHeight + (OverviewHeight - beforeHeight);
+        _openedActorOverviewHeight=_actorOverviewHeight + (OverviewHeight - beforeHeight);
+        if(_openedActorOverviewHeight<_actorOverviewHeight)
+            _openedActorOverviewHeight=_actorOverviewHeight;
         _isOpened=YES;
+        [cell.fullBioButton setTitle:@"Hide" forState:UIControlStateNormal];
+
     }
     else{
-        _actorOverviewHeight=360.0;
+        _openedActorOverviewHeight=_actorOverviewHeight;
         _isOpened=NO;
+        [cell.fullBioButton setTitle:@"See full bio" forState:UIControlStateNormal];
     }
-        [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+
+    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
 }
 
 - (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{

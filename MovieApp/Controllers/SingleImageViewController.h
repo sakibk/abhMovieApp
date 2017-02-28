@@ -19,5 +19,6 @@
 @property (strong,nonatomic) NSMutableArray<ImagePathUrl *> *allImagePaths;
 @property (strong, nonatomic) NSNumber *currentImageIndex;
 @property (strong, nonatomic) NSString *galleryTitle;
+@property BOOL isMovie;
 
 @end

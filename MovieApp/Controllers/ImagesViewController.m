@@ -18,6 +18,7 @@
 @property ImagePathUrl *singleImage;
 @property NSString *movieID;
 @property NSString *galleryTitle;
+@property BOOL isMovie;
 @end
 
 @implementation ImagesViewController
@@ -39,7 +40,6 @@
 }
 
 -(void)setNavBarTitle{
-    self.navigationItem.title =@"Movies";
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
@@ -64,9 +64,11 @@
 }
 
 -(void)setupMovieLabels:(NSString*)movieTitle{
+    self.navigationItem.title =@"Movie";
     _imageGalleryTitle.text = [NSString stringWithFormat:@"Image gallery: %@",movieTitle];
     _imageCount.text = [NSString stringWithFormat:@"%lu images",(unsigned long)[_allImagePaths count]];
     _galleryTitle=movieTitle;
+    _isMovie=YES;
 }
 
 -(void)setupWithShow:(TVShow *)singleShow{
@@ -89,9 +91,11 @@
     
 }
 -(void)setupShowLabels:(NSString*)showTitle{
+    self.navigationItem.title =@"TV Show";
     _imageGalleryTitle.text = [NSString stringWithFormat:@"Image gallery: %@",showTitle];
     _imageCount.text = [NSString stringWithFormat:@"%lu images",(unsigned long)[_allImagePaths count]];
     _galleryTitle=showTitle;
+    _isMovie=NO;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
@@ -132,6 +136,7 @@
         singleImage.allImagePaths = _allImagePaths;
         singleImage.currentImageIndex=[NSNumber numberWithLong:indexPath.row];
         singleImage.galleryTitle=_galleryTitle;
+        singleImage.isMovie=_isMovie;
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
