@@ -106,7 +106,7 @@
     _overviewCellHeight =180.0;
     _imageGalleryCellHeight =185.0;
     _castCellHeight =293.0;
-    _reviewCellHeight =190.0;
+    _reviewCellHeight =160.0;
     _openReviewCellHeight=290.0;
     _seasonsCellHeight =59.0;
     _noCellHeight =0.0;
@@ -644,17 +644,18 @@
     _openReviewCellHeight=_reviewCellHeight + (afterHeight - beforeHeight);
     if(!isRowOpen[[sender tag]]){
         [_cellReviewHeights setObject:[NSNumber numberWithFloat:_openReviewCellHeight] atIndexedSubscript:[sender tag]];
+        [cell.readMoreButton setTitle:@"Read less" forState:UIControlStateNormal];
         isRowOpen[[sender tag]]=YES;
     }
     else{
         [_cellReviewHeights setObject:[NSNumber numberWithFloat:_reviewCellHeight] atIndexedSubscript:[sender tag]];
+        [cell.readMoreButton setTitle:@"Read more" forState:UIControlStateNormal];
         isRowOpen[[sender tag]]=NO;
     }
     _reviewIndexPath = currentIndexPath;
     NSArray* rowsToReload = [NSArray arrayWithObjects:_reviewIndexPath, nil];
-    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationBottom];
 }
-
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if(section >0 && section <5){

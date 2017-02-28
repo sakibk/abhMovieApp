@@ -16,7 +16,6 @@ NSString *const singleReviewCellIdentifier = @"SingleReviewCellIdentifier";
     [super awakeFromNib];
     // Initialization code
     [_readMoreButton addTarget:self action:@selector(readButton:) forControlEvents:UIControlEventTouchUpInside];
-    [_readMoreButton setTitle:@"Read more" forState:UIControlStateNormal];
     _isLayoutSubview=NO;
 }
 
@@ -46,18 +45,11 @@ NSString *const singleReviewCellIdentifier = @"SingleReviewCellIdentifier";
 }
 
 -(IBAction)readButton:(id)sender{
-    
-    [self readMore:(id)sender];
     [self.delegate readMore:(id)sender];
 }
 
 -(void)readMore:(id)sender{
-    if([_readMoreButton.currentTitle isEqualToString:@"Read more"]){
-        [_readMoreButton setTitle:@"Read less" forState:UIControlStateNormal];
-    }
-    else{
-        [_readMoreButton setTitle:@"Read more" forState:UIControlStateNormal];
-    }
+
 }
 
 @end
