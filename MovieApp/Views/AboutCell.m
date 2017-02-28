@@ -20,6 +20,7 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
 
 -(void)setupLabels{
     _link=[[NSString alloc]init];
+    [_fullBioButton addTarget:self action:@selector(changeButton:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -42,6 +43,20 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
         [dateFormatter setDateFormat:@"dd LLLL yyyy"];
         
         _aboutBirth.text = [NSString stringWithFormat:@"%@, %@",[dateFormatter stringFromDate:singleActor.birthDate],singleActor.birthPlace];
+    }
+}
+
+-(IBAction)changeButton:(id)sender{
+    [self.delegate colideColapse];
+    [self colideColapse];
+}
+
+-(void)colideColapse{
+    if([_fullBioButton.currentTitle isEqualToString:@"See full bio"]){
+        [_fullBioButton setTitle:@"Hide" forState:UIControlStateNormal];
+    }
+    else{
+        [_fullBioButton setTitle:@"See full bio" forState:UIControlStateNormal];
     }
 }
 

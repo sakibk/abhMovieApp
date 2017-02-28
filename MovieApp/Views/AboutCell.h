@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Actor.h"
 
+@protocol AboutCellDelegate <NSObject>
+
+-(void)colideColapse;
+
+@end
+
 extern NSString *const aboutCellIdentifier;
 
 @interface AboutCell : UITableViewCell
@@ -16,6 +22,9 @@ extern NSString *const aboutCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *fullBiography;
 @property (weak, nonatomic) IBOutlet UIButton *websiteLink;
 @property (strong, nonatomic) NSString *link;
+@property (weak, nonatomic) IBOutlet UIButton *fullBioButton;
+
+@property(strong, nonatomic) id<AboutCellDelegate> delegate;
 
 -(void)setupWithActor:(Actor *)singleActor;
 

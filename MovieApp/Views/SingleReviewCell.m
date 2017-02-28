@@ -46,11 +46,12 @@ NSString *const singleReviewCellIdentifier = @"SingleReviewCellIdentifier";
 }
 
 -(IBAction)readButton:(id)sender{
-    [self.delegate readMore];
-    [self readMore];
+    
+    [self readMore:(id)sender];
+    [self.delegate readMore:(id)sender];
 }
 
--(void)readMore{
+-(void)readMore:(id)sender{
     if([_readMoreButton.currentTitle isEqualToString:@"Read more"]){
         [_readMoreButton setTitle:@"Read less" forState:UIControlStateNormal];
     }

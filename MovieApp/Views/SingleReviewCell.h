@@ -11,7 +11,7 @@
 
 @protocol SingleReviewCellDelegate <NSObject>
 
--(void)readMore;
+-(void)readMore:(id)sender;
 
 @end
 

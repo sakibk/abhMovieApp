@@ -53,7 +53,7 @@
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Biography avalible!" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ii-3M-6sf">
                         <rect key="frame" x="8" y="156" width="414" height="167"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
@@ -103,6 +103,7 @@
             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="aboutBirth" destination="iuJ-Ma-mO6" id="FIl-1k-ikQ"/>
+                <outlet property="fullBioButton" destination="QKH-UG-khg" id="T0f-YE-vH0"/>
                 <outlet property="fullBiography" destination="6ii-3M-6sf" id="jOI-yq-HU6"/>
                 <outlet property="websiteLink" destination="mVE-Hz-tP9" id="PNk-1S-ojU"/>
             </connections>

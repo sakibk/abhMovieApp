@@ -54,6 +54,8 @@
 
 @property NSIndexPath *reviewIndexPath;
 @property BOOL isOpened;
+@property NSMutableArray<NSIndexPath*> *buttonsIndexPath;
+@property NSMutableArray<NSNumber*> *cellReviewHeights;
 
 @end
 
@@ -128,6 +130,11 @@
     
     _realm=[RLMRealm defaultRealm];
     _isOpened=NO;
+    int i;
+    for(i=0 ; i<20 ; i++){
+        isRowOpen[i]=NO;
+    }
+    _buttonsIndexPath=[[NSMutableArray alloc]init];
 }
 
 -(void)setNavBarTitle{
@@ -222,11 +229,18 @@
         NSLog(@"%@", mappingResult.array);
         _allReviews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
         
-        
+        [self setupHeights];
         [_tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
+}
+-(void)setupHeights{
+    _cellReviewHeights= [[NSMutableArray alloc]init];
+    int i;
+    for(i=0 ; i<[_allReviews count] ;i++){
+        [_cellReviewHeights addObject:[NSNumber numberWithFloat:_reviewCellHeight]];
+    }
 }
 
 
@@ -349,7 +363,8 @@
                 [cell setupWithReview:_singleReview]; // Configure the cell...
                     cell.delegate = self;
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                
+                    [cell.readMoreButton setTag:indexPath.row];
+                    [_buttonsIndexPath addObject:indexPath];
                 return cell;
                 }
             }
@@ -578,7 +593,7 @@
         return _castCellHeight;
     }
     else if(indexPath.section == 5 && _allReviews.firstObject != nil) {
-        return _reviewCellHeight;
+        return [[_cellReviewHeights objectAtIndex:indexPath.row] floatValue];
     }
 
     return _noCellHeight;
@@ -607,16 +622,35 @@
 }
 
 - (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
-    
+     [self tableView:_tableView heightForRowAtIndexPath:[indexPaths objectAtIndex:0]];
 }
 
-- (void)readMore{
-    if(isRowOpen[_reviewIndexPath.row]){
-        isRowOpen[_reviewIndexPath.row]=NO;
+
+-(CGFloat)heightForView :(NSString*)text :(UIFont *)font : (CGFloat)width{
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, width, CGFLOAT_MAX)];
+    [label setNumberOfLines:0];
+    [label setLineBreakMode: NSLineBreakByWordWrapping];
+    [label setFont:font];
+    [label setText:text];
+    [label sizeToFit];
+    return  label.frame.size.height;
+}
+
+- (void)readMore:(id)sender{
+    NSIndexPath *currentIndexPath = [_buttonsIndexPath objectAtIndex:[sender tag]];
+    SingleReviewCell *cell = (SingleReviewCell*)[_tableView cellForRowAtIndexPath:currentIndexPath];
+    CGFloat beforeHeight = cell.contentLabel.frame.size.height;
+    CGFloat afterHeight=[self heightForView:[[_allReviews objectAtIndex:currentIndexPath.row] text] :[UIFont systemFontOfSize:14.0] :cell.contentLabel.frame.size.width];
+    _openReviewCellHeight=_reviewCellHeight + (afterHeight - beforeHeight);
+    if(!isRowOpen[[sender tag]]){
+        [_cellReviewHeights setObject:[NSNumber numberWithFloat:_openReviewCellHeight] atIndexedSubscript:[sender tag]];
+        isRowOpen[[sender tag]]=YES;
     }
     else{
-        isRowOpen[_reviewIndexPath.row]=YES;
+        [_cellReviewHeights setObject:[NSNumber numberWithFloat:_reviewCellHeight] atIndexedSubscript:[sender tag]];
+        isRowOpen[[sender tag]]=NO;
     }
+    _reviewIndexPath = currentIndexPath;
     NSArray* rowsToReload = [NSArray arrayWithObjects:_reviewIndexPath, nil];
     [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
 }
@@ -830,48 +864,10 @@
     if(indexPath.section==0){
         [self performSegueWithIdentifier:@"WatchTrailer" sender:self];
     }
-    else if(indexPath.section==5){
-        _reviewIndexPath=indexPath;
-        [self changeCellSize];
-    }
     }
 }
 
--(void) changeCellSize{
-    SingleReviewCell *cell = (SingleReviewCell*)[_tableView cellForRowAtIndexPath:_reviewIndexPath];
-    _reviewCellHeight=[self heightForView:[[_allReviews objectAtIndex:_reviewIndexPath.row] text] :[UIFont systemFontOfSize:14.0] :cell.textLabel.frame.size.width];
-    NSArray *indexPaths = [NSArray arrayWithObject:_reviewIndexPath];
-    [self reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-    if(!_isOpened){
-        _reviewCellHeight=_openReviewCellHeight;
-        _isOpened=YES;
-    }
-    else{
-        _reviewCellHeight=190.0;
-        _isOpened=NO;
-    }
-}
 
--(CGFloat)heightForView :(NSString*)text :(UIFont *)font : (CGFloat)width{
-    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, width, CGFLOAT_MAX)];
-    [label setNumberOfLines:0];
-    [label setLineBreakMode: NSLineBreakByWordWrapping];
-    [label setFont:font];
-    [label setText:text];
-    [label sizeToFit];
-    return  label.frame.size.height;
-}
-
-//func heightForView(text:String, #font:UIFont, #width:CGFloat) -> CGFloat{
-//    let label:UILabel = UILabel(frame: CGRectMake(0, 0, width, CGFloat.max))
-//    label.numberOfLines = 0
-//    label.lineBreakMode = NSLineBreakMode.ByWordWrapping
-//    label.font = font
-//    label.text = text
-//    
-//    label.sizeToFit()
-//    return label.frame.height
-//}
 -(void)addFavorite{
 
         PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];

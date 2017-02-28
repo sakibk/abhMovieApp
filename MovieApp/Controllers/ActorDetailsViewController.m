@@ -24,6 +24,9 @@
 @property CGFloat actorFilmographyHeight;
 @property CGFloat noHeight;
 
+@property NSIndexPath *actorIndexPath;
+@property BOOL isOpened;
+
 @end
 
 @implementation ActorDetailsViewController
@@ -51,6 +54,7 @@
     _actorOverviewHeight = 360.0;
     _actorFilmographyHeight = 305.0;
     _noHeight=0.0;
+    _isOpened=NO;
 }
 
 -(void)setNavBarTitle{
@@ -198,6 +202,8 @@
         case 1:{
             AboutCell *cell = (AboutCell *)[tableView dequeueReusableCellWithIdentifier:aboutCellIdentifier forIndexPath:indexPath];
             [cell setupWithActor:_singleActor];
+            cell.delegate = self;
+            _actorIndexPath=indexPath;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
         }
@@ -220,20 +226,48 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    switch (indexPath.section) {
-        case 0:
-            return _actorPosterHeight;
-            break;
-        case 1:
-            return _actorOverviewHeight;
-            break;
-        case 2:
-            return _actorFilmographyHeight;
-            break;
-        default: return _noHeight;
-            break;
+    if(indexPath.section==0 && indexPath.row==0){
+        return _actorPosterHeight;
     }
+    else if(indexPath.section==1 && indexPath.row==0){
+        return _actorOverviewHeight;
+    }
+    else if(indexPath.section==2 && indexPath.row==0){
+        return _actorFilmographyHeight;
+    }
+    else{
+        return _noHeight;
+    }
+}
+
+-(void)colideColapse{
+    AboutCell *cell = (AboutCell*)[_tableView cellForRowAtIndexPath:_actorIndexPath];
+    CGFloat beforeHeight = cell.fullBiography.bounds.size.height;
+    CGFloat OverviewHeight=[self heightForView:[_singleActor biography] :[UIFont systemFontOfSize:15.0] :cell.fullBiography.frame.size.width];
+    NSArray* rowsToReload = [NSArray arrayWithObjects:_actorIndexPath, nil];
+    if(!_isOpened){
+        _actorOverviewHeight=_actorOverviewHeight + (OverviewHeight - beforeHeight);
+        _isOpened=YES;
+    }
+    else{
+        _actorOverviewHeight=360.0;
+        _isOpened=NO;
+    }
+        [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
+    [self tableView:_tableView heightForRowAtIndexPath:[indexPaths objectAtIndex:0]];
+}
+
+-(CGFloat)heightForView :(NSString*)text :(UIFont *)font : (CGFloat)width{
+    UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, width, CGFLOAT_MAX)];
+    [label setNumberOfLines:0];
+    [label setLineBreakMode: NSLineBreakByWordWrapping];
+    [label setFont:font];
+    [label setText:text];
+    [label sizeToFit];
+    return  label.frame.size.height;
 }
 
 - (void)MediaWithCast:(Cast *)castForMedia{
