@@ -13,6 +13,8 @@
 
 @property NSDictionary *userCredits;
 @property RLUserInfo *user;
+@property RLMArray<RLTVShow*><RLTVShow> *watchlistShows;
+@property NSMutableArray<TVShow*> *showsToShow;
 
 @end
 
@@ -26,14 +28,39 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:searchCellIdentifier];
     [_tableView reloadData];
     
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated{
+    [self.navigationController.navigationBar setHidden:YES];
 }
 
 -(void)viewDidAppear:(BOOL)animated{
+    [self justWatchlist];
     [_tableView reloadData];
     
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [self.navigationController.navigationBar setHidden:NO];
+}
+
+-(void)justWatchlist{
+    _watchlistShows = [_user watchlistShows];
+    _showsToShow = [[NSMutableArray alloc] init];
+    int i,j;
+    for (i=0;i<[_watchlistShows count]; i++) {
+        for (j=0; j<[_notificationShows count]; j++) {
+            if([[_watchlistShows objectAtIndex:i] showID] == [[_notificationShows objectAtIndex:j] showID]){
+                [_showsToShow addObject:[_notificationShows objectAtIndex:j]];
+            }
+        }
+    }
+    if([_showsToShow count]==0){
+        _showsToShow = _notificationShows;
+        UIAlertView *alert =[[UIAlertView alloc] initWithTitle:@"No Watchlist Shows" message:@"Check Out for some episodes which are airing Today" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
+        [alert show];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -52,7 +79,7 @@
         return _notificationMovies.firstObject !=nil ? [_notificationMovies count] : 0;
     }
     else{
-        return _notificationShows.firstObject !=nil ? [_notificationShows count] : 0;
+        return _showsToShow.firstObject !=nil ? [_showsToShow count] : 0;
     }
 }
 
@@ -65,7 +92,7 @@
         [cell setSearchCellWithMovie:[_notificationMovies objectAtIndex:indexPath.row]];
     }
     else{
-        [cell setSearchCellWithTVShow:[_notificationShows objectAtIndex:indexPath.row]];
+        [cell setSearchCellWithTVShow:[_showsToShow objectAtIndex:indexPath.row]];
     }
     
     [cell setAccessoryType:UITableViewCellAccessoryNone];
@@ -83,7 +110,7 @@
         movieDetails.isMovie=_isMovie;
     }
     else{
-        TVShow *tvTest =[_notificationShows objectAtIndex:indexPath.row];
+        TVShow *tvTest =[_showsToShow objectAtIndex:indexPath.row];
         movieDetails.singleShow = tvTest;
         movieDetails.movieID = tvTest.showID;
         movieDetails.isMovie=_isMovie;

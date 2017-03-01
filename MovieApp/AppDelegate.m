@@ -17,10 +17,13 @@
 #import "Movie.h"
 #import "TVShow.h"
 #import "NotificationListViewController.h"
+#import "ListMapping.h"
 
 @interface AppDelegate ()
 @property NSMutableArray<Movie*> *notifMovies;
 @property NSMutableArray<TVShow*> *notifShows;
+@property NSNumber *currentPage;
+@property ListMapping *lmp;
 @end
 
 @implementation AppDelegate
@@ -32,7 +35,7 @@
         [self getMovies];
     }
     else{
-        [self getShows];
+        [self setShowLists];
     }
     
 }
@@ -134,6 +137,71 @@
 
     }
 
+-(void)setShowLists{
+    RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];
+    [listMapping addAttributeMappingsFromDictionary:@{@"page": @"page",
+                                                      @"results": @"showList",
+                                                      @"total_pages": @"pageCount"
+                                                      }];
+    
+    NSString *pathP =@"/3/tv/airing_today";
+    
+    RKResponseDescriptor *responseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:listMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:nil
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+    _notifShows =[[NSMutableArray alloc]init];
+    _currentPage=[NSNumber numberWithInt:1];
+    [self getShowLists];
+}
+
+-(void)getShowLists{
+    NSString *pathP =@"/3/tv/airing_today";
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"page":_currentPage
+                                      };
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+        _lmp=[[mappingResult array] firstObject];
+        for(TVShow *tv in [_lmp showList]){
+            TVShow *tvs = [[TVShow alloc]init];
+            tvs.showID = [tv valueForKey:@"id"];
+            tvs.name = [tv valueForKey:@"name"];
+            tvs.rating = [tv valueForKey:@"vote_average"];
+            tvs.posterPath = [tv valueForKey:@"poster_path"];
+            tvs.backdropPath = [tv valueForKey:@"backdrop_path"];
+            tvs.overview = [tv valueForKey:@"overview"];
+            tvs.airDate = [dateFormatter dateFromString:[tv valueForKey:@"first_air_date"]];
+            [_notifShows addObject:tvs];
+        }
+        if([[_lmp pageCount] isEqualToNumber:_currentPage] || [[_lmp pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            _currentPage=[NSNumber numberWithInt:1];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            NotificationListViewController *list = [storyboard instantiateViewControllerWithIdentifier:@"Notifications"];
+            [list setNotificationShows:_notifShows];
+            [list setIsMovie:NO];
+            [list initWithNotificationShow];
+            UINavigationController *navigationController =(UINavigationController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController] ;
+            [navigationController pushViewController:list animated:YES];
+        }
+        
+        else if([_lmp pageCount]>_currentPage){
+            int i = [_currentPage intValue];
+            _currentPage = [NSNumber numberWithInt:i+1];
+            [self getShowLists];
+        }
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
+}
+
 
 //Called when a notification is delivered to a foreground app.
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler{
@@ -230,8 +298,8 @@
     
     NSDateComponents *nowComponents = [gregorian components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate date]];
     
-    [nowComponents setHour:13];
-    [nowComponents setMinute:30];
+    [nowComponents setHour:19];
+    [nowComponents setMinute:45];
     [nowComponents setSecond:00];
     [nowComponents setWeekday:1];
     
@@ -259,10 +327,10 @@
     
     NSDateComponents *nowComponents = [gregorian components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate date]];
     
-    [nowComponents setHour:14];
-    [nowComponents setMinute:40];
+    [nowComponents setHour:17];
+    [nowComponents setMinute:30];
     [nowComponents setSecond:00];
-    [nowComponents setWeekday:3];
+    [nowComponents setWeekday:5];
     
     NSLog(@"%@",nowComponents);
     
