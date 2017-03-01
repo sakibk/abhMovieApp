@@ -379,7 +379,7 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
-        _onePageFavMovieList=[[mappingResult array] firstObject];
+        _onePageFavMovieList=[[mappingResult array] firstObject]; // zna se desiti error jer ne prepozna Movie kao Movie.. sto zapravo i nije movie nego je to dictionary koji sadrzi movie .. TODO Nested Mapping
         for(Movie *mv in [_onePageFavMovieList movieList]){
             Movie *muv = [[Movie alloc]init];
             muv.movieID = [mv valueForKey:@"id"];

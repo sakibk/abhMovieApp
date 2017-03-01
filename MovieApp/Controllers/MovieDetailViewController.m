@@ -111,7 +111,7 @@
     _reviewCellHeight =160.0;
     _openReviewCellHeight=290.0;
     _seasonsCellHeight =59.0;
-    _noCellHeight =0.0;
+    _noCellHeight =0.0001;
 }
 
 -(void)setCells{
@@ -882,14 +882,16 @@
                 [self noRestkitPost:@"favorite":@"true"];
                 if(_isSuccessful){
                     [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                    
+                    [cell favoureIt];
+                    _isSuccessful=NO;
                 }
             }
             else{
                 [self noRestkitPost:@"favorite":@"false"];
                 if(_isSuccessful){
                     [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                    
+                    [cell unFavoureIt];
+                    _isSuccessful=NO;
                 }
             }
         }
@@ -898,11 +900,15 @@
                 [self noRestkitPost:@"favorite":@"true"];
                 if(_isSuccessful)
                     [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                    [cell favoureIt];
+                    _isSuccessful=NO;
             }
             else{
                 [self noRestkitPost:@"favorite":@"false"];
                 if(_isSuccessful)
                     [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                    [cell unFavoureIt];
+                    _isSuccessful=NO;
             }
         }
     
@@ -1001,16 +1007,14 @@
         if(!error){
             if([[dictionary valueForKey:@"status_code"] intValue]==1){
                 NSLog(@"Successfuly added");
-                _isSuccessful=YES;
             }
             else if([[dictionary valueForKey:@"status_code"] intValue]==13){
                 NSLog(@"The item/record was Deleted successfully");
-                _isSuccessful=YES;
             }
             else if([[dictionary valueForKey:@"status_code"] intValue]==12){
                 NSLog(@"The item/record was updated successfully");
-                _isSuccessful=NO;
             }
+            _isSuccessful=YES;
         }
         else{
             _isSuccessful=NO;

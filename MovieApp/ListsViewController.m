@@ -23,10 +23,13 @@
 @property (nonatomic,strong) UIView *dropDown;
 @property (nonatomic,assign) BOOL isDroped;
 @property (nonatomic,assign) BOOL isNavBarSet;
+@property BOOL isSuccessful;
 
 @property NSDictionary *userCredits;
 @property RLUserInfo *user;
 @property RLMRealm *realm;
+
+@property (strong,nonatomic) NSString *pathK;
 
 @end
 
@@ -365,28 +368,30 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
         //insert your deleteAction here
         if(_isMovie){
             if(_isFavorites){
-                [self deleteFromList:@"favorite": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
+                [self noRestkitPost:@"favorite": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
                 [_user deleteFavoriteMovies:[_movieList objectAtIndex:indexPath.row]];
             }
             else if(_isWatchlist){
-                [self deleteFromList:@"watchlist": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
+                [self noRestkitPost:@"watchlist": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
                 [_user deleteWatchlistMovies:[_movieList objectAtIndex:indexPath.row]];
             }
             else if (_isRating){
-                [_user deleteRatedMovies:[_movieList objectAtIndex:indexPath.row]];
+                [self noRestkitDeleteRate:[_movieList objectAtIndex:indexPath.row].movieID];
+                    [_user deleteRatedMovies:[_movieList objectAtIndex:indexPath.row]];
             }
         }
         else{
             if(_isFavorites){
-                [self deleteFromList:@"favorite": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
+                [self noRestkitPost:@"favorite": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
                 [_user deleteFavoriteShows:[_showsList objectAtIndex:indexPath.row]];
             }
             else if(_isWatchlist){
-                [self deleteFromList:@"watchlist": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
+                [self noRestkitPost:@"watchlist": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
                 [_user deleteWatchlistShows:[_showsList objectAtIndex:indexPath.row]];
             }
             else if (_isRating){
-                [_user deleteRatedShows:[_showsList objectAtIndex:indexPath.row]];
+                [self noRestkitDeleteRate:[_showsList objectAtIndex:indexPath.row].showID];
+                    [_user deleteRatedShows:[_showsList objectAtIndex:indexPath.row]];
             }
         }
         [self.tableView reloadData];
@@ -422,48 +427,100 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
                                                                                           forState: UIControlStateNormal];
 }
 
--(void)deleteFromList:(NSString *)listName :(NSString *)mediaType :(NSNumber *)mediaID{
-        NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],listName,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
+
+-(void)noRestkitPost:(NSString*)list :(NSString *)mediaType :(NSNumber *)mediaID{
+    NSError *error;
     
-    RKObjectMapping *responseMapping = [RKObjectMapping mappingForClass:[PostResponse class]];
-    [responseMapping addAttributeMappingsFromDictionary:@{@"status_code":@"statusCode",
-                                                          @"status_message":@"statusMessage"
-                                                          }];
-    NSIndexSet *statusCodes = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful); // Anything in 2xx
-    RKResponseDescriptor *postDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:responseMapping method:RKRequestMethodPOST pathPattern:pathP keyPath:nil statusCodes:statusCodes];
+    NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
     
-    RKObjectMapping *requestMapping = [RKObjectMapping requestMapping]; // objectClass == NSMutableDictionary
-    [requestMapping addAttributeMappingsFromDictionary:@{@"status_code":@"statusCode",
-                                                         @"status_message":@"statusMessage"
-                                                         }];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"Content-Type" : @"application/json;charset=utf-8"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:pathP];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPMethod:@"POST"];
+    
+
+    NSDictionary *dataMapped = @{@"media_type" : mediaType,
+                                 @"media_id" : mediaID,
+                                 [NSString stringWithFormat:@"%@",list] : @NO
+                                 };
+
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:dataMapped options:0 error:&error];
+    [request setHTTPBody:postData];
     
     
-    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
-    RKLogConfigureByName("Restkit/Network", RKLogLevelDebug);
-    
-    RKRequestDescriptor *requestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[PostResponse class] rootKeyPath:nil method:RKRequestMethodPOST];
-    [[RKObjectManager sharedManager] setRequestSerializationMIMEType:@"application/json"];
-    [[RKObjectManager sharedManager] addRequestDescriptor:requestDescriptor];
-    [[RKObjectManager sharedManager] addResponseDescriptor:postDescriptor];
-    
-    ListPost *lp = [ListPost new];
-    lp.mediaID=mediaID;
-    lp.mediaType=mediaType;
-    lp.isWatchlist=@"false";
-    
-    NSDictionary *dict =@{@"media_type":mediaType,
-                          @"media_id":mediaID,
-                          listName:@"false"};
-    
-    // POST to create
-    [[RKObjectManager sharedManager] postObject:nil path:pathP parameters:dict success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult.array);
-        PostResponse *pr=mappingResult.array.firstObject;
-        NSLog(@"status message: %@, status code %@",pr.statusMessage,pr.statusCode);
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"RestKit returned error: %@", error);
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            if([[dictionary valueForKey:@"status_code"] intValue]==13){
+                NSLog(@"The item/record was Deleted successfully");
+                _isSuccessful=YES;
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==12){
+                NSLog(@"The item/record was updated successfully");
+                _isSuccessful=NO;
+            }
+        }
+        else{
+            _isSuccessful=NO;
+        }
     }];
     
+    [postDataTask resume];
+}
+
+
+
+-(void)noRestkitDeleteRate:(NSNumber*) mediaID{
+    
+    if(_isMovie){
+        _pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/rating?api_key=%@&session_id=%@",mediaID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+    }
+    else{
+        _pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/tv/%@/rating?api_key=%@&session_id=%@",mediaID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+    }
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"Content-Type" : @"application/json;charset=utf-8"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:_pathK];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    NSData *postData = [[NSData alloc] initWithData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPMethod:@"DELETE"];
+    [request setHTTPBody:postData];
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            if([[dictionary valueForKey:@"status_code"] intValue]==13){
+                NSLog(@"Rating deleted");
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==12){
+                NSLog(@"The item/record was updated successfully");
+            }
+        }
+        else{
+        }
+    }];
+    
+    [postDataTask resume];
 }
 
 #pragma mark - Navigation

@@ -24,6 +24,7 @@
 @property BOOL isMovie;
 @property BOOL isRated;
 @property BOOL didRate;
+@property BOOL isSuccessful;
 
 @end
 
@@ -138,7 +139,7 @@
     if(_isMovie){
         _singleMovie.userRate=_rate;
         [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-        [self postToRateList];
+        [self noRestkitRate];
         [self postStatusError:@"Successfuly rated Movie"];
         [starRatingView setUserInteractionEnabled:NO];
         _didRate=YES;
@@ -146,7 +147,7 @@
     else{
         _singleShow.userRate=_rate;
         [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
-        [self postToRateList];
+        [self noRestkitRate];
         [self postStatusError:@"Successfuly rated Show"];
         [starRatingView setUserInteractionEnabled:NO];
         _didRate=YES;
@@ -173,56 +174,58 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)postToRateList{
+-(void)noRestkitRate{
+    NSError *error;
+    
     if(_isMovie){
-    _pathP = [NSString stringWithFormat:@"/3/movie/%@/rating?api_key=%@&session_id=%@",_singleMovie.movieID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+        _pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/rating?api_key=%@&session_id=%@",_singleMovie.movieID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
     }
     else{
-    _pathP = [NSString stringWithFormat:@"/3/tv/%@/rating?api_key=%@&session_id=%@",_singleShow.showID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+        _pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/tv/%@/rating?api_key=%@&session_id=%@",_singleShow.showID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
     }
     
-    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
-    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:201]];
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"Content-Type" : @"application/json;charset=utf-8"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:_pathP];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
     
-    RKObjectMapping *requestMapping= [RKObjectMapping requestMapping];
-    [requestMapping addAttributeMappingsFromArray:@[@"status_code", @"status_message"]];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPMethod:@"POST"];
     
-    RKRequestDescriptor *watchlistRequestDescriptor = [RKRequestDescriptor requestDescriptorWithMapping:requestMapping objectClass:[NSDictionary class] rootKeyPath:nil method:RKRequestMethodAny];
-    
-    RKObjectMapping *watchlistMapping = [RKObjectMapping mappingForClass:[NSDictionary class]];
-    
-    [watchlistMapping addAttributeMappingsFromArray:@[@"status_code", @"status_message"]];
-    
-    watchlistMapping.assignsNilForMissingRelationships=YES;
-    
-    RKResponseDescriptor *watchlistResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:watchlistMapping
-                                                                                                     method:RKRequestMethodGET
-                                                                                                pathPattern:_pathP
-                                                                                                    keyPath:nil statusCodes:statusCodesRK];
-    //
-    [[RKObjectManager sharedManager] setRequestSerializationMIMEType:@"application/json"];
-    [[RKObjectManager sharedManager] addRequestDescriptor:watchlistRequestDescriptor];
-    [[RKObjectManager sharedManager] addResponseDescriptor:watchlistResponseDescriptor];
-    
-    
-    
-    RKLogConfigureByName("RestKit/Network", RKLogLevelTrace);
-    RKLogConfigureByName("Restkit/Network", RKLogLevelDebug);
+    NSDictionary *dataMapped = @{
+                                 @"value" : _rate
+                                 };
 
     
-    NSDictionary *queryParameters = @{
-                                      @"value" : _rate
-                                      };
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:dataMapped options:0 error:&error];
+    [request setHTTPBody:postData];
     
     
-    
-    [[RKObjectManager sharedManager] postObject:nil path:_pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult.array);
-        
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"RestKit returned error: %@", error);
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            if([[dictionary valueForKey:@"status_code"] intValue]==1){
+                NSLog(@"Rating added");
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==12){
+                NSLog(@"The item/record was updated successfully");
+            }
+            _isSuccessful=YES;
+        }
+        else{
+            _isSuccessful=NO;
+        }
     }];
+    
+    [postDataTask resume];
 }
+
 
 /*
 #pragma mark - Navigation
