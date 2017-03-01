@@ -47,7 +47,7 @@
     if([users count]){
         _user = [users firstObject];
     }
-    _didRate=NO;
+    _didRate= NO;
 }
 
 -(void)setupView{
@@ -68,12 +68,10 @@
     if(_isMovie){
         _mediaTitle.text=[NSString stringWithFormat:@"Rate:    %@",_singleMovie.title];
         _isRated = [_user ratedMovies];
-        _didRate=_isRated;
     }
     else{
         _mediaTitle.text=[NSString stringWithFormat:@"Rate:    %@",_singleShow.name];
         _isRated = [_user ratedShows];
-        _didRate=_isRated;
     }
     
     if(_isMovie){
@@ -136,19 +134,22 @@
 }
 
 -(IBAction)rateMe:(id)sender{
-    if(_didRate){
+    if(!_didRate){
     if(_isMovie){
         _singleMovie.userRate=_rate;
         [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
         [self postToRateList];
         [self postStatusError:@"Successfuly rated Movie"];
-        
+        [starRatingView setUserInteractionEnabled:NO];
+        _didRate=YES;
         }
     else{
         _singleShow.userRate=_rate;
         [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
         [self postToRateList];
         [self postStatusError:@"Successfuly rated Show"];
+        [starRatingView setUserInteractionEnabled:NO];
+        _didRate=YES;
     }}
     else{
         [self postStatusError:@"Already Rated"];

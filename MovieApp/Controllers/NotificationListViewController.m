@@ -46,6 +46,7 @@
 }
 
 -(void)justWatchlist{
+    if(!_isMovie){
     _watchlistShows = [_user watchlistShows];
     _showsToShow = [[NSMutableArray alloc] init];
     int i,j;
@@ -56,10 +57,11 @@
             }
         }
     }
-    if([_showsToShow count]==0){
+    if([_showsToShow count]==0 || _showsToShow.firstObject == nil){
         _showsToShow = _notificationShows;
         UIAlertView *alert =[[UIAlertView alloc] initWithTitle:@"No Watchlist Shows" message:@"Check Out for some episodes which are airing Today" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil];
         [alert show];
+    }
     }
 }
 

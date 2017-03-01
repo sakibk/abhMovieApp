@@ -84,58 +84,6 @@
     
     }
 
--(void)getShows{
-    
-    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
-    
-    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
-                                                      @"vote_average": @"rating",
-                                                      @"poster_path": @"posterPath",
-                                                      @"first_air_date": @"airDate",
-                                                      @"id": @"showID",
-                                                      @"backdrop_path" : @"backdropPath",
-                                                      @"overview": @"overview",
-                                                      @"genre_ids": @"genreIds",
-                                                      @"number_of_seasons":@"seasonCount"
-                                                      }];
-    [showMapping assignsNilForMissingRelationships];
-    
-    NSString *pathP =@"/3/tv/airing_today";
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:nil
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
-    
-    
-    NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
-                                      };
-    
-    
-    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult.array);
-        _notifShows = [[NSMutableArray alloc] initWithArray:mappingResult.array];
-        if(_notifShows.firstObject!=nil){
-            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-            NotificationListViewController *list = [storyboard instantiateViewControllerWithIdentifier:@"Notifications"];
-            [list setNotificationShows:_notifShows];
-            [list setIsMovie:NO];
-            [list initWithNotificationShow];
-            UINavigationController *navigationController =(UINavigationController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController] ;
-            [navigationController pushViewController:list animated:YES];
-        }
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"RestKit returned error: %@", error);
-    }];
-
-    }
 
 -(void)setShowLists{
     RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];

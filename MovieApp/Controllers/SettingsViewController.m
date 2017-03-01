@@ -20,8 +20,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupView];
-    [_movieNotification addTarget:self action:@selector(movieNotificationON:) forControlEvents:UIControlEventAllEvents];
-    [_showNotification addTarget:self action:@selector(showNotificationON:) forControlEvents:UIControlEventAllEvents];
+    [_movieNotification addTarget:self action:@selector(movieNotificationON:) forControlEvents:UIControlEventValueChanged];
+    [_showNotification addTarget:self action:@selector(showNotificationON:) forControlEvents:UIControlEventValueChanged];
     
     [[NSUserDefaults standardUserDefaults] addObserver:self
                                             forKeyPath:@"SessionCredentials"
@@ -46,7 +46,6 @@
     NSDictionary *updated = [[NSDictionary alloc]initWithDictionary:tempUserCredits];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:updated forKey:@"SessionCredentials"];
-    [defaults synchronize];
 }
 
 -(IBAction)showNotificationON:(id)sender{
@@ -62,7 +61,6 @@
     NSDictionary *updated = [[NSDictionary alloc]initWithDictionary:tempUserCredits];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:updated forKey:@"SessionCredentials"];
-    [defaults synchronize];
 }
 
 -(void)setupView{
@@ -81,11 +79,14 @@
     self.navigationItem.title =@"Settings";
 }
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SessionCredentials"];
+}
+
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SessionCredentials"];
 }
 
 - (void)observeValueForKeyPath:(NSString *) keyPath ofObject:(id) object change:(NSDictionary *) change context:(void *) context

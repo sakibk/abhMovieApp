@@ -35,6 +35,9 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
         [self.websiteLink addTarget:self action:@selector(openWebsite:) forControlEvents:UIControlEventTouchUpInside];
         _link=singleActor.homePage;
     }
+    else{
+        [self.websiteLink setTintColor:[UIColor colorWithRed:137 green:136 blue:133 alpha:1.0]];
+    }
     if(![singleActor.biography isEqualToString:@""]){
         _fullBiography.text=singleActor.biography;
     }

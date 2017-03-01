@@ -104,12 +104,16 @@
 
 -(IBAction)pushSideBar:(id)sender{
     [self.sideMenuController showLeftViewAnimated:YES completionHandler:nil];
+//    [self testNotification];
+}
+
+-(void)testNotification{
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = [[NSDate date] dateByAddingTimeInterval:10];
     localNotification.repeatInterval = NSCalendarUnitWeekOfYear;
     localNotification.soundName = @"sub.caf";
     localNotification.timeZone = [NSTimeZone systemTimeZone];
-    localNotification.alertTitle = @"Upcoming Movies";
+    localNotification.alertTitle = @"Upcoming Shows";
     localNotification.alertBody = @"Fantastic Beast And Where To Find Them";
     localNotification.alertAction = @"Show Details";
     localNotification.soundName = UILocalNotificationDefaultSoundName;

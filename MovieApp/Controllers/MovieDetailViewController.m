@@ -57,6 +57,8 @@
 @property NSMutableArray<NSIndexPath*> *buttonsIndexPath;
 @property NSMutableArray<NSNumber*> *cellReviewHeights;
 
+@property BOOL isSuccessful;
+
 @end
 
 @implementation MovieDetailViewController
@@ -135,6 +137,7 @@
         isRowOpen[i]=NO;
     }
     _buttonsIndexPath=[[NSMutableArray alloc]init];
+    _isSuccessful=NO;
 }
 
 -(void)setNavBarTitle{
@@ -873,30 +876,33 @@
 
 
 -(void)addFavorite{
-
-        PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
+    PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
         if(_isMovie){
             if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-                [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                [self postToList:@"favorite":@"true"];
-                [cell favoureIt];
+                [self noRestkitPost:@"favorite":@"true"];
+                if(_isSuccessful){
+                    [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                    
+                }
             }
             else{
-                [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                [self postToList:@"favorite":@"false"];
-                [cell unFavoureIt];
+                [self noRestkitPost:@"favorite":@"false"];
+                if(_isSuccessful){
+                    [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                    
+                }
             }
         }
         else{
             if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
-                [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                [self postToList:@"favorite":@"true"];
-                [cell favoureIt];
+                [self noRestkitPost:@"favorite":@"true"];
+                if(_isSuccessful)
+                    [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
             }
             else{
-                [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                [self postToList:@"favorite":@"false"];
-                [cell unFavoureIt];
+                [self noRestkitPost:@"favorite":@"false"];
+                if(_isSuccessful)
+                    [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
             }
         }
     
@@ -905,34 +911,113 @@
 
 
 -(void)addWatchlist{
-
-        PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
+    PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
         if(_isMovie){
-
             if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-                [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                [self postToList:@"watchlist":@"true"];
-                [cell watchIt];
+                [self noRestkitPost:@"watchlist":@"true"];
+                if(_isSuccessful){
+                    [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                    [cell watchIt];
+                    _isSuccessful=NO;
+                }
             }
             else{
-                [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                [self postToList:@"watchlist":@"false"];
-                [cell unWatchIt];
+                [self noRestkitPost:@"watchlist":@"false"];
+                if(_isSuccessful){
+                    [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                    [cell unWatchIt];
+                    _isSuccessful=NO;
+                }
             }
         }
         else{
             if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
-                [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                [self postToList:@"watchlist":@"true"];
-                [cell watchIt];
+                [self noRestkitPost:@"watchlist":@"true"];
+                if(_isSuccessful){
+                    [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                    [cell watchIt];
+                    _isSuccessful=NO;
+                }
             }
             else{
-                [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                [self postToList:@"watchlist":@"false"];
-                [cell unWatchIt];
+                [self noRestkitPost:@"watchlist":@"false"];
+                if(_isSuccessful){
+                    [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+                    [cell unWatchIt];
+                    _isSuccessful=NO;
+                }
             }
         }
     
+}
+
+-(void)noRestkitPost:(NSString*)list :(NSString*)postOrDelete{
+    NSError *error;
+    
+     NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                                   @"Content-Type" : @"application/json;charset=utf-8"
+                                                   };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:pathP];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPMethod:@"POST"];
+    
+    ListPost *postObject = [ListPost new];
+    if(_isMovie){
+        postObject.mediaID= _singleMovie.movieID;
+        postObject.mediaType=@"movie";
+    }
+    else{
+        postObject.mediaID=_singleShow.showID;
+        postObject.mediaType=@"tv";
+    }
+    NSDictionary *dataMapped = @{@"media_type" : postObject.mediaType,
+                                 @"media_id" : postObject.mediaID,
+                                 [NSString stringWithFormat:@"%@",list] : @NO
+                                 };
+    
+    if([postOrDelete isEqualToString:@"true"]){
+        NSDictionary *mappedData = @{@"media_type" : postObject.mediaType,
+                                     @"media_id" : postObject.mediaID,
+                                     [NSString stringWithFormat:@"%@",list] : @YES
+                                     };
+        dataMapped=mappedData;
+    }
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:dataMapped options:0 error:&error];
+    [request setHTTPBody:postData];
+    
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            if([[dictionary valueForKey:@"status_code"] intValue]==1){
+                NSLog(@"Successfuly added");
+                _isSuccessful=YES;
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==13){
+                NSLog(@"The item/record was Deleted successfully");
+                _isSuccessful=YES;
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==12){
+                NSLog(@"The item/record was updated successfully");
+                _isSuccessful=NO;
+            }
+        }
+        else{
+            _isSuccessful=NO;
+        }
+    }];
+    
+    [postDataTask resume];
 }
 
 -(void)postToList:(NSString*)list :(NSString*)postOrDelete{
@@ -975,7 +1060,7 @@
         postObject.mediaID=_singleShow.showID;
         postObject.mediaType=@"tv";
     }
-    postObject.isWatchlist=@"true";
+    postObject.isWatchlist=[NSNumber numberWithBool:NO];
     
     NSDictionary *queryParameters = @{
                                       @"media_type" : postObject.mediaType,
