@@ -94,9 +94,9 @@
     UIImage* logoImage = [UIImage imageNamed:@"LoginTitle"];
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:logoImage];
     
-    [self.passwordEditor setValue:[UIColor whiteColor]
+    [self.passwordEditor setValue:[UIColor lightGrayColor]
                        forKeyPath:@"_placeholderLabel.textColor"];
-    [self.emailEditor setValue:[UIColor whiteColor]
+    [self.emailEditor setValue:[UIColor lightGrayColor]
                     forKeyPath:@"_placeholderLabel.textColor"];
     
     [_loginButton setTitleColor:[UIColor whiteColor] forState:UIControlStateFocused];

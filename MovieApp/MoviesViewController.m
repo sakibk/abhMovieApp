@@ -159,6 +159,18 @@ RLM_ARRAY_TYPE(Movie);
     return NO;
 }
 
+-(void)setButtonTitle{
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(0, 11)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor lightGrayColor]
+                 range:NSMakeRange(11, [text length]-11)];
+    [showList setAttributedTitle:text forState:UIControlStateNormal];
+}
 
 -(void)CreateDropDownList{
         CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
@@ -173,16 +185,7 @@ RLM_ARRAY_TYPE(Movie);
         [showList setBackgroundColor:[UIColor blackColor]];
         showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-        NSMutableAttributedString *text =
-        [[NSMutableAttributedString alloc]
-         initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
-        [text addAttribute:NSForegroundColorAttributeName
-                 value:[UIColor whiteColor]
-                 range:NSMakeRange(0, 11)];
-        [text addAttribute:NSForegroundColorAttributeName
-                     value:[UIColor lightGrayColor]
-                     range:NSMakeRange(11, [text length]-11)];
-        [showList setAttributedTitle:text forState:UIControlStateNormal];
+    [self setButtonTitle];
 //        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -298,16 +301,7 @@ RLM_ARRAY_TYPE(Movie);
             else{
                 self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 320, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
             }
-            NSMutableAttributedString *text =
-            [[NSMutableAttributedString alloc]
-             initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
-            [text addAttribute:NSForegroundColorAttributeName
-                         value:[UIColor whiteColor]
-                         range:NSMakeRange(0, 11)];
-            [text addAttribute:NSForegroundColorAttributeName
-                         value:[UIColor lightGrayColor]
-                         range:NSMakeRange(11, [text length]-11)];
-            [showList setAttributedTitle:text forState:UIControlStateNormal];
+            [self setButtonTitle];
 //                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
@@ -353,16 +347,7 @@ RLM_ARRAY_TYPE(Movie);
           [UIView animateWithDuration:0.2 animations:^{
               CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
               [_dropDown setFrame:dropDownFrame];
-              NSMutableAttributedString *text =
-              [[NSMutableAttributedString alloc]
-               initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
-              [text addAttribute:NSForegroundColorAttributeName
-                           value:[UIColor whiteColor]
-                           range:NSMakeRange(0, 11)];
-              [text addAttribute:NSForegroundColorAttributeName
-                           value:[UIColor lightGrayColor]
-                           range:NSMakeRange(11, [text length]-11)];
-              [showList setAttributedTitle:text forState:UIControlStateNormal];
+              [self setButtonTitle];
 //              [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
               [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
 
@@ -376,31 +361,13 @@ RLM_ARRAY_TYPE(Movie);
 -(void)setDropDownTitleButton{
     if(_isDroped){
 //        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
-        NSMutableAttributedString *text =
-        [[NSMutableAttributedString alloc]
-         initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
-        [text addAttribute:NSForegroundColorAttributeName
-                     value:[UIColor whiteColor]
-                     range:NSMakeRange(0, 11)];
-        [text addAttribute:NSForegroundColorAttributeName
-                     value:[UIColor lightGrayColor]
-                     range:NSMakeRange(11, [text length]-11)];
-        [showList setAttributedTitle:text forState:UIControlStateNormal];
+        [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
 
     }
     else{
 //        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
-        NSMutableAttributedString *text =
-        [[NSMutableAttributedString alloc]
-         initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
-        [text addAttribute:NSForegroundColorAttributeName
-                     value:[UIColor whiteColor]
-                     range:NSMakeRange(0, 11)];
-        [text addAttribute:NSForegroundColorAttributeName
-                     value:[UIColor lightGrayColor]
-                     range:NSMakeRange(11, [text length]-11)];
-        [showList setAttributedTitle:text forState:UIControlStateNormal];
+        [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
 
     }
