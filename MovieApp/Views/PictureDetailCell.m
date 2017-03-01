@@ -26,6 +26,8 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     [_watchButton addTarget:self action:@selector(addToWatchList:) forControlEvents:UIControlEventTouchUpInside];
     [_favouriteButton addTarget:self action:@selector(addToFavoriteList:) forControlEvents:UIControlEventTouchUpInside];
     _realm =[RLMRealm defaultRealm];
+        [self.watchButton setImageEdgeInsets:UIEdgeInsetsMake(10, 13, 9, 5)];
+        [self.favouriteButton setImageEdgeInsets:UIEdgeInsetsMake(8, 5, 9, 14)];
 }
 
 -(void)setHidenButtons{
@@ -168,19 +170,19 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 
 
 -(void)favoureIt{
-    [_favouriteButton setImage:[UIImage imageNamed:@"YellowFavoritesButton"] forState:UIControlStateNormal];
+    [_favouriteButton setImage:[UIImage imageNamed:@"MainFav"] forState:UIControlStateNormal];
 }
 
 -(void)unFavoureIt{
-    [_favouriteButton setImage:[UIImage imageNamed:@"NonLikedMedia"] forState:UIControlStateNormal];
+    [_favouriteButton setImage:[UIImage imageNamed:@"MainNonFav"] forState:UIControlStateNormal];
 }
 
 -(void)watchIt{
-    [_watchButton setImage:[UIImage imageNamed:@"YellowWatchlistButton"] forState:UIControlStateNormal];
+    [_watchButton setImage:[UIImage imageNamed:@"MainWatch"] forState:UIControlStateNormal];
 }
 
 -(void)unWatchIt{
-    [_watchButton setImage:[UIImage imageNamed:@"NonWatchedMedia"] forState:UIControlStateNormal];
+    [_watchButton setImage:[UIImage imageNamed:@"MainNonWatch"] forState:UIControlStateNormal];
 }
 
 

@@ -296,6 +296,8 @@
                 for (UIView *subSubView in alertContentView.subviews) { //This is main catch
                     subSubView.backgroundColor = [UIColor darkGrayColor]; //Here you change background
                 }
+
+                
                 UIAlertAction* yes = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isLoged"];
                     _isLogged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];

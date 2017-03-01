@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdE-S7-LcC" id="4uN-ze-v9e">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
+                <rect key="frame" x="0.0" y="0.0" width="414" height="221"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackdropNoImageAvalible" translatesAutoresizingMaskIntoConstraints="NO" id="z4y-Au-Dc2">
@@ -26,7 +26,6 @@
                         <rect key="frame" x="8" y="164" width="303" height="50"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="50" id="IlK-fR-6Gn"/>
-                            <constraint firstAttribute="width" constant="303" id="iw8-5V-0Lm"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -39,37 +38,44 @@
                             <action selector="buttonPressed:" destination="jdE-S7-LcC" eventType="touchUpInside" id="f0W-3m-dhh"/>
                         </connections>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0c-UW-f2h">
-                        <rect key="frame" x="359" y="174" width="47" height="40"/>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0c-UW-f2h">
+                        <rect key="frame" x="362" y="167" width="44" height="40"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="40" id="liH-c1-2S2"/>
-                            <constraint firstAttribute="width" constant="47" id="vKd-yy-ApZ"/>
+                            <constraint firstAttribute="height" constant="40" id="0nu-FB-sgW"/>
+                            <constraint firstAttribute="width" constant="44" id="W7H-Au-jXf"/>
                         </constraints>
-                        <state key="normal" image="NonLikedMedia"/>
+                        <inset key="contentEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="titleEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="imageEdgeInsets" minX="5" minY="9" maxX="14" maxY="9"/>
+                        <size key="titleShadowOffset" width="5" height="5"/>
+                        <state key="normal" image="MainNonFav"/>
                     </button>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8E8-gp-DlF">
-                        <rect key="frame" x="313" y="173" width="33" height="40"/>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8E8-gp-DlF">
+                        <rect key="frame" x="318" y="166" width="37" height="43"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="33" id="yuG-aG-JkA"/>
+                            <constraint firstAttribute="height" constant="43" id="5A7-5Y-XtY"/>
+                            <constraint firstAttribute="width" constant="37" id="DYT-7U-Tdc"/>
                         </constraints>
-                        <state key="normal" image="NonWatchedMedia"/>
+                        <inset key="contentEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="titleEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="imageEdgeInsets" minX="13" minY="10" maxX="5" maxY="9"/>
+                        <size key="titleShadowOffset" width="5" height="5"/>
+                        <state key="normal" image="MainNonWatch"/>
                     </button>
                 </subviews>
                 <constraints>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leading" id="1yG-ye-CK3"/>
-                    <constraint firstItem="8E8-gp-DlF" firstAttribute="top" secondItem="s0c-UW-f2h" secondAttribute="top" constant="-1" id="8Dh-kx-nRl"/>
-                    <constraint firstItem="8E8-gp-DlF" firstAttribute="bottom" secondItem="s0c-UW-f2h" secondAttribute="bottom" constant="-1" id="8jN-BR-txv"/>
-                    <constraint firstItem="s0c-UW-f2h" firstAttribute="leading" secondItem="8E8-gp-DlF" secondAttribute="trailing" constant="13" id="ANA-qA-vHg"/>
-                    <constraint firstItem="s0c-UW-f2h" firstAttribute="bottom" secondItem="0Ea-Hc-CcX" secondAttribute="bottom" id="StG-p5-bCU"/>
-                    <constraint firstItem="s0c-UW-f2h" firstAttribute="bottom" secondItem="4uN-ze-v9e" secondAttribute="bottomMargin" id="TIo-l5-PJN"/>
-                    <constraint firstItem="8E8-gp-DlF" firstAttribute="baseline" secondItem="s0c-UW-f2h" secondAttribute="baseline" id="Thu-lj-MoI"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="s0c-UW-f2h" secondAttribute="bottom" constant="6" id="Uvy-GR-Hw7"/>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="centerX" secondItem="Wd8-fJ-ahh" secondAttribute="centerX" id="WKC-fE-qOY"/>
+                    <constraint firstItem="0Ea-Hc-CcX" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leading" constant="8" id="Xhg-sn-zzy"/>
                     <constraint firstAttribute="trailingMargin" secondItem="z4y-Au-Dc2" secondAttribute="trailing" constant="-12" id="ZYO-qx-EOa"/>
-                    <constraint firstItem="s0c-UW-f2h" firstAttribute="trailing" secondItem="4uN-ze-v9e" secondAttribute="trailingMargin" id="cIY-IK-NH7"/>
-                    <constraint firstItem="s0c-UW-f2h" firstAttribute="trailing" secondItem="0Ea-Hc-CcX" secondAttribute="trailing" constant="95" id="fRh-BP-wOk"/>
                     <constraint firstAttribute="bottom" secondItem="z4y-Au-Dc2" secondAttribute="bottom" id="hVu-Gf-LpF"/>
                     <constraint firstItem="0Ea-Hc-CcX" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leadingMargin" id="j4y-v6-Xw7"/>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="centerY" secondItem="Wd8-fJ-ahh" secondAttribute="centerY" id="oKs-1S-V4u"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="8E8-gp-DlF" secondAttribute="bottom" constant="4" id="qgQ-nA-bAp"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="trailing" secondItem="4uN-ze-v9e" secondAttribute="trailingMargin" id="rM7-aY-wqb"/>
+                    <constraint firstItem="8E8-gp-DlF" firstAttribute="leading" secondItem="0Ea-Hc-CcX" secondAttribute="trailing" constant="7" id="txp-cg-Yb1"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="leading" secondItem="8E8-gp-DlF" secondAttribute="trailing" constant="7" id="up9-ji-S4E"/>
                     <constraint firstItem="z4y-Au-Dc2" firstAttribute="top" secondItem="4uN-ze-v9e" secondAttribute="top" id="wKt-4u-q1e"/>
                     <constraint firstItem="0Ea-Hc-CcX" firstAttribute="bottom" secondItem="4uN-ze-v9e" secondAttribute="bottomMargin" constant="1" id="wNa-nV-um5"/>
                 </constraints>
@@ -86,8 +92,8 @@
     </objects>
     <resources>
         <image name="BackdropNoImageAvalible" width="225" height="170"/>
-        <image name="NonLikedMedia" width="16" height="14"/>
-        <image name="NonWatchedMedia" width="12" height="15"/>
+        <image name="MainNonFav" width="33" height="30"/>
+        <image name="MainNonWatch" width="22" height="31"/>
         <image name="Play" width="45" height="45"/>
     </resources>
 </document>

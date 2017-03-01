@@ -69,7 +69,12 @@
 }
 
 -(IBAction)sessionPressed:(id)sender{
+    if(self.emailEditor.text!=nil && ![self.emailEditor.text isEqualToString:@""] && self.passwordEditor.text!=nil && ![self.passwordEditor.text isEqualToString:@""]){
     [self getTokenForSesion];
+    }
+    else{
+        [self postStatusError:@"Enter Your Credentials"];
+    }
     [self.passwordEditor resignFirstResponder];
 }
 

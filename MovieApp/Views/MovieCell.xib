@@ -71,10 +71,16 @@
                         <rect key="frame" x="175" y="231" width="16" height="15"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="16" id="WYX-l2-WvY"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="sIz-ym-Zhc"/>
+                            <constraint firstAttribute="height" constant="15" id="uyc-0G-Z1I"/>
                         </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="NonWatchedMedia" translatesAutoresizingMaskIntoConstraints="NO" id="AUU-KB-QEE">
                         <rect key="frame" x="153" y="231" width="12" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="12" id="SD2-1b-TSb"/>
+                            <constraint firstAttribute="height" constant="15" id="xzS-oN-PD4"/>
+                        </constraints>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="YellowRatingsButton" translatesAutoresizingMaskIntoConstraints="NO" id="Y4H-3T-L2C">
                         <rect key="frame" x="8" y="232" width="15" height="14"/>

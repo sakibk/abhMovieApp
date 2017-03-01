@@ -143,7 +143,17 @@
     [showList setBackgroundColor:[UIColor blackColor]];
     showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-    [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+//    [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(0, 11)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor lightGrayColor]
+                 range:NSMakeRange(11, [text length]-11)];
+    [showList setAttributedTitle:text forState:UIControlStateNormal];
     [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
     [_dropDown addSubview:showList];
     [_dropDown addSubview:dropDownImage];
@@ -193,7 +203,17 @@
         
         [UIView animateWithDuration:0.2 animations:^{
             self.tableView.frame = CGRectMake(0, self.tableView.frame.origin.y + 192, CGRectGetWidth(initialTableViewFrame), CGRectGetHeight(initialTableViewFrame));
-            [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+//            [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+            NSMutableAttributedString *text =
+            [[NSMutableAttributedString alloc]
+             initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
+            [text addAttribute:NSForegroundColorAttributeName
+                         value:[UIColor whiteColor]
+                         range:NSMakeRange(0, 11)];
+            [text addAttribute:NSForegroundColorAttributeName
+                         value:[UIColor lightGrayColor]
+                         range:NSMakeRange(11, [text length]-11)];
+            [showList setAttributedTitle:text forState:UIControlStateNormal];
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
@@ -216,7 +236,17 @@
             [UIView animateWithDuration:0.2 animations:^{
                 CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
                 [_dropDown setFrame:dropDownFrame];
-                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+//                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+                NSMutableAttributedString *text =
+                [[NSMutableAttributedString alloc]
+                 initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
+                [text addAttribute:NSForegroundColorAttributeName
+                             value:[UIColor whiteColor]
+                             range:NSMakeRange(0, 11)];
+                [text addAttribute:NSForegroundColorAttributeName
+                             value:[UIColor lightGrayColor]
+                             range:NSMakeRange(11, [text length]-11)];
+                [showList setAttributedTitle:text forState:UIControlStateNormal];
                 [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
                 
                 self.tableView.frame = initialTableViewFrame;
@@ -228,12 +258,32 @@
 
 -(void)setDropDownTitleButton{
     if(_isDroped){
-        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+//        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+        NSMutableAttributedString *text =
+        [[NSMutableAttributedString alloc]
+         initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:[UIColor whiteColor]
+                     range:NSMakeRange(0, 11)];
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:[UIColor lightGrayColor]
+                     range:NSMakeRange(11, [text length]-11)];
+        [showList setAttributedTitle:text forState:UIControlStateNormal];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         
     }
     else{
-        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+//        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+        NSMutableAttributedString *text =
+        [[NSMutableAttributedString alloc]
+         initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:[UIColor whiteColor]
+                     range:NSMakeRange(0, 11)];
+        [text addAttribute:NSForegroundColorAttributeName
+                     value:[UIColor lightGrayColor]
+                     range:NSMakeRange(11, [text length]-11)];
+        [showList setAttributedTitle:text forState:UIControlStateNormal];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
         
     }
