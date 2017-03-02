@@ -22,7 +22,6 @@
 @property NSString *pathP;
 
 @property BOOL isMovie;
-@property BOOL isRated;
 @property BOOL didRate;
 @property BOOL isSuccessful;
 
@@ -68,11 +67,9 @@
     [_ratingStatus setHidden:YES];
     if(_isMovie){
         _mediaTitle.text=[NSString stringWithFormat:@"Rate:    %@",_singleMovie.title];
-        _isRated = [_user ratedMovies];
     }
     else{
         _mediaTitle.text=[NSString stringWithFormat:@"Rate:    %@",_singleShow.name];
-        _isRated = [_user ratedShows];
     }
     
     if(_isMovie){
