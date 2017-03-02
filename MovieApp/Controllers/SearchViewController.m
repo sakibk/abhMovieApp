@@ -63,6 +63,10 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];   //it hides
     [self.navigationController.interactivePopGestureRecognizer setEnabled:YES];
     
+    [self setupSearchbar];
+}
+
+-(void)setupSearchbar{
     _searchBar.showsCancelButton = YES;
     for (UIView *subView in _searchBar.subviews) {
         if([subView isKindOfClass:[UIButton class]])
@@ -72,6 +76,9 @@
             cancelButton=(UIButton*)self.navigationItem.backBarButtonItem;
         }
     }
+    UITextField *txfSearchField = [_searchBar valueForKey:@"_searchField"];
+    UIColor *backColor = [UIColor colorWithWhite:0.187 alpha:1.0];
+    txfSearchField.backgroundColor = backColor;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

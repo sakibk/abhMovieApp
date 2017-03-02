@@ -64,7 +64,7 @@
 }
 
 -(void)setupMovieLabels:(NSString*)movieTitle{
-    self.navigationItem.title =@"Movie";
+    self.navigationItem.title =@"Movies";
     _imageGalleryTitle.text = [NSString stringWithFormat:@"Image gallery: %@",movieTitle];
     _imageCount.text = [NSString stringWithFormat:@"%lu images",(unsigned long)[_allImagePaths count]];
     _galleryTitle=movieTitle;

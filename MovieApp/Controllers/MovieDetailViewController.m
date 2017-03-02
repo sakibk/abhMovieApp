@@ -104,7 +104,7 @@
 
 -(void)setSizes{
     _imageCellHeigh =222.0;
-    _detailsCellHeight =42.0;
+    _detailsCellHeight =50.0;
     _overviewCellHeight =180.0;
     _imageGalleryCellHeight =185.0;
     _castCellHeight =293.0;

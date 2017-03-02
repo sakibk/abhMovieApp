@@ -166,6 +166,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    application.applicationIconBadgeNumber = 0;
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
         // Set icon badge number to zero

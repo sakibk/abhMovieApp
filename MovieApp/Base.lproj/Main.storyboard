@@ -80,8 +80,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="105" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="k4T-vq-KcF">
-                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="105" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="k4T-vq-KcF">
+                                <rect key="frame" x="0.0" y="44" width="414" height="692"/>
                                 <color key="backgroundColor" red="0.16078431372549018" green="0.16078431372549018" blue="0.16078431372549018" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="separatorColor" red="0.8901960784313725" green="0.72941176470588232" blue="0.015686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -114,7 +114,7 @@
                             <constraint firstItem="k4T-vq-KcF" firstAttribute="leading" secondItem="cY7-VA-Fln" secondAttribute="leading" id="6nq-UD-qRG"/>
                             <constraint firstItem="k4T-vq-KcF" firstAttribute="trailing" secondItem="cY7-VA-Fln" secondAttribute="trailing" id="M98-Hr-Svi"/>
                             <constraint firstItem="cY7-VA-Fln" firstAttribute="top" secondItem="hAd-Rf-DfE" secondAttribute="top" constant="20" id="WvV-yk-AG3"/>
-                            <constraint firstItem="k4T-vq-KcF" firstAttribute="top" secondItem="cY7-VA-Fln" secondAttribute="bottom" id="bbV-NM-qus"/>
+                            <constraint firstItem="k4T-vq-KcF" firstAttribute="top" secondItem="cY7-VA-Fln" secondAttribute="bottom" constant="-20" id="bbV-NM-qus"/>
                             <constraint firstItem="cY7-VA-Fln" firstAttribute="leading" secondItem="hAd-Rf-DfE" secondAttribute="leading" id="cOp-Ou-v12"/>
                             <constraint firstAttribute="bottom" secondItem="k4T-vq-KcF" secondAttribute="bottom" id="iLz-Ar-whd"/>
                         </constraints>
@@ -1346,7 +1346,7 @@
         <image name="rssIcon" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="7W3-4z-gvt"/>
         <segue reference="fQi-24-qVs"/>
-        <segue reference="d9N-gh-CQQ"/>
     </inferredMetricsTieBreakers>
 </document>

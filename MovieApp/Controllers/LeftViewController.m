@@ -294,8 +294,32 @@
                 
                 UIView *alertContentView = firstSubview.subviews.firstObject;
                 for (UIView *subSubView in alertContentView.subviews) { //This is main catch
-                    subSubView.backgroundColor = [UIColor darkGrayColor]; //Here you change background
+                    subSubView.backgroundColor = [UIColor colorWithWhite:0.177 alpha:1.0]; //Here you change background
                 }
+                NSMutableAttributedString *titleText =
+                [[NSMutableAttributedString alloc]
+                 initWithString:@"Logout"];
+                
+                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                paragraphStyle.lineSpacing = 30.f;
+                paragraphStyle.alignment = NSTextAlignmentCenter;
+                
+                [titleText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [titleText length])];
+                [titleText addAttribute:NSForegroundColorAttributeName
+                             value:[UIColor whiteColor]
+                             range:NSMakeRange(0, [titleText length])];
+                [titleText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, [titleText length])];
+                NSMutableAttributedString *text =
+                [[NSMutableAttributedString alloc]
+                 initWithString:@"\nAre You sure You want to logout?"];
+                [text addAttribute:NSForegroundColorAttributeName
+                             value:[UIColor lightGrayColor]
+                             range:NSMakeRange(0, [text length])];
+                [text addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [text length])];
+
+                [alertController setValue:titleText forKey:@"attributedTitle"];
+                 [alertController setValue:text forKey:@"attributedMessage"];
+//                 .setValue(NSAttributedString(string: messageTitle, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(17),NSForegroundColorAttributeName : UIColor.redColor()]), forKey: "attributedTitle")
 
                 
                 UIAlertAction* yes = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -312,7 +336,6 @@
                 [alertController addAction:yes];
                 
                 [self presentViewController:alertController animated:YES completion:nil];
-                
             }
                 break;
             default:

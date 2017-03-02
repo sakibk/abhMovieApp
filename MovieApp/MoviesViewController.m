@@ -127,11 +127,12 @@ RLM_ARRAY_TYPE(Movie);
     self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
     UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
         txtSearchField.font = [UIFont systemFontOfSize:15];
-        txtSearchField.backgroundColor = [UIColor darkGrayColor];
-        txtSearchField.tintColor= [UIColor colorWithRed:42 green:45 blue:44 alpha:100];
-    txtSearchField.textColor= [UIColor colorWithRed:216 green:216 blue:216 alpha:100];
+        UIColor *backColor = [UIColor colorWithWhite:0.187 alpha:1.0];
+        txtSearchField.backgroundColor =backColor;
     txtSearchField.textAlignment = NSTextAlignmentCenter;
     txtSearchField.placeholder = @"🔍 Search";
+    [txtSearchField setValue:[UIColor lightGrayColor]
+                      forKeyPath:@"_placeholderLabel.textColor"];
     txtSearchField.autocorrectionType = UITextAutocorrectionTypeNo;
     txtSearchField.keyboardType = UIKeyboardTypeDefault;
     txtSearchField.returnKeyType = UIReturnKeyDone;
