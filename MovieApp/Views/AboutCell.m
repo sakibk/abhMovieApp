@@ -20,6 +20,7 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
 
 -(void)setupLabels{
     _link=[[NSString alloc]init];
+    [_fullBioButton setTitle:@"See full bio" forState:UIControlStateNormal];
     [_fullBioButton addTarget:self action:@selector(changeButton:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -50,17 +51,18 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
 }
 
 -(IBAction)changeButton:(id)sender{
-    [self.delegate colideColapse];
-//    [self colideColapse];
-}
-
--(void)colideColapse{
     if([_fullBioButton.currentTitle isEqualToString:@"See full bio"]){
         [_fullBioButton setTitle:@"Hide" forState:UIControlStateNormal];
     }
     else{
         [_fullBioButton setTitle:@"See full bio" forState:UIControlStateNormal];
     }
+    [self.delegate colideColapse];
+}
+
+
+-(void)colideColapse{
+
 }
 
 -(IBAction)openWebsite:(id)sender{

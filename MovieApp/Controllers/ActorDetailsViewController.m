@@ -252,13 +252,11 @@
         if(_openedActorOverviewHeight<_actorOverviewHeight)
             _openedActorOverviewHeight=_actorOverviewHeight;
         _isOpened=YES;
-        [cell.fullBioButton setTitle:@"Hide" forState:UIControlStateNormal];
 
     }
     else{
         _openedActorOverviewHeight=_actorOverviewHeight;
         _isOpened=NO;
-        [cell.fullBioButton setTitle:@"See full bio" forState:UIControlStateNormal];
     }
 
     [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];

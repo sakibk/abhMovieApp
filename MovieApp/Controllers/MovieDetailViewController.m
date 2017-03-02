@@ -898,17 +898,19 @@
         else{
             if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
                 [self noRestkitPost:@"favorite":@"true"];
-                if(_isSuccessful)
+                if(_isSuccessful){
                     [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                     [cell favoureIt];
                     _isSuccessful=NO;
+                }
             }
             else{
                 [self noRestkitPost:@"favorite":@"false"];
-                if(_isSuccessful)
+                if(_isSuccessful){
                     [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                     [cell unFavoureIt];
                     _isSuccessful=NO;
+                }
             }
         }
     
