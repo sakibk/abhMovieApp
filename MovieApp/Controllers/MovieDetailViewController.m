@@ -261,7 +261,8 @@
                                                        @"overview":@"overview",
                                                        @"genres":@"genreSet",
                                                        @"number_of_seasons":@"seasonCount",
-                                                      @"seasons":@"seasons"
+                                                      @"seasons":@"seasons",
+                                                      @"in_production":@"inProduction"
                                                        }];
     
     showMapping.assignsDefaultValueForMissingAttributes = YES;
@@ -880,37 +881,29 @@
         if(_isMovie){
             if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
                 [self noRestkitPost:@"favorite":@"true"];
-                if(_isSuccessful){
                     [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                     [cell favoureIt];
-                    _isSuccessful=NO;
-                }
+                    _isSuccessful=YES;
             }
             else{
                 [self noRestkitPost:@"favorite":@"false"];
-                if(_isSuccessful){
                     [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                     [cell unFavoureIt];
-                    _isSuccessful=NO;
-                }
+                    _isSuccessful=YES;
             }
         }
         else{
             if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
                 [self noRestkitPost:@"favorite":@"true"];
-                if(_isSuccessful){
                     [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                     [cell favoureIt];
-                    _isSuccessful=NO;
-                }
+                    _isSuccessful=YES;
             }
             else{
                 [self noRestkitPost:@"favorite":@"false"];
-                if(_isSuccessful){
                     [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                     [cell unFavoureIt];
-                    _isSuccessful=NO;
-                }
+                    _isSuccessful=YES;
             }
         }
     
@@ -923,37 +916,30 @@
         if(_isMovie){
             if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
                 [self noRestkitPost:@"watchlist":@"true"];
-                if(_isSuccessful){
                     [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                     [cell watchIt];
                     _isSuccessful=NO;
-                }
             }
             else{
                 [self noRestkitPost:@"watchlist":@"false"];
-                if(_isSuccessful){
                     [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
                     [cell unWatchIt];
                     _isSuccessful=NO;
-                }
             }
         }
         else{
             if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
                 [self noRestkitPost:@"watchlist":@"true"];
-                if(_isSuccessful){
                     [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                     [cell watchIt];
                     _isSuccessful=NO;
-                }
             }
             else{
                 [self noRestkitPost:@"watchlist":@"false"];
-                if(_isSuccessful){
                     [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
                     [cell unWatchIt];
                     _isSuccessful=NO;
-                }
+
             }
         }
     

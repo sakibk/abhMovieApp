@@ -60,6 +60,9 @@
 }
 
 -(void)getTrailers{
+    
+     NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"/3/tv/",_singleEpisode.showID,@"/season/",_singleEpisode.seasonNumber,@"/episode/",_singleEpisode.episodeNumber,@"/videos"];
+    
     RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
     
     [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
@@ -69,13 +72,12 @@
     RKResponseDescriptor *trailerResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:nil
+                                            pathPattern:pathP
                                                 keyPath:@"results"
                                             statusCodes:[NSIndexSet indexSetWithIndex:200]];
     
     [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
     
-    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"/3/tv/",_singleEpisode.showID,@"/season/",_singleEpisode.seasonNumber,@"/episode/",_singleEpisode.episodeNumber,@"/videos"];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/

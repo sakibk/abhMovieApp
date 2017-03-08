@@ -20,6 +20,17 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     // Initialization code
 }
 
+-(void)setupLabels{
+    NSString *writers = _writers.text;
+    NSString *stars = _stars.text;
+    
+    _writers.lineBreakMode = NSLineBreakByClipping;
+    _writers.text = [writers stringByAppendingString:@"\n"];
+    
+    _stars.lineBreakMode = NSLineBreakByClipping;
+    _stars.text = [stars stringByAppendingString:@"\n"];
+}
+
 -(void)setHidenButtons{
     _isLoged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
     if(!_isLoged){
@@ -132,6 +143,9 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     if(tag==false){
         _director.text=@"  N/A  ";
     }
+    
+    [self setupLabels];
+    
 }
 
 -(void) setupWithShow :(TVShow*) singleShow{
@@ -222,7 +236,8 @@ NSString * const OverviewCellIdentifier=@"overviewCellIdentifier";
     if(tag == false){
         _director.text=@"  N/A  ";
     }
-
+    
+    [self setupLabels];
 }
 
 @end

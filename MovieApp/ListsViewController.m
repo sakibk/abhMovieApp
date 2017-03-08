@@ -347,8 +347,8 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
     else{
         [cell setSearchCellWithTVShow:[[TVShow alloc]initWithObject:[_showsList objectAtIndex:indexPath.row]]];
     }
-    [cell.searchRating setTextColor:[UIColor darkGrayColor]];
-    [cell.releaseAirDate setTextColor:[UIColor darkGrayColor]];
+    [cell.searchRating setTextColor:[UIColor lightGrayColor]];
+    [cell.releaseAirDate setTextColor:[UIColor lightGrayColor]];
     [cell setAccessoryType:UITableViewCellAccessoryNone];
     [cell setBackgroundColor:[UIColor blackColor]];
     return cell;

@@ -61,11 +61,11 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
         NSInteger year = [components year];
         
-        _releaseAirDate.text=[NSString stringWithFormat:@"(TV series %ld- )",(long)year];
+        _releaseAirDate.text=[NSString stringWithFormat:@"(TV series %ld )",(long)year];
     }
     else{
         
-        _releaseAirDate.text=[NSString stringWithFormat:@"(TV series N/A- )"];
+        _releaseAirDate.text=[NSString stringWithFormat:@"(TV series N/A )"];
     }
 
     [self setRating:singleShow.rating];

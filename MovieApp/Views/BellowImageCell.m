@@ -71,8 +71,15 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy"];
-    
-    _releaseDate.text =[NSString stringWithFormat:@"TV Series (%@-)",[dateFormatter stringFromDate:singleShow.firstAirDate]];
+    if(singleShow.firstAirDate!=nil && singleShow.lastAirDate!=nil && singleShow.inProduction == NO){
+        _releaseDate.text =[NSString stringWithFormat:@"TV Series (%@-%@)",[dateFormatter stringFromDate:singleShow.firstAirDate],[dateFormatter stringFromDate:singleShow.lastAirDate]];
+    }
+    else if (singleShow.inProduction == YES && singleShow.firstAirDate!=nil){
+        _releaseDate.text =[NSString stringWithFormat:@"TV Series (%@-present)",[dateFormatter stringFromDate:singleShow.firstAirDate]];
+    }
+    else{
+        _releaseDate.text =[NSString stringWithFormat:@"TV Series N/A"];
+    }
     
     _genreString = [[NSMutableString alloc]init];
     

@@ -46,7 +46,9 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"dd LLLL yyyy"];
         
-        _aboutBirth.text = [NSString stringWithFormat:@"%@, %@",[dateFormatter stringFromDate:singleActor.birthDate],singleActor.birthPlace];
+        NSString *displayString = [NSString stringWithFormat:@"%@, %@",[dateFormatter stringFromDate:singleActor.birthDate],singleActor.birthPlace];
+        _aboutBirth.lineBreakMode = NSLineBreakByClipping;
+        _aboutBirth.text = [displayString stringByAppendingString:@"\n"];
     }
 }
 

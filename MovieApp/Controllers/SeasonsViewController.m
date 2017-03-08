@@ -56,6 +56,7 @@
 }
 
 -(void)setRestkit{
+        NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
     
     RKObjectMapping *episodeMapping = [RKObjectMapping mappingForClass:[Episode class]];
     

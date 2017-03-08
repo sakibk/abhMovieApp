@@ -247,8 +247,8 @@
     
     NSDateComponents *nowComponents = [gregorian components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate date]];
     
-    [nowComponents setHour:19];
-    [nowComponents setMinute:45];
+    [nowComponents setHour:12];
+    [nowComponents setMinute:50];
     [nowComponents setSecond:00];
     [nowComponents setWeekday:1];
     
@@ -258,7 +258,7 @@
     
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = notificationDate;
-    localNotification.repeatInterval = NSCalendarUnitDay;
+    localNotification.repeatInterval = NSCalendarUnitMinute;
     localNotification.alertBody = @"Your Episodes are on TV Today";
     localNotification.timeZone = [NSTimeZone systemTimeZone];
     localNotification.alertTitle = @"Airing Today";
