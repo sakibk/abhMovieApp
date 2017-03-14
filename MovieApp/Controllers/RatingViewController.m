@@ -66,10 +66,10 @@
     _ratingStatus.textAlignment = NSTextAlignmentCenter;
     [_ratingStatus setHidden:YES];
     if(_isMovie){
-        _mediaTitle.text=[NSString stringWithFormat:@"Rate:    %@",_singleMovie.title];
+        _mediaTitle.text=[NSString stringWithFormat:@"  Rate:    %@",_singleMovie.title];
     }
     else{
-        _mediaTitle.text=[NSString stringWithFormat:@"Rate:    %@",_singleShow.name];
+        _mediaTitle.text=[NSString stringWithFormat:@"  Rate:    %@",_singleShow.name];
     }
     
     if(_isMovie){
