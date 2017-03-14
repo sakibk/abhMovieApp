@@ -13,10 +13,10 @@
 @implementation Movie
 
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"MovieId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@ , BackdropPath: %@",self.movieID, self.title, self.rating, self.posterPath, self.releaseDate, self.backdropPath];
-}
+//- (NSString *)description
+//{
+//    return [NSString stringWithFormat:@"MovieId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@ , BackdropPath: %@",self.movieID, self.title, self.rating, self.posterPath, self.releaseDate, self.backdropPath];
+//}
 
 -(void)setupWithTVMovie:(TVMovie *)singleObject{
     self.movieID=singleObject.TVMovieID;

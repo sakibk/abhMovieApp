@@ -112,7 +112,10 @@
     NSDate *releaseYear = [_currentSeason airDate];
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
-    _seasonYear.text =[NSString stringWithFormat:@"%ld",(long)year];
+    if(_currentSeason!=0)
+        _seasonYear.text =[NSString stringWithFormat:@"%ld",(long)year];
+    else
+        _seasonYear.text = [NSString stringWithFormat:@"Credits"];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -168,7 +171,7 @@
     [cell sizeThatFits:CGSizeMake(30, 30)];
     [cell setupSeasonCellWithSeasonNumber:[[_seasons objectAtIndex:indexPath.row] seasonNumber]];
     if(indexPath.row==1 && _firstTime){
-        [cell.seasonNumber setTextColor:[UIColor yellowColor]];
+        [cell.seasonNumber setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
         _selectedSeason=indexPath;
         _firstTime=NO;
     }

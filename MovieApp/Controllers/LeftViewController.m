@@ -128,8 +128,29 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    [headerView setAlpha:0.0];
+    self.sideMenuController.delegate=self;
+}
+
+-(void)hideAnimationsBlockForLeftView:(UIView *)leftView sideMenuController:(LGSideMenuController *)sideMenuController duration:(NSTimeInterval)duration{
     
+}
+-(void)showAnimationsBlockForLeftView:(UIView *)leftView sideMenuController:(LGSideMenuController *)sideMenuController duration:(NSTimeInterval)duration{
+    
+}
+
+-(void)didShowLeftView:(UIView *)leftView sideMenuController:(LGSideMenuController *)sideMenuController{
+    
+}
+
+-(void)willShowLeftView:(UIView *)leftView sideMenuController:(LGSideMenuController *)sideMenuController{
+    
+}
+
+-(void)willHideLeftView:(UIView *)leftView sideMenuController:(LGSideMenuController *)sideMenuController{
+    
+}
+
+-(void)didHideLeftView:(UIView *)leftView sideMenuController:(LGSideMenuController *)sideMenuController{
     
 }
 
@@ -143,15 +164,14 @@
     _selectedIndex=nil;
     [self.tableView reloadData];
     [super viewWillAppear:animated];
-    [headerView setAlpha:0.0];
     [self.navigationController.navigationBar setHidden:YES];
 }
 -(void)viewDidAppear:(BOOL)animated{
-    [headerView setAlpha:1.0];
+    [_menuButton setAlpha:1.0];
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [headerView setAlpha:0.0];
+    [_menuButton setAlpha:0.0];
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -175,16 +195,18 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     
     headerView = [[UIView alloc] init];
-    UIButton *menuButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 29, 25, 25)];
-    [menuButton setImage:[UIImage imageNamed:@"PieIcon"] forState:UIControlStateNormal];
-    [menuButton addTarget:self action:@selector(pieIconPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [headerView addSubview:menuButton];
+    _menuButton = [[UIButton alloc] initWithFrame:CGRectMake(20, 29, 25, 25)];
+    [_menuButton setImage:[UIImage imageNamed:@"PieIcon"] forState:UIControlStateNormal];
+    [_menuButton addTarget:self action:@selector(pieIconPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:_menuButton];
     return headerView;
 }
 
 -(IBAction)pieIconPressed:(id)sender{
-    [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
-    [sender setAlpha:0.0];
+    [_menuButton setAlpha:0.0];
+    [self.sideMenuController hideLeftViewAnimated:YES completionHandler:^(void){
+        [_menuButton setAlpha:1.0];
+    }];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -196,6 +218,7 @@
     [cell.textLabel setTextColor:[UIColor lightGrayColor]];
     [cell setBackgroundColor:[UIColor blackColor]];
      [cell setUserInteractionEnabled:NO];
+    [cell.textLabel setMinimumScaleFactor:0.85];
     if(!_isLogged){
         cell.textLabel.text = self.titlesArray[indexPath.row];
         cell.separatorView.hidden = (indexPath.row >=2 || indexPath.row<1);
@@ -216,7 +239,7 @@
             [cell setUserInteractionEnabled:YES];
         }
     else if(indexPath.row==0 || indexPath.row==4){
-        [cell setBackgroundColor:[UIColor darkGrayColor]];
+        [cell setBackgroundColor:[UIColor colorWithRed:0.29 green:0.29 blue:0.3 alpha:1.0]];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         
         }
@@ -238,8 +261,8 @@
     }
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LeftViewCell *cell = (LeftViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    [cell setBackgroundColor:[UIColor lightGrayColor]];
-    [cell.textLabel setTextColor:[UIColor colorWithRed:248.0 green:202.0 blue:0 alpha:100.0]];
+    [cell setBackgroundColor:[UIColor colorWithRed:0.29 green:0.29 blue:0.30 alpha:1.0]];
+    [cell.textLabel setTextColor:[UIColor colorWithRed:0.96 green:0.79 blue:0 alpha:1.0]];
     if(_isLogged){
         if(_selectedIndex !=indexPath){
             LeftViewCell *previusCell = (LeftViewCell*)[tableView cellForRowAtIndexPath:_selectedIndex];
@@ -254,7 +277,7 @@
                 listsController.isWatchlist=NO;
                 listsController.isRating=NO;
                 [self.navigationController pushViewController:listsController animated:YES];
-                [self.sideMenuController showLeftViewAnimated:NO completionHandler:nil];
+                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
             }
                 break;
             case 2:{
@@ -264,7 +287,7 @@
                 listsController.isWatchlist=YES;
                 listsController.isRating=NO;
                 [self.navigationController pushViewController:listsController animated:YES];
-                [self.sideMenuController showLeftViewAnimated:NO completionHandler:nil];
+                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
             }
                 break;
             case 3:{
@@ -274,19 +297,20 @@
                 listsController.isWatchlist=NO;
                 listsController.isRating=YES;
                 [self.navigationController pushViewController:listsController animated:YES];
-                [self.sideMenuController showLeftViewAnimated:NO completionHandler:nil];
+                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
             }
                 break;
             case 5:{
                 [cell.imageView setImage:[UIImage imageNamed:@"YellowSettingsButton"]];
                 SettingsViewController *settingsView = (SettingsViewController*)[storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
                 [self.navigationController pushViewController:settingsView animated:YES];
+                [_menuButton setAlpha:0.0];
                 [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
             }
                 break;
             case 6:{
                 [cell.imageView setImage:[UIImage imageNamed:@"YellowLogoutButton"]];
-                
+                [_menuButton setAlpha:0.0];
                 [self.sideMenuController hideLeftViewAnimated:NO completionHandler:nil];
                 
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Logout" message:@"Are You sure You want to logout?" preferredStyle:UIAlertControllerStyleAlert];
@@ -319,9 +343,6 @@
 
                 [alertController setValue:titleText forKey:@"attributedTitle"];
                  [alertController setValue:text forKey:@"attributedMessage"];
-//                 .setValue(NSAttributedString(string: messageTitle, attributes: [NSFontAttributeName : UIFont.systemFontOfSize(17),NSForegroundColorAttributeName : UIColor.redColor()]), forKey: "attributedTitle")
-
-                
                 UIAlertAction* yes = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
                     [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isLoged"];
                     _isLogged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
@@ -331,7 +352,7 @@
                 UIAlertAction* no = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
                     _selectedIndex=nil;
                 }];
-                alertController.view.tintColor =[UIColor yellowColor];
+                alertController.view.tintColor =[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0];
                 [alertController addAction:no];
                 [alertController addAction:yes];
                 
@@ -351,6 +372,7 @@
         [cell.imageView setImage:[UIImage imageNamed:@"YellowLoginArrow"]];
                 LoginViewController *loginController = (LoginViewController *)[storyboard instantiateViewControllerWithIdentifier:@"LoginController"];
                 [self.navigationController pushViewController:loginController animated:YES];
+        [_menuButton setAlpha:0.0];
         [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
         }
     }

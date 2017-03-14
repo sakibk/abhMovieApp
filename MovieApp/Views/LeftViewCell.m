@@ -37,12 +37,12 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGRect imageIconFrame=CGRectMake(32,self.textLabel.frame.origin.y+10 , self.textLabel.frame.size.height-20, self.textLabel.frame.size.height-20);
+    CGRect imageIconFrame=CGRectMake(24,self.textLabel.frame.origin.y+10 , self.textLabel.frame.size.height-20, self.textLabel.frame.size.height-20);
     
     self.imageView.frame=imageIconFrame;
     
     CGRect textLabelFrame = self.textLabel.frame;
-    textLabelFrame.origin.x = 24+self.textLabel.frame.origin.x;
+    textLabelFrame.origin.x = 12+self.textLabel.frame.origin.x;
     textLabelFrame.size.width = CGRectGetWidth(self.frame) - 16.0;
     self.textLabel.frame = textLabelFrame;
     

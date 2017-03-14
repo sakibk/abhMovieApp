@@ -235,7 +235,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
     if(section==3 || section==4){
         UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
-        lineview.layer.borderColor = [UIColor yellowColor].CGColor;
+        lineview.layer.borderColor = [UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0].CGColor;
         lineview.layer.borderWidth = 0.5;
         [view addSubview:lineview];
     }

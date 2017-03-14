@@ -166,7 +166,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    application.applicationIconBadgeNumber = 0;
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
         // Set icon badge number to zero
@@ -182,7 +181,7 @@
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor lightGrayColor]];
-    [[UITabBar appearance] setSelectedImageTintColor:[UIColor yellowColor]];
+    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
     
     [self setupSidebar];
     [self requestAuthorisation];

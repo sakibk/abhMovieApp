@@ -103,7 +103,7 @@
     starRatingView.minimumValue = 0.5;
     starRatingView.value = 0.5f;
     starRatingView.accurateHalfStars = YES;
-    starRatingView.tintColor = [UIColor yellowColor];
+    starRatingView.tintColor = [UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0];
     [starRatingView setBackgroundColor:[UIColor clearColor]];
     starRatingView.emptyStarImage = [UIImage imageNamed:@"NonRatedButton"];
     starRatingView.filledStarImage = [UIImage imageNamed:@"YellowRatingsButton"];

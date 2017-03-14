@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <LGSideMenuController/LGSideMenuController.h>
 
-@interface LeftViewController : UITableViewController
+@interface LeftViewController : UITableViewController<LGSideMenuControllerDelegate>
+
+@property (strong,nonatomic)UIButton *menuButton;
 
 @end

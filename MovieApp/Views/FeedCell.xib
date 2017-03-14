@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="231"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aQ7-mr-atH" id="GzL-p7-U48">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="231"/>
+                <rect key="frame" x="0.0" y="0.0" width="414" height="230"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K0F-tH-L2k">
@@ -43,7 +43,7 @@
                                     <constraint firstAttribute="height" constant="24" id="6jp-ud-tEt"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                <color key="textColor" red="0.9994240403175354" green="0.8797269449224826" blue="0.011924894424661214" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" red="0.96999999999999997" green="0.79000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>

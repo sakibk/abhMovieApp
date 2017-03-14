@@ -61,7 +61,7 @@ RLM_ARRAY_TYPE(Movie);
     UIImageView *imageFive;
     UIImageView *dropDownImage;
     UIViewController *rootViewController;
-    UITableViewController *leftViewController;
+    LeftViewController *leftViewController;
     UITableViewController *rightViewController;
     LGSideMenuController *sideMenuController;
 }
@@ -96,7 +96,7 @@ RLM_ARRAY_TYPE(Movie);
     [super viewWillAppear:animated];
     self.sideMenuController.leftViewSwipeGestureEnabled = YES;
     [self.collectionView reloadData];
-
+    
     [self setAutomaticallyAdjustsScrollViewInsets:NO];
 }
 
@@ -123,31 +123,33 @@ RLM_ARRAY_TYPE(Movie);
 -(void)setNavBar{
     if(!_isNavBarSet){
         UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(pushSideBar:)];
-    self.navigationItem.leftBarButtonItem=pieItem;
-    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-    UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
+        self.navigationItem.leftBarButtonItem=pieItem;
+        self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
+        UITextField *txtSearchField = [[UITextField alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
         txtSearchField.font = [UIFont systemFontOfSize:15];
         UIColor *backColor = [UIColor colorWithWhite:0.187 alpha:1.0];
         txtSearchField.backgroundColor =backColor;
-    txtSearchField.textAlignment = NSTextAlignmentCenter;
-    txtSearchField.placeholder = @"🔍 Search";
-    [txtSearchField setValue:[UIColor lightGrayColor]
+        txtSearchField.textAlignment = NSTextAlignmentCenter;
+        txtSearchField.placeholder = @"🔍 Search";
+        [txtSearchField setValue:[UIColor lightGrayColor]
                       forKeyPath:@"_placeholderLabel.textColor"];
-    txtSearchField.autocorrectionType = UITextAutocorrectionTypeNo;
-    txtSearchField.keyboardType = UIKeyboardTypeDefault;
-    txtSearchField.returnKeyType = UIReturnKeyDone;
-    txtSearchField.clearButtonMode = UITextFieldViewModeWhileEditing;
-    txtSearchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    txtSearchField.delegate = self;
-    txtSearchField.borderStyle=UITextBorderStyleRoundedRect;
-    self.navigationItem.titleView =txtSearchField;
-
+        txtSearchField.autocorrectionType = UITextAutocorrectionTypeNo;
+        txtSearchField.keyboardType = UIKeyboardTypeDefault;
+        txtSearchField.returnKeyType = UIReturnKeyDone;
+        txtSearchField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        txtSearchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        txtSearchField.delegate = self;
+        txtSearchField.borderStyle=UITextBorderStyleRoundedRect;
+        self.navigationItem.titleView =txtSearchField;
+        
         _isNavBarSet=YES;
     }
 }
 
 -(IBAction)pushSideBar:(id)sender{
-     [self.sideMenuController showLeftViewAnimated:YES completionHandler:nil];
+    [self.sideMenuController showLeftViewAnimated:YES completionHandler:^(void){
+        [leftViewController.menuButton setAlpha:1.0];
+    }];
 }
 
 -(void) textFieldDidBeginEditing:(UITextField *)textField{
@@ -174,52 +176,51 @@ RLM_ARRAY_TYPE(Movie);
 }
 
 -(void)CreateDropDownList{
-        CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
+    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
-        CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
-        _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
-        [_dropDown setBackgroundColor:[UIColor darkGrayColor]];
-        CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
-        showList = [[UIButton alloc]init];
-        showList.frame = buttonFrame;
-        [showList setBackgroundColor:[UIColor blackColor]];
-        showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
+    _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
+    [_dropDown setBackgroundColor:[UIColor darkGrayColor]];
+    CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    showList = [[UIButton alloc]init];
+    showList.frame = buttonFrame;
+    [showList setBackgroundColor:[UIColor blackColor]];
+    showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [self setButtonTitle];
-//        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
-        [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
-
+    [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
+    
     [_dropDown addSubview:showList];
     [_dropDown addSubview:dropDownImage];
     
     CGRect pictureOneFrame = CGRectMake(22, 64+24 , 20, 15);
     imageOne = [[UIImageView alloc]initWithFrame:pictureOneFrame];
     [imageOne setImage:[UIImage imageNamed:@"DropDownSelected"]];
-        CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
-        optionOne = [[UIButton alloc]init];
-        optionOne.frame=buttonOneFrame;
-        optionOne.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
-        [optionOne setBackgroundColor:[UIColor blackColor]];
-        [optionOne setTitle:@"Most Popular" forState:UIControlStateNormal];
-        optionOne.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [optionOne addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
-        optionOne.tag=0;
+    CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    optionOne = [[UIButton alloc]init];
+    optionOne.frame=buttonOneFrame;
+    optionOne.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionOne setBackgroundColor:[UIColor blackColor]];
+    [optionOne setTitle:@"Most Popular" forState:UIControlStateNormal];
+    optionOne.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionOne addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionOne.tag=0;
     [_dropDown addSubview:optionOne];
     [_dropDown addSubview:imageOne];
     
     CGRect pictureTwoFrame = CGRectMake(22, 64*2+24 , 20, 15);
     imageTwo = [[UIImageView alloc]initWithFrame:pictureTwoFrame];
     [imageTwo setImage:[UIImage imageNamed:@""]];
-        CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
-        optionTwo = [[UIButton alloc]init];
-        optionTwo.frame=buttonTwoFrame;
-        optionTwo.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
-        [optionTwo setBackgroundColor:[UIColor blackColor]];
-        [optionTwo setTitle:@"Latest" forState:UIControlStateNormal];
-        optionTwo.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [optionTwo addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
-        optionTwo.tag=1;
+    CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    optionTwo = [[UIButton alloc]init];
+    optionTwo.frame=buttonTwoFrame;
+    optionTwo.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionTwo setBackgroundColor:[UIColor blackColor]];
+    [optionTwo setTitle:@"Latest" forState:UIControlStateNormal];
+    optionTwo.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionTwo addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionTwo.tag=1;
     [_dropDown addSubview:optionTwo];
     [_dropDown addSubview:imageTwo];
     
@@ -227,18 +228,18 @@ RLM_ARRAY_TYPE(Movie);
     CGRect pictureThreeFrame = CGRectMake(22, 64*3+24 , 20, 15);
     imageThree = [[UIImageView alloc]initWithFrame:pictureThreeFrame];
     [imageThree setImage:[UIImage imageNamed:@""]];
-        CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
+    CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
     if(!_isMovie){
         buttonThreeFrame.size.height = buttonThreeFrame.size.height-1;
     }
-        optionThree = [[UIButton alloc]init];
-        optionThree.frame=buttonThreeFrame;
-        optionThree.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    optionThree = [[UIButton alloc]init];
+    optionThree.frame=buttonThreeFrame;
+    optionThree.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
     [optionThree setBackgroundColor:[UIColor blackColor]];
-        [optionThree setTitle:@"Highest Rated" forState:UIControlStateNormal];
-        optionThree.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [optionThree addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
-        optionThree.tag=2;
+    [optionThree setTitle:@"Highest Rated" forState:UIControlStateNormal];
+    optionThree.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionThree addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionThree.tag=2;
     [_dropDown addSubview:optionThree];
     [_dropDown addSubview:imageThree];
     if(!_isMovie){
@@ -276,19 +277,19 @@ RLM_ARRAY_TYPE(Movie);
     }
     
     
-        [optionOne setAlpha:0.0];
-        [optionTwo setAlpha:0.0];
-        [optionThree setAlpha:0.0];
-        [optionFour setAlpha:0.0];
-        [optionFive setAlpha:0.0];
-        [imageOne setAlpha:0.0];
-        [imageTwo setAlpha:0.0];
-        [imageThree setAlpha:0.0];
-        [imageFour setAlpha:0.0];
-        [imageFive setAlpha:0.0];
+    [optionOne setAlpha:0.0];
+    [optionTwo setAlpha:0.0];
+    [optionThree setAlpha:0.0];
+    [optionFour setAlpha:0.0];
+    [optionFive setAlpha:0.0];
+    [imageOne setAlpha:0.0];
+    [imageTwo setAlpha:0.0];
+    [imageThree setAlpha:0.0];
+    [imageFour setAlpha:0.0];
+    [imageFive setAlpha:0.0];
     
-        [self.view insertSubview:_dropDown aboveSubview:_collectionView];
-        [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dropDown attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    [self.view insertSubview:_dropDown aboveSubview:_collectionView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_collectionView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dropDown attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
 }
 
 
@@ -303,7 +304,7 @@ RLM_ARRAY_TYPE(Movie);
                 self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 320, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
             }
             [self setButtonTitle];
-//                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+            //                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
@@ -345,32 +346,32 @@ RLM_ARRAY_TYPE(Movie);
                 [optionFive setAlpha:0.0];
             }
         } completion:^(BOOL finished) {
-          [UIView animateWithDuration:0.2 animations:^{
-              CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
-              [_dropDown setFrame:dropDownFrame];
-              [self setButtonTitle];
-//              [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
-              [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
-
-              self.collectionView.frame = initialCollectionViewFrame;
-              _isDroped = NO;
-          }];
+            [UIView animateWithDuration:0.2 animations:^{
+                CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
+                [_dropDown setFrame:dropDownFrame];
+                [self setButtonTitle];
+                //              [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+                [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
+                
+                self.collectionView.frame = initialCollectionViewFrame;
+                _isDroped = NO;
+            }];
         }];
     }
 }
 
 -(void)setDropDownTitleButton{
     if(_isDroped){
-//        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+        //        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
-
+        
     }
     else{
-//        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
+        //        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
-
+        
     }
 }
 
@@ -426,7 +427,7 @@ RLM_ARRAY_TYPE(Movie);
     NSString *buttonOne;
     NSString *buttonTwo;
     NSString *buttonThree;
-
+    
     if(_selectedButton ==0){
         buttonOne=selectedButton;
         buttonTwo=notSelectedButton;
@@ -445,7 +446,7 @@ RLM_ARRAY_TYPE(Movie);
     [imageOne setImage:[UIImage imageNamed:buttonOne]];
     [imageTwo setImage:[UIImage imageNamed:buttonTwo]];
     [imageThree setImage:[UIImage imageNamed:buttonThree]];
-
+    
 }
 
 -(void)setupButtonsShows{
@@ -530,7 +531,7 @@ RLM_ARRAY_TYPE(Movie);
     
     [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
-        NSDictionary *queryParameters = @{
+    NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
@@ -540,10 +541,10 @@ RLM_ARRAY_TYPE(Movie);
         [DateFormatter setDateFormat:@"yyyy-MM-dd"];
         NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
         NSDictionary *queryParams = @{
-                                          @"sort_by":@"primary_release_date.desc",
-                                          @"primary_release_date.lte":[DateFormatter dateFromString:currentDate],
-                                          @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
-                                          };
+                                      @"sort_by":@"primary_release_date.desc",
+                                      @"primary_release_date.lte":[DateFormatter dateFromString:currentDate],
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
         queryParameters=queryParams;
     }
     if([localFilterString isEqualToString:@"vote_average.desc"]){
@@ -623,12 +624,12 @@ RLM_ARRAY_TYPE(Movie);
                 [_allMovies addObject:m];
             }
         }
-
+        
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-
+    
 }
 
 
@@ -640,8 +641,8 @@ RLM_ARRAY_TYPE(Movie);
     [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
                                                        @"name": @"genreName"
                                                        }];
-
-        NSString *pathP =@"/3/genre/movie/list";
+    
+    NSString *pathP =@"/3/genre/movie/list";
     
     RKResponseDescriptor *responseGenreDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
@@ -666,7 +667,7 @@ RLM_ARRAY_TYPE(Movie);
         NSLog(@"RestKit returned error: %@", error);
     }];
     
-
+    
 }
 
 -(void)getShows{
@@ -695,7 +696,7 @@ RLM_ARRAY_TYPE(Movie);
     if([localFilterString isEqualToString:@"air_date.desc"]){
         pathP = @"3/tv/airing_today";
     }
-
+    
     if([localFilterString isEqualToString:@"vote_average.desc"]){
         pathP = @"3/tv/top_rated";
     }
@@ -793,7 +794,7 @@ RLM_ARRAY_TYPE(Movie);
                                       @"page":_pageNumber
                                       };
     
-
+    
     if([localFilterString isEqualToString:@"air_date.desc"] || [localFilterString isEqualToString:@"first_air_date.desc"] || [localFilterString isEqualToString:@"vote_average.desc"]){
         NSDictionary *queryParams = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
@@ -887,7 +888,7 @@ RLM_ARRAY_TYPE(Movie);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(nonnull NSIndexPath *)indexPath{
- 
+    
     [self performSegueWithIdentifier:@"MovieOrTVShowDetails" sender:self];
 }
 
@@ -964,9 +965,9 @@ RLM_ARRAY_TYPE(Movie);
         MovieDetailViewController *movieDetails = segue.destinationViewController;
         NSIndexPath *indexPath = [self.collectionView.indexPathsForSelectedItems objectAtIndex:0];
         if (_isMovie) {
-        _test =[_allMovies objectAtIndex:indexPath.row];
-        movieDetails.singleMovie = _test;
-        movieDetails.movieID = _test.movieID;
+            _test =[_allMovies objectAtIndex:indexPath.row];
+            movieDetails.singleMovie = _test;
+            movieDetails.movieID = _test.movieID;
             movieDetails.isMovie=_isMovie;
         }
         else{

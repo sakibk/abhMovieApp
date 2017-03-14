@@ -19,7 +19,6 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
 }
 
 -(void)setupLabels{
-    _link=[[NSString alloc]init];
     [_fullBioButton setTitle:@"See full bio" forState:UIControlStateNormal];
     [_fullBioButton addTarget:self action:@selector(changeButton:) forControlEvents:UIControlEventTouchUpInside];
 }
@@ -31,24 +30,8 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
 }
 
 -(void)setupWithActor:(Actor *)singleActor{
-    if (![singleActor.homePage isEqualToString:@""] && singleActor.homePage!=nil) {
-        [self.websiteLink setTitle:singleActor.homePage forState:UIControlStateNormal];
-        [self.websiteLink addTarget:self action:@selector(openWebsite:) forControlEvents:UIControlEventTouchUpInside];
-        _link=singleActor.homePage;
-    }
-    else{
-        [self.websiteLink setTintColor:[UIColor colorWithRed:137 green:136 blue:133 alpha:1.0]];
-    }
     if(![singleActor.biography isEqualToString:@""]){
         _fullBiography.text=singleActor.biography;
-    }
-    if(singleActor.birthDate!=nil || ![singleActor.birthPlace isEqualToString:@""] ){
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"dd LLLL yyyy"];
-        
-        NSString *displayString = [NSString stringWithFormat:@"%@, %@",[dateFormatter stringFromDate:singleActor.birthDate],singleActor.birthPlace];
-        _aboutBirth.lineBreakMode = NSLineBreakByClipping;
-        _aboutBirth.text = [displayString stringByAppendingString:@"\n"];
     }
 }
 
@@ -65,10 +48,6 @@ NSString *const aboutCellIdentifier=@"AboutCellIdentifier";
 
 -(void)colideColapse{
 
-}
-
--(IBAction)openWebsite:(id)sender{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:_link]];
 }
 
 @end

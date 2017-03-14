@@ -23,8 +23,12 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
 -(void) setupWithMovie:(Movie *)singleMovie{
     int mins = [singleMovie.runtime intValue] %60;
     int hours = [singleMovie.runtime intValue] /60;
+    if(singleMovie.runtime!=nil){
     if(hours==0){
-    _duration.text = [NSString stringWithFormat:@"%@ min",singleMovie.runtime];
+        if(singleMovie.runtime !=0)
+            _duration.text = [NSString stringWithFormat:@"%@ min",singleMovie.runtime];
+        else
+            _duration.text = [NSString stringWithFormat:@"Runtime not avalible"];
     }
     else if(mins==0){
         _duration.text = [NSString stringWithFormat:@"%d h",hours];
@@ -33,7 +37,10 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     {
         _duration.text = [NSString stringWithFormat:@"%dh %dmin",hours,mins];
     }
-    
+    }
+    else{
+        _duration.text = [NSString stringWithFormat:@"Runtime not avalible"];
+    }
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd LLLL yyyy"];
     

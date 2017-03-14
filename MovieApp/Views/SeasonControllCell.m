@@ -26,6 +26,6 @@ NSString *const seasonControllCellIdentifier=@"SeasonControllCellIdentifier";
 }
 
 -(void)setupYellowColor{
-    [_seasonNumber setTextColor:[UIColor yellowColor]];
+    [_seasonNumber setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
 }
 @end

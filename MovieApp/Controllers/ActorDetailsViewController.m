@@ -11,6 +11,7 @@
 #import "PictureDetailCell.h"
 #import "AboutCell.h"
 #import "FilmographyCell.h"
+#import "OverviewdLineCell.h"
 #import "MovieDetailViewController.h"
 #import "Movie.h"
 #import "TVShow.h"
@@ -21,12 +22,19 @@
 
 @property CGFloat actorPosterHeight;
 @property CGFloat actorOverviewHeight;
+@property CGFloat actorBirthHeight;
+@property CGFloat actorLinkHeight;
 @property CGFloat actorFilmographyHeight;
 @property CGFloat noHeight;
 
 @property CGFloat openedActorOverviewHeight;
+@property NSMutableArray<NSNumber*> *cellOverviewHeights;
 @property NSIndexPath *actorIndexPath;
 @property BOOL isOpened;
+@property int count;
+
+@property BOOL hasBirth;
+@property BOOL hasLink;
 
 @end
 
@@ -37,9 +45,8 @@
     _tableView.delegate=self;
     _tableView.dataSource=self;
     // Do any additional setup after loading the view.
-    [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"AboutCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboutCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"FilmographyCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:filmographyCellIdentifier];
+    [self setupCells];
+
     [self setSizes];
     [self setRestkit];
     [self searchForActor];
@@ -50,13 +57,24 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) setupCells{
+    [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"AboutCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboutCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"FilmographyCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:filmographyCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"OverviewdLineCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:overviewLineCellIdentifier];
+}
+
 -(void)setSizes{
     _actorPosterHeight = 250.0;
-    _actorOverviewHeight = 360.0;
+    _actorOverviewHeight = 245.0;
     _actorFilmographyHeight = 305.0;
+    _actorLinkHeight=20.0;
+    _actorBirthHeight=20.0;
     _noHeight=0.0;
     _isOpened=NO;
     _openedActorOverviewHeight=360.0;
+    _hasBirth=NO;
+    _hasLink=NO;
 }
 
 -(void)setNavBarTitle{
@@ -103,12 +121,25 @@
         NSLog(@"%@", mappingResult.array);
         _singleActor=mappingResult.array.firstObject;
         [self setNavBarTitle];
+        [self setOverviewLineHeights];
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
     
     
+}
+
+-(void)setOverviewLineHeights{
+    _cellOverviewHeights = [[NSMutableArray alloc]init];
+    if(_singleActor.birthDate!= nil || _singleActor.birthPlace!=nil || ![_singleActor.birthPlace isEqualToString:@""]){
+        CGFloat afterHeight=[self heightForView:[NSString stringWithFormat:@"%@%@",_singleActor.birthPlace,_singleActor.birthDate] :[UIFont systemFontOfSize:15.0] :[UIScreen mainScreen].bounds.size.width-104];
+        [_cellOverviewHeights addObject:[NSNumber numberWithFloat:afterHeight+3]];
+    }
+    if(_singleActor.homePage!= nil || ![_singleActor.homePage isEqualToString:@""]){
+        CGFloat afterHeight=[self heightForView:[NSString stringWithFormat:@"%@",_singleActor.homePage] :[UIFont systemFontOfSize:15.0] :[UIScreen mainScreen].bounds.size.width-104];
+        [_cellOverviewHeights addObject:[NSNumber numberWithFloat:afterHeight+3]];
+    }
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -120,8 +151,19 @@
         case 0:
             return 1;
             break;
-        case 1:
-            return 1;
+        case 1:{
+            int count = 1;
+            if(_singleActor.homePage !=nil || ![_singleActor.homePage isEqualToString:@""]){
+                count++;
+                _hasLink=YES;
+            }
+            if(_singleActor.birthDate !=nil || _singleActor.birthPlace != nil || ![_singleActor.birthPlace isEqualToString:@""]){
+                count++;
+                _hasBirth=YES;
+            }
+            _count=count;
+            return count;
+        }
             break;
         case 2:
             return 1;
@@ -129,7 +171,7 @@
         default: return 0;
             break;
     }
-
+    return 1;
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
@@ -202,12 +244,27 @@
         }
             break;
         case 1:{
+            if(indexPath.row==0 && _count>1){
+                if(_hasBirth){
+                    return [self setupOverviewBirthForTableView:tableView :indexPath];
+                }
+                else if (_hasLink){
+                    return [self setupOverviewLinkForTableView:tableView :indexPath];
+                }
+            }
+            else if (indexPath.row ==1 && _count>2){
+                if (_hasLink){
+                    return [self setupOverviewLinkForTableView:tableView :indexPath];
+                }
+            }
+            else{
             AboutCell *cell = (AboutCell *)[tableView dequeueReusableCellWithIdentifier:aboutCellIdentifier forIndexPath:indexPath];
             [cell setupWithActor:_singleActor];
             cell.delegate = self;
             _actorIndexPath=indexPath;
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             return cell;
+            }
         }
             break;
         case 2:{
@@ -227,19 +284,46 @@
     return cell;
 }
 
+-(OverviewLineCell *)setupOverviewLinkForTableView:(UITableView*)tableView :(NSIndexPath*)indexPath{
+    OverviewLineCell *cell = (OverviewLineCell *)[tableView dequeueReusableCellWithIdentifier:overviewLineCellIdentifier forIndexPath:indexPath];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell setupActorLink:_singleActor.homePage];
+    CGFloat afterHeight=[self heightForView:_singleActor.homePage :[UIFont systemFontOfSize:15.0] :cell.contentLabel.frame.size.width];
+    [_cellOverviewHeights addObject:[NSNumber numberWithFloat:afterHeight]];
+    return cell;
+}
+
+-(OverviewLineCell *)setupOverviewBirthForTableView:(UITableView*)tableView :(NSIndexPath*)indexPath{
+    OverviewLineCell *cell = (OverviewLineCell *)[tableView dequeueReusableCellWithIdentifier:overviewLineCellIdentifier forIndexPath:indexPath];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell setupActorBirth:_singleActor.birthDate :_singleActor.birthPlace];
+    CGFloat afterHeight=[self heightForView:[NSString stringWithFormat:@"%@%@",_singleActor.birthDate,_singleActor.birthPlace] :[UIFont systemFontOfSize:15.0] :cell.contentLabel.frame.size.width];
+    [_cellOverviewHeights addObject:[NSNumber numberWithFloat:afterHeight]];
+    return cell;
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.section==0 && indexPath.row==0){
         return _actorPosterHeight;
     }
-    else if(indexPath.section==1 && indexPath.row==0){
-        return _openedActorOverviewHeight;
+    else if(indexPath.section==1){
+        if (_count>1){
+            if(indexPath.row==_count-1)
+                return _openedActorOverviewHeight;
+            else{
+                if(indexPath.row==0)
+                    return [[_cellOverviewHeights objectAtIndex:0]floatValue]+4;
+                else
+                    return [[_cellOverviewHeights objectAtIndex:indexPath.row] floatValue];
+            }
+        }
+        else return _openedActorOverviewHeight;
     }
     else if(indexPath.section==2 && indexPath.row==0){
         return _actorFilmographyHeight;
     }
-    else{
+    else
         return _noHeight;
-    }
 }
 
 -(void)colideColapse{

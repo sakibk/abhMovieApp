@@ -144,7 +144,7 @@
 }
 
 -(void)CreateDropDownList{
-    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/32, 27 , 20 , 10);
+    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
     CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
@@ -416,7 +416,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
         }
         [self.tableView reloadData];
     }];
-    deleteAction.backgroundColor = [UIColor yellowColor];
+    deleteAction.backgroundColor = [UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0];
     
     UIFont *font = [UIFont systemFontOfSize:19];
     

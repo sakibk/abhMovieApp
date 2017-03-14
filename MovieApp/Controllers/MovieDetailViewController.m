@@ -22,6 +22,7 @@
 #import "ImagesViewController.h"
 #import "SeasonsViewController.h"
 #import "SingleReviewCell.h"
+#import "OverviewdLineCell.h"
 #import "Review.h"
 #import "RatingViewController.h"
 #import "ListPost.h"
@@ -47,15 +48,31 @@
 @property CGFloat reviewCellHeight;
 @property CGFloat openReviewCellHeight;
 @property CGFloat seasonsCellHeight;
+@property CGFloat overviewLineCellHight;
 @property CGFloat noCellHeight;
 
 @property RLMRealm *realm;
 @property RLUserInfo *user;
 
+@property BOOL hasDirector;
+@property BOOL hasWriters;
+@property BOOL hasProducents;
+
+@property BOOL isDirectorSet;
+@property BOOL areWritersSet;
+@property BOOL areProducentsSet;
+
+@property int count;
+
 @property NSIndexPath *reviewIndexPath;
 @property BOOL isOpened;
 @property NSMutableArray<NSIndexPath*> *buttonsIndexPath;
 @property NSMutableArray<NSNumber*> *cellReviewHeights;
+@property NSMutableArray<NSNumber*> *cellOverviewHeights;
+
+@property (strong, nonatomic) NSMutableString *writersString;
+@property (strong, nonatomic) NSMutableString *producentString;
+@property (strong, nonatomic) NSMutableString *directorString;
 
 @property BOOL isSuccessful;
 
@@ -73,7 +90,9 @@
     [self setCells];
     [self setupUser];
     // Do any additional setup after loading the view.
+    [self setBools];
     [self setSizes];
+
     
     if(_isMovie){
         [self getMovies];
@@ -93,24 +112,44 @@
     }
 }
 
+-(void)setOverviewLineHeights:(NSMutableArray*)strings{
+    _cellOverviewHeights = [[NSMutableArray alloc]init];
+    int i;
+    for (i=0; i<[strings count]; i++) {
+        CGFloat afterHeight=[self heightForView:[strings objectAtIndex:i] :[UIFont systemFontOfSize:15.0] :[UIScreen mainScreen].bounds.size.width-84];
+        [_cellOverviewHeights addObject:[NSNumber numberWithFloat:afterHeight+3]];
+    }
+}
 
 - (void)viewWillAppear:(BOOL)animated {
-        [super viewWillAppear:animated];
-    }
+    [super viewWillAppear:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+}
+
+-(void)setBools{
+    _hasDirector=NO;
+    _hasWriters=NO;
+    _hasProducents=NO;
     
-    - (void)viewWillDisappear:(BOOL)animated {
-        [super viewWillDisappear:animated];
-    }
+    _isDirectorSet=NO;
+    _areWritersSet=NO;
+    _areProducentsSet=NO;
+
+}
 
 -(void)setSizes{
     _imageCellHeigh =222.0;
     _detailsCellHeight =50.0;
-    _overviewCellHeight =180.0;
+    _overviewCellHeight =105;
     _imageGalleryCellHeight =185.0;
     _castCellHeight =293.0;
     _reviewCellHeight =160.0;
     _openReviewCellHeight=290.0;
     _seasonsCellHeight =59.0;
+    _overviewLineCellHight=20.0;
     _noCellHeight =0.0001;
 }
 
@@ -130,6 +169,8 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"SeasonsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:seasonsCellIdentifier];
     
+    [self.tableView registerNib:[UINib nibWithNibName:@"OverviewdLineCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:overviewLineCellIdentifier];
+    
     _realm=[RLMRealm defaultRealm];
     _isOpened=NO;
     int i;
@@ -148,7 +189,7 @@
     titleLabel.textAlignment=NSTextAlignmentCenter;
     titleLabel.font=[UIFont systemFontOfSize:18];
     if(_isMovie){
-    titleLabel.text= _movieDetail.title;
+        titleLabel.text= _movieDetail.title;
     }
     else{
         titleLabel.text=_showDetail.name;
@@ -198,6 +239,7 @@
         _movieDetail = [mappingResult firstObject];
         NSLog(@"%@", _movieDetail.overview);
         [self setupReviewsWithMovieID:_movieDetail.movieID];
+        [self setupOverviewWithMovie];
         [self setNavBarTitle];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -233,11 +275,95 @@
         _allReviews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
         
         [self setupHeights];
-        [_tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
 }
+
+-(void) setupOverviewWithMovie{
+    
+    RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
+    
+    [crewMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
+                                                      @"name": @"crewName"
+                                                      }];
+    
+    NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",_movieID];
+    
+    RKResponseDescriptor *crewResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:crewMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"crew"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:crewResponseDescriptor];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _movieDetail.crews=[[NSMutableArray alloc]init];
+        for (Crew *crew in mappingResult.array) {
+            if ([crew isKindOfClass:[Crew class]]) {
+                [_movieDetail.crews addObject:crew];
+            }
+        }
+        [self setMovieCredits];
+        [_tableView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
+    
+    
+}
+
+-(void)setMovieCredits{
+    _directorString=[[NSMutableString alloc]init];
+    _writersString = [[NSMutableString alloc]init];
+    _producentString = [[NSMutableString alloc]init];
+    NSMutableArray<NSString*> *strings = [[NSMutableArray alloc]init];
+    Boolean tag = false;
+    for(Crew *sinCrew in _movieDetail.crews ){
+        if([sinCrew.jobName isEqualToString:@"Director"]){
+            [_directorString appendString:sinCrew.crewName];
+            tag = true;
+            [strings addObject:_directorString];
+        }
+        else if([sinCrew.jobName isEqualToString:@"Writer"]){
+            [_writersString appendString:sinCrew.crewName];
+            [_writersString appendString:@", "];
+        }
+        else if ([sinCrew.jobName isEqualToString:@"Producer"]){
+            [_producentString appendString:sinCrew.crewName];
+            [_producentString appendString:@", "];
+        }
+    }
+    if(![_writersString isEqualToString:@""]){
+        [_writersString deleteCharactersInRange:NSMakeRange([_writersString length]-2, 2)];
+        [strings addObject:_writersString];
+    }
+    if(![_producentString isEqualToString:@""]){
+        [_producentString deleteCharactersInRange:NSMakeRange([_producentString length]-2, 2)];
+        [strings addObject:_producentString];
+    }
+    
+    if([_producentString isEqualToString:@""]){
+    }
+    
+    if([_writersString isEqualToString:@""]){
+    }
+    
+    if(tag==false){
+        [_directorString appendString:@""];
+    }
+    [self setOverviewLineHeights:strings];
+}
+
+
 -(void)setupHeights{
     _cellReviewHeights= [[NSMutableArray alloc]init];
     int i;
@@ -251,19 +377,19 @@
     RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
     
     [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
-                                                       @"vote_average": @"rating",
-                                                       @"poster_path": @"posterPath",
-                                                       @"first_air_date": @"firstAirDate",
-                                                       @"last_air_date":@"lastAirDate",
-                                                       @"id": @"showID",
-                                                       @"episode_run_time":@"runtime",
-                                                       @"backdrop_path":@"backdropPath",
-                                                       @"overview":@"overview",
-                                                       @"genres":@"genreSet",
-                                                       @"number_of_seasons":@"seasonCount",
+                                                      @"vote_average": @"rating",
+                                                      @"poster_path": @"posterPath",
+                                                      @"first_air_date": @"firstAirDate",
+                                                      @"last_air_date":@"lastAirDate",
+                                                      @"id": @"showID",
+                                                      @"episode_run_time":@"runtime",
+                                                      @"backdrop_path":@"backdropPath",
+                                                      @"overview":@"overview",
+                                                      @"genres":@"genreSet",
+                                                      @"number_of_seasons":@"seasonCount",
                                                       @"seasons":@"seasons",
                                                       @"in_production":@"inProduction"
-                                                       }];
+                                                      }];
     
     showMapping.assignsDefaultValueForMissingAttributes = YES;
     
@@ -289,22 +415,103 @@
         NSLog(@"%@", mappingResult.array);
         int i;
         if(mappingResult.array.firstObject!= nil){
-        for(i=0;i<[mappingResult.array count];i++){
-            if([[mappingResult.array objectAtIndex:i] isKindOfClass:[TVShow class]]){
-                _showDetail = [mappingResult.array objectAtIndex:i];
-                NSLog(@"%@", _showDetail.overview);
+            for(i=0;i<[mappingResult.array count];i++){
+                if([[mappingResult.array objectAtIndex:i] isKindOfClass:[TVShow class]]){
+                    _showDetail = [mappingResult.array objectAtIndex:i];
+                    NSLog(@"%@", _showDetail.overview);
+                }
+                else if ([[mappingResult.array objectAtIndex:i] isKindOfClass:[Season class]]){
+                    [_allSeasons addObject:[mappingResult.array objectAtIndex:i]];
+                }
             }
-            else if ([[mappingResult.array objectAtIndex:i] isKindOfClass:[Season class]]){
-                [_allSeasons addObject:[mappingResult.array objectAtIndex:i]];
-            }
-        }
         }
         _showDetail.seasons=_allSeasons;
+        [self setupOverviewWithShow];
         [self setNavBarTitle];
-        [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
+}
+
+-(void) setupOverviewWithShow{
+    
+    RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
+    
+    [crewMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
+                                                      @"name": @"crewName"
+                                                      }];
+    
+    NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",_movieID];
+    
+    RKResponseDescriptor *crewResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:crewMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:pathP
+                                                keyPath:@"crew"
+                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+    
+    
+    [[RKObjectManager sharedManager] addResponseDescriptor:crewResponseDescriptor];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _showDetail.crews=[[NSMutableArray alloc]init];
+        for (Crew *crew in mappingResult.array) {
+            if ([crew isKindOfClass:[Crew class]]) {
+                [_showDetail.crews addObject:crew];
+            }
+        }
+        [self setShowCredits];
+        [_tableView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
+    
+    
+}
+
+-(void)setShowCredits{
+    _directorString=[[NSMutableString alloc]init];
+    _writersString = [[NSMutableString alloc]init];
+    _producentString = [[NSMutableString alloc]init];
+    NSMutableArray<NSString*> *strings = [[NSMutableArray alloc]init];
+    Boolean tag = false;
+    for(Crew *sinCrew in _showDetail.crews ){
+        if([sinCrew.jobName isEqualToString:@"Director"]){
+            [_directorString appendString:sinCrew.crewName];
+            tag=true;
+            [strings addObject:_directorString];
+        }
+        else if([sinCrew.jobName isEqualToString:@"Writer"]){
+            [_writersString appendString:sinCrew.crewName];
+            [_writersString appendString:@", "];
+        }
+        else if ([sinCrew.jobName isEqualToString:@"Producer"]){
+            [_producentString appendString:sinCrew.crewName];
+            [_producentString appendString:@", "];
+        }
+    }
+    if(![_writersString isEqualToString:@""]){
+        [_writersString deleteCharactersInRange:NSMakeRange([_writersString length]-2, 2)];
+        [strings addObject: _writersString];
+    }
+    if(![_producentString isEqualToString:@""]){
+        [_producentString deleteCharactersInRange:NSMakeRange([_producentString length]-2, 2)];
+        [strings addObject:_producentString];
+    }
+    if([_producentString isEqualToString:@""]){
+    }
+    
+    if([_writersString isEqualToString:@""]){
+    }
+    
+    if(tag == false){
+    }
+    [self setOverviewLineHeights:strings];
 }
 
 
@@ -333,11 +540,40 @@
                 break;
             case 2:
             {
-                OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
-                cell.delegate=self;
-                [cell setupWithMovie:_movieDetail];
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                return cell;
+                if(indexPath.row == 0 && _count>1){
+                    //napraviti metodu za ovo
+                    if(_hasDirector){
+                        _isDirectorSet=YES;
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Director: " :[NSString stringWithFormat:@"%@",_directorString]];
+                    }
+                    else if(_hasWriters){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Writers: " :[NSString stringWithFormat:@"%@",_writersString]];
+                    }
+                    else if(_hasProducents){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                    }
+                    
+                }
+                else if(indexPath.row==1 && _count>2){
+                    if(_hasWriters && _isDirectorSet){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Writers: " :[NSString stringWithFormat:@"%@",_writersString]];
+                    }
+                    else if(_hasProducents){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                    }
+                }
+                else if(indexPath.row==2 && _count==4){
+                    if(_hasProducents){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                    }
+                }
+                else{
+                    OverviewCell *celld = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+                    celld.delegate=self;
+                    [celld setupWithMovie:_movieDetail];
+                    [celld setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    return celld;
+                }
                 
             }
                 break;
@@ -362,14 +598,14 @@
             case 5:
             {
                 if(_allReviews.firstObject != nil ){
-                SingleReviewCell *cell =(SingleReviewCell *)[tableView dequeueReusableCellWithIdentifier:singleReviewCellIdentifier forIndexPath:indexPath];
-                _singleReview=[_allReviews objectAtIndex:indexPath.row];
-                [cell setupWithReview:_singleReview]; // Configure the cell...
+                    SingleReviewCell *cell =(SingleReviewCell *)[tableView dequeueReusableCellWithIdentifier:singleReviewCellIdentifier forIndexPath:indexPath];
+                    _singleReview=[_allReviews objectAtIndex:indexPath.row];
+                    [cell setupWithReview:_singleReview]; // Configure the cell...
                     cell.delegate = self;
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     [cell.readMoreButton setTag:indexPath.row];
                     [_buttonsIndexPath addObject:indexPath];
-                return cell;
+                    return cell;
                 }
             }
             default:
@@ -404,12 +640,40 @@
                 break;
             case 2:
             {
-                OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
-                cell.delegate=self;
-                [cell setupWithShow:_showDetail];
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                return cell;
-                
+                if(indexPath.row == 0 && _count>1){
+                    //napraviti metodu za ovo
+                    if(_hasDirector){
+                        _isDirectorSet=YES;
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Director: " :[NSString stringWithFormat:@"%@",_directorString]];
+                    }
+                    else if(_hasWriters){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Writers: " :[NSString stringWithFormat:@"%@",_writersString]];
+                    }
+                    else if(_hasProducents){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                    }
+                    
+                }
+                else if(indexPath.row==1 && _count>2){
+                    if(_hasWriters && _isDirectorSet){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Writers: " :[NSString stringWithFormat:@"%@",_writersString]];
+                    }
+                    else if(_hasProducents){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                    }
+                }
+                else if(indexPath.row==2 && _count==4){
+                    if(_hasProducents){
+                        return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                    }
+                }
+                else{
+                    OverviewCell *celld = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+                    celld.delegate=self;
+                    [celld setupWithShow:_showDetail];
+                    [celld setSelectionStyle:UITableViewCellSelectionStyleNone];
+                    return celld;
+                }
             }
                 break;
             case 3:
@@ -452,37 +716,61 @@
 }
 
 
+-(OverviewLineCell *)setupOverviewCellForTableView:(UITableView*)tableView :(NSIndexPath*)indexPath :(NSString*)titlel :(NSString*)content{
+    OverviewLineCell *cell = (OverviewLineCell *)[tableView dequeueReusableCellWithIdentifier:overviewLineCellIdentifier forIndexPath:indexPath];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell.titleLabel setText:titlel];
+    [cell.contentLabel setText:content];
+    CGFloat afterHeight=[self heightForView:content :[UIFont systemFontOfSize:14.0] :cell.contentLabel.frame.size.width];
+    [_cellOverviewHeights addObject:[NSNumber numberWithFloat:afterHeight]];
+    return cell;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if(_isMovie){
-    switch (section) {
-        case 0:{
-            return 1;
+        switch (section) {
+            case 0:{
+                return 1;
+            }
+                break;
+            case 1:{
+                return 1;
+            }
+                break;
+            case 2:{
+                int count=1;
+                if(![_producentString isEqualToString:@""]){
+                    count++;
+                    _hasProducents =YES;
+                }
+                if(![_writersString isEqualToString:@""]){
+                    count++;
+                    _hasWriters=YES;
+                }
+                if(![_directorString isEqualToString:@""]){
+                    count++;
+                    _hasDirector=YES;
+                }
+                _count=count;
+                return count;
+            }
+                break;
+            case 3:{
+                return 1;
+            }
+                break;
+            case 4:{
+                return 1;
+            }
+                break;
+            case 5:{
+                return _allReviews.firstObject != nil ? [_allReviews count] : 0;;
+            }
+                break;
+            default: return 0;
+                break;
         }
-            break;
-        case 1:{
-            return 1;
-        }
-            break;
-        case 2:{
-            return 1;
-        }
-            break;
-        case 3:{
-            return 1;
-        }
-            break;
-        case 4:{
-            return 1;
-        }
-            break;
-        case 5:{
-            return _allReviews.firstObject != nil ? [_allReviews count] : 0;;
-        }
-            break;
-        default: return 0;
-            break;
     }
-}
     else{
         switch (section) {
             case 0:{
@@ -494,7 +782,21 @@
             }
                 break;
             case 2:{
-                return 1;
+                int count=1;
+                if(![_producentString isEqualToString:@""]){
+                    count++;
+                    _hasProducents =YES;
+                }
+                if(![_writersString isEqualToString:@""]){
+                    count++;
+                    _hasWriters=YES;
+                }
+                if(![_directorString isEqualToString:@""]){
+                    count++;
+                    _hasDirector=YES;
+                }
+                _count=count;
+                return count;
             }
                 break;
             case 3:{
@@ -579,28 +881,39 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     if(_isMovie){
-    if(indexPath.section == 0 && indexPath.row == 0) {
-        return _imageCellHeigh;
-    }
-    else if(indexPath.section == 1 && indexPath.row == 0) {
-        return _detailsCellHeight;
-    }
-    else if(indexPath.section == 2 && indexPath.row == 0) {
-        return _overviewCellHeight;
-    }
-    else if(indexPath.section == 3 && indexPath.row == 0) {
-        return _imageGalleryCellHeight;
-    }
-    else if(indexPath.section == 4 && indexPath.row == 0) {
-        return _castCellHeight;
-    }
-    else if(indexPath.section == 5 && _allReviews.firstObject != nil) {
-        return [[_cellReviewHeights objectAtIndex:indexPath.row] floatValue];
-    }
-
-    return _noCellHeight;
+        if(indexPath.section == 0 && indexPath.row == 0) {
+            return _imageCellHeigh;
+        }
+        else if(indexPath.section == 1 && indexPath.row == 0) {
+            return _detailsCellHeight;
+        }
+        else if(indexPath.section == 2) {
+            if (_count>1){
+                if(indexPath.row==_count-1)
+                    return _overviewCellHeight;
+                else{
+                    if(indexPath.row==0)
+                        return [[_cellOverviewHeights objectAtIndex:0]floatValue]+4;
+                    else
+                        return [[_cellOverviewHeights objectAtIndex:indexPath.row] floatValue];
+                }
+            }
+            else
+                return _overviewCellHeight;
+        }
+        else if(indexPath.section == 3 && indexPath.row == 0) {
+            return _imageGalleryCellHeight;
+        }
+        else if(indexPath.section == 4 && indexPath.row == 0) {
+            return _castCellHeight;
+        }
+        else if(indexPath.section == 5 && _allReviews.firstObject != nil) {
+            return [[_cellReviewHeights objectAtIndex:indexPath.row] floatValue];
+        }
+        
+        return _noCellHeight;
     }
     else{
         if(indexPath.section == 0 && indexPath.row == 0) {
@@ -609,8 +922,19 @@
         else if(indexPath.section == 1 && indexPath.row == 0) {
             return _detailsCellHeight;
         }
-        else if(indexPath.section == 2 && indexPath.row == 0) {
-            return _overviewCellHeight;
+        else if(indexPath.section == 2) {
+            if (_count>1){
+                if(indexPath.row==_count-1)
+                    return _overviewCellHeight;
+                else{
+                    if(indexPath.row==0)
+                        return [[_cellOverviewHeights objectAtIndex:0]floatValue]+4;
+                    else
+                        return [[_cellOverviewHeights objectAtIndex:indexPath.row] floatValue];
+                }
+            }
+            else
+                return _overviewCellHeight;
         }
         else if(indexPath.section == 3 && indexPath.row == 0) {
             return _seasonsCellHeight;
@@ -628,7 +952,7 @@
 - (void)reloadRowsAtIndexPaths:(NSArray *)indexPaths withRowAnimation:(UITableViewRowAnimation)animation{
     for(NSIndexPath *path in indexPaths){
         [self tableView:_tableView heightForRowAtIndexPath:path];
-      }
+    }
 }
 
 
@@ -666,7 +990,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     if(section >0 && section <5){
-    return 15;
+        return 15;
     }
     else
         return 0.0001;
@@ -675,26 +999,26 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if(section>1) {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
-    /* Create custom view to display section header... */
-            UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
-            lineview.layer.borderColor = [UIColor yellowColor].CGColor;
-            lineview.layer.borderWidth = 0.5;
-            [view addSubview:lineview];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
+        /* Create custom view to display section header... */
+        UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
+        lineview.layer.borderColor = [UIColor colorWithRed:0.97 green:0.79 blue:0 alpha:1.0].CGColor;
+        lineview.layer.borderWidth = 0.5;
+        [view addSubview:lineview];
+        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
         UIFont *font1 = [UIFont boldSystemFontOfSize:14];
-    [label setFont:font1];
-    NSString *string =[self stringForSection:section];
-    /* Section header is in 0th index... */
-    [label setText:string];
-    [view addSubview:label];
-    [label setTextColor:[UIColor whiteColor]];
-    [view setBackgroundColor:[UIColor blackColor]]; //your background color...
+        [label setFont:font1];
+        NSString *string =[self stringForSection:section];
+        /* Section header is in 0th index... */
+        [label setText:string];
+        [view addSubview:label];
+        [label setTextColor:[UIColor whiteColor]];
+        [view setBackgroundColor:[UIColor blackColor]]; //your background color...
         if((section == 4 && !_isMovie) || (section==3 && _isMovie)){
             CGFloat buttonSize = 60;
             UIButton * seeAll = [[UIButton alloc] initWithFrame:CGRectMake(tableView.frame.size.width-buttonSize, 10,buttonSize,20)];
             NSMutableParagraphStyle *style = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-            UIColor *yCol = [UIColor yellowColor];
+            UIColor *yCol = [UIColor colorWithRed:0.97 green:0.79 blue:0 alpha:1.0];
             [style setAlignment:NSTextAlignmentCenter];
             NSDictionary *dict1 = @{NSFontAttributeName:font1,
                                     NSParagraphStyleAttributeName:style,
@@ -702,10 +1026,10 @@
             NSMutableAttributedString *attString = [[NSMutableAttributedString alloc] init];
             [attString appendAttributedString:[[NSAttributedString alloc] initWithString:@"See All" attributes:dict1]];
             [seeAll setAttributedTitle:attString forState:UIControlStateNormal];
-                [seeAll addTarget:self action:@selector(openImages:) forControlEvents:UIControlEventTouchUpInside];
+            [seeAll addTarget:self action:@selector(openImages:) forControlEvents:UIControlEventTouchUpInside];
             [view addSubview:seeAll];
         }
-    return view;
+        return view;
     }
     else
         return nil;
@@ -805,51 +1129,51 @@
 
 #pragma mark - Navigation
 
- 
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-     if ([segue.identifier isEqualToString:@"WatchTrailer"]){
-     TrailerViewController *trailer = segue.destinationViewController;
-     if(_isMovie){
-        [trailer setupWithMovieID:_movieID andOverview:_movieDetail.overview];     }
-     else{
-         [trailer setupWithMovieID:_movieID andOverview:_showDetail.overview];
-     }
- }
- else if ([segue.identifier isEqualToString:@"ImageCollection"]){
-     ImagesViewController *images = segue.destinationViewController;
-     if(_isMovie){
-         [images setupWithMovie:_singleMovie];
-     }
-     else{
-         [images setupWithShow:_singleShow];
-     }
- }
- else if([segue.identifier isEqualToString:@"SeasonsViewIdentifier"]){
-     SeasonsViewController *seasons= segue.destinationViewController;
-     seasons.seasonCount=_showDetail.seasonCount;
-     seasons.seasons = _showDetail.seasons;
-     seasons.singleShow=_showDetail;
-     seasons.seasonID=[NSNumber numberWithInt:1];
-     [seasons setupSeasonView];
- }
- else if ([segue.identifier isEqualToString:@"RateMedia"]){
-     RatingViewController *rateMe = segue.destinationViewController;
-     if(_isMovie){
-         [rateMe setupWithMovie:_singleMovie];
-     }
-     else{
-         [rateMe setupWithShow:_singleShow];
-     }
- }
-     
- }
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"WatchTrailer"]){
+        TrailerViewController *trailer = segue.destinationViewController;
+        if(_isMovie){
+            [trailer setupWithMovieID:_movieID andOverview:_movieDetail.overview];     }
+        else{
+            [trailer setupWithMovieID:_movieID andOverview:_showDetail.overview];
+        }
+    }
+    else if ([segue.identifier isEqualToString:@"ImageCollection"]){
+        ImagesViewController *images = segue.destinationViewController;
+        if(_isMovie){
+            [images setupWithMovie:_singleMovie];
+        }
+        else{
+            [images setupWithShow:_singleShow];
+        }
+    }
+    else if([segue.identifier isEqualToString:@"SeasonsViewIdentifier"]){
+        SeasonsViewController *seasons= segue.destinationViewController;
+        seasons.seasonCount=_showDetail.seasonCount;
+        seasons.seasons = _showDetail.seasons;
+        seasons.singleShow=_showDetail;
+        seasons.seasonID=[NSNumber numberWithInt:1];
+        [seasons setupSeasonView];
+    }
+    else if ([segue.identifier isEqualToString:@"RateMedia"]){
+        RatingViewController *rateMe = segue.destinationViewController;
+        if(_isMovie){
+            [rateMe setupWithMovie:_singleMovie];
+        }
+        else{
+            [rateMe setupWithShow:_singleShow];
+        }
+    }
+    
+}
 
 -(void)allSeasonsView{
     [self performSegueWithIdentifier:@"SeasonsViewIdentifier" sender:self];
 }
 
 - (void)openImageGallery{
-//    [self performSegueWithIdentifier:@"ImageCollection" sender:self];
+    //    [self performSegueWithIdentifier:@"ImageCollection" sender:self];
 }
 
 - (void)openActorWithID:(NSNumber *)actorID {
@@ -858,7 +1182,7 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ActorDetailsViewController *actorDetails = [storyboard instantiateViewControllerWithIdentifier:@"ActorDetails"];
     actorDetails.actorID = actorID;
-
+    
     [viewControllers addObject:actorDetails];
     [[self navigationController] setViewControllers:viewControllers animated:YES];
 }
@@ -869,91 +1193,91 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(_isMovie){
-    if(indexPath.section==0){
-        [self performSegueWithIdentifier:@"WatchTrailer" sender:self];
-    }
+        if(indexPath.section==0){
+            [self performSegueWithIdentifier:@"WatchTrailer" sender:self];
+        }
     }
 }
 
 
 -(void)addFavorite{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
-        if(_isMovie){
-            if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-                [self noRestkitPost:@"favorite":@"true"];
-                    [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                    [cell favoureIt];
-                    _isSuccessful=YES;
-            }
-            else{
-                [self noRestkitPost:@"favorite":@"false"];
-                    [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                    [cell unFavoureIt];
-                    _isSuccessful=YES;
-            }
+    if(_isMovie){
+        if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+            [self noRestkitPost:@"favorite":@"true"];
+            [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            [cell favoureIt];
+            _isSuccessful=YES;
         }
         else{
-            if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
-                [self noRestkitPost:@"favorite":@"true"];
-                    [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                    [cell favoureIt];
-                    _isSuccessful=YES;
-            }
-            else{
-                [self noRestkitPost:@"favorite":@"false"];
-                    [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                    [cell unFavoureIt];
-                    _isSuccessful=YES;
-            }
+            [self noRestkitPost:@"favorite":@"false"];
+            [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            [cell unFavoureIt];
+            _isSuccessful=YES;
         }
+    }
+    else{
+        if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
+            [self noRestkitPost:@"favorite":@"true"];
+            [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [cell favoureIt];
+            _isSuccessful=YES;
+        }
+        else{
+            [self noRestkitPost:@"favorite":@"false"];
+            [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [cell unFavoureIt];
+            _isSuccessful=YES;
+        }
+    }
     
-//    [self postToList:@"favorites"];
+    //    [self postToList:@"favorites"];
 }
 
 
 -(void)addWatchlist{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
-        if(_isMovie){
-            if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-                [self noRestkitPost:@"watchlist":@"true"];
-                    [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                    [cell watchIt];
-                    _isSuccessful=NO;
-            }
-            else{
-                [self noRestkitPost:@"watchlist":@"false"];
-                    [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                    [cell unWatchIt];
-                    _isSuccessful=NO;
-            }
+    if(_isMovie){
+        if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+            [self noRestkitPost:@"watchlist":@"true"];
+            [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            [cell watchIt];
+            _isSuccessful=NO;
         }
         else{
-            if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
-                [self noRestkitPost:@"watchlist":@"true"];
-                    [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                    [cell watchIt];
-                    _isSuccessful=NO;
-            }
-            else{
-                [self noRestkitPost:@"watchlist":@"false"];
-                    [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                    [cell unWatchIt];
-                    _isSuccessful=NO;
-
-            }
+            [self noRestkitPost:@"watchlist":@"false"];
+            [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            [cell unWatchIt];
+            _isSuccessful=NO;
         }
+    }
+    else{
+        if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
+            [self noRestkitPost:@"watchlist":@"true"];
+            [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [cell watchIt];
+            _isSuccessful=NO;
+        }
+        else{
+            [self noRestkitPost:@"watchlist":@"false"];
+            [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [cell unWatchIt];
+            _isSuccessful=NO;
+            
+        }
+    }
     
 }
 
 -(void)noRestkitPost:(NSString*)list :(NSString*)postOrDelete{
     NSError *error;
     
-     NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
+    NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     configuration.HTTPAdditionalHeaders = @{
-                                                   @"Content-Type" : @"application/json;charset=utf-8"
-                                                   };
+                                            @"Content-Type" : @"application/json;charset=utf-8"
+                                            };
     NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
     NSURL *url = [NSURL URLWithString:pathP];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
@@ -1033,7 +1357,7 @@
                                                                                                      method:RKRequestMethodGET
                                                                                                 pathPattern:pathP
                                                                                                     keyPath:nil statusCodes:statusCodesRK];
-//
+    //
     [[RKObjectManager sharedManager] setRequestSerializationMIMEType:@"application/json"];
     [[RKObjectManager sharedManager] addRequestDescriptor:watchlistRequestDescriptor];
     [[RKObjectManager sharedManager] addResponseDescriptor:watchlistResponseDescriptor];
@@ -1045,8 +1369,8 @@
     
     ListPost *postObject = [ListPost new];
     if(_isMovie){
-    postObject.mediaID= _singleMovie.movieID;
-    postObject.mediaType=@"movie";
+        postObject.mediaID= _singleMovie.movieID;
+        postObject.mediaType=@"movie";
     }
     else{
         postObject.mediaID=_singleShow.showID;
@@ -1059,7 +1383,7 @@
                                       @"media_id" : postObject.mediaID,
                                       [NSString stringWithFormat:@"%@",list] : [NSString stringWithFormat:@"%@",postOrDelete]
                                       };
-
+    
     
     
     [[RKObjectManager sharedManager] postObject:nil path:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
