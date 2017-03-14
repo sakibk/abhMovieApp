@@ -17,6 +17,7 @@
 #import <LGSideMenuController/LGSideMenuController.h>
 #import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "LeftViewController.h"
+#import "ConnectivityTest.h"
 
 
 @interface FeedsViewController ()
@@ -24,6 +25,7 @@
 @property NSMutableArray<Feeds *> *allFeeds;
 @property Feeds *singleFeed;
 @property BOOL isNavBarSet;
+@property BOOL isConnected;
 
 @end
 
@@ -45,7 +47,7 @@
     _tableView.separatorInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
     
     _isNavBarSet=NO;
-        
+    _isConnected =[ConnectivityTest isConnected];
     [self.tableView registerNib:[UINib nibWithNibName:@"FeedCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:feedIdentifier];
     [self getFeeds];
     [self setupSearchbar];

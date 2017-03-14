@@ -181,6 +181,7 @@
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor lightGrayColor]];
+    [[UINavigationBar appearance] setContentMode:UIViewContentModeCenter];
     [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
     
     [self setupSidebar];

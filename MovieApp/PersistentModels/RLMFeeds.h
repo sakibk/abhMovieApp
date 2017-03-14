@@ -1,22 +1,19 @@
 //
-//  Feeds.h
+//  RLMFeeds.h
 //  MovieApp
 //
-//  Created by Sakib Kurtic on 23/01/2017.
+//  Created by Sakib Kurtic on 14/03/2017.
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import "RSSParser.h"
-#import "RSSItem.h"
-@class RLMFeeds;
+#import <Realm/Realm.h>
+#import "Feeds.h"
 
-@interface Feeds : NSObject
+@interface RLMFeeds : RLMObject
 
 @property (strong, nonatomic) NSString *title;
 @property (strong, nonatomic) NSString *link;
 @property (strong, nonatomic) NSString *desc;
 
-- (id)initWithRSSItem:(RSSItem *)item;
 
 @end

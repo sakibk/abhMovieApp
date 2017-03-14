@@ -27,11 +27,22 @@
                                             forKeyPath:@"SessionCredentials"
                                                options:NSKeyValueObservingOptionNew
                                                context:NULL];
+    [self setInsets];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void)setInsets{
+//    @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
+//    @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+//    @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+//    @property (weak, nonatomic) IBOutlet UILabel *notificationLabel;
+//    @property (weak, nonatomic) IBOutlet UILabel *movieNotificationLabel;
+//    @property (weak, nonatomic) IBOutlet UILabel *showNotificationLabel;
+    
 }
 
 -(IBAction)movieNotificationON:(id)sender{
