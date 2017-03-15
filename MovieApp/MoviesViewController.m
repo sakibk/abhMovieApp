@@ -18,6 +18,7 @@
 #import <LGSideMenuController/LGSideMenuController.h>
 #import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "LeftViewController.h"
+#import "ConnectivityTest.h"
 #import "RLUserInfo.h"
 RLM_ARRAY_TYPE(Movie);
 
@@ -37,6 +38,8 @@ RLM_ARRAY_TYPE(Movie);
 @property NSDictionary *userCredits;
 @property BOOL isLoged;
 @property RLUserInfo *user;
+@property BOOL isConnected;
+@property BOOL didScroll;
 
 @property RLMRealm *realm;
 
@@ -81,6 +84,8 @@ RLM_ARRAY_TYPE(Movie);
     }
     _realm=[RLMRealm defaultRealm];
     [self setupVariables];
+    _isConnected = [ConnectivityTest isConnected];
+    _didScroll=YES;
     if(_isMovie)
     {
         [self getMovies];
@@ -510,26 +515,28 @@ RLM_ARRAY_TYPE(Movie);
 
 -(void)getMovies{
     NSString *localFilterString = _filterString;
-    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
-    
-    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
-                                                       @"vote_average": @"rating",
-                                                       @"poster_path": @"posterPath",
-                                                       @"release_date": @"releaseDate",
-                                                       @"id": @"movieID",
-                                                       @"backdrop_path" : @"backdropPath",
-                                                       @"genre_ids":@"genreIds"
-                                                       }];
+//    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
+//    
+//    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
+//                                                       @"vote_average": @"rating",
+//                                                       @"poster_path": @"posterPath",
+//                                                       @"release_date": @"releaseDate",
+//                                                       @"id": @"movieID",
+//                                                       @"backdrop_path" : @"backdropPath",
+//                                                       @"genre_ids":@"genreIds"
+//                                                       }];
     NSString *pathP =@"/3/discover/movie";
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+//
+//    RKResponseDescriptor *responseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"results"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+//    
+//    RKObjectMapping *movieMapping = [Movie responseMapping];
     
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
@@ -574,6 +581,7 @@ RLM_ARRAY_TYPE(Movie);
             [self setPageNumber:[NSNumber numberWithInt:1]];
             [_collectionView reloadData];
         }
+        _didScroll=YES;
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
@@ -624,7 +632,7 @@ RLM_ARRAY_TYPE(Movie);
                 [_allMovies addObject:m];
             }
         }
-        
+        _didScroll=YES;
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -636,24 +644,24 @@ RLM_ARRAY_TYPE(Movie);
 - (void)getMovieGenres
 {
     
-    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
-    
-    [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
-                                                       @"name": @"genreName"
-                                                       }];
-    
+//    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
+//
+//    [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
+//                                                       @"name": @"genreName"
+//                                                       }];
+//
     NSString *pathP =@"/3/genre/movie/list";
-    
-    RKResponseDescriptor *responseGenreDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"genres"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseGenreDescriptor];
-    
+//
+//    RKResponseDescriptor *responseGenreDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"genres"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:responseGenreDescriptor];
+//    
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
@@ -673,20 +681,20 @@ RLM_ARRAY_TYPE(Movie);
 -(void)getShows{
     
     NSString *localFilterString = _filterString;
-    
-    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
-    
-    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
-                                                      @"vote_average": @"rating",
-                                                      @"poster_path": @"posterPath",
-                                                      @"first_air_date": @"airDate",
-                                                      @"id": @"showID",
-                                                      @"backdrop_path" : @"backdropPath",
-                                                      @"overview": @"overview",
-                                                      @"genre_ids": @"genreIds",
-                                                      @"number_of_seasons":@"seasonCount"
-                                                      }];
-    [showMapping assignsNilForMissingRelationships];
+//    
+//    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
+//    
+//    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
+//                                                      @"vote_average": @"rating",
+//                                                      @"poster_path": @"posterPath",
+//                                                      @"first_air_date": @"airDate",
+//                                                      @"id": @"showID",
+//                                                      @"backdrop_path" : @"backdropPath",
+//                                                      @"overview": @"overview",
+//                                                      @"genre_ids": @"genreIds",
+//                                                      @"number_of_seasons":@"seasonCount"
+//                                                      }];
+//    [showMapping assignsNilForMissingRelationships];
     
     NSString *pathP =@"/3/discover/tv";
     
@@ -702,16 +710,16 @@ RLM_ARRAY_TYPE(Movie);
     }
     
     
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:nil
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+//    RKResponseDescriptor *responseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:nil
+//                                                keyPath:@"results"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
     
     NSDictionary *queryParameters = @{
@@ -745,7 +753,7 @@ RLM_ARRAY_TYPE(Movie);
             _allShows=nil;
             _allShows =[[NSMutableArray alloc]init];
             for(TVShow *tv in mappingResult.array){
-                if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.airDate!=nil){
+                if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
                     [_allShows addObject:tv];
                 }
             }
@@ -760,6 +768,7 @@ RLM_ARRAY_TYPE(Movie);
             [self.collectionView reloadData];
             [self setPageNumber:[NSNumber numberWithInt:1]];
         }
+        _didScroll=YES;
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
@@ -820,10 +829,11 @@ RLM_ARRAY_TYPE(Movie);
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         for(TVShow *tv in mappingResult.array){
-            if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.airDate!=nil){
+            if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
                 [_allShows addObject:tv];
             }
         }
+        _didScroll=YES;
         [self.collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -833,23 +843,23 @@ RLM_ARRAY_TYPE(Movie);
 - (void)getTVGenres
 {
     
-    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
-    
-    [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
-                                                       @"name": @"genreName"
-                                                       }];
-    
+//    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
+//    
+//    [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
+//                                                       @"name": @"genreName"
+//                                                       }];
+//    
     NSString *pathP =@"/3/genre/tv/list";
-    
-    RKResponseDescriptor *responseGenreDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"genres"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseGenreDescriptor];
+//    
+//    RKResponseDescriptor *responseGenreDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"genres"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:responseGenreDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -858,7 +868,6 @@ RLM_ARRAY_TYPE(Movie);
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allGenres=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -945,10 +954,16 @@ RLM_ARRAY_TYPE(Movie);
     CGFloat contentHeight = scrollView_.contentSize.height - (600);
     if (actualPosition >= contentHeight) {
         if(_isMovie){
-            [self getMoreMovies];
+            if(_didScroll){
+                [self getMoreMovies];
+                _didScroll=NO;
+            }
         }
         else{
-            [self getMoreShows];
+            if(_didScroll){
+                [self getMoreShows];
+                _didScroll=NO;
+            }
         }
     }
 }

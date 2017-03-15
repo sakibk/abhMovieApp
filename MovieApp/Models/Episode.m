@@ -10,4 +10,67 @@
 
 @implementation Episode
 
+// Here you need to add all Movie properties that needs to be mapped.
++ (NSDictionary*)elementToPropertyMappings {
+    
+    NSDictionary *dict = @{@"air_date":@"airDate",
+                           @"episode_number":@"episodeNumber",
+                           @"still_path":@"episodePoster",
+                           @"name":@"episodeName",
+                           @"overview":@"overview",
+                           @"season_number":@"seasonNumber",
+                           @"vote_average":@"rating"
+                           }
+    ;
+    return dict;
+}
+
++(RKObjectMapping*)responseMapping {
+    // Create an object mapping.
+    
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[Episode class]];
+    [mapping addAttributeMappingsFromDictionary:[self elementToPropertyMappings]];
+    mapping.assignsDefaultValueForMissingAttributes = NO;
+    
+    return mapping;
+}
+
+// Here you need to add paths for every method.
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method{
+    NSString *path;
+    switch (method) {
+        case RKRequestMethodPOST:
+            path = @"";
+            break;
+            // This is an example.
+        case RKRequestMethodGET:
+            path = @"/3/tv/:id/season/:id";
+            break;
+        case RKRequestMethodPUT:
+            path = @"";
+            break;
+        default:
+            break;
+    }
+    return path;
+}
+
+// Here you add additional response descriptors if you need them.
+// e.g. If you need to map again Movie model from another path with GET method.
++ (NSArray *)additionalResponseDescriptors{
+    return @[[RKResponseDescriptor responseDescriptorWithMapping:[Episode responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/:id/season/:id/episode/id"
+                                                         keyPath:nil
+                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]
+             
+             ];
+    
+}
+
+// Here you add additional response descriptors if you need them.
+// e.g. If you need to map again Movie model from another path with GET method.
++ (NSArray *)additionalRequestDescriptors{
+    return nil;
+    
+}
+
 @end

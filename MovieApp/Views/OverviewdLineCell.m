@@ -27,27 +27,37 @@ NSString *const overviewLineCellIdentifier=@"OverviewLineCellIdentifier";
 }
 
 -(void)setupActorBirth:(NSDate*)birthDate :(NSString*)birthPlace{
+    CGRect newRect =CGRectMake(_titleLabel.frame.origin.x, _titleLabel.frame.origin.y, _titleLabel.frame.size.width+20, _titleLabel.frame.size.height);
     if(birthDate!=nil){
-        CGRect newRect =CGRectMake(_titleLabel.frame.origin.x, _titleLabel.frame.origin.y, _titleLabel.frame.size.width+20, _titleLabel.frame.size.height);
         [_titleLabel setFrame:newRect];
         [_titleLabel setFont:[UIFont systemFontOfSize:15.0]];
         _titleLabel.text = [NSString stringWithFormat:@"Born"];
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"dd LLLL yyyy"];
-        if (![birthPlace isEqualToString:@""] )
-            _contentLabel.text  = [NSString stringWithFormat:@"%@, %@",[dateFormatter stringFromDate:birthDate],birthPlace];
-        else{
+        if ([birthPlace isEqualToString:@""] || birthPlace==nil)
             _contentLabel.text  = [NSString stringWithFormat:@"%@",[dateFormatter stringFromDate:birthDate]];
+        else{
+            _contentLabel.text  = [NSString stringWithFormat:@"%@, %@",[dateFormatter stringFromDate:birthDate],birthPlace];
         }
-        
     }
-    else if (![birthPlace isEqualToString:@""] ){
+    else if ([birthPlace isEqualToString:@""] || birthPlace==nil ){
+        _titleLabel.text = @"";
+        _contentLabel.text  = @"";
+    }
+    else{
+        [_titleLabel setFrame:newRect];
+        [_titleLabel setFont:[UIFont systemFontOfSize:15.0]];
+        _titleLabel.text = [NSString stringWithFormat:@"Born"];
         _contentLabel.text  = [NSString stringWithFormat:@"%@",birthPlace];
     }
 }
 
 -(void)setupActorLink:(NSString*)link{
-    if (![link isEqualToString:@""] && link!=nil) {
+    if ([link isEqualToString:@""] || link==nil) {
+        _titleLabel.text=@"";
+        _contentLabel.text=@"";
+    }
+    else{
         CGRect newRect =CGRectMake(_titleLabel.frame.origin.x, _titleLabel.frame.origin.y, _titleLabel.frame.size.width+20, _titleLabel.frame.size.height);
         [_titleLabel setFrame:newRect];
         [_titleLabel setFont:[UIFont systemFontOfSize:15.0]];

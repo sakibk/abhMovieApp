@@ -99,22 +99,22 @@
 }
 
 -(void)setRestkit{
-    NSString *pathP = [NSString stringWithFormat:@"/3/movie/%@/videos",_movieID];
-    RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
-    
-    [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
-                                                       @"name": @"videoName",
-                                                         @"id":@"videoID"
-                                                       }];
-    
-    RKResponseDescriptor *trailerResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
+//    NSString *pathP = [NSString stringWithFormat:@"/3/movie/%@/videos",_movieID];
+//    RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
+//    
+//    [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
+//                                                       @"name": @"videoName",
+//                                                         @"id":@"videoID"
+//                                                       }];
+//    
+//    RKResponseDescriptor *trailerResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"results"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
     
 }
 

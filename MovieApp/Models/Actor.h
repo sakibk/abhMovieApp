@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/RestKit.h>
 
 @interface Actor : NSObject
 
@@ -20,5 +21,11 @@
 @property(strong,nonatomic) NSString *homePage;
 @property(strong,nonatomic) NSString *biography;
 @property(strong,nonatomic) NSString *profilePath;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
 
 @end

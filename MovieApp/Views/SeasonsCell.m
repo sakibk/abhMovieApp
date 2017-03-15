@@ -87,7 +87,7 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
             NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
         NSNumber *year =[NSNumber numberWithInteger:[components year]];
         [_allYearsString appendString:[NSString stringWithFormat:@"%@ ",year]];
-        [_allSeasonString appendString:[NSString stringWithFormat:@"%@ ",[NSNumber numberWithInteger:i+1]]];
+        [_allSeasonString appendString:[NSString stringWithFormat:@"%@ ",oneSeason.seasonNumber]];
     }
     _seasons.text = _allSeasonString;
     _releaseYears.text = _allYearsString;

@@ -31,27 +31,27 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 }
 
 -(void)setupRestkit{
-    RKObjectMapping *castsMapping = [RKObjectMapping mappingForClass:[Cast class]];
-    
-    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_actorID];
-    
-    [castsMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
-                                                      @"id": @"castWithID",
-                                                      @"poster_path": @"castImagePath",
-                                                       @"title":@"castMovieTitle",
-                                                       @"release_date":@"releaseDate",
-                                                       @"media_type":@"mediaType"
-                                                      }];
-    castsMapping.assignsNilForMissingRelationships = YES;
-    
-    RKResponseDescriptor *filmographyResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:castsMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"cast"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:filmographyResponseDescriptor];
+//    RKObjectMapping *castsMapping = [RKObjectMapping mappingForClass:[Cast class]];
+//    
+//    NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_actorID];
+//    
+//    [castsMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
+//                                                      @"id": @"castWithID",
+//                                                      @"poster_path": @"castImagePath",
+//                                                       @"title":@"castMovieTitle",
+//                                                       @"release_date":@"releaseDate",
+//                                                       @"media_type":@"mediaType"
+//                                                      }];
+//    castsMapping.assignsNilForMissingRelationships = YES;
+//    
+//    RKResponseDescriptor *filmographyResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:castsMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"cast"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:filmographyResponseDescriptor];
 }
 
 -(void)getCasts{

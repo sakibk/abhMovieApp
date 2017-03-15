@@ -27,26 +27,26 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 
 -(void) setupWithMovie:(Movie *)singleMovie{
     
-    RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
-    
-    [castMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
-                                                       @"id": @"castID",
-                                                       @"name": @"castName",
-                                                       @"profile_path": @"castImagePath",
-                                                       @"title":@"castMovieTitle"
-                                                       }];
-    castMapping.assignsDefaultValueForMissingAttributes = YES;
-    
+//    RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
+//    
+//    [castMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
+//                                                       @"id": @"castID",
+//                                                       @"name": @"castName",
+//                                                       @"profile_path": @"castImagePath",
+//                                                       @"title":@"castMovieTitle"
+//                                                       }];
+//    castMapping.assignsDefaultValueForMissingAttributes = YES;
+//    
     NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",singleMovie.movieID];
-    
-    RKResponseDescriptor *castResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"cast"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
+//
+//    RKResponseDescriptor *castResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"cast"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -73,26 +73,26 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     
     -(void) setupWithShow:(TVShow *)singleShow{
         
-        RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
-        
-        [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
-                                                          @"character": @"castRoleName",
-                                                          @"id": @"castWithID",
-                                                          @"name": @"castName",
-                                                          @"profile_path": @"castImagePath"
-                                                          }];
-        castMapping.assignsDefaultValueForMissingAttributes = YES;
-        
+//        RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
+//        
+//        [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
+//                                                          @"character": @"castRoleName",
+//                                                          @"id": @"castWithID",
+//                                                          @"name": @"castName",
+//                                                          @"profile_path": @"castImagePath"
+//                                                          }];
+//        castMapping.assignsDefaultValueForMissingAttributes = YES;
+//        
         NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",singleShow.showID];
-        
-        RKResponseDescriptor *castResponseDescriptor =
-        [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-                                                     method:RKRequestMethodGET
-                                                pathPattern:pathP
-                                                    keyPath:@"cast"
-                                                statusCodes:[NSIndexSet indexSetWithIndex:200]];
-        
-        [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
+//        
+//        RKResponseDescriptor *castResponseDescriptor =
+//        [RKResponseDescriptor responseDescriptorWithMapping:castMapping
+//                                                     method:RKRequestMethodGET
+//                                                pathPattern:pathP
+//                                                    keyPath:@"cast"
+//                                                statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//        
+//        [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
         
         NSDictionary *queryParameters = @{
                                           @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -118,34 +118,34 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 
 
 -(void) setupWithEpisode:(Episode *)singleEpisode{
-    RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
-    
-    [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
-                                                      @"character": @"castRoleName",
-                                                      @"id": @"castWithID",
-                                                      @"name": @"castName",
-                                                      @"profile_path": @"castImagePath"
-                                                      }];
-    castMapping.assignsDefaultValueForMissingAttributes = YES;
-    
+//    RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
+//    
+//    [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
+//                                                      @"character": @"castRoleName",
+//                                                      @"id": @"castWithID",
+//                                                      @"name": @"castName",
+//                                                      @"profile_path": @"castImagePath"
+//                                                      }];
+//    castMapping.assignsDefaultValueForMissingAttributes = YES;
+//    
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/season/%@/episode/%@/credits",singleEpisode.showID,singleEpisode.seasonNumber,singleEpisode.episodeNumber];
-    
-    RKResponseDescriptor *castResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"cast"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    RKResponseDescriptor *showStarsResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"guest_stars"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
-    [[RKObjectManager sharedManager] addResponseDescriptor:showStarsResponseDescriptor];
+//    
+//    RKResponseDescriptor *castResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"cast"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    RKResponseDescriptor *showStarsResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"guest_stars"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
+//    [[RKObjectManager sharedManager] addResponseDescriptor:showStarsResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/

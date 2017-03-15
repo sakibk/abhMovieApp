@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/RestKit.h>
 #import "TrailerVideos.h"
 
 @interface Episode : NSObject
@@ -21,5 +22,10 @@
 @property (strong, nonatomic) NSNumber *showID;
 @property (strong,nonatomic) NSMutableArray<TrailerVideos*> *trailers;
 
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
 
 @end

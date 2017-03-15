@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/RestKit.h>
 
 @interface TVMovie : NSObject
 
@@ -27,5 +28,11 @@
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 
 -(BOOL)isMovie;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
 
 @end

@@ -91,9 +91,9 @@
         UIBarButtonItem *pieItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"PieIcon"] style:UIBarButtonItemStylePlain target:self action:@selector(pushSideBar:)];
         self.navigationItem.leftBarButtonItem=pieItem;
         self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
-        UIView *iv = [[UIView alloc] initWithFrame:CGRectMake(5, 5, 330, 27)];
+        UIView *iv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-150, 27)];
         [iv setBackgroundColor:[UIColor clearColor]];
-        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 300, 27)];
+        UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, iv.frame.size.width, 27)];
         titleLabel.textAlignment=NSTextAlignmentCenter;
         titleLabel.font=[UIFont systemFontOfSize:18];
         titleLabel.text=@"News feeds";

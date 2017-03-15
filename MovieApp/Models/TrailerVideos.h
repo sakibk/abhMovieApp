@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/RestKit.h>
 
 @interface TrailerVideos : NSObject
 
@@ -14,5 +15,10 @@
 @property (strong,nonatomic) NSString *videoName;
 @property (strong, nonatomic) NSString *videoID;
 
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
 
 @end

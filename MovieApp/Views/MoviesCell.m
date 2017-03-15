@@ -97,7 +97,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     else{
         
     }
-    NSDate *releaseYear = singleShow.airDate;
+    NSDate *releaseYear = singleShow.firstAirDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
     
@@ -110,7 +110,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     [dateFormatter setDateFormat:@"yyyy"];
     
     self.backgroundColor = [UIColor grayColor];
-    _releaseDateLabel.text = [NSString stringWithFormat:@"(TV Series %@)",[dateFormatter stringFromDate:singleShow.airDate]];
+    _releaseDateLabel.text = [NSString stringWithFormat:@"(TV Series %@)",[dateFormatter stringFromDate:singleShow.firstAirDate]];
     
     _ratingLabel.text = [NSString stringWithFormat:@"%@",[formatter stringFromNumber:singleShow.rating]];
     

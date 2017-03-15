@@ -39,4 +39,10 @@
 
 - (id) initWithObject:(RLTVShow *)show;
 -(void)setupWithTVMovie:(TVMovie *)singleObject;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
 @end

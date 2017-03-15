@@ -11,6 +11,7 @@
 #import "Crew.h"
 #import <Realm/Realm.h>
 #import "TVMovie.h"
+#import <RestKit/RestKit.h>
 @class RLMovie;
 
 @interface Movie : NSObject
@@ -32,4 +33,11 @@
 
 - (id) initWithObject:(RLMovie *)movie;
 -(void)setupWithTVMovie:(TVMovie *)singleObject;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
+
 @end

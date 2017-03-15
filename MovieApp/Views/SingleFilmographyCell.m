@@ -20,7 +20,7 @@ NSString *const singleFilmographyCellIdentifier=@"SingleFilmographyCellIdentifie
 
 
 -(void)setupWithCast:(Cast *) singleCast{
-    [self.castImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w92/",singleCast.castImagePath]]
+    [self.castImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w92/",singleCast.castPosterPath]]
                       placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleCast.castName,@".png"]]];
     if (singleCast.castMovieTitle!=nil) {
          _castMovie.text = singleCast.castMovieTitle;

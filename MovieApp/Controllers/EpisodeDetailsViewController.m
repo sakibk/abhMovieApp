@@ -63,20 +63,20 @@
     
      NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"/3/tv/",_singleEpisode.showID,@"/season/",_singleEpisode.seasonNumber,@"/episode/",_singleEpisode.episodeNumber,@"/videos"];
     
-    RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
-    
-    [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
-                                                         @"name": @"videoName",
-                                                         @"id":@"videoID"
-                                                         }];
-    RKResponseDescriptor *trailerResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
+//    RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
+//    
+//    [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
+//                                                         @"name": @"videoName",
+//                                                         @"id":@"videoID"
+//                                                         }];
+//    RKResponseDescriptor *trailerResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"results"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
     
     
     NSDictionary *queryParameters = @{

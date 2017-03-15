@@ -109,28 +109,28 @@
 
 -(void)setRestkit{
         NSString *pathP = @"/3/search/multi";
-    RKObjectMapping *multiMapping = [RKObjectMapping mappingForClass:[TVMovie class]];
-    
-    [multiMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
-                                                       @"release_date": @"releaseDate",
-                                                       @"vote_average": @"rating",
-                                                       @"poster_path": @"posterPath",
-                                                       @"id": @"TVMovieID",
-                                                       @"backdrop_path" : @"backdropPath",
-                                                       @"overview": @"overview",
-                                                       @"genre_ids":@"genreIds",
-                                                       @"name": @"name",
-                                                       @"first_air_date": @"airDate",
-                                                       @"media_type":@"mediaType"
-                                                       }];
-    
-    RKResponseDescriptor *multiResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:multiMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:multiResponseDescriptor];
+//    RKObjectMapping *multiMapping = [RKObjectMapping mappingForClass:[TVMovie class]];
+//    
+//    [multiMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
+//                                                       @"release_date": @"releaseDate",
+//                                                       @"vote_average": @"rating",
+//                                                       @"poster_path": @"posterPath",
+//                                                       @"id": @"TVMovieID",
+//                                                       @"backdrop_path" : @"backdropPath",
+//                                                       @"overview": @"overview",
+//                                                       @"genre_ids":@"genreIds",
+//                                                       @"name": @"name",
+//                                                       @"first_air_date": @"airDate",
+//                                                       @"media_type":@"mediaType"
+//                                                       }];
+//    
+//    RKResponseDescriptor *multiResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:multiMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"results"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:multiResponseDescriptor];
 
 }
 

@@ -18,6 +18,7 @@
 #import "TVShow.h"
 #import "NotificationListViewController.h"
 #import "ListMapping.h"
+#import "ObjectMapper.h"
 
 @interface AppDelegate ()
 @property NSMutableArray<Movie*> *notifMovies;
@@ -171,12 +172,13 @@
         // Set icon badge number to zero
         application.applicationIconBadgeNumber = 0;
     }
+    application.applicationIconBadgeNumber = 0;
 
     
-    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
-    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
-    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    [RKObjectManager setSharedManager:manager];
+//    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
+//    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
+//    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    [RKObjectManager setSharedManager:[self setupRestKit]];
     
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
@@ -205,6 +207,25 @@
     [RLMRealm defaultRealm];
     
     return YES;
+}
+
+
+// Move this method in AppDelegate and call in didFinishLaunchingWithOptions.
+-(RKObjectManager *)setupRestKit {
+    [AFRKNetworkActivityIndicatorManager sharedManager].enabled = YES;
+    
+    // Here you need to set base url of your API
+    AFRKHTTPClient *client = [AFRKHTTPClient clientWithBaseURL:[NSURL URLWithString:@"https://api.themoviedb.org"]];
+    
+    // Set needed headers.
+    [client setDefaultHeader:@"content-type" value:@"application/json;charset=utf-8"];
+    
+    RKObjectManager *objectManager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    
+    // Call mapping method.
+    [ObjectMapper setObjectManagerMapping];
+    
+    return objectManager;
 }
 
 
@@ -258,7 +279,7 @@
     
     UILocalNotification* localNotification = [[UILocalNotification alloc] init];
     localNotification.fireDate = notificationDate;
-    localNotification.repeatInterval = NSCalendarUnitMinute;
+    localNotification.repeatInterval = NSCalendarUnitDay;
     localNotification.alertBody = @"Your Episodes are on TV Today";
     localNotification.timeZone = [NSTimeZone systemTimeZone];
     localNotification.alertTitle = @"Airing Today";

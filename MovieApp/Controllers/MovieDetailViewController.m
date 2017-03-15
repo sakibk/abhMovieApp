@@ -201,34 +201,34 @@
 }
 
 -(void)getMovies{
-    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
-    
-    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
-                                                       @"vote_average": @"rating",
-                                                       @"poster_path": @"posterPath",
-                                                       @"release_date": @"releaseDate",
-                                                       @"id": @"movieID",
-                                                       @"runtime":@"runtime",
-                                                       @"backdrop_path":@"backdropPath",
-                                                       @"overview":@"overview",
-                                                       @"genres":@"genreSet"
-                                                       }];
-    
-    movieMapping.assignsDefaultValueForMissingAttributes = YES;
-    
-    
+//    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
+//    
+//    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
+//                                                       @"vote_average": @"rating",
+//                                                       @"poster_path": @"posterPath",
+//                                                       @"release_date": @"releaseDate",
+//                                                       @"id": @"movieID",
+//                                                       @"runtime":@"runtime",
+//                                                       @"backdrop_path":@"backdropPath",
+//                                                       @"overview":@"overview",
+//                                                       @"genres":@"genreSet"
+//                                                       }];
+//    
+//    movieMapping.assignsDefaultValueForMissingAttributes = YES;
+//    
+//    
     NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/movie/", _movieID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    NSLog(@"%@", pathP);
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+//    
+//    RKResponseDescriptor *responseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:nil
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    NSLog(@"%@", pathP);
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -248,23 +248,23 @@
 
 -(void) setupReviewsWithMovieID:(NSNumber *)singleMovieID{
     
-    RKObjectMapping *reviewMapping = [RKObjectMapping mappingForClass:[Review class]];
-    
-    [reviewMapping addAttributeMappingsFromDictionary:@{@"author": @"author",
-                                                        @"content": @"text"
-                                                        }];
-    reviewMapping.assignsDefaultValueForMissingAttributes = YES;
-    
+//    RKObjectMapping *reviewMapping = [RKObjectMapping mappingForClass:[Review class]];
+//    
+//    [reviewMapping addAttributeMappingsFromDictionary:@{@"author": @"author",
+//                                                        @"content": @"text"
+//                                                        }];
+//    reviewMapping.assignsDefaultValueForMissingAttributes = YES;
+//    
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", singleMovieID,@"/reviews"];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:reviewMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+//
+//    RKResponseDescriptor *responseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:reviewMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"results"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -282,23 +282,23 @@
 
 -(void) setupOverviewWithMovie{
     
-    RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
-    
-    [crewMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
-                                                      @"name": @"crewName"
-                                                      }];
-    
+//    RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
+//    
+//    [crewMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
+//                                                      @"name": @"crewName"
+//                                                      }];
+//    
     NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",_movieID];
-    
-    RKResponseDescriptor *crewResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:crewMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"crew"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:crewResponseDescriptor];
+//
+//    RKResponseDescriptor *crewResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:crewMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"crew"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:crewResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -374,38 +374,38 @@
 
 
 -(void)getShows{
-    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
-    
-    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
-                                                      @"vote_average": @"rating",
-                                                      @"poster_path": @"posterPath",
-                                                      @"first_air_date": @"firstAirDate",
-                                                      @"last_air_date":@"lastAirDate",
-                                                      @"id": @"showID",
-                                                      @"episode_run_time":@"runtime",
-                                                      @"backdrop_path":@"backdropPath",
-                                                      @"overview":@"overview",
-                                                      @"genres":@"genreSet",
-                                                      @"number_of_seasons":@"seasonCount",
-                                                      @"seasons":@"seasons",
-                                                      @"in_production":@"inProduction"
-                                                      }];
-    
-    showMapping.assignsDefaultValueForMissingAttributes = YES;
-    
-    
+//    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
+//    
+//    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
+//                                                      @"vote_average": @"rating",
+//                                                      @"poster_path": @"posterPath",
+//                                                      @"first_air_date": @"firstAirDate",
+//                                                      @"last_air_date":@"lastAirDate",
+//                                                      @"id": @"showID",
+//                                                      @"episode_run_time":@"runtime",
+//                                                      @"backdrop_path":@"backdropPath",
+//                                                      @"overview":@"overview",
+//                                                      @"genres":@"genreSet",
+//                                                      @"number_of_seasons":@"seasonCount",
+//                                                      @"seasons":@"seasons",
+//                                                      @"in_production":@"inProduction"
+//                                                      }];
+//    
+//    showMapping.assignsDefaultValueForMissingAttributes = YES;
+//    
+//    
     NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/tv/", _movieID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    NSLog(@"%@", pathP);
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+//
+//    RKResponseDescriptor *responseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:nil
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    NSLog(@"%@", pathP);
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -435,23 +435,23 @@
 
 -(void) setupOverviewWithShow{
     
-    RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
-    
-    [crewMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
-                                                      @"name": @"crewName"
-                                                      }];
-    
+//    RKObjectMapping *crewMapping = [RKObjectMapping mappingForClass:[Crew class]];
+//    
+//    [crewMapping addAttributeMappingsFromDictionary:@{@"job": @"jobName",
+//                                                      @"name": @"crewName"
+//                                                      }];
+//    
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",_movieID];
-    
-    RKResponseDescriptor *crewResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:crewMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"crew"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:crewResponseDescriptor];
+//    
+//    RKResponseDescriptor *crewResponseDescriptor =
+//    [RKResponseDescriptor responseDescriptorWithMapping:crewMapping
+//                                                 method:RKRequestMethodGET
+//                                            pathPattern:pathP
+//                                                keyPath:@"crew"
+//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
+//    
+//    
+//    [[RKObjectManager sharedManager] addResponseDescriptor:crewResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/

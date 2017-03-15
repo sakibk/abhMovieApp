@@ -49,7 +49,7 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     _genreString = [[NSMutableString alloc]init];
     
     for (Genre *str in singleMovie.genreSet ){
-        [_genreString appendString:[str valueForKey:@"name"]];
+        [_genreString appendString:str.genreName];
         [_genreString appendString:@", "];
     }
     if([_genreString length]>3){
@@ -91,7 +91,7 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     _genreString = [[NSMutableString alloc]init];
     
     for (Genre *str in singleShow.genreSet ){
-        [_genreString appendString:[str valueForKey:@"name"]];
+        [_genreString appendString:str.genreName];
         [_genreString appendString:@", "];
     }
     if([_genreString length]>3){
