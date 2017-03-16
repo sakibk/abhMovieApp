@@ -18,5 +18,6 @@
 @property (strong, nonatomic) NSString *desc;
 
 - (id)initWithRSSItem:(RSSItem *)item;
+- (id)initWithRLMFeeds:(RLMFeeds *)feed;
 
 @end

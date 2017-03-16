@@ -134,11 +134,11 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
     _singleCast = [_allCasts objectAtIndex:indexPath.row];
-    if(_singleCast.castID!=nil) {
-        [_delegate openActorWithID:_singleCast.castID];
+    if(_singleCast.castWithID!=nil) {
+        [_delegate openActorWithID:_singleCast.castWithID];
     }
     else{
-        [_delegate openActorWithID:_singleCast.castWithID];
+        [_delegate openActorWithID:_singleCast.castID];
     }
 }
 //

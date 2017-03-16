@@ -18,14 +18,20 @@
 #import <LGSideMenuController/UIViewController+LGSideMenuController.h>
 #import "LeftViewController.h"
 #import "ConnectivityTest.h"
+#import <Realm/Realm.h>
+#import "RLMFeeds.h"
+#import "RLMStoredObjects.h"
 
 
 @interface FeedsViewController ()
 
 @property NSMutableArray<Feeds *> *allFeeds;
+@property RLMArray<RLMFeeds*> *storedFeeds;
 @property Feeds *singleFeed;
 @property BOOL isNavBarSet;
 @property BOOL isConnected;
+@property RLMRealm *realm;
+@property RLMStoredObjects *storedObjetctFeeds;
 
 @end
 
@@ -35,7 +41,7 @@
     UITableViewController *leftViewController;
     UITableViewController *rightViewController;
     LGSideMenuController *sideMenuController;
-
+    
 }
 
 - (void)viewDidLoad {
@@ -43,14 +49,20 @@
     
     _tableView.delegate=self;
     _tableView.dataSource=self;
-    
+    _realm = [RLMRealm defaultRealm];
     _tableView.separatorInset = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
-    
+    _storedObjetctFeeds = [[RLMStoredObjects alloc]init];
     _isNavBarSet=NO;
     _isConnected =[ConnectivityTest isConnected];
     [self.tableView registerNib:[UINib nibWithNibName:@"FeedCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:feedIdentifier];
-    [self getFeeds];
+    if(_isConnected){
+        [self getFeeds];
+    }
+    else{
+        [self getStoredFeeds];
+    }
     [self setupSearchbar];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -67,22 +79,51 @@
 }
 
 -(void)getFeeds{
+    RLMResults<RLMStoredObjects*> *objs= [RLMStoredObjects allObjects];
+    if([objs count]){
+        _storedObjetctFeeds = objs.firstObject;
+    }
+    else{
+        _storedObjetctFeeds.objectID= @"0";
+        [_realm beginWriteTransaction];
+        [_realm addObject:_storedObjetctFeeds];
+        [_realm commitWriteTransaction];
+    }
     NSURLRequest *req = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:@"http://www.boxofficemojo.com/data/rss.php?file=topstories.xml"]];
     [RSSParser parseRSSFeedForRequest:req success:^(NSArray *feedItems) {
         _allFeeds=[[NSMutableArray alloc] init];
+        [_realm beginWriteTransaction];
+
+        [_storedObjetctFeeds.storedFeeds removeAllObjects];
+        
         for (RSSItem *item in feedItems) {
             //            [_allFeeds addObject:[[Feeds alloc] initWithRSSItem:item]];
             _singleFeed = [[Feeds alloc]initWithRSSItem:item];
             if([_singleFeed.desc length]>15){
                 [_allFeeds addObject:_singleFeed];
+                [_storedObjetctFeeds addToStoredFeeds:[[RLMFeeds alloc] initWithFeed:_singleFeed]];
             }
         }
         
+//        [_realm addOrUpdateObject:_storedObjetctFeeds];
+        [_realm commitWriteTransaction];
+
         [self.tableView reloadData];
         
     } failure:^(NSError *error) {
         NSLog(@"ERROR while loading feeds: %@", error);
     }];
+}
+-(void)getStoredFeeds{
+    RLMResults<RLMStoredObjects*> *objs = [RLMStoredObjects allObjects];
+    if([objs count]){
+    RLMStoredObjects *obj = objs.firstObject;
+    _allFeeds=[[NSMutableArray alloc] init];
+    for(RLMFeeds *oneFeed in obj.storedFeeds){
+        [_allFeeds addObject:[[Feeds alloc] initWithRLMFeeds:oneFeed]];
+    }
+    }
+    [self.tableView reloadData];
 }
 
 -(void)setupSearchbar{
@@ -106,7 +147,7 @@
 
 -(IBAction)pushSideBar:(id)sender{
     [self.sideMenuController showLeftViewAnimated:YES completionHandler:nil];
-//    [self testNotification];
+    //    [self testNotification];
 }
 
 -(void)testNotification{
@@ -135,7 +176,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     FeedsCell *cell = (FeedsCell *)[tableView dequeueReusableCellWithIdentifier:feedIdentifier forIndexPath:indexPath];
     _singleFeed = [_allFeeds objectAtIndex:indexPath.row];
-     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     [cell setupFeedCell:_singleFeed];
     // Configure the cell...
     
@@ -152,7 +193,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(FeedsCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

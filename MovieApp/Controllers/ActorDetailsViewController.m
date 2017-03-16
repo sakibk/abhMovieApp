@@ -46,7 +46,7 @@
     _tableView.dataSource=self;
     // Do any additional setup after loading the view.
     [self setupCells];
-
+    
     [self setSizes];
     [self searchForActor];
 }
@@ -230,12 +230,18 @@
                 }
             }
             else{
-            AboutCell *cell = (AboutCell *)[tableView dequeueReusableCellWithIdentifier:aboutCellIdentifier forIndexPath:indexPath];
-            [cell setupWithActor:_singleActor];
-            cell.delegate = self;
-            _actorIndexPath=indexPath;
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-            return cell;
+                AboutCell *cell = (AboutCell *)[tableView dequeueReusableCellWithIdentifier:aboutCellIdentifier forIndexPath:indexPath];
+                [cell setupWithActor:_singleActor];
+                cell.delegate = self;
+                _actorIndexPath=indexPath;
+                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+                if(_isOpened){
+                    [cell.fullBioButton setTitle:@"Read less" forState:UIControlStateNormal];
+                }
+                else{
+                    [cell.fullBioButton setTitle:@"Read full bio" forState:UIControlStateNormal];
+                }
+                return cell;
             }
         }
             break;
@@ -308,13 +314,13 @@
         if(_openedActorOverviewHeight<_actorOverviewHeight)
             _openedActorOverviewHeight=_actorOverviewHeight;
         _isOpened=YES;
-
+        
     }
     else{
         _openedActorOverviewHeight=_actorOverviewHeight;
         _isOpened=NO;
     }
-
+    
     [self.tableView reloadRowsAtIndexPaths:rowsToReload withRowAnimation:UITableViewRowAnimationNone];
 }
 
@@ -336,7 +342,7 @@
     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     MovieDetailViewController *movieDetails= [storyboard instantiateViewControllerWithIdentifier:@"MovieDetails"];
-
+    
     if([castForMedia.mediaType isEqualToString:@"movie"]){
         Movie *movie = [[Movie alloc]init];
         movie.movieID = castForMedia.castWithID;
@@ -369,13 +375,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

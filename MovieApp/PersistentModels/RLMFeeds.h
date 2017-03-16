@@ -15,5 +15,8 @@
 @property (strong, nonatomic) NSString *link;
 @property (strong, nonatomic) NSString *desc;
 
+-(void)setupWithFeed:(Feeds*)singleFeed;
+-(id)initWithFeed:(Feeds*)singleFeed;
 
 @end
+RLM_ARRAY_TYPE(RLMFeeds);

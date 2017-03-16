@@ -497,6 +497,12 @@
                     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                     [cell.readMoreButton setTag:indexPath.row];
                     [_buttonsIndexPath addObject:indexPath];
+                    if(isRowOpen[indexPath.row]){
+                        [cell.readMoreButton setTitle:@"Read less" forState:UIControlStateNormal];
+                    }
+                    else{
+                        [cell.readMoreButton setTitle:@"Read more" forState:UIControlStateNormal];
+                    }
                     return cell;
                 }
             }
@@ -867,12 +873,10 @@
     BOOL isSelectedRowOpened = isRowOpen[[sender tag]];
     if(!isSelectedRowOpened){
         [_cellReviewHeights setObject:[NSNumber numberWithFloat:_openReviewCellHeight] atIndexedSubscript:[sender tag]];
-        [cell.readMoreButton setTitle:@"Read less" forState:UIControlStateNormal];
         isRowOpen[[sender tag]]=YES;
     }
     else{
         [_cellReviewHeights setObject:[NSNumber numberWithFloat:_reviewCellHeight] atIndexedSubscript:[sender tag]];
-        [cell.readMoreButton setTitle:@"Read more" forState:UIControlStateNormal];
         isRowOpen[[sender tag]]=NO;
     }
     _reviewIndexPath = currentIndexPath;

@@ -74,7 +74,8 @@
     return @[             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/discover/tv"
                                                                       keyPath:@"results"
                                                                   statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
-             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/on_the_air"
+             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:
+              @"/3/tv/on_the_air"
                                                          keyPath:@"results"
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
              [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/airing_today"
