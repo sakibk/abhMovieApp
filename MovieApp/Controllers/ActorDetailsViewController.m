@@ -48,7 +48,6 @@
     [self setupCells];
 
     [self setSizes];
-    [self setRestkit];
     [self searchForActor];
 }
 
@@ -80,33 +79,6 @@
 -(void)setNavBarTitle{
     self.navigationItem.title = _singleActor.name;
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
-}
-
--(void)setRestkit{
-    NSString *pathP = [NSString stringWithFormat:@"/3/person/%@",_actorID];
-//    RKObjectMapping *actorMapping = [RKObjectMapping mappingForClass:[Actor class]];
-//    
-//    [actorMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
-//                                                       @"also_known_as": @"nickNames",
-//                                                       @"biography": @"biography",
-//                                                       @"birthday": @"birthDate",
-//                                                       @"id": @"actorID",
-//                                                       @"profile_path" : @"profilePath",
-//                                                       @"deathday":@"deathDate",
-//                                                       @"place_of_birth": @"birthPlace",
-//                                                       @"gender" : @"gender",
-//                                                       @"homepage":@"homePage"
-//                                                       }];
-//    
-//    RKResponseDescriptor *actorResponseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:actorMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:nil
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:actorResponseDescriptor];
-    
 }
 
 -(void)searchForActor{

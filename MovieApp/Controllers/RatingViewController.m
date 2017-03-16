@@ -96,7 +96,7 @@
 
 -(void)setupRatings{
     
-
+    
     
     starRatingView = [[HCSStarRatingView alloc] initWithFrame:CGRectMake([UIScreen mainScreen].bounds.size.width/4, 200, [UIScreen mainScreen].bounds.size.width/2, 60)];
     starRatingView.maximumValue = 10;
@@ -110,7 +110,7 @@
     [starRatingView addTarget:self action:@selector(didChangeValue:) forControlEvents:UIControlEventValueChanged];
     [self.view addSubview:starRatingView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:starRatingView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_rateButton attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
-
+    
 }
 
 -(void)postStatusError:(NSString*)error{
@@ -133,26 +133,26 @@
 
 -(IBAction)rateMe:(id)sender{
     if(!_didRate){
-    if(_isMovie){
-        _singleMovie.userRate=_rate;
-        [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-        [self noRestkitRate];
-        [self postStatusError:@"Successfuly rated Movie"];
-        [starRatingView setUserInteractionEnabled:NO];
-        _didRate=YES;
+        if(_isMovie){
+            _singleMovie.userRate=_rate;
+            [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            [self noRestkitRate];
+            [self postStatusError:@"Successfuly rated Movie"];
+            [starRatingView setUserInteractionEnabled:NO];
+            _didRate=YES;
         }
-    else{
-        _singleShow.userRate=_rate;
-        [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
-        [self noRestkitRate];
-        [self postStatusError:@"Successfuly rated Show"];
-        [starRatingView setUserInteractionEnabled:NO];
-        _didRate=YES;
-    }}
+        else{
+            _singleShow.userRate=_rate;
+            [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
+            [self noRestkitRate];
+            [self postStatusError:@"Successfuly rated Show"];
+            [starRatingView setUserInteractionEnabled:NO];
+            _didRate=YES;
+        }}
     else{
         [self postStatusError:@"Already Rated"];
     }
-
+    
 }
 
 
@@ -198,7 +198,7 @@
     NSDictionary *dataMapped = @{
                                  @"value" : _rate
                                  };
-
+    
     
     NSData *postData = [NSJSONSerialization dataWithJSONObject:dataMapped options:0 error:&error];
     [request setHTTPBody:postData];
@@ -225,13 +225,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

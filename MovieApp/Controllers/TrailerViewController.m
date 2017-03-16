@@ -23,19 +23,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-      self.playerView.delegate = self;
+    self.playerView.delegate = self;
     [self setNavBarTitle];
     if(_isEpisode){
         [self setupWithTVEpisode];
     }
     // Do any additional setup after loading the view.
-    }
+}
 
 -(void)setupWithMovieID:(NSNumber *)movieID andOverview:(NSString *)overview{
     
     _movieID=movieID;
     _overviewString=overview;
-    [self setRestkit];
     [self getTrailers];
 }
 
@@ -56,10 +55,10 @@
                                  
                                  };
     if(_allTrailers.firstObject.videoKey){
-    [self.playerView loadWithVideoId:_allTrailers.firstObject.videoKey playerVars:playerVars];
+        [self.playerView loadWithVideoId:_allTrailers.firstObject.videoKey playerVars:playerVars];
     }
     if(_isEpisode)
-       [self.playerView loadWithVideoId:_singleTrailer.videoKey playerVars:playerVars];
+        [self.playerView loadWithVideoId:_singleTrailer.videoKey playerVars:playerVars];
     [self appendStatusText:_overviewString];
 }
 
@@ -84,11 +83,11 @@
             [allIds addObject:tv.videoID];
         }
         [self setupPlayer];
-
+        
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-
+    
 }
 
 -(void)playerViewDidBecomeReady:(YTPlayerView *)playerView{
@@ -96,26 +95,6 @@
     for (i=1; i<[_allTrailers count]; i++) {
         [self.playerView cueVideoById:[_allTrailers objectAtIndex:i].videoKey startSeconds:0 suggestedQuality:kYTPlaybackQualityAuto];
     }
-}
-
--(void)setRestkit{
-//    NSString *pathP = [NSString stringWithFormat:@"/3/movie/%@/videos",_movieID];
-//    RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
-//    
-//    [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
-//                                                       @"name": @"videoName",
-//                                                         @"id":@"videoID"
-//                                                       }];
-//    
-//    RKResponseDescriptor *trailerResponseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"results"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
-    
 }
 
 
@@ -168,13 +147,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

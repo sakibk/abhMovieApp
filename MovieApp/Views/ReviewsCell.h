@@ -19,7 +19,5 @@ extern NSString *const reviewsCellIdentifier;
 @property(strong,nonatomic) Review *singleReview;
 
 -(void) setupWithMovieID:(NSNumber *)singleMovieID;
--(void) setupWithShowID:(NSNumber *)singleTVShowID;
-//@property(strong,nonatomic) NSString *movieID;
 
 @end

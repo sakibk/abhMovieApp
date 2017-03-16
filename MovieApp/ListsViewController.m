@@ -133,7 +133,7 @@
 -(void)setButtonTitle{
     NSMutableAttributedString *text =
     [[NSMutableAttributedString alloc]
-     initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
+     initWithString:[NSString stringWithFormat:@" Filter by: %@",_dropDownTitle]];
     [text addAttribute:NSForegroundColorAttributeName
                  value:[UIColor whiteColor]
                  range:NSMakeRange(0, 11)];
@@ -156,7 +156,6 @@
     [showList setBackgroundColor:[UIColor blackColor]];
     showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
-//    [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
     [self setButtonTitle];
     [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
     [_dropDown addSubview:showList];
@@ -207,7 +206,6 @@
         
         [UIView animateWithDuration:0.2 animations:^{
             self.tableView.frame = CGRectMake(0, self.tableView.frame.origin.y + 192, CGRectGetWidth(initialTableViewFrame), CGRectGetHeight(initialTableViewFrame));
-//            [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
             [self setButtonTitle];
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
@@ -231,7 +229,6 @@
             [UIView animateWithDuration:0.2 animations:^{
                 CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
                 [_dropDown setFrame:dropDownFrame];
-//                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
                 [self setButtonTitle];
                 [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
                 
@@ -244,13 +241,11 @@
 
 -(void)setDropDownTitleButton{
     if(_isDroped){
-//        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         
     }
     else{
-//        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
         
@@ -274,16 +269,6 @@
     [self ListDroped:sender];
     [self setupButtons];
     [self.tableView reloadData];
-    if(_isMovie)
-    {
-//        [self getMovies];
-    }
-    else if(!_isMovie){
-//        [self getShows];
-    }
-    else{
-        
-    }
 }
 
 -(void)setupButtons{

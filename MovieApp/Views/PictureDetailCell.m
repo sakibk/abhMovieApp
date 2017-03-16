@@ -22,12 +22,11 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-//    [self setWatchlistRestkit];
     [_watchButton addTarget:self action:@selector(addToWatchList:) forControlEvents:UIControlEventTouchUpInside];
     [_favouriteButton addTarget:self action:@selector(addToFavoriteList:) forControlEvents:UIControlEventTouchUpInside];
     _realm =[RLMRealm defaultRealm];
-        [self.watchButton setImageEdgeInsets:UIEdgeInsetsMake(10, 13, 9, 5)];
-        [self.favouriteButton setImageEdgeInsets:UIEdgeInsetsMake(8, 5, 9, 14)];
+    [self.watchButton setImageEdgeInsets:UIEdgeInsetsMake(10, 13, 9, 5)];
+    [self.favouriteButton setImageEdgeInsets:UIEdgeInsetsMake(8, 5, 9, 14)];
 }
 
 -(void)setHidenButtons{
@@ -47,14 +46,14 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 }
 
 -(IBAction)addToFavoriteList:(id)sender{
-
+    
     [self.delegate addFavorite];
 }
 
 -(void) setupWithMovie:(Movie *) singleMovie{
     [self setHidenButtons];
     [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleMovie.backdropPath]]
-                       placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
     
     NSDate *releaseYear = singleMovie.releaseDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
@@ -62,24 +61,22 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
     _singleMovie=singleMovie;
     RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
-        if([users count]){
-            RLUserInfo *user =[users firstObject];
-                //            RLMResults<RLUserInfo *> *movies = [RLUserInfo objectsWhere:@"userID = %@ AND watchlistMovies.movieID = %@", [_userCredits objectForKey:@"userID"], _movieID];
-                
-                if([[[user watchlistMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
-                    [self watchIt];
-                }
-                else{
-                    [self unWatchIt];
-                }
-            
-                if([[[user favoriteMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
-                    [self favoureIt];
-                }
-                else{
-                    [self unFavoureIt];
-                }
+    if([users count]){
+        RLUserInfo *user =[users firstObject];
+        if([[[user watchlistMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
+            [self watchIt];
         }
+        else{
+            [self unWatchIt];
+        }
+        
+        if([[[user favoriteMovies] valueForKey:@"movieID"] containsObject:singleMovie.movieID]){
+            [self favoureIt];
+        }
+        else{
+            [self unFavoureIt];
+        }
+    }
     [self setCellGradient];
     
 }
@@ -94,7 +91,7 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     NSInteger year = [components year];
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
     [_playButton setHidden:YES];
-     RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
     if([users count]){
         RLUserInfo *user =[users firstObject];
         if([[[user watchlistShows] valueForKey:@"showID"] containsObject:singleShow.showID]){
@@ -111,12 +108,12 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
         }
         
     }
-
+    
     [self setCellGradient];
 }
 
 -(void) setupWithActor:(Actor *)singleActor{
-
+    
     [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleActor.profilePath]]
                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleActor.name,@".png"]]];
     [_movieTitle setFont:[_movieTitle.font fontWithSize:27.0]];
@@ -133,9 +130,8 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleEpisode.episodeName,@".png"]]];
     [_movieTitle setFont:[_movieTitle.font fontWithSize:27.0]];
     _movieTitle.text=@" ";
-//    [self setCellGradient];
     if(singleEpisode.trailers.firstObject!=nil){
-    [_playButton setHidden:NO];
+        [_playButton setHidden:NO];
     }
     else{
         [_playButton setHidden:YES];

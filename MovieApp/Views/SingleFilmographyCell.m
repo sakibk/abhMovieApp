@@ -23,7 +23,7 @@ NSString *const singleFilmographyCellIdentifier=@"SingleFilmographyCellIdentifie
     [self.castImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w92/",singleCast.castPosterPath]]
                       placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleCast.castName,@".png"]]];
     if (singleCast.castMovieTitle!=nil) {
-         _castMovie.text = singleCast.castMovieTitle;
+        _castMovie.text = singleCast.castMovieTitle;
     }
     if (singleCast.castRoleName!=nil) {
         _castRole.text = singleCast.castRoleName;

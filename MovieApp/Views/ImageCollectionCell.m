@@ -32,7 +32,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     
-        [self.collectionView registerNib:[UINib nibWithNibName:@"SingleImageCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:SingleImageCellIdentifier];
+    [self.collectionView registerNib:[UINib nibWithNibName:@"SingleImageCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:SingleImageCellIdentifier];
     
     
 }
@@ -40,24 +40,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 -(void)setupWithMovie:(Movie *)singleMovie{
     _movieID = [NSString stringWithFormat:@"%@",singleMovie.movieID];
     
-//    RKObjectMapping *imageMapping = [RKObjectMapping mappingForClass:[ImagePathUrl class]];
-//    
-//    [imageMapping addAttributeMappingsFromDictionary:@{@"file_path": @"posterPath"
-//                                                       }];
-//    imageMapping.assignsDefaultValueForMissingAttributes = YES;
-//    
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", _movieID,@"/images"];
-    
-//    RKResponseDescriptor *responseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:imageMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"posters"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    NSLog(@"%@", pathP);
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -70,30 +53,13 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-
+    
 }
 
 -(void)setupWithShow:(TVShow *)singleShow{
     _movieID = [NSString stringWithFormat:@"%@",singleShow.showID];
     
-//    RKObjectMapping *imageMapping = [RKObjectMapping mappingForClass:[ImagePathUrl class]];
-//    
-//    [imageMapping addAttributeMappingsFromDictionary:@{@"file_path": @"posterPath"
-//                                                       }];
-//    imageMapping.assignsDefaultValueForMissingAttributes = YES;
-//    
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/tv/", _movieID,@"/images"];
-//    
-//    RKResponseDescriptor *responseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:imageMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"posters"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    NSLog(@"%@", pathP);
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -111,7 +77,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -124,9 +90,9 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     
     SingleImageCell *cell = (SingleImageCell *)[collectionView dequeueReusableCellWithReuseIdentifier:SingleImageCellIdentifier forIndexPath:indexPath];
     _singleImage=[_allImagePaths objectAtIndex:indexPath.row];
-
+    
     [cell setupWithUrl:_singleImage.posterPath];
-
+    
     return cell;
 }
 

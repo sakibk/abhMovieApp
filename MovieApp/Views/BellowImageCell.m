@@ -24,19 +24,19 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     int mins = [singleMovie.runtime intValue] %60;
     int hours = [singleMovie.runtime intValue] /60;
     if(singleMovie.runtime!=nil){
-    if(hours==0){
-        if(singleMovie.runtime !=0)
-            _duration.text = [NSString stringWithFormat:@"%@ min",singleMovie.runtime];
+        if(hours==0){
+            if(singleMovie.runtime !=0)
+                _duration.text = [NSString stringWithFormat:@"%@ min",singleMovie.runtime];
+            else
+                _duration.text = [NSString stringWithFormat:@"Runtime not avalible"];
+        }
+        else if(mins==0){
+            _duration.text = [NSString stringWithFormat:@"%d h",hours];
+        }
         else
-            _duration.text = [NSString stringWithFormat:@"Runtime not avalible"];
-    }
-    else if(mins==0){
-        _duration.text = [NSString stringWithFormat:@"%d h",hours];
-    }
-    else
-    {
-        _duration.text = [NSString stringWithFormat:@"%dh %dmin",hours,mins];
-    }
+        {
+            _duration.text = [NSString stringWithFormat:@"%dh %dmin",hours,mins];
+        }
     }
     else{
         _duration.text = [NSString stringWithFormat:@"Runtime not avalible"];
@@ -59,12 +59,12 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
         [_genreString appendString:@"Genres not avalible"];
     }
     _genres.text = _genreString;
-
+    
 }
 
 -(void) setupWithShow:(TVShow *)singleShow{
     if([singleShow.runtime count]>=2){
-    _duration.text = [NSString stringWithFormat:@"%@-%@ min",[singleShow.runtime objectAtIndex:0],[singleShow.runtime objectAtIndex:1]];
+        _duration.text = [NSString stringWithFormat:@"%@-%@ min",[singleShow.runtime objectAtIndex:0],[singleShow.runtime objectAtIndex:1]];
     }
     else if ([singleShow.runtime count] == 1){
         if([singleShow.runtime objectAtIndex:0]!=nil || [singleShow.runtime objectAtIndex:0]!=0)

@@ -132,7 +132,6 @@
 -(void)initWithNotificationShow{
     self.navigationItem.title=@"Airing Today";
     [self setupUser];
-    //todo compare with list watching twshows. if nil, show all.
     [self.tableView reloadData];
 }
 

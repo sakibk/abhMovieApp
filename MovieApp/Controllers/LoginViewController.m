@@ -17,6 +17,7 @@
 #import "RLMovie.h"
 #import "RLTVShow.h"
 #import "ListMapping.h"
+#import "ListMappingTV.h"
 
 @interface LoginViewController ()
 
@@ -29,9 +30,9 @@
 @property ListMapping *onePageFavMovieList;
 @property ListMapping *onePageWtchMovieList;
 @property ListMapping *onePageRateMovieList;
-@property ListMapping *onePageFavShowList;
-@property ListMapping *onePageWtchShowList;
-@property ListMapping *onePageRateShowList;
+@property ListMappingTV *onePageFavShowList;
+@property ListMappingTV *onePageWtchShowList;
+@property ListMappingTV *onePageRateShowList;
 
 @property RLMArray<RLUserInfo*> <RLUserInfo> *users;
 
@@ -46,14 +47,8 @@
     // Do any additional setup after loading the view.
     [self setVariables];
     [self setLoginView];
-    [self setRestkit];
     [self getToken];
-    [self setLoginRestkit];
-    [self setSessionRestkit];
-    [self setAccountRestkit];
-
-    //[NSUserDefaults standardUserDefaults]
-    // dodati restkit za statuscode 401 i provjeriti tekst koji se dobije ako nije nil !!
+    
 }
 
 -(void)setVariables{
@@ -61,16 +56,16 @@
     _onePageFavMovieList = [[ListMapping alloc]init];
     _onePageWtchMovieList = [[ListMapping alloc]init];
     _onePageRateMovieList = [[ListMapping alloc]init];
-    _onePageFavShowList = [[ListMapping alloc]init];
-    _onePageWtchShowList = [[ListMapping alloc]init];
-    _onePageRateShowList = [[ListMapping alloc]init];
+    _onePageFavShowList = [[ListMappingTV alloc]init];
+    _onePageWtchShowList = [[ListMappingTV alloc]init];
+    _onePageRateShowList = [[ListMappingTV alloc]init];
     _user = [[RLUserInfo alloc] init];
     _realm = [RLMRealm defaultRealm];
 }
 
 -(IBAction)sessionPressed:(id)sender{
     if(self.emailEditor.text!=nil && ![self.emailEditor.text isEqualToString:@""] && self.passwordEditor.text!=nil && ![self.passwordEditor.text isEqualToString:@""]){
-    [self getTokenForSesion];
+        [self getTokenForSesion];
     }
     else{
         [self postStatusError:@"Enter Your Credentials"];
@@ -123,31 +118,6 @@
     }];
 }
 
--(void)setRestkit{
-    NSString *pathP = @"/3/authentication/token/new";
-    RKObjectMapping *tokenMapping = [RKObjectMapping mappingForClass:[Token class]];
-    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
-    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:401]];
-    
-    [tokenMapping addAttributeMappingsFromDictionary:@{@"success": @"isSuccessful",
-                                                       @"expires_at": @"expireDate",
-                                                       @"status_code": @"statusCode",
-                                                       @"status_message": @"statusMessage",
-                                                       @"request_token": @"requestToken"
-                                                       }];
-    
-    tokenMapping.assignsNilForMissingRelationships=YES;
-    
-    RKResponseDescriptor *tokenResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:tokenMapping
-                                                                                                 method:RKRequestMethodGET
-                                                                                            pathPattern:pathP
-                                                                                                keyPath:nil
-                                                                                            statusCodes:statusCodesRK];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:tokenResponseDescriptor];
-    
-}
-
 -(void)getToken{
     
     NSString *pathP = @"/3/authentication/token/new";
@@ -169,35 +139,6 @@
 }
 
 
-
--(void)setLoginRestkit{
-    
-    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
-    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:401]];
-    
-    RKObjectMapping *sessionTokenMapping = [RKObjectMapping mappingForClass:[Token class]];
-    
-    NSString *pathP = @"/3/authentication/token/validate_with_login";
-    
-    [sessionTokenMapping addAttributeMappingsFromDictionary:@{@"success": @"isSuccessful",
-                                                       @"status_code": @"statusCode",
-                                                       @"status_message": @"statusMessage",
-                                                       @"request_token": @"requestToken"
-                                                       }];
-
-    sessionTokenMapping.assignsNilForMissingRelationships=YES;
-    
-    RKResponseDescriptor *sessionTokenResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sessionTokenMapping
-                                                                                                 method:RKRequestMethodGET
-                                                                                            pathPattern:pathP
-                                                                                                keyPath:nil
-                                                                                            statusCodes:statusCodesRK];
-    
-
-    [[RKObjectManager sharedManager] addResponseDescriptor:sessionTokenResponseDescriptor];
-}
-
-
 -(void)getTokenForSesion{
     NSString *token=_token.requestToken;
     
@@ -210,40 +151,15 @@
                                       @"username":_emailEditor.text,
                                       @"password":_passwordEditor.text
                                       };
-
+    
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _sessionToken=mappingResult.array.firstObject;
-            [self getSesion];
+        [self getSesion];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
         [self postStatusError:@"Wrong Username or Password"];
     }];
-}
-
--(void)setSessionRestkit{
-    RKObjectMapping *sessionMapping = [RKObjectMapping mappingForClass:[Token class]];
-    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
-    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:401]];
-    
-    NSString *pathP = @"/3/authentication/session/new";
-    
-    [sessionMapping addAttributeMappingsFromDictionary:@{@"success": @"isSuccessful",
-                                                              @"status_code": @"statusCode",
-                                                              @"status_message": @"statusMessage",
-                                                              @"session_id": @"sessionID"
-                                                              }];
-    
-    sessionMapping.assignsNilForMissingRelationships=YES;
-    
-    RKResponseDescriptor *sessionResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:sessionMapping
-                                                                                                 method:RKRequestMethodGET
-                                                                                            pathPattern:pathP
-                                                                                                keyPath:nil
-                                                                                            statusCodes:statusCodesRK];
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:sessionResponseDescriptor];
 }
 
 -(void)getSesion{
@@ -262,37 +178,13 @@
         _session=mappingResult.array.firstObject;
         _session.logedUsername=_emailEditor.text;
         _session.requestToken=token;
-             [self postStatusError:@"Successfuly Logged"];
+        [self postStatusError:@"Successfuly Logged"];
         [self getAccountDetails];
-       // [[NSUserDefaults standardUserDefaults] setObject:_session forKey:@"session"];
+        // [[NSUserDefaults standardUserDefaults] setObject:_session forKey:@"session"];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
         [self postStatusError:@"Wrong Api key or request token"];
     }];
-}
-
--(void)setAccountRestkit{
-    RKObjectMapping *accountMapping = [RKObjectMapping mappingForClass:[UserInfo class]];
-    NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
-    [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:401]];
-    
-    NSString *pathP = @"/3/account";
-    
-    [accountMapping addAttributeMappingsFromDictionary:@{@"id": @"userID",
-                                                         @"name": @"name",
-                                                         @"username": @"userName"
-                                                         }];
-    
-    accountMapping.assignsNilForMissingRelationships=YES;
-    
-    RKResponseDescriptor *accountResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:accountMapping
-                                                                                                   method:RKRequestMethodGET
-                                                                                              pathPattern:pathP
-                                                                                                  keyPath:nil
-                                                                                              statusCodes:statusCodesRK];
-    
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:accountResponseDescriptor];
 }
 
 -(void)getAccountDetails{
@@ -319,7 +211,7 @@
             [_realm beginWriteTransaction];
             [_realm addObject:_user];
             [_realm commitWriteTransaction];
-
+            
         }
         else{
             _user = [userss firstObject];
@@ -335,7 +227,7 @@
                                     @"apiKey": @"893050c58b2e2dfe6fa9f3fae12eaf64"
                                     };
         [[NSUserDefaults standardUserDefaults] setObject:loginData forKey:@"SessionCredentials"];
-        [self setFavoriteMovieLists];
+        [self getFavoriteMovieLists];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -344,34 +236,11 @@
 }
 
 
-
-
-
-
--(void)setFavoriteMovieLists{
-    RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];
-    [listMapping addAttributeMappingsFromDictionary:@{@"page": @"page",
-                                                       @"results": @"movieList",
-                                                       @"total_pages": @"pageCount"
-                                                       }];
-    
-    NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/favorite/movies",_currentUser.userID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:listMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
+-(void)getFavoriteMovieLists{
     [_realm beginWriteTransaction];
     [[_user favoriteMovies] removeAllObjects];
     [_realm commitWriteTransaction];
-    [self getFavoriteMovieLists];
-}
-
--(void)getFavoriteMovieLists{
+    
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/favorite/movies",_currentUser.userID];
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
@@ -384,22 +253,14 @@
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
-        _onePageFavMovieList=[[mappingResult array] firstObject]; // zna se desiti error jer ne prepozna Movie kao Movie.. sto zapravo i nije movie nego je to dictionary koji sadrzi movie .. TODO Nested Mapping
+        _onePageFavMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageFavMovieList movieList]){
-            Movie *muv = [[Movie alloc]init];
-            muv.movieID = [mv valueForKey:@"id"];
-            muv.title = [mv valueForKey:@"title"];
-            muv.rating = [mv valueForKey:@"vote_average"];
-            muv.posterPath = [mv valueForKey:@"poster_path"];
-            muv.backdropPath = [mv valueForKey:@"backdrop_path"];
-            muv.overview = [mv valueForKey:@"overview"];
-            muv.releaseDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@",[mv valueForKey:@"release_date"]]];
-            [_user addToFavoriteMovies:[[RLMovie alloc] initWithMovie:muv]];
+            [_user addToFavoriteMovies:[[RLMovie alloc] initWithMovie:mv]];
         }
         
         if([[_onePageFavMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageFavMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
-            [self setWatchlistMovieLists];
+            [self getWatchlistMovieLists];
         }
         
         else if([_onePageFavMovieList pageCount]>_currentPage){
@@ -412,34 +273,12 @@
     }];
 }
 
-
-
-
-
--(void)setWatchlistMovieLists{
-    RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];
-    [listMapping addAttributeMappingsFromDictionary:@{@"page": @"page",
-                                                      @"results": @"movieList",
-                                                      @"total_pages": @"pageCount"
-                                                      }];
+-(void)getWatchlistMovieLists{
     
-    NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/watchlist/movies",_currentUser.userID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:listMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     [_realm beginWriteTransaction];
     [[_user watchlistMovies] removeAllObjects];
     [_realm commitWriteTransaction];
-    [self getWatchlistMovieLists];
-}
-
--(void)getWatchlistMovieLists{
+    
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/watchlist/movies",_currentUser.userID];
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
@@ -454,19 +293,11 @@
         
         _onePageWtchMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageWtchMovieList movieList]){
-            Movie *muv = [[Movie alloc]init];
-            muv.movieID = [mv valueForKey:@"id"];
-            muv.title = [mv valueForKey:@"title"];
-            muv.rating = [mv valueForKey:@"vote_average"];
-            muv.posterPath = [mv valueForKey:@"poster_path"];
-            muv.backdropPath = [mv valueForKey:@"backdrop_path"];
-            muv.overview = [mv valueForKey:@"overview"];
-            muv.releaseDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@",[mv valueForKey:@"release_date"]]];
-            [_user addToWatchlistMovies:[[RLMovie alloc] initWithMovie:muv]];
+            [_user addToWatchlistMovies:[[RLMovie alloc] initWithMovie:mv]];
         }
         if([[_onePageWtchMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageWtchMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
-            [self setRatedMovieLists];
+            [self getRatedMovieLists];
         }
         else if([_onePageWtchMovieList pageCount]>_currentPage){
             int i = [_currentPage intValue];
@@ -478,34 +309,12 @@
     }];
 }
 
-
-
-
-
--(void)setRatedMovieLists{
-    RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];
-    [listMapping addAttributeMappingsFromDictionary:@{@"page": @"page",
-                                                      @"results": @"movieList",
-                                                      @"total_pages": @"pageCount"
-                                                      }];
+-(void)getRatedMovieLists{
     
-    NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/rated/movies",_currentUser.userID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:listMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     [_realm beginWriteTransaction];
     [[_user ratedMovies] removeAllObjects];
     [_realm commitWriteTransaction];
-    [self getRatedMovieLists];
-}
-
--(void)getRatedMovieLists{
+    
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/rated/movies",_currentUser.userID];
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
@@ -520,19 +329,11 @@
         
         _onePageRateMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageRateMovieList movieList]){
-            Movie *muv = [[Movie alloc]init];
-            muv.movieID = [mv valueForKey:@"id"];
-            muv.title = [mv valueForKey:@"title"];
-            muv.rating = [mv valueForKey:@"vote_average"];
-            muv.posterPath = [mv valueForKey:@"poster_path"];
-            muv.backdropPath = [mv valueForKey:@"backdrop_path"];
-            muv.overview = [mv valueForKey:@"overview"];
-            muv.releaseDate = [dateFormatter dateFromString:[mv valueForKey:@"release_date"]];
-            [_user addToRatedMovies:[[RLMovie alloc] initWithMovie:muv]];
+            [_user addToRatedMovies:[[RLMovie alloc] initWithMovie:mv]];
         }
         if([[_onePageRateMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageRateMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
-            [self setFavoriteShowLists];
+            [self getFavoriteShowLists];
         }
         
         else if([_onePageRateMovieList pageCount]>_currentPage){
@@ -545,35 +346,12 @@
     }];
 }
 
-
-
-
-
-
--(void)setFavoriteShowLists{
-    RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];
-    [listMapping addAttributeMappingsFromDictionary:@{@"page": @"page",
-                                                      @"results": @"showList",
-                                                      @"total_pages": @"pageCount"
-                                                      }];
+-(void)getFavoriteShowLists{
     
-    NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/favorite/tv",_currentUser.userID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:listMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     [_realm beginWriteTransaction];
     [[_user favoriteShows] removeAllObjects];
     [_realm commitWriteTransaction];
-    [self getFavoriteShowLists];
-}
-
--(void)getFavoriteShowLists{
+    
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/favorite/tv",_currentUser.userID];
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
@@ -588,19 +366,11 @@
         
         _onePageFavShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageFavShowList showList]){
-            TVShow *tvs = [[TVShow alloc]init];
-            tvs.showID = [tv valueForKey:@"id"];
-            tvs.name = [tv valueForKey:@"name"];
-            tvs.rating = [tv valueForKey:@"vote_average"];
-            tvs.posterPath = [tv valueForKey:@"poster_path"];
-            tvs.backdropPath = [tv valueForKey:@"backdrop_path"];
-            tvs.overview = [tv valueForKey:@"overview"];
-            tvs.airDate = [dateFormatter dateFromString:[tv valueForKey:@"first_air_date"]];
-            [_user addToFavoriteShows:[[RLTVShow alloc] initWithShow:tvs]];
+            [_user addToFavoriteShows:[[RLTVShow alloc] initWithShow:tv]];
         }
         if([[_onePageFavShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageFavShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
-            [self setWatchlistShowLists];
+            [self getWatchlistShowLists];
         }
         
         else if([_onePageFavShowList pageCount]>_currentPage){
@@ -613,34 +383,12 @@
     }];
 }
 
-
-
-
-
--(void)setWatchlistShowLists{
-    RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];
-    [listMapping addAttributeMappingsFromDictionary:@{@"page": @"page",
-                                                      @"results": @"showList",
-                                                      @"total_pages": @"pageCount"
-                                                      }];
+-(void)getWatchlistShowLists{
     
-    NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/watchlist/tv",_currentUser.userID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:listMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     [_realm beginWriteTransaction];
     [[_user watchlistShows] removeAllObjects];
     [_realm commitWriteTransaction];
-    [self getWatchlistShowLists];
-}
-
--(void)getWatchlistShowLists{
+    
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/watchlist/tv",_currentUser.userID];
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
@@ -655,19 +403,11 @@
         
         _onePageWtchShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageWtchShowList showList]){
-            TVShow *tvs = [[TVShow alloc]init];
-            tvs.showID = [tv valueForKey:@"id"];
-            tvs.name = [tv valueForKey:@"name"];
-            tvs.rating = [tv valueForKey:@"vote_average"];
-            tvs.posterPath = [tv valueForKey:@"poster_path"];
-            tvs.backdropPath = [tv valueForKey:@"backdrop_path"];
-            tvs.overview = [tv valueForKey:@"overview"];
-            tvs.airDate = [dateFormatter dateFromString:[tv valueForKey:@"first_air_date"]];
-            [_user addToWatchlistShows:[[RLTVShow alloc] initWithShow:tvs]];
+            [_user addToWatchlistShows:[[RLTVShow alloc] initWithShow:tv]];
         }
         if([[_onePageWtchShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageWtchShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
-            [self setRatedShowLists];
+            [self getRatedShowLists];
         }
         
         else if([_onePageWtchShowList pageCount]>_currentPage){
@@ -680,34 +420,12 @@
     }];
 }
 
-
-
-
-
--(void)setRatedShowLists{
-    RKObjectMapping *listMapping = [RKObjectMapping mappingForClass:[ListMapping class]];
-    [listMapping addAttributeMappingsFromDictionary:@{@"page": @"page",
-                                                      @"results": @"showList",
-                                                      @"total_pages": @"pageCount"
-                                                      }];
+-(void)getRatedShowLists{
     
-    NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/rated/tv",_currentUser.userID];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:listMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:nil
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
     [_realm beginWriteTransaction];
     [[_user ratedShows] removeAllObjects];
     [_realm commitWriteTransaction];
-    [self getRatedShowLists];
-}
-
--(void)getRatedShowLists{
+    
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/rated/tv",_currentUser.userID];
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
@@ -717,21 +435,13 @@
                                       };
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-
+        
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
         
         _onePageRateShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageRateShowList showList]){
-            TVShow *tvs = [[TVShow alloc]init];
-            tvs.showID = [tv valueForKey:@"id"];
-            tvs.name = [tv valueForKey:@"name"];
-            tvs.rating = [tv valueForKey:@"vote_average"];
-            tvs.posterPath = [tv valueForKey:@"poster_path"];
-            tvs.backdropPath = [tv valueForKey:@"backdrop_path"];
-            tvs.overview = [tv valueForKey:@"overview"];
-            tvs.airDate = [dateFormatter dateFromString:[tv valueForKey:@"first_air_date"]];
-            [_user addToRatedShows:[[RLTVShow alloc] initWithShow:tvs]];
+            [_user addToRatedShows:[[RLTVShow alloc] initWithShow:tv]];
         }
         
         if([[_onePageRateShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageRateShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
@@ -750,13 +460,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

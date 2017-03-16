@@ -19,6 +19,10 @@
 #import "TVMovie.h"
 #import "Token.h"
 #import "ImagePathUrl.h"
+#import "ListMapping.h"
+#import "ListMappingTV.h"
+#import "Token.h"
+#import "UserInfo.h"
 
 @implementation ObjectMapper
 
@@ -35,6 +39,10 @@
     [self mappingForObjectClass:[TrailerVideos class] requestKeyPath:nil responseKeyPath:@"results"];
     [self mappingForObjectClass:[TVMovie class] requestKeyPath:nil responseKeyPath:@"results"];
     [self mappingForObjectClass:[Episode class] requestKeyPath:nil responseKeyPath:@"episodes"];
+    [self mappingForObjectClass:[ListMapping class] requestKeyPath:nil responseKeyPath:nil];
+    [self mappingForObjectClass:[ListMappingTV class] requestKeyPath:nil responseKeyPath:nil];
+    [self mappingForObjectClass:[Token class] requestKeyPath:nil responseKeyPath:nil];
+    [self mappingForObjectClass:[UserInfo class] requestKeyPath:nil responseKeyPath:nil];
 
 
     

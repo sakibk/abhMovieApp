@@ -21,20 +21,20 @@ NSString *const singleReviewCellIdentifier = @"SingleReviewCellIdentifier";
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
 - (void)layoutSubviews
 {
     if(!_isLayoutSubview){
-    CGRect labelFrame = self.contentLabel.frame;
-    labelFrame.size.height = self.frame.size.height - 55.0f;
-    self.contentLabel.frame = labelFrame;
-    
-    CGRect buttonFrame = self.readMoreButton.frame;
-    buttonFrame.origin.y = labelFrame.origin.y+labelFrame.size.height+10.0f;
-    self.readMoreButton.frame = buttonFrame;
+        CGRect labelFrame = self.contentLabel.frame;
+        labelFrame.size.height = self.frame.size.height - 55.0f;
+        self.contentLabel.frame = labelFrame;
+        
+        CGRect buttonFrame = self.readMoreButton.frame;
+        buttonFrame.origin.y = labelFrame.origin.y+labelFrame.size.height+10.0f;
+        self.readMoreButton.frame = buttonFrame;
         _isLayoutSubview=YES;
     }
 }
@@ -49,7 +49,7 @@ NSString *const singleReviewCellIdentifier = @"SingleReviewCellIdentifier";
 }
 
 -(void)readMore:(id)sender{
-
+    
 }
 
 @end

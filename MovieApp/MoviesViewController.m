@@ -281,7 +281,6 @@ RLM_ARRAY_TYPE(Movie);
         
     }
     
-    
     [optionOne setAlpha:0.0];
     [optionTwo setAlpha:0.0];
     [optionThree setAlpha:0.0];
@@ -309,7 +308,6 @@ RLM_ARRAY_TYPE(Movie);
                 self.collectionView.frame = CGRectMake(0, self.collectionView.frame.origin.y + 320, CGRectGetWidth(initialCollectionViewFrame), CGRectGetHeight(initialCollectionViewFrame));
             }
             [self setButtonTitle];
-            //                [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
@@ -355,7 +353,6 @@ RLM_ARRAY_TYPE(Movie);
                 CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
                 [_dropDown setFrame:dropDownFrame];
                 [self setButtonTitle];
-                //              [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
                 [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
                 
                 self.collectionView.frame = initialCollectionViewFrame;
@@ -367,13 +364,11 @@ RLM_ARRAY_TYPE(Movie);
 
 -(void)setDropDownTitleButton{
     if(_isDroped){
-        //        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         
     }
     else{
-        //        [showList setTitle:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle] forState:UIControlStateNormal];
         [self setButtonTitle];
         [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
         
@@ -417,10 +412,12 @@ RLM_ARRAY_TYPE(Movie);
     [self ListDroped:sender];
     if(_isMovie)
     {
+        _pageNumber=[NSNumber numberWithInt:1];
         [self setupButtonsMovie];
         [self getMovies];
     }
     else{
+        _pageNumber=[NSNumber numberWithInt:1];
         [self setupButtonsShows];
         [self getShows];
     }
@@ -515,28 +512,7 @@ RLM_ARRAY_TYPE(Movie);
 
 -(void)getMovies{
     NSString *localFilterString = _filterString;
-//    RKObjectMapping *movieMapping = [RKObjectMapping mappingForClass:[Movie class]];
-//    
-//    [movieMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
-//                                                       @"vote_average": @"rating",
-//                                                       @"poster_path": @"posterPath",
-//                                                       @"release_date": @"releaseDate",
-//                                                       @"id": @"movieID",
-//                                                       @"backdrop_path" : @"backdropPath",
-//                                                       @"genre_ids":@"genreIds"
-//                                                       }];
     NSString *pathP =@"/3/discover/movie";
-//
-//    RKResponseDescriptor *responseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:movieMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"results"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
-//    
-//    RKObjectMapping *movieMapping = [Movie responseMapping];
     
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
@@ -643,25 +619,8 @@ RLM_ARRAY_TYPE(Movie);
 
 - (void)getMovieGenres
 {
-    
-//    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
-//
-//    [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
-//                                                       @"name": @"genreName"
-//                                                       }];
-//
     NSString *pathP =@"/3/genre/movie/list";
-//
-//    RKResponseDescriptor *responseGenreDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"genres"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:responseGenreDescriptor];
-//    
+    
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };
@@ -681,20 +640,6 @@ RLM_ARRAY_TYPE(Movie);
 -(void)getShows{
     
     NSString *localFilterString = _filterString;
-//    
-//    RKObjectMapping *showMapping = [RKObjectMapping mappingForClass:[TVShow class]];
-//    
-//    [showMapping addAttributeMappingsFromDictionary:@{@"name": @"name",
-//                                                      @"vote_average": @"rating",
-//                                                      @"poster_path": @"posterPath",
-//                                                      @"first_air_date": @"airDate",
-//                                                      @"id": @"showID",
-//                                                      @"backdrop_path" : @"backdropPath",
-//                                                      @"overview": @"overview",
-//                                                      @"genre_ids": @"genreIds",
-//                                                      @"number_of_seasons":@"seasonCount"
-//                                                      }];
-//    [showMapping assignsNilForMissingRelationships];
     
     NSString *pathP =@"/3/discover/tv";
     
@@ -708,19 +653,6 @@ RLM_ARRAY_TYPE(Movie);
     if([localFilterString isEqualToString:@"vote_average.desc"]){
         pathP = @"3/tv/top_rated";
     }
-    
-    
-//    RKResponseDescriptor *responseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:showMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:nil
-//                                                keyPath:@"results"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
-    
     
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
@@ -842,25 +774,8 @@ RLM_ARRAY_TYPE(Movie);
 
 - (void)getTVGenres
 {
-    
-//    RKObjectMapping *genreMapping = [RKObjectMapping mappingForClass:[Genre class]];
-//    
-//    [genreMapping addAttributeMappingsFromDictionary:@{@"id": @"genreID",
-//                                                       @"name": @"genreName"
-//                                                       }];
-//    
     NSString *pathP =@"/3/genre/tv/list";
-//    
-//    RKResponseDescriptor *responseGenreDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:genreMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"genres"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:responseGenreDescriptor];
-    
+
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };

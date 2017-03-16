@@ -43,6 +43,7 @@
     [mapping addAttributeMappingsFromDictionary:[self elementToPropertyMappings]];
     
     mapping.assignsDefaultValueForMissingAttributes = NO;
+    mapping.assignsNilForMissingRelationships=YES;
     
     return mapping;
 }
@@ -70,16 +71,16 @@
 // Here you add additional response descriptors if you need them. "
 // e.g. If you need to map again Movie model from another path with GET method.
 + (NSArray *)additionalResponseDescriptors{
-    return @[[RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/on_the_air"
+    return @[             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/discover/tv"
+                                                                      keyPath:@"results"
+                                                                  statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
+             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/on_the_air"
                                                          keyPath:@"results"
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
              [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/airing_today"
                                                          keyPath:@"results"
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
              [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/top_rated"
-                                                         keyPath:@"results"
-                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
-             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/discover/tv"
                                                          keyPath:@"results"
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]
              ];

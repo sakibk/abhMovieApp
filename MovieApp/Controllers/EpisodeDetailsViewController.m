@@ -61,23 +61,7 @@
 
 -(void)getTrailers{
     
-     NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"/3/tv/",_singleEpisode.showID,@"/season/",_singleEpisode.seasonNumber,@"/episode/",_singleEpisode.episodeNumber,@"/videos"];
-    
-//    RKObjectMapping *trailerMapping = [RKObjectMapping mappingForClass:[TrailerVideos class]];
-//    
-//    [trailerMapping addAttributeMappingsFromDictionary:@{@"key": @"videoKey",
-//                                                         @"name": @"videoName",
-//                                                         @"id":@"videoID"
-//                                                         }];
-//    RKResponseDescriptor *trailerResponseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:trailerMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"results"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:trailerResponseDescriptor];
-    
+    NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"/3/tv/",_singleEpisode.showID,@"/season/",_singleEpisode.seasonNumber,@"/episode/",_singleEpisode.episodeNumber,@"/videos"];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -89,7 +73,7 @@
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-
+    
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -170,7 +154,7 @@
         default: return _noHeight;
             break;
     }
-
+    
 }
 
 -(NSString*)stringForSection:(long)section{
@@ -232,13 +216,13 @@
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if(section!=0 || section!=2 ){
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
-    if(section==3 || section==4){
-        UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
-        lineview.layer.borderColor = [UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0].CGColor;
-        lineview.layer.borderWidth = 0.5;
-        [view addSubview:lineview];
-    }
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
+        if(section==3 || section==4){
+            UIView * lineview = [[UIView alloc] initWithFrame:CGRectMake(0, 0,tableView.frame.size.width,1)];
+            lineview.layer.borderColor = [UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0].CGColor;
+            lineview.layer.borderWidth = 0.5;
+            [view addSubview:lineview];
+        }
         UILabel *label;
         if(section!=1){
             label= [[UILabel alloc] initWithFrame:CGRectMake(10, 10, tableView.frame.size.width/2, 18)];
@@ -248,12 +232,12 @@
             label = [[UILabel alloc] initWithFrame:CGRectMake(10, 0, tableView.frame.size.width/2, 18)];
             [label setFont:[UIFont systemFontOfSize:17]];
         }
-    NSString *string =[self stringForSection:section];
-    [label setText:string];
-    [view addSubview:label];
-    [label setTextColor:[UIColor whiteColor]];
-    [view setBackgroundColor:[UIColor blackColor]]; //your background color...
-    return view;
+        NSString *string =[self stringForSection:section];
+        [label setText:string];
+        [view addSubview:label];
+        [label setTextColor:[UIColor whiteColor]];
+        [view setBackgroundColor:[UIColor blackColor]]; //your background color...
+        return view;
     }
     else
         return nil;
@@ -261,20 +245,20 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(_singleEpisode.trailers.firstObject)
-    if(indexPath.section==1 && indexPath.row == 0){
-         NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        TrailerViewController *trailer = [storyboard instantiateViewControllerWithIdentifier:@"TrailerView"];
-        trailer.episodeTrailer=_singleEpisode.trailers.firstObject;
-        trailer.isEpisode=YES;
-        trailer.episodeOverview=_singleEpisode.overview;
-        [viewControllers addObject:trailer];
-        [[self navigationController] setViewControllers:viewControllers animated:YES];
-    }
+        if(indexPath.section==1 && indexPath.row == 0){
+            NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            TrailerViewController *trailer = [storyboard instantiateViewControllerWithIdentifier:@"TrailerView"];
+            trailer.episodeTrailer=_singleEpisode.trailers.firstObject;
+            trailer.isEpisode=YES;
+            trailer.episodeOverview=_singleEpisode.overview;
+            [viewControllers addObject:trailer];
+            [[self navigationController] setViewControllers:viewControllers animated:YES];
+        }
 }
 
 - (void)openActorWithID:(NSNumber *)actorID{
-        NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
     
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ActorDetailsViewController *actorDetails = [storyboard instantiateViewControllerWithIdentifier:@"ActorDetails"];
@@ -286,13 +270,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

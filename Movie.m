@@ -69,6 +69,9 @@
 + (NSArray *)additionalResponseDescriptors{
     return @[[RKResponseDescriptor responseDescriptorWithMapping:[Movie responseMapping] method:RKRequestMethodGET pathPattern:@"/3/discover/movie"
                                                          keyPath:@"results"
+                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
+             [RKResponseDescriptor responseDescriptorWithMapping:[Movie responseMapping] method:RKRequestMethodGET pathPattern:@"/3/movie/upcoming"
+                                                         keyPath:@"results"
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]
              ];
     

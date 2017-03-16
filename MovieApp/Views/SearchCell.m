@@ -43,12 +43,12 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
     else{
         _releaseAirDate.text=[NSString stringWithFormat:@"(N/A)"];
     }
-
+    
     [self setRating:singleMovie.rating];
     _searchTitle.text=[NSString stringWithFormat:@"%@",singleMovie.title];
     if(_isSideBar)
         [self setupSeparator];
-
+    
 }
 
 
@@ -67,7 +67,7 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
         
         _releaseAirDate.text=[NSString stringWithFormat:@"(TV series N/A )"];
     }
-
+    
     [self setRating:singleShow.rating];
     _searchTitle.text=[NSString stringWithFormat:@"%@",singleShow.name];
     if(_isSideBar)
@@ -89,7 +89,7 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 

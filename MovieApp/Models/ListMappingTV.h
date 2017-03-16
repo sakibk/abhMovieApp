@@ -1,21 +1,20 @@
 //
-//  ListMapping.h
+//  ListMappingTV.h
 //  MovieApp
 //
-//  Created by Sakib Kurtic on 24/02/2017.
+//  Created by Sakib Kurtic on 15/03/2017.
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
-#import <RestKit/RestKit.h>
-#import "Movie.h"
+#import <UIKit/UIKit.h>
 #import "TVShow.h"
+#import <RestKit/RestKit.h>
 
-@interface ListMapping : NSObject
+@interface ListMappingTV : UIControl
 
 @property (strong, nonatomic) NSString *page;
 @property (strong, nonatomic) NSNumber *pageCount;
-@property (strong, nonatomic) NSSet<Movie*> *movieList;
+@property (strong, nonatomic) NSSet<TVShow*> *showList;
 
 +(NSDictionary*)elementToPropertyMappings;
 +(RKObjectMapping *)responseMapping;

@@ -45,7 +45,7 @@
 }
 
 -(void)setupPicture{
-        _imageCountLabel.text =[NSString stringWithFormat:@"  %d of %lu",[_currentImageIndex intValue]+1,(unsigned long)[_allImagePaths count]];
+    _imageCountLabel.text =[NSString stringWithFormat:@"  %d of %lu",[_currentImageIndex intValue]+1,(unsigned long)[_allImagePaths count]];
     
     [_imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",[_allImagePaths objectAtIndex:[_currentImageIndex intValue]].posterPath]]placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",_currentImageIndex,@".png"]]];
 }
@@ -80,13 +80,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

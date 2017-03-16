@@ -1,14 +1,15 @@
 //
-//  ListMapping.m
+//  ListMappingTV.m
 //  MovieApp
 //
-//  Created by Sakib Kurtic on 24/02/2017.
+//  Created by Sakib Kurtic on 15/03/2017.
 //  Copyright © 2017 Sakib Kurtic. All rights reserved.
 //
 
-#import "ListMapping.h"
+#import "ListMappingTV.h"
 
-@implementation ListMapping
+@implementation ListMappingTV
+
 
 + (NSDictionary*)elementToPropertyMappings {
     
@@ -21,11 +22,11 @@
 +(RKObjectMapping*)responseMapping {
     // Create an object mapping.
     
-    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[ListMapping class]];
+    RKObjectMapping *mapping = [RKObjectMapping mappingForClass:[ListMappingTV class]];
     [mapping addPropertyMapping:[RKRelationshipMapping
                                  relationshipMappingFromKeyPath:@"results"
-                                 toKeyPath:@"movieList"
-                                 withMapping:[Movie responseMapping]]];
+                                 toKeyPath:@"showList"
+                                 withMapping:[TVShow responseMapping]]];
     [mapping addAttributeMappingsFromDictionary:[self elementToPropertyMappings]];
     mapping.assignsDefaultValueForMissingAttributes = NO;
     
@@ -41,7 +42,7 @@
             break;
             // This is an example.
         case RKRequestMethodGET:
-            path = @"/3/account/:id/favorite/movies";
+            path = @"/3/account/:id/favorite/tv";
             break;
         case RKRequestMethodPUT:
             path = @"";
@@ -55,10 +56,13 @@
 // Here you add additional response descriptors if you need them.
 // e.g. If you need to map again Movie model from another path with GET method.
 + (NSArray *)additionalResponseDescriptors{
-    return @[[RKResponseDescriptor responseDescriptorWithMapping:[ListMapping responseMapping] method:RKRequestMethodGET pathPattern:@"/3/account/:id/watchlist/movies"
+    return @[[RKResponseDescriptor responseDescriptorWithMapping:[ListMappingTV responseMapping] method:RKRequestMethodGET pathPattern:@"/3/account/:id/watchlist/tv"
                                                          keyPath:nil
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
-             [RKResponseDescriptor responseDescriptorWithMapping:[ListMapping responseMapping] method:RKRequestMethodGET pathPattern:@"/3/account/:id/rated/movies"
+             [RKResponseDescriptor responseDescriptorWithMapping:[ListMappingTV responseMapping] method:RKRequestMethodGET pathPattern:@"/3/account/:id/rated/tv"
+                                                         keyPath:nil
+                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
+             [RKResponseDescriptor responseDescriptorWithMapping:[ListMappingTV responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/airing_today"
                                                          keyPath:nil
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]
              ];

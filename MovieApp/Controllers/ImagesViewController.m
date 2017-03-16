@@ -47,7 +47,7 @@
 -(void)setupWithMovie:(Movie *)singleMovie{
     _movieID = [NSString stringWithFormat:@"%@",singleMovie.movieID];
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", _movieID,@"/images"];
-
+    
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
                                       };

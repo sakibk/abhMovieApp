@@ -55,51 +55,32 @@
                              @"",
                              @""];
         
-            self.logedTitlesArray = @[@"Your List",
-                                 @"Your Favorites",
-                                 @"Your Watchlist",
-                                 @"Your Ratings",
-                                 @"More",
-                                 @"Settings",
-                                 @"Logout",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @""];
-            
-            self.imagesArray = @[@"",
-                                 @"FavoritesButton",
-                                 @"WatchlistButton",
-                                 @"RatingsButton",
-                                 @"",
-                                 @"SettingsButton",
-                                 @"LogoutButton",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @"",
-                                 @""];
+        self.logedTitlesArray = @[@"Your List",
+                                  @"Your Favorites",
+                                  @"Your Watchlist",
+                                  @"Your Ratings",
+                                  @"More",
+                                  @"Settings",
+                                  @"Logout",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @""];
         
-        self.imageTitlesArray = @[@"",
+        self.imagesArray = @[@"",
+                             @"FavoritesButton",
+                             @"WatchlistButton",
+                             @"RatingsButton",
                              @"",
-                             @"LoginArrow",
-                             @"",
-                             @"",
-                             @"",
-                             @"",
+                             @"SettingsButton",
+                             @"LogoutButton",
                              @"",
                              @"",
                              @"",
@@ -111,6 +92,25 @@
                              @"",
                              @"",
                              @""];
+        
+        self.imageTitlesArray = @[@"",
+                                  @"",
+                                  @"LoginArrow",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @"",
+                                  @""];
         
         [self.tableView setScrollEnabled:NO];
         
@@ -217,7 +217,7 @@
     LeftViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     [cell.textLabel setTextColor:[UIColor lightGrayColor]];
     [cell setBackgroundColor:[UIColor blackColor]];
-     [cell setUserInteractionEnabled:NO];
+    [cell setUserInteractionEnabled:NO];
     [cell.textLabel setMinimumScaleFactor:0.85];
     if(!_isLogged){
         cell.textLabel.text = self.titlesArray[indexPath.row];
@@ -238,10 +238,10 @@
             [cell.imageView sizeToFit];
             [cell setUserInteractionEnabled:YES];
         }
-    else if(indexPath.row==0 || indexPath.row==4){
-        [cell setBackgroundColor:[UIColor colorWithRed:0.29 green:0.29 blue:0.3 alpha:1.0]];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        
+        else if(indexPath.row==0 || indexPath.row==4){
+            [cell setBackgroundColor:[UIColor colorWithRed:0.29 green:0.29 blue:0.3 alpha:1.0]];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
         }
     }
     return cell;
@@ -269,122 +269,122 @@
             [previusCell.textLabel setTextColor:[UIColor lightGrayColor]];
             [previusCell setBackgroundColor:[UIColor blackColor]];
             [previusCell.imageView setImage:[UIImage imageNamed:self.imagesArray[_selectedIndex.row]]];
-        switch (indexPath.row) {
-            case 1:{
-                [cell.imageView setImage:[UIImage imageNamed:@"YellowFavoritesButton"]];
-                ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
-                listsController.isFavorites=YES;
-                listsController.isWatchlist=NO;
-                listsController.isRating=NO;
-                [self.navigationController pushViewController:listsController animated:YES];
-                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
-            }
-                break;
-            case 2:{
-                [cell.imageView setImage:[UIImage imageNamed:@"YellowWatchlistButton"]];
-                ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
-                listsController.isFavorites=NO;
-                listsController.isWatchlist=YES;
-                listsController.isRating=NO;
-                [self.navigationController pushViewController:listsController animated:YES];
-                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
-            }
-                break;
-            case 3:{
-                [cell.imageView setImage:[UIImage imageNamed:@"YellowRatingsButton"]];
-                ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
-                listsController.isFavorites=NO;
-                listsController.isWatchlist=NO;
-                listsController.isRating=YES;
-                [self.navigationController pushViewController:listsController animated:YES];
-                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
-            }
-                break;
-            case 5:{
-                [cell.imageView setImage:[UIImage imageNamed:@"YellowSettingsButton"]];
-                SettingsViewController *settingsView = (SettingsViewController*)[storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
-                [self.navigationController pushViewController:settingsView animated:YES];
-                [_menuButton setAlpha:0.0];
-                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
-            }
-                break;
-            case 6:{
-                [cell.imageView setImage:[UIImage imageNamed:@"YellowLogoutButton"]];
-                [_menuButton setAlpha:0.0];
-                [self.sideMenuController hideLeftViewAnimated:NO completionHandler:nil];
-                
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Logout" message:@"Are You sure You want to logout?" preferredStyle:UIAlertControllerStyleAlert];
-                UIView *firstSubview = alertController.view.subviews.firstObject;
-                
-                UIView *alertContentView = firstSubview.subviews.firstObject;
-                for (UIView *subSubView in alertContentView.subviews) { //This is main catch
-                    subSubView.backgroundColor = [UIColor colorWithWhite:0.177 alpha:1.0]; //Here you change background
+            switch (indexPath.row) {
+                case 1:{
+                    [cell.imageView setImage:[UIImage imageNamed:@"YellowFavoritesButton"]];
+                    ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
+                    listsController.isFavorites=YES;
+                    listsController.isWatchlist=NO;
+                    listsController.isRating=NO;
+                    [self.navigationController pushViewController:listsController animated:YES];
+                    [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
                 }
-                NSMutableAttributedString *titleText =
-                [[NSMutableAttributedString alloc]
-                 initWithString:@"Logout"];
-                
-                NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-                paragraphStyle.lineSpacing = 30.f;
-                paragraphStyle.alignment = NSTextAlignmentCenter;
-                
-                [titleText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [titleText length])];
-                [titleText addAttribute:NSForegroundColorAttributeName
-                             value:[UIColor whiteColor]
-                             range:NSMakeRange(0, [titleText length])];
-                [titleText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, [titleText length])];
-                NSMutableAttributedString *text =
-                [[NSMutableAttributedString alloc]
-                 initWithString:@"\nAre You sure You want to logout?"];
-                [text addAttribute:NSForegroundColorAttributeName
-                             value:[UIColor lightGrayColor]
-                             range:NSMakeRange(0, [text length])];
-                [text addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [text length])];
-
-                [alertController setValue:titleText forKey:@"attributedTitle"];
-                 [alertController setValue:text forKey:@"attributedMessage"];
-                UIAlertAction* yes = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isLoged"];
-                    _isLogged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
-                    [self.tableView reloadData];
-                }];
-                
-                UIAlertAction* no = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
-                    _selectedIndex=nil;
-                }];
-                alertController.view.tintColor =[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0];
-                [alertController addAction:no];
-                [alertController addAction:yes];
-                
-                [self presentViewController:alertController animated:YES completion:nil];
-            }
-                break;
-            default:
-                break;
+                    break;
+                case 2:{
+                    [cell.imageView setImage:[UIImage imageNamed:@"YellowWatchlistButton"]];
+                    ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
+                    listsController.isFavorites=NO;
+                    listsController.isWatchlist=YES;
+                    listsController.isRating=NO;
+                    [self.navigationController pushViewController:listsController animated:YES];
+                    [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
+                }
+                    break;
+                case 3:{
+                    [cell.imageView setImage:[UIImage imageNamed:@"YellowRatingsButton"]];
+                    ListsViewController *listsController = (ListsViewController  *)[storyboard instantiateViewControllerWithIdentifier:@"ListViewController"];
+                    listsController.isFavorites=NO;
+                    listsController.isWatchlist=NO;
+                    listsController.isRating=YES;
+                    [self.navigationController pushViewController:listsController animated:YES];
+                    [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
+                }
+                    break;
+                case 5:{
+                    [cell.imageView setImage:[UIImage imageNamed:@"YellowSettingsButton"]];
+                    SettingsViewController *settingsView = (SettingsViewController*)[storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
+                    [self.navigationController pushViewController:settingsView animated:YES];
+                    [_menuButton setAlpha:0.0];
+                    [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
+                }
+                    break;
+                case 6:{
+                    [cell.imageView setImage:[UIImage imageNamed:@"YellowLogoutButton"]];
+                    [_menuButton setAlpha:0.0];
+                    [self.sideMenuController hideLeftViewAnimated:NO completionHandler:nil];
+                    
+                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Logout" message:@"Are You sure You want to logout?" preferredStyle:UIAlertControllerStyleAlert];
+                    UIView *firstSubview = alertController.view.subviews.firstObject;
+                    
+                    UIView *alertContentView = firstSubview.subviews.firstObject;
+                    for (UIView *subSubView in alertContentView.subviews) { //This is main catch
+                        subSubView.backgroundColor = [UIColor colorWithWhite:0.177 alpha:1.0]; //Here you change background
+                    }
+                    NSMutableAttributedString *titleText =
+                    [[NSMutableAttributedString alloc]
+                     initWithString:@"Logout"];
+                    
+                    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+                    paragraphStyle.lineSpacing = 30.f;
+                    paragraphStyle.alignment = NSTextAlignmentCenter;
+                    
+                    [titleText addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [titleText length])];
+                    [titleText addAttribute:NSForegroundColorAttributeName
+                                      value:[UIColor whiteColor]
+                                      range:NSMakeRange(0, [titleText length])];
+                    [titleText addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:20] range:NSMakeRange(0, [titleText length])];
+                    NSMutableAttributedString *text =
+                    [[NSMutableAttributedString alloc]
+                     initWithString:@"\nAre You sure You want to logout?"];
+                    [text addAttribute:NSForegroundColorAttributeName
+                                 value:[UIColor lightGrayColor]
+                                 range:NSMakeRange(0, [text length])];
+                    [text addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:15] range:NSMakeRange(0, [text length])];
+                    
+                    [alertController setValue:titleText forKey:@"attributedTitle"];
+                    [alertController setValue:text forKey:@"attributedMessage"];
+                    UIAlertAction* yes = [UIAlertAction actionWithTitle:@"Yes" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                        [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"isLoged"];
+                        _isLogged=[[NSUserDefaults standardUserDefaults] boolForKey:@"isLoged"];
+                        [self.tableView reloadData];
+                    }];
+                    
+                    UIAlertAction* no = [UIAlertAction actionWithTitle:@"No" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action){
+                        _selectedIndex=nil;
+                    }];
+                    alertController.view.tintColor =[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0];
+                    [alertController addAction:no];
+                    [alertController addAction:yes];
+                    
+                    [self presentViewController:alertController animated:YES completion:nil];
+                }
+                    break;
+                default:
+                    break;
             }
             _selectedIndex=indexPath;
         }
-
+        
     }
     else{
         if(_selectedIndex!=indexPath){
-    if(indexPath.row==2){
-        [cell.imageView setImage:[UIImage imageNamed:@"YellowLoginArrow"]];
+            if(indexPath.row==2){
+                [cell.imageView setImage:[UIImage imageNamed:@"YellowLoginArrow"]];
                 LoginViewController *loginController = (LoginViewController *)[storyboard instantiateViewControllerWithIdentifier:@"LoginController"];
                 [self.navigationController pushViewController:loginController animated:YES];
-        [_menuButton setAlpha:0.0];
-        [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
+                [_menuButton setAlpha:0.0];
+                [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
+            }
         }
+        _selectedIndex=indexPath;
     }
-    _selectedIndex=indexPath;
-    }
-   }
+}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"LoginControllerIdentifier"]){
         LoginViewController *login = segue.destinationViewController;
     }
-    }
+}
 
 
 

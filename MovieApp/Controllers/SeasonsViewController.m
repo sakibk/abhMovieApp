@@ -55,29 +55,6 @@
     [_formatter setRoundingMode: NSNumberFormatterRoundUp];
 }
 
--(void)setRestkit{
-//        NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
-    
-//    RKObjectMapping *episodeMapping = [RKObjectMapping mappingForClass:[Episode class]];
-//    
-//    [episodeMapping addAttributeMappingsFromDictionary:@{@"air_date":@"airDate",
-//                                                         @"episode_number":@"episodeNumber",
-//                                                         @"still_path":@"episodePoster",
-//                                                         @"name":@"episodeName",
-//                                                         @"overview":@"overview",
-//                                                         @"season_number":@"seasonNumber",
-//                                                         @"vote_average":@"rating"
-//                                                         }];
-//    RKResponseDescriptor *episodeResponseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:episodeMapping
-//                                                 method:RKRequestMethodGET
-//                                                pathPattern:nil
-//                                                keyPath:@"episodes"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:episodeResponseDescriptor];
-}
-
 -(void)getAllEpisodes{
     NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
     
@@ -103,7 +80,6 @@
 
 -(void)setupSeasonView{
     [self setFormater];
-    [self setRestkit];
     [self getAllEpisodes];
     _currentSeason=_seasons.firstObject;
 }
@@ -205,7 +181,7 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-
+    
 }
 
 

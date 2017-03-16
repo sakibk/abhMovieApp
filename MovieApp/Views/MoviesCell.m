@@ -49,7 +49,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     _title.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
     
     [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleMovie.posterPath]]
-                       placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd LLLL yyyy"];
@@ -60,14 +60,14 @@ NSString* const identifier= @"MovieCellIdentifier";
     _ratingLabel.text = [NSString stringWithFormat:@"%@",[formatter stringFromNumber:singleMovie.rating]];
     
     if( singleMovie.genreIds.count!=0){
-    _genID = [singleMovie.genreIds objectAtIndex:0];
-    
-    
-    for (Genre *gen in  singleMovie.genres) {
-        if (gen.genreID == _genID) {
-            singleMovie.singleGenre=gen.genreName;
+        _genID = [singleMovie.genreIds objectAtIndex:0];
+        
+        
+        for (Genre *gen in  singleMovie.genres) {
+            if (gen.genreID == _genID) {
+                singleMovie.singleGenre=gen.genreName;
+            }
         }
-    }
         _genreLabel.text=singleMovie.singleGenre;
     }
     else{
@@ -114,19 +114,19 @@ NSString* const identifier= @"MovieCellIdentifier";
     
     _ratingLabel.text = [NSString stringWithFormat:@"%@",[formatter stringFromNumber:singleShow.rating]];
     
-        if( singleShow.genreIds.count!=0){
-    _genID = [singleShow.genreIds objectAtIndex:0];
-    for (Genre *gen in  singleShow.genres) {
-        if (gen.genreID == _genID) {
-            singleShow.singleGenre=gen.genreName;
+    if( singleShow.genreIds.count!=0){
+        _genID = [singleShow.genreIds objectAtIndex:0];
+        for (Genre *gen in  singleShow.genres) {
+            if (gen.genreID == _genID) {
+                singleShow.singleGenre=gen.genreName;
+            }
         }
+        
+        _genreLabel.text=singleShow.singleGenre;
     }
-    
-    _genreLabel.text=singleShow.singleGenre;
-        }
-        else{
-            _genreLabel.text=@"N/A";
-        }
+    else{
+        _genreLabel.text=@"N/A";
+    }
     
     [self setCellGradient];
 }

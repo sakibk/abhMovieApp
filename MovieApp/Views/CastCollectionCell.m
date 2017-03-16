@@ -20,33 +20,14 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     // Initialization code
     _collectionView.delegate=self;
     _collectionView.dataSource=self;
-
+    
     [self.collectionView registerNib:[UINib nibWithNibName:@"SingleCastCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:singleCastCellIdentifier];
 }
 
 
 -(void) setupWithMovie:(Movie *)singleMovie{
     
-//    RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
-//    
-//    [castMapping addAttributeMappingsFromDictionary:@{@"character": @"castRoleName",
-//                                                       @"id": @"castID",
-//                                                       @"name": @"castName",
-//                                                       @"profile_path": @"castImagePath",
-//                                                       @"title":@"castMovieTitle"
-//                                                       }];
-//    castMapping.assignsDefaultValueForMissingAttributes = YES;
-//    
     NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",singleMovie.movieID];
-//
-//    RKResponseDescriptor *castResponseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"cast"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -61,8 +42,6 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
                 [_allCasts addObject:cast];
             }
         }
-//        _allCasts=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
         
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -70,82 +49,35 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     }];
 }
 
+
+-(void) setupWithShow:(TVShow *)singleShow{
     
-    -(void) setupWithShow:(TVShow *)singleShow{
+    NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",singleShow.showID];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
         
-//        RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
-//        
-//        [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
-//                                                          @"character": @"castRoleName",
-//                                                          @"id": @"castWithID",
-//                                                          @"name": @"castName",
-//                                                          @"profile_path": @"castImagePath"
-//                                                          }];
-//        castMapping.assignsDefaultValueForMissingAttributes = YES;
-//        
-        NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",singleShow.showID];
-//        
-//        RKResponseDescriptor *castResponseDescriptor =
-//        [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-//                                                     method:RKRequestMethodGET
-//                                                pathPattern:pathP
-//                                                    keyPath:@"cast"
-//                                                statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//        
-//        [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
-        
-        NSDictionary *queryParameters = @{
-                                          @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
-                                          };
-        
-        [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-            NSLog(@"%@", mappingResult.array);
-            
-            _allCasts = [[NSMutableArray alloc] init];
-            for (Cast *cast in mappingResult.array) {
-                if ([cast isKindOfClass:[Cast class]]) {
-                    [_allCasts addObject:cast];
-                }
+        _allCasts = [[NSMutableArray alloc] init];
+        for (Cast *cast in mappingResult.array) {
+            if ([cast isKindOfClass:[Cast class]]) {
+                [_allCasts addObject:cast];
             }
-            //        _allCasts=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-            
-            
-            [_collectionView reloadData];
-        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-            NSLog(@"RestKit returned error: %@", error);
-        }];
+        }
+        
+        [_collectionView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
 }
 
 
 -(void) setupWithEpisode:(Episode *)singleEpisode{
-//    RKObjectMapping *castMapping = [RKObjectMapping mappingForClass:[Cast class]];
-//    
-//    [castMapping addAttributeMappingsFromDictionary:@{@"cast_id": @"castID",
-//                                                      @"character": @"castRoleName",
-//                                                      @"id": @"castWithID",
-//                                                      @"name": @"castName",
-//                                                      @"profile_path": @"castImagePath"
-//                                                      }];
-//    castMapping.assignsDefaultValueForMissingAttributes = YES;
-//    
+    
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/season/%@/episode/%@/credits",singleEpisode.showID,singleEpisode.seasonNumber,singleEpisode.episodeNumber];
-//    
-//    RKResponseDescriptor *castResponseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"cast"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    RKResponseDescriptor *showStarsResponseDescriptor =
-//    [RKResponseDescriptor responseDescriptorWithMapping:castMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"guest_stars"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:castResponseDescriptor];
-//    [[RKObjectManager sharedManager] addResponseDescriptor:showStarsResponseDescriptor];
     
     NSDictionary *queryParameters = @{
                                       @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
@@ -167,12 +99,12 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -200,12 +132,10 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-//    self.window.rootViewController = [[ActorDetailsViewController alloc] init];
-//    [self performSegueWithIdentifier:@"ActorDetails" sender:self];
     
     _singleCast = [_allCasts objectAtIndex:indexPath.row];
     if(_singleCast.castID!=nil) {
-            [_delegate openActorWithID:_singleCast.castID];
+        [_delegate openActorWithID:_singleCast.castID];
     }
     else{
         [_delegate openActorWithID:_singleCast.castWithID];
@@ -234,5 +164,5 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 }
 
 
-    @end
+@end
 

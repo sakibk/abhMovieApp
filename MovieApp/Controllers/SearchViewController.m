@@ -36,7 +36,6 @@
     // Do any additional setup after loading the view.
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:searchCellIdentifier];
     [self searchBarSetup];
-    [self setRestkit];
     [self setGestures];
     _searchResults = [[NSMutableArray alloc]init];
     _tempMovie=[[Movie alloc]init];
@@ -44,7 +43,7 @@
     _pageNumber = [NSNumber numberWithInt:1];
     _setupScroll = 0;
     _searchString = @"";
-
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,7 +87,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _searchResults != nil ? [_searchResults count] : 0;
-
+    
 }
 
 -(void)setGestures{
@@ -107,75 +106,48 @@
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
 }
 
--(void)setRestkit{
-        NSString *pathP = @"/3/search/multi";
-//    RKObjectMapping *multiMapping = [RKObjectMapping mappingForClass:[TVMovie class]];
-//    
-//    [multiMapping addAttributeMappingsFromDictionary:@{@"title": @"title",
-//                                                       @"release_date": @"releaseDate",
-//                                                       @"vote_average": @"rating",
-//                                                       @"poster_path": @"posterPath",
-//                                                       @"id": @"TVMovieID",
-//                                                       @"backdrop_path" : @"backdropPath",
-//                                                       @"overview": @"overview",
-//                                                       @"genre_ids":@"genreIds",
-//                                                       @"name": @"name",
-//                                                       @"first_air_date": @"airDate",
-//                                                       @"media_type":@"mediaType"
-//                                                       }];
-//    
-//    RKResponseDescriptor *multiResponseDescriptor = [RKResponseDescriptor responseDescriptorWithMapping:multiMapping
-//                                                 method:RKRequestMethodGET
-//                                            pathPattern:pathP
-//                                                keyPath:@"results"
-//                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-//    
-//    [[RKObjectManager sharedManager] addResponseDescriptor:multiResponseDescriptor];
-
-}
-
 -(void)searchForString{
-
+    
     NSString *pathP = @"/3/search/multi";
     if(![_searchString isEqualToString:@""]){
         
-    NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
-                                      @"query":_searchString
-                                      };
-    
-    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult.array);
-        int custIndex=0;
-        [_searchResults removeAllObjects];
-        _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        if([_allResults.firstObject isKindOfClass:[TVMovie class]]){
-        for (TVMovie *TVorMovie in _allResults) {
-            
-            if (![TVorMovie isMovie]) {
-                TVShow *singleShow= [[TVShow alloc]init];
-                [singleShow setupWithTVMovie:TVorMovie];
-                if(singleShow.showID!=nil && singleShow.name!=nil){
-                    [_searchResults insertObject:singleShow atIndex:custIndex];
-                    custIndex++;
-                }
-            }
-            else if ([TVorMovie isMovie]) {
-                Movie *singleMovie=[[Movie alloc]init];
-                [singleMovie setupWithTVMovie:TVorMovie];
-                if(singleMovie.movieID!=nil && singleMovie.title!=nil){
-                    [_searchResults insertObject:singleMovie atIndex:custIndex];
-                    custIndex++;
-                }
-            }
-            
-        }
-    }
+        NSDictionary *queryParameters = @{
+                                          @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                          @"query":_searchString
+                                          };
         
-        [self reloadContent];
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"RestKit returned error: %@", error);
-    }];
+        [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            NSLog(@"%@", mappingResult.array);
+            int custIndex=0;
+            [_searchResults removeAllObjects];
+            _allResults=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+            if([_allResults.firstObject isKindOfClass:[TVMovie class]]){
+                for (TVMovie *TVorMovie in _allResults) {
+                    
+                    if (![TVorMovie isMovie]) {
+                        TVShow *singleShow= [[TVShow alloc]init];
+                        [singleShow setupWithTVMovie:TVorMovie];
+                        if(singleShow.showID!=nil && singleShow.name!=nil){
+                            [_searchResults insertObject:singleShow atIndex:custIndex];
+                            custIndex++;
+                        }
+                    }
+                    else if ([TVorMovie isMovie]) {
+                        Movie *singleMovie=[[Movie alloc]init];
+                        [singleMovie setupWithTVMovie:TVorMovie];
+                        if(singleMovie.movieID!=nil && singleMovie.title!=nil){
+                            [_searchResults insertObject:singleMovie atIndex:custIndex];
+                            custIndex++;
+                        }
+                    }
+                    
+                }
+            }
+            
+            [self reloadContent];
+        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+            NSLog(@"RestKit returned error: %@", error);
+        }];
     }
     
 }
@@ -208,7 +180,7 @@
                 Movie *singleMovie=[[Movie alloc]init];
                 [singleMovie setupWithTVMovie:TVorMovie];
                 if(singleMovie.movieID!=nil && singleMovie.title!=nil){
-                 [_searchResults insertObject:singleMovie atIndex:custIndex];
+                    [_searchResults insertObject:singleMovie atIndex:custIndex];
                     custIndex++;
                 }
             }
@@ -244,7 +216,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
+    
     SearchCell *cell = [tableView dequeueReusableCellWithIdentifier:searchCellIdentifier forIndexPath:indexPath];
     if ([[_searchResults objectAtIndex:indexPath.row] isKindOfClass:[Movie class]]) {
         _tempMovie=[_searchResults objectAtIndex:indexPath.row];
@@ -259,7 +231,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
     MovieDetailViewController *movieDetails = (MovieDetailViewController *)[storyboard instantiateViewControllerWithIdentifier:@"MovieDetails"];
@@ -294,11 +266,11 @@
     CGFloat actualPosition = scrollView_.contentOffset.y;
     CGFloat contentHeight = scrollView_.contentSize.height - (550);
     if(_setupScroll>1){
-    if (actualPosition >= contentHeight) {
-        int i = [_pageNumber intValue];
-        _pageNumber = [NSNumber numberWithInt:i+1];
-        [self getMoreSearchResults];
-    }
+        if (actualPosition >= contentHeight) {
+            int i = [_pageNumber intValue];
+            _pageNumber = [NSNumber numberWithInt:i+1];
+            [self getMoreSearchResults];
+        }
     }
     else{
         _setupScroll++;
@@ -313,7 +285,7 @@
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- 
+    
 }
 
 

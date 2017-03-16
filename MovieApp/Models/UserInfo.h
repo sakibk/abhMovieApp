@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/RestKit.h>
 #import "Token.h"
 #import <Realm/Realm.h>
 #import "Movie.h"
@@ -27,4 +28,11 @@
 
 
 - (id) initWithObject:(UserInfo *)user;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
+
 @end

@@ -27,22 +27,11 @@
                                             forKeyPath:@"SessionCredentials"
                                                options:NSKeyValueObservingOptionNew
                                                context:NULL];
-    [self setInsets];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
--(void)setInsets{
-//    @property (weak, nonatomic) IBOutlet UILabel *accountLabel;
-//    @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
-//    @property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
-//    @property (weak, nonatomic) IBOutlet UILabel *notificationLabel;
-//    @property (weak, nonatomic) IBOutlet UILabel *movieNotificationLabel;
-//    @property (weak, nonatomic) IBOutlet UILabel *showNotificationLabel;
-    
 }
 
 -(IBAction)movieNotificationON:(id)sender{
@@ -61,7 +50,7 @@
 
 -(IBAction)showNotificationON:(id)sender{
     BOOL isSet = [[_userCredits valueForKey:@"showNotification"] boolValue];
-        NSMutableDictionary *tempUserCredits= [[NSMutableDictionary alloc]initWithDictionary: _userCredits];
+    NSMutableDictionary *tempUserCredits= [[NSMutableDictionary alloc]initWithDictionary: _userCredits];
     if(isSet){
         [tempUserCredits setValue:[NSNumber numberWithBool:NO] forKey:@"showNotification"];
     }
@@ -75,7 +64,7 @@
 }
 
 -(void)setupView{
-//    .contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    //    .contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
     _accountName.text=[_userCredits valueForKey:@"name"];
     _accountUsername.text =[_userCredits valueForKey:@"username"];
@@ -109,13 +98,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

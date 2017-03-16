@@ -18,7 +18,7 @@ NSString *const reviewsCellIdentifier = @"ReviewsCellIdentifier";
     // Initialization code
     _tableView.delegate=self;
     _tableView.dataSource=self;
-
+    
     [self.tableView registerNib:[UINib nibWithNibName:@"SingleReviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:singleReviewCellIdentifier];
     
     
@@ -27,7 +27,7 @@ NSString *const reviewsCellIdentifier = @"ReviewsCellIdentifier";
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
@@ -64,46 +64,11 @@ NSString *const reviewsCellIdentifier = @"ReviewsCellIdentifier";
     RKObjectMapping *reviewMapping = [RKObjectMapping mappingForClass:[Review class]];
     
     [reviewMapping addAttributeMappingsFromDictionary:@{@"author": @"author",
-                                                      @"content": @"text"
-                                                      }];
-    reviewMapping.assignsDefaultValueForMissingAttributes = YES;
-    
-    NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", singleMovieID,@"/reviews"];
-    
-    RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:reviewMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:pathP
-                                                keyPath:@"results"
-                                            statusCodes:[NSIndexSet indexSetWithIndex:200]];
-    
-    [[RKObjectManager sharedManager] addResponseDescriptor:responseDescriptor];
-    
-    NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
-                                      };
-    
-    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"%@", mappingResult.array);
-        _allReviews=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
-        
-        [_tableView reloadData];
-    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"RestKit returned error: %@", error);
-    }];
-}
-
--(void) setupWithShowID:(NSNumber *)singleTVShowID{
-    
-    RKObjectMapping *reviewMapping = [RKObjectMapping mappingForClass:[Review class]];
-    
-    [reviewMapping addAttributeMappingsFromDictionary:@{@"author": @"author",
                                                         @"content": @"text"
                                                         }];
     reviewMapping.assignsDefaultValueForMissingAttributes = YES;
     
-    NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/tv/", singleTVShowID,@"/reviews"];
+    NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", singleMovieID,@"/reviews"];
     
     RKResponseDescriptor *responseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:reviewMapping

@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <Realm/Realm.h>
+#import <RestKit/RestKit.h>
 
 @interface Token : NSObject
 
@@ -20,5 +21,11 @@
 @property (nonatomic, strong) NSString *logedUsername;
 
 - (id) initWithObject:(Token *)token;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
 
 @end
