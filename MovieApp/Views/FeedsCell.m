@@ -17,7 +17,7 @@ NSString* const feedIdentifier= @"FeedCellIdentifier";
     // Initialization code
 }
 
--(void) setupFeedCell:(Feeds *) singleFeed{
+-(void) setupFeedCell:(RLMFeeds *) singleFeed{
     _feedTitle.text=singleFeed.title;
     _feed.text= singleFeed.desc;
     _sourceLink.text = singleFeed.link;

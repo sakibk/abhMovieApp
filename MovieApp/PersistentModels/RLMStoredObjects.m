@@ -7,6 +7,7 @@
 //
 
 #import "RLMStoredObjects.h"
+#import "RealmHelper.h"
 
 @implementation RLMStoredObjects
 
@@ -18,6 +19,33 @@
 //    [[RLMRealm defaultRealm] beginWriteTransaction];
     [self.storedFeeds addObject:feed];
 //    [[RLMRealm defaultRealm] commitWriteTransaction];
+}
+
+-(void)addToStoredPopularMovies:(RLMovie*)movie{
+    [RealmHelper putInto:self.storedPopularMovies :movie];
+    //zavrsiti ovo
+}
+-(void)addToStoredHighestRatedMovies:(RLMovie*)movie{
+    
+}
+-(void)addToStoredLatestMovies:(RLMovie*)movie{
+    
+}
+
+-(void)addToStoredPopularTV:(RLTVShow*)tv{
+    
+}
+-(void)addToStoredHighestRatedTV:(RLTVShow*)tv{
+    
+}
+-(void)addToStoredLatestTV:(RLTVShow*)tv{
+    
+}
+-(void)addToStoredAiringTodayTV:(RLTVShow*)tv{
+    
+}
+-(void)addToStoredOnAirTV:(RLTVShow*)tv{
+    
 }
 
 

@@ -10,6 +10,9 @@
 
 @implementation RLMovie
 
++ (NSString *)primaryKey {
+    return @"movieID";
+}
 
 -(void)setupWithMovie:(Movie *)singleObject{
     self.movieID=singleObject.movieID;

@@ -25,9 +25,9 @@
 
 @interface FeedsViewController ()
 
-@property NSMutableArray<Feeds *> *allFeeds;
+@property NSMutableArray<RLMFeeds *> *allFeeds;
 @property RLMArray<RLMFeeds*> *storedFeeds;
-@property Feeds *singleFeed;
+@property RLMFeeds *singleFeed;
 @property BOOL isNavBarSet;
 @property BOOL isConnected;
 @property RLMRealm *realm;
@@ -97,11 +97,10 @@
         [_storedObjetctFeeds.storedFeeds removeAllObjects];
         
         for (RSSItem *item in feedItems) {
-            //            [_allFeeds addObject:[[Feeds alloc] initWithRSSItem:item]];
-            _singleFeed = [[Feeds alloc]initWithRSSItem:item];
+            _singleFeed = [[RLMFeeds alloc]initWithRSSItem:item];
             if([_singleFeed.desc length]>15){
                 [_allFeeds addObject:_singleFeed];
-                [_storedObjetctFeeds addToStoredFeeds:[[RLMFeeds alloc] initWithFeed:_singleFeed]];
+                [_storedObjetctFeeds addToStoredFeeds:_singleFeed];
             }
         }
         
@@ -120,7 +119,7 @@
     RLMStoredObjects *obj = objs.firstObject;
     _allFeeds=[[NSMutableArray alloc] init];
     for(RLMFeeds *oneFeed in obj.storedFeeds){
-        [_allFeeds addObject:[[Feeds alloc] initWithRLMFeeds:oneFeed]];
+        [_allFeeds addObject:oneFeed];
     }
     }
     [self.tableView reloadData];

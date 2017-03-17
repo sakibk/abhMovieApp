@@ -21,6 +21,7 @@
 #import "ConnectivityTest.h"
 #import "RLUserInfo.h"
 #import "ApiKey.h"
+#import "RLMStoredObjects.h"
 RLM_ARRAY_TYPE(Movie);
 
 @interface MoviesViewController ()
@@ -43,6 +44,7 @@ RLM_ARRAY_TYPE(Movie);
 @property BOOL didScroll;
 
 @property RLMRealm *realm;
+@property RLMStoredObjects *storedObjetctMedia;
 
 @property (nonatomic,strong) UIView *dropDown;
 @property (nonatomic,assign) BOOL isDroped;
@@ -89,10 +91,16 @@ RLM_ARRAY_TYPE(Movie);
     _didScroll=YES;
     if(_isMovie)
     {
-        [self getMovies];
+        if(_isConnected)
+            [self getMovies];
+        else
+            [self getStoredMovies];
     }
     else{
-        [self getShows];
+        if(_isConnected)
+            [self getShows];
+        else
+            [self getStoredTV];
     }
     [self CreateDropDownList];
     [self setNavBar];
@@ -511,7 +519,21 @@ RLM_ARRAY_TYPE(Movie);
     // Dispose of any resources that can be recreated.
 }
 
+-(void)getStoredMovies{
+    RLMResults<RLMStoredObjects*> *objs = [RLMStoredObjects allObjects];
+    if([objs count]){
+        RLMStoredObjects *obj = objs.firstObject;
+        _allMovies=[[NSMutableArray alloc] init];
+        for(RLMovie *oneMovie in obj.storedPopularMovies){
+            [_allMovies addObject:[[Movie alloc] initWithObject:oneMovie]];
+        }
+    }
+    [self.collectionView reloadData];
+}
 
+-(void)getStoredTV{
+    
+}
 
 -(void)getMovies{
     NSString *localFilterString = _filterString;
