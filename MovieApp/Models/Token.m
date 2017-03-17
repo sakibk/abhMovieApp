@@ -38,15 +38,8 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method{
     NSString *path;
     switch (method) {
-        case RKRequestMethodPOST:
-            path = @"";
-            break;
-            // This is an example.
         case RKRequestMethodGET:
             path = @"/3/authentication/token/new";
-            break;
-        case RKRequestMethodPUT:
-            path = @"";
             break;
         default:
             break;

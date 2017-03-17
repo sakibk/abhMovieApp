@@ -18,6 +18,7 @@
 #import "RLTVShow.h"
 #import "ListMapping.h"
 #import "ListMappingTV.h"
+#import "ApiKey.h"
 
 @interface LoginViewController ()
 
@@ -124,7 +125,7 @@
     
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -146,7 +147,7 @@
     
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"request_token":token,
                                       @"username":_emailEditor.text,
                                       @"password":_passwordEditor.text
@@ -169,7 +170,7 @@
     
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"request_token":token
                                       };
     
@@ -193,7 +194,7 @@
     
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"session_id":_session.sessionID
                                       };
     
@@ -224,7 +225,7 @@
                                     @"name":_currentUser.name,
                                     @"movieNotification":[NSNumber numberWithBool:NO],
                                     @"showNotification":[NSNumber numberWithBool:NO],
-                                    @"apiKey": @"893050c58b2e2dfe6fa9f3fae12eaf64"
+                                    @"apiKey": [ApiKey getApiKey]
                                     };
         [[NSUserDefaults standardUserDefaults] setObject:loginData forKey:@"SessionCredentials"];
         [self getFavoriteMovieLists];
@@ -243,7 +244,7 @@
     
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/favorite/movies",_currentUser.userID];
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"session_id":_session.sessionID,
                                       @"sort_by":@"created_at.asc",
                                       @"page":_currentPage
@@ -281,7 +282,7 @@
     
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/watchlist/movies",_currentUser.userID];
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"session_id":_session.sessionID,
                                       @"sort_by":@"created_at.asc",
                                       @"page":_currentPage
@@ -317,7 +318,7 @@
     
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/rated/movies",_currentUser.userID];
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"session_id":_session.sessionID,
                                       @"sort_by":@"created_at.asc",
                                       @"page":_currentPage
@@ -354,7 +355,7 @@
     
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/favorite/tv",_currentUser.userID];
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"session_id":_session.sessionID,
                                       @"sort_by":@"created_at.asc",
                                       @"page":_currentPage
@@ -391,7 +392,7 @@
     
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/watchlist/tv",_currentUser.userID];
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"session_id":_session.sessionID,
                                       @"sort_by":@"created_at.asc",
                                       @"page":_currentPage
@@ -428,7 +429,7 @@
     
     NSString *pathP =[NSString stringWithFormat:@"/3/account/%@/rated/tv",_currentUser.userID];
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"session_id":_session.sessionID,
                                       @"sort_by":@"created_at.asc",
                                       @"page":_currentPage

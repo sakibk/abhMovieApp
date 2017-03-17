@@ -27,6 +27,7 @@
 #import "RatingViewController.h"
 #import "ListPost.h"
 #import "RLUserInfo.h"
+#import "ApiKey.h"
 
 
 @interface MovieDetailViewController ()
@@ -204,7 +205,7 @@
     NSString *pathP = [NSString stringWithFormat:@"%@%@", @"/3/movie/", _movieID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -223,7 +224,7 @@
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", singleMovieID,@"/reviews"];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -240,7 +241,7 @@
     NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",_movieID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -317,7 +318,7 @@
     
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -346,7 +347,7 @@
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",_movieID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -1168,7 +1169,7 @@
 -(void)noRestkitPost:(NSString*)list :(NSString*)postOrDelete{
     NSError *error;
     
-    NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
+    NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,[ApiKey getApiKey],[_userCredits objectForKey:@"sessionID"]];
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     configuration.HTTPAdditionalHeaders = @{
@@ -1233,7 +1234,7 @@
 }
 
 -(void)postToList:(NSString*)list :(NSString*)postOrDelete{
-    NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+    NSString *pathP = [NSString stringWithFormat:@"/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list, [ApiKey getApiKey], [_userCredits objectForKey:@"sessionID"]];
     
     NSMutableIndexSet *statusCodesRK = [[NSMutableIndexSet alloc]initWithIndexSet:[NSIndexSet indexSetWithIndex:200]];
     [statusCodesRK addIndexes:[NSIndexSet indexSetWithIndex:201]];

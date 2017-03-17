@@ -7,6 +7,8 @@
 //
 
 #import <Realm/Realm.h>
+#import "RSSParser.h"
+#import "RSSItem.h"
 #import "Feeds.h"
 
 @interface RLMFeeds : RLMObject
@@ -17,6 +19,7 @@
 
 -(void)setupWithFeed:(Feeds*)singleFeed;
 -(id)initWithFeed:(Feeds*)singleFeed;
+- (id)initWithRSSItem:(RSSItem *)item;
 
 @end
 RLM_ARRAY_TYPE(RLMFeeds);

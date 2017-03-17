@@ -15,3 +15,6 @@ build/
 # Exclude Cocoapods
 Pods
 
+#exclude apiKey
+
+*/ApiKey.m

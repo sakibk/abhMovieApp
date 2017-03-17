@@ -13,6 +13,7 @@
 #import "Movie.h"
 #import "TVShow.h"
 #import "TVMovie.h"
+#import "ApiKey.h"
 
 @interface SearchViewController ()
 
@@ -112,7 +113,7 @@
     if(![_searchString isEqualToString:@""]){
         
         NSDictionary *queryParameters = @{
-                                          @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                          @"api_key": [ApiKey getApiKey],/*add your api*/
                                           @"query":_searchString
                                           };
         
@@ -157,7 +158,7 @@
     NSString *pathP = @"/3/search/multi";
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"query":_searchString,
                                       @"page":_pageNumber
                                       };

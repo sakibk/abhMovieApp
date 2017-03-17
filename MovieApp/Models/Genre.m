@@ -31,24 +31,13 @@
 }
 
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"GenreId: %@",self.genreID];
-}
-
 // Here you need to add paths for every method.
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method{
     NSString *path;
     switch (method) {
-        case RKRequestMethodPOST:
-            path = @"";
-            break;
             // This is an example.
         case RKRequestMethodGET:
             path = @"/3/genre/movie/list";
-            break;
-        case RKRequestMethodPUT:
-            path = @"";
             break;
         default:
             break;

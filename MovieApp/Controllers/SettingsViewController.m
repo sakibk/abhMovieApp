@@ -11,6 +11,8 @@
 @interface SettingsViewController ()
 
 @property NSDictionary *userCredits;
+@property BOOL isMovieSet;
+@property BOOL isShowSet;
 
 @end
 
@@ -20,13 +22,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self setupView];
+    [_movieNotification setTag:1];
+    [_showNotification setTag:2];
     [_movieNotification addTarget:self action:@selector(movieNotificationON:) forControlEvents:UIControlEventValueChanged];
     [_showNotification addTarget:self action:@selector(showNotificationON:) forControlEvents:UIControlEventValueChanged];
     
-    [[NSUserDefaults standardUserDefaults] addObserver:self
-                                            forKeyPath:@"SessionCredentials"
-                                               options:NSKeyValueObservingOptionNew
-                                               context:NULL];
+//    [[NSUserDefaults standardUserDefaults] addObserver:self
+//                                            forKeyPath:@"SessionCredentials"
+//                                               options:NSKeyValueObservingOptionNew
+//                                               context:NULL];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -35,32 +39,21 @@
 }
 
 -(IBAction)movieNotificationON:(id)sender{
-    BOOL isSet = [[_userCredits valueForKey:@"movieNotification"] boolValue];
-    NSMutableDictionary *tempUserCredits= [[NSMutableDictionary alloc]initWithDictionary: _userCredits];
-    if(isSet){
-        [tempUserCredits setValue:[NSNumber numberWithBool:NO] forKey:@"movieNotification"];
+    if(_isMovieSet && [sender tag]==1){
+        _isMovieSet=NO;
     }
-    else{
-        [tempUserCredits setValue:[NSNumber numberWithBool:YES] forKey:@"movieNotification"];
+    else if(!_isMovieSet && [sender tag]==1){
+        _isMovieSet=YES;
     }
-    NSDictionary *updated = [[NSDictionary alloc]initWithDictionary:tempUserCredits];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:updated forKey:@"SessionCredentials"];
 }
 
 -(IBAction)showNotificationON:(id)sender{
-    BOOL isSet = [[_userCredits valueForKey:@"showNotification"] boolValue];
-    NSMutableDictionary *tempUserCredits= [[NSMutableDictionary alloc]initWithDictionary: _userCredits];
-    if(isSet){
-        [tempUserCredits setValue:[NSNumber numberWithBool:NO] forKey:@"showNotification"];
+    if(_isShowSet && [sender tag]==2){
+        _isShowSet=NO;
     }
-    else{
-        [tempUserCredits setValue:[NSNumber numberWithBool:YES] forKey:@"showNotification"];
+    else if (!_isShowSet && [sender tag]==2){
+        _isShowSet=YES;
     }
-    
-    NSDictionary *updated = [[NSDictionary alloc]initWithDictionary:tempUserCredits];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:updated forKey:@"SessionCredentials"];
 }
 
 -(void)setupView{
@@ -76,12 +69,33 @@
     [self.navigationController.navigationBar setHidden:NO];
     _movieNotification.layer.cornerRadius = 16.0;
     _showNotification.layer.cornerRadius = 16.0;
+    _isMovieSet= [[_userCredits valueForKey:@"movieNotification"] boolValue];
+    _isShowSet= [[_userCredits valueForKey:@"showNotification"] boolValue];
     self.navigationItem.title =@"Settings";
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SessionCredentials"];
+    NSMutableDictionary *tempUserCredits= [[NSMutableDictionary alloc]initWithDictionary: _userCredits];
+    if(_isShowSet && _isMovieSet){
+        [tempUserCredits setValue:[NSNumber numberWithBool:NO] forKey:@"showNotification"];
+        [tempUserCredits setValue:[NSNumber numberWithBool:NO] forKey:@"movieNotification"];
+    }
+    else if(!_isShowSet && !_isMovieSet){
+        [tempUserCredits setValue:[NSNumber numberWithBool:YES] forKey:@"showNotification"];
+        [tempUserCredits setValue:[NSNumber numberWithBool:YES] forKey:@"movieNotification"];
+    }
+    else if(_isMovieSet && !_isShowSet){
+        [tempUserCredits setValue:[NSNumber numberWithBool:NO] forKey:@"movieNotification"];
+        [tempUserCredits setValue:[NSNumber numberWithBool:YES] forKey:@"showNotification"];
+    }
+    else{
+        [tempUserCredits setValue:[NSNumber numberWithBool:YES] forKey:@"movieNotification"];
+        [tempUserCredits setValue:[NSNumber numberWithBool:NO] forKey:@"showNotification"];
+    }
+    NSDictionary *newUserCredits = [[NSDictionary alloc] initWithDictionary:tempUserCredits];
+    [[NSUserDefaults standardUserDefaults] setObject:newUserCredits forKey:@"SessionCredentials"];
+//    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:@"SessionCredentials"];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)viewDidUnload

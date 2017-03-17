@@ -9,6 +9,7 @@
 #import "TrailerViewController.h"
 #import <RestKit/RestKit.h>
 #import "TrailerVideos.h"
+#import "ApiKey.h"
 
 @interface TrailerViewController ()
 
@@ -71,7 +72,7 @@
     NSString *pathP = [NSString stringWithFormat:@"/3/movie/%@/videos",_movieID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {

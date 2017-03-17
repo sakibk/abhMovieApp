@@ -9,6 +9,7 @@
 #import "CastCollectionCell.h"
 #import "SingleCastCell.h"
 #import "ActorDetailsViewController.h"
+#import "ApiKey.h"
 
 NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 
@@ -30,7 +31,7 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",singleMovie.movieID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -55,7 +56,7 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",singleShow.showID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -80,7 +81,7 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/season/%@/episode/%@/credits",singleEpisode.showID,singleEpisode.seasonNumber,singleEpisode.episodeNumber];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {

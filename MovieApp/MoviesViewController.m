@@ -20,6 +20,7 @@
 #import "LeftViewController.h"
 #import "ConnectivityTest.h"
 #import "RLUserInfo.h"
+#import "ApiKey.h"
 RLM_ARRAY_TYPE(Movie);
 
 @interface MoviesViewController ()
@@ -94,7 +95,9 @@ RLM_ARRAY_TYPE(Movie);
         [self getShows];
     }
     [self CreateDropDownList];
-    [self setNavBar];  }
+    [self setNavBar];
+
+}
 
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -516,7 +519,7 @@ RLM_ARRAY_TYPE(Movie);
     
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     if([localFilterString isEqualToString:@"release_date.desc"]){
@@ -526,7 +529,7 @@ RLM_ARRAY_TYPE(Movie);
         NSDictionary *queryParams = @{
                                       @"sort_by":@"primary_release_date.desc",
                                       @"primary_release_date.lte":[DateFormatter dateFromString:currentDate],
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
         queryParameters=queryParams;
     }
@@ -534,7 +537,7 @@ RLM_ARRAY_TYPE(Movie);
         NSDictionary *queryParams = @{
                                       @"sort_by":localFilterString,
                                       @"vote_count.gte":@250,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
         queryParameters=queryParams;
     }
@@ -574,7 +577,7 @@ RLM_ARRAY_TYPE(Movie);
     
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"page":_pageNumber
                                       };
     
@@ -585,7 +588,7 @@ RLM_ARRAY_TYPE(Movie);
         NSDictionary *queryParams = @{
                                       @"sort_by":@"primary_release_date.desc",
                                       @"primary_release_date.lte":[DateFormatter dateFromString:currentDate],
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"page":_pageNumber
                                       };
         queryParameters=queryParams;
@@ -595,7 +598,7 @@ RLM_ARRAY_TYPE(Movie);
         NSDictionary *queryParams = @{
                                       @"sort_by":localFilterString,
                                       @"vote_count.gte":@250,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"page":_pageNumber
                                       };
         queryParameters=queryParams;
@@ -622,7 +625,7 @@ RLM_ARRAY_TYPE(Movie);
     NSString *pathP =@"/3/genre/movie/list";
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -643,38 +646,52 @@ RLM_ARRAY_TYPE(Movie);
     
     NSString *pathP =@"/3/discover/tv";
     
+    NSDictionary *queryParameters = @{
+                                      @"sort_by":localFilterString,
+                                      @"api_key": [ApiKey getApiKey] /*add your api*/
+                                      };
+    
+    NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+    [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+    NSString *tomorrowDate = [DateFormatter stringFromDate:[NSDate dateWithTimeInterval:(24*60*60) sinceDate:[NSDate date]]];
+    
+    
     if([localFilterString isEqualToString:@"first_air_date.desc"]){
-        pathP = @"3/tv/on_the_air";
+        NSDictionary *queryParams = @{
+                                          @"sort_by":@"popularity_desc",
+                                          @"air_date.gte":currentDate,
+                                          @"timezone":@"Sarajevo",
+                                          @"api_key": [ApiKey getApiKey] /*add your api*/
+                                          };
+        queryParameters=queryParams;
     }
     if([localFilterString isEqualToString:@"air_date.desc"]){
-        pathP = @"3/tv/airing_today";
+        NSDictionary *queryParams = @{
+                                      @"sort_by":@"popularity_desc",
+                                      @"air_date.gte":currentDate,
+                                      @"air_date:lte":tomorrowDate,
+                                      @"timezone":@"Sarajevo",
+                                      @"api_key": [ApiKey getApiKey] /*add your api*/
+                                      };
+        queryParameters=queryParams;
+
     }
     
     if([localFilterString isEqualToString:@"vote_average.desc"]){
-        pathP = @"3/tv/top_rated";
-    }
-    
-    NSDictionary *queryParameters = @{
-                                      @"sort_by":localFilterString,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64" /*add your api*/
-                                      };
-    
-    
-    if([localFilterString isEqualToString:@"air_date.desc"] || [localFilterString isEqualToString:@"first_air_date.desc"]||[localFilterString isEqualToString:@"vote_average.desc"]){
         NSDictionary *queryParams = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"sort_by":localFilterString,
+                                      @"vote_count.gte":@250,
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
         queryParameters=queryParams;
     }
+    
     if([localFilterString isEqualToString:@"release_date.desc"]){
-        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
-        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
-        
         NSDictionary *queryParams = @{
                                       @"sort_by": @"first_air_date.desc",
                                       @"first_air_date.lte":[DateFormatter dateFromString:currentDate],
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
         queryParameters=queryParams;
     }
@@ -719,41 +736,56 @@ RLM_ARRAY_TYPE(Movie);
     
     NSString *pathP =@"/3/discover/tv";
     
-    if([localFilterString isEqualToString:@"first_air_date.desc"]){
-        pathP = @"3/tv/on_the_air";
-    }
-    if([localFilterString isEqualToString:@"air_date.desc"]){
-        pathP = @"3/tv/airing_today";
-    }
-    
-    if([localFilterString isEqualToString:@"vote_average.desc"]){
-        pathP = @"3/tv/top_rated";
-    }
-    
     NSDictionary *queryParameters = @{
                                       @"sort_by":localFilterString,
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64", /*add your api*/
+                                      @"api_key": [ApiKey getApiKey], /*add your api*/
                                       @"page":_pageNumber
                                       };
     
+    NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+    [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+    NSString *tomorrowDate = [DateFormatter stringFromDate:[NSDate dateWithTimeInterval:(24*60*60) sinceDate:[NSDate date]]];
     
-    if([localFilterString isEqualToString:@"air_date.desc"] || [localFilterString isEqualToString:@"first_air_date.desc"] || [localFilterString isEqualToString:@"vote_average.desc"]){
+    
+    if([localFilterString isEqualToString:@"first_air_date.desc"]){
         NSDictionary *queryParams = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"sort_by":@"popularity_desc",
+                                      @"air_date.gte":currentDate,
+                                      @"timezone":@"Sarajevo",
+                                      @"api_key": [ApiKey getApiKey], /*add your api*/
+                                      @"page":_pageNumber
+                                      };
+        queryParameters=queryParams;
+    }
+    if([localFilterString isEqualToString:@"air_date.desc"]){
+        NSDictionary *queryParams = @{
+                                      @"sort_by":@"popularity_desc",
+                                      @"air_date.gte":currentDate,
+                                      @"air_date:lte":tomorrowDate,
+                                      @"timezone":@"Sarajevo",
+                                      @"api_key": [ApiKey getApiKey], /*add your api*/
+                                      @"page":_pageNumber
+                                      };
+        queryParameters=queryParams;
+        
+    }
+    
+    if([localFilterString isEqualToString:@"vote_average.desc"]){
+        NSDictionary *queryParams = @{
+                                      @"sort_by":localFilterString,
+                                      @"vote_count.gte":@250,
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"page":_pageNumber
                                       };
         queryParameters=queryParams;
     }
     
     if([localFilterString isEqualToString:@"release_date.desc"]){
-        NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
-        [DateFormatter setDateFormat:@"yyyy-MM-dd"];
-        NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
-        
         NSDictionary *queryParams = @{
                                       @"sort_by": @"first_air_date.desc",
                                       @"first_air_date.lte":[DateFormatter dateFromString:currentDate],
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
+                                      @"api_key": [ApiKey getApiKey],/*add your api*/
                                       @"page":_pageNumber
                                       };
         queryParameters=queryParams;
@@ -778,7 +810,7 @@ RLM_ARRAY_TYPE(Movie);
     NSString *pathP =@"/3/genre/tv/list";
 
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {

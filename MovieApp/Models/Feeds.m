@@ -13,10 +13,10 @@
 
 @implementation Feeds
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"Title: %@, Link: %@, Text: %@",self.title,self.link,self.desc];
-}
+//- (NSString *)description
+//{
+//    return [NSString stringWithFormat:@"Title: %@, Link: %@, Text: %@",self.title,self.link,self.desc];
+//}
 
 - (id)initWithRSSItem:(RSSItem *)item {
     

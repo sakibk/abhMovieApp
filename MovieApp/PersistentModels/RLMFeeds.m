@@ -10,6 +10,16 @@
 
 @implementation RLMFeeds
 
+- (id)initWithRSSItem:(RSSItem *)item {
+    
+    if (self = [super init]) {
+        self.title = item.title;
+        self.desc = item.itemDescription;
+        self.link = [item.link absoluteString];
+    }
+    return self;
+}
+
 -(id)initWithFeed:(Feeds*)singleFeed{
     self = [super init];
     

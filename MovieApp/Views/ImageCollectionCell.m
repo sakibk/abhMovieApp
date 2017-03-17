@@ -12,6 +12,7 @@
 #import "SingleImageCell.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <RestKit/RestKit.h>
+#import "ApiKey.h"
 
 NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 
@@ -43,7 +44,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", _movieID,@"/images"];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -62,7 +63,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/tv/", _movieID,@"/images"];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {

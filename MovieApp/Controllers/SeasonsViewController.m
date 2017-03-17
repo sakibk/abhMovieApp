@@ -13,6 +13,7 @@
 #import "Episode.h"
 #import <RestKit/RestKit.h>
 #import "EpisodeDetailsViewController.h"
+#import "ApiKey.h"
 
 @interface SeasonsViewController ()
 
@@ -59,7 +60,7 @@
     NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@",@"/3/tv/",_singleShow.showID,@"/season/",_seasonID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);

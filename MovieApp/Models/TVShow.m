@@ -52,15 +52,8 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method{
     NSString *path;
     switch (method) {
-        case RKRequestMethodPOST:
-            path = @"";
-            break;
-            // This is an example.
         case RKRequestMethodGET:
             path = @"/3/tv/:id";
-            break;
-        case RKRequestMethodPUT:
-            path = @"";
             break;
         default:
             break;
@@ -73,17 +66,7 @@
 + (NSArray *)additionalResponseDescriptors{
     return @[             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/discover/tv"
                                                                       keyPath:@"results"
-                                                                  statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
-             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:
-              @"/3/tv/on_the_air"
-                                                         keyPath:@"results"
-                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
-             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/airing_today"
-                                                         keyPath:@"results"
-                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
-             [RKResponseDescriptor responseDescriptorWithMapping:[TVShow responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/top_rated"
-                                                         keyPath:@"results"
-                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]
+                                                                  statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]
              ];
     
 }
@@ -93,13 +76,6 @@
 + (NSArray *)additionalRequestDescriptors{
     return nil;
     
-}
-
-
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"ShowId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@",self.showID, self.name, self.rating, self.posterPath, self.airDate];
 }
 
 -(void)setupWithTVMovie:(TVMovie *)singleObject{

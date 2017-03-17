@@ -15,6 +15,7 @@
 #import <RestKit/RestKit.h>
 #import "PostResponse.h"
 #import "ListPost.h"
+#import "ApiKey.h"
 
 @interface ListsViewController ()
 @property NSString *dropDownTitle;
@@ -436,7 +437,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
 -(void)noRestkitPost:(NSString*)list :(NSString *)mediaType :(NSNumber *)mediaID{
     NSError *error;
     
-    NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,@"893050c58b2e2dfe6fa9f3fae12eaf64",[_userCredits objectForKey:@"sessionID"]];
+    NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[_userCredits objectForKey:@"userID"],list,[ApiKey getApiKey],[_userCredits objectForKey:@"sessionID"]];
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     configuration.HTTPAdditionalHeaders = @{
@@ -488,10 +489,10 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
 -(void)noRestkitDeleteRate:(NSNumber*) mediaID{
     
     if(_isMovie){
-        _pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/rating?api_key=%@&session_id=%@",mediaID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+        _pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/rating?api_key=%@&session_id=%@",mediaID, [ApiKey getApiKey], [_userCredits objectForKey:@"sessionID"]];
     }
     else{
-        _pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/tv/%@/rating?api_key=%@&session_id=%@",mediaID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+        _pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/tv/%@/rating?api_key=%@&session_id=%@",mediaID, [ApiKey getApiKey], [_userCredits objectForKey:@"sessionID"]];
     }
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];

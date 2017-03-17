@@ -12,6 +12,7 @@
 #import "RLUserInfo.h"
 #import <RestKit/RestKit.h>
 #import "ListPost.h"
+#import "ApiKey.h"
 
 @interface RatingViewController ()
 
@@ -175,10 +176,10 @@
     NSError *error;
     
     if(_isMovie){
-        _pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/rating?api_key=%@&session_id=%@",_singleMovie.movieID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+        _pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/rating?api_key=%@&session_id=%@",_singleMovie.movieID, [ApiKey getApiKey], [_userCredits objectForKey:@"sessionID"]];
     }
     else{
-        _pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/tv/%@/rating?api_key=%@&session_id=%@",_singleShow.showID, @"893050c58b2e2dfe6fa9f3fae12eaf64", [_userCredits objectForKey:@"sessionID"]];
+        _pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/tv/%@/rating?api_key=%@&session_id=%@",_singleShow.showID, [ApiKey getApiKey], [_userCredits objectForKey:@"sessionID"]];
     }
     
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];

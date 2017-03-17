@@ -20,6 +20,7 @@
 #import "ListMapping.h"
 #import "ListMappingTV.h"
 #import "ObjectMapper.h"
+#import "ApiKey.h"
 
 @interface AppDelegate ()
 @property NSMutableArray<Movie*> *notifMovies;
@@ -46,7 +47,7 @@
     NSString *pathP =@"/3/movie/upcoming";
    
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -69,11 +70,22 @@
 
 
 -(void)getShowLists{
-    NSString *pathP =@"/3/tv/airing_today";
+    NSString *pathP =@"/3/discover/tv";;
+
+    NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+    [DateFormatter setDateFormat:@"yyyy-MM-dd"];
+    NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
+    NSString *tomorrowDate = [DateFormatter stringFromDate:[NSDate dateWithTimeInterval:(24*60*60) sinceDate:[NSDate date]]];
+    
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64",/*add your api*/
-                                      @"page":_currentPage
-                                      };
+                                  @"sort_by":@"popularity_desc",
+                                  @"air_date.gte":currentDate,
+                                  @"air_date:lte":tomorrowDate,
+                                  @"timezone":@"Sarajevo",
+                                  @"api_key": [ApiKey getApiKey], /*add your api*/
+                                  @"page":_currentPage
+                                  };
+
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -90,6 +102,7 @@
             [list setIsMovie:NO];
             [list initWithNotificationShow];
             UINavigationController *navigationController =(UINavigationController *)[[[[UIApplication sharedApplication] delegate] window] rootViewController] ;
+            _currentPage=[NSNumber numberWithInt:1];
             [navigationController pushViewController:list animated:YES];
         }
         

@@ -48,15 +48,8 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method{
     NSString *path;
     switch (method) {
-        case RKRequestMethodPOST:
-            path = @"";
-            break;
-            // This is an example.
         case RKRequestMethodGET:
             path = @"/3/movie/:id";
-            break;
-        case RKRequestMethodPUT:
-            path = @"";
             break;
         default:
             break;
@@ -85,10 +78,10 @@
 }
 
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"MovieId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@ , BackdropPath: %@",self.movieID, self.title, self.rating, self.posterPath, self.releaseDate, self.backdropPath];
-}
+//- (NSString *)description
+//{
+//    return [NSString stringWithFormat:@"MovieId: %@, Title: %@, Rating: %@, Poster path: %@, ReleaseDate: %@ , BackdropPath: %@",self.movieID, self.title, self.rating, self.posterPath, self.releaseDate, self.backdropPath];
+//}
 
 -(void)setupWithTVMovie:(TVMovie *)singleObject{
     self.movieID=singleObject.TVMovieID;

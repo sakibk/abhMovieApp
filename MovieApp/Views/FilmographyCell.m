@@ -9,6 +9,7 @@
 #import "FilmographyCell.h"
 #import "SingleFilmographyCell.h"
 #import <RestKit/RestKit.h>
+#import "ApiKey.h"
 
 NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 
@@ -34,7 +35,7 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
     NSString *pathP =[NSString stringWithFormat:@"/3/person/%@/combined_credits",_actorID];
     
     NSDictionary *queryParameters = @{
-                                      @"api_key": @"893050c58b2e2dfe6fa9f3fae12eaf64"/*add your api*/
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
