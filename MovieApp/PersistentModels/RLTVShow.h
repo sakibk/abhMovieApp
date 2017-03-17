@@ -11,6 +11,7 @@
 
 @interface RLTVShow : RLMObject
 
+//@property NSString *ShowModelID;
 @property NSNumber<RLMInt> *showID;
 @property NSString *name;
 @property NSString *posterPath;

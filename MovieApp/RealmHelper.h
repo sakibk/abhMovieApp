@@ -12,5 +12,6 @@
 @interface RealmHelper : NSObject
 
 +(void)putInto:(RLMArray*)arr :(RLMObject *)obj;
++(void)deleteAllIn:(RLMArray*)arr;
 
 @end

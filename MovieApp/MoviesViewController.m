@@ -22,6 +22,8 @@
 #import "RLUserInfo.h"
 #import "ApiKey.h"
 #import "RLMStoredObjects.h"
+#import "RealmHelper.h"
+#import "RLMGenre.h"
 RLM_ARRAY_TYPE(Movie);
 
 @interface MoviesViewController ()
@@ -89,6 +91,8 @@ RLM_ARRAY_TYPE(Movie);
     [self setupVariables];
     _isConnected = [ConnectivityTest isConnected];
     _didScroll=YES;
+    RLMResults<RLMStoredObjects*> *objs= [RLMStoredObjects allObjects];
+    _storedObjetctMedia = objs.firstObject;
     if(_isMovie)
     {
         if(_isConnected)
@@ -104,7 +108,7 @@ RLM_ARRAY_TYPE(Movie);
     }
     [self CreateDropDownList];
     [self setNavBar];
-
+    
 }
 
 
@@ -520,20 +524,149 @@ RLM_ARRAY_TYPE(Movie);
 }
 
 -(void)getStoredMovies{
-    RLMResults<RLMStoredObjects*> *objs = [RLMStoredObjects allObjects];
-    if([objs count]){
-        RLMStoredObjects *obj = objs.firstObject;
         _allMovies=[[NSMutableArray alloc] init];
-        for(RLMovie *oneMovie in obj.storedPopularMovies){
-            [_allMovies addObject:[[Movie alloc] initWithObject:oneMovie]];
+        if([_filterString isEqualToString:@"popularity.desc"]){
+            for(RLMovie *oneMovie in _storedObjetctMedia.storedPopularMovies){
+                [_allMovies addObject:[[Movie alloc] initWithObject:oneMovie]];
+            }
         }
+        else if([_filterString isEqualToString:@"first_air_date.desc"]){
+            
+            for(RLMovie *oneMovie in _storedObjetctMedia.storedPopularMovies){
+                [_allMovies addObject:[[Movie alloc] initWithObject:oneMovie]];
+            }
+        }
+        
+        else if([_filterString isEqualToString:@"vote_average.desc"]){
+            
+            for(RLMovie *oneMovie in _storedObjetctMedia.storedPopularMovies){
+                [_allMovies addObject:[[Movie alloc] initWithObject:oneMovie]];
+            }
     }
     [self.collectionView reloadData];
 }
 
--(void)getStoredTV{
+-(void)setStoredMovies:(NSArray*)movieArray{
+        [_realm beginWriteTransaction];
+    if([_filterString isEqualToString:@"popularity.desc"]){
+        for(Movie *oneMovie in _allMovies){
+            [_storedObjetctMedia addToStoredPopularMovies:[[RLMovie alloc] initWithMovie:oneMovie]];
+        }
+    }
+    else if([_filterString isEqualToString:@"first_air_date.desc"]){
+        for(Movie *oneMovie in _allMovies){
+            [_storedObjetctMedia addToStoredLatestMovies:[[RLMovie alloc] initWithMovie:oneMovie]];
+        }
+    }
     
+    else if([_filterString isEqualToString:@"vote_average.desc"]){
+        for(Movie *oneMovie in _allMovies){
+            [_storedObjetctMedia addToStoredHighestRatedMovies:[[RLMovie alloc] initWithMovie:oneMovie]];
+        }
+    }
+    [_realm addOrUpdateObject:_storedObjetctMedia];
+    [_realm commitWriteTransaction];
 }
+
+-(void)getStoredGenres{
+    _allGenres = [[NSMutableArray alloc]init];
+    if(_isMovie){
+        for(RLMGenre *genre in _storedObjetctMedia.storedMovieGenres){
+            [_allGenres addObject:[[Genre alloc] initWithGenre:genre]];
+        }
+    }
+    else{
+        for(RLMGenre *genre in _storedObjetctMedia.storedMovieGenres){
+            [_allGenres addObject:[[Genre alloc] initWithGenre:genre]];
+        }
+    }
+}
+
+-(void)setStoredGenres:(NSArray*)genres{
+    [_realm beginWriteTransaction];
+    if(_isMovie){
+        for(Genre *genre in genres){
+            [_storedObjetctMedia addToStoredMovieGenres:[[RLMGenre alloc] initWithGenre:genre]];
+        }
+    }
+    else{
+        for(Genre *genre in genres){
+            [_storedObjetctMedia addToStoredTVGenres:[[RLMGenre alloc] initWithGenre:genre]];
+        }
+    }
+    [_realm addOrUpdateObject:_storedObjetctMedia];
+    [_realm commitWriteTransaction];
+}
+
+-(void)getStoredTV{
+        _allShows=[[NSMutableArray alloc] init];
+    
+        if([_filterString isEqualToString:@"popularity.desc"]){
+            for(RLTVShow *oneTV in _storedObjetctMedia.storedPopularTV){
+                [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
+            }
+        }
+        else if([_filterString isEqualToString:@"first_air_date.desc"]){
+            for(RLTVShow *oneTV in _storedObjetctMedia.storedLatestTV){
+                [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
+            }
+        }
+        
+        else if([_filterString isEqualToString:@"vote_average.desc"]){
+            for(RLTVShow *oneTV in _storedObjetctMedia.storedHighestRatedTV){
+                [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
+            }
+        }
+        
+        else if([_filterString isEqualToString:@"air_date.desc"]){
+            for(RLTVShow *oneTV in _storedObjetctMedia.storedAiringTodayTV){
+                [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
+            }
+        }
+        
+        else if([_filterString isEqualToString:@"release_date.desc"]){
+            for(RLTVShow *oneTV in _storedObjetctMedia.storedOnAirTV){
+                [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
+            }
+        
+    }
+    [self.collectionView reloadData];
+}
+
+-(void)setStoredTV:(NSArray*)showArray{
+    [_realm beginWriteTransaction];
+    if([_filterString isEqualToString:@"popularity.desc"]){
+        for(TVShow *oneTV in _allShows){
+            [_storedObjetctMedia addToStoredPopularTV:[[RLTVShow alloc] initWithShow:oneTV]];
+        }
+    }
+    else if([_filterString isEqualToString:@"first_air_date.desc"]){
+        for(TVShow *oneTV in _allShows){
+            [_storedObjetctMedia addToStoredPopularTV:[[RLTVShow alloc] initWithShow:oneTV]];
+        }
+    }
+    
+    else if([_filterString isEqualToString:@"vote_average.desc"]){
+        for(TVShow *oneTV in _allShows){
+            [_storedObjetctMedia addToStoredPopularTV:[[RLTVShow alloc] initWithShow:oneTV]];
+        }
+    }
+    
+    else if([_filterString isEqualToString:@"air_date.desc"]){
+        for(TVShow *oneTV in _allShows){
+            [_storedObjetctMedia addToStoredPopularTV:[[RLTVShow alloc] initWithShow:oneTV]];
+        }
+    }
+    
+    else if([_filterString isEqualToString:@"release_date.desc"]){
+        for(TVShow *oneTV in _allShows){
+            [_storedObjetctMedia addToStoredPopularTV:[[RLTVShow alloc] initWithShow:oneTV]];
+        }
+    }
+    [_realm addOrUpdateObject:_storedObjetctMedia];
+    [_realm commitWriteTransaction];
+}
+
 
 -(void)getMovies{
     NSString *localFilterString = _filterString;
@@ -574,6 +707,7 @@ RLM_ARRAY_TYPE(Movie);
                     [_allMovies addObject:m];
                 }
             }
+            [self setStoredMovies:mappingResult.array];
             [self setPageNumber:[NSNumber numberWithInt:1]];
             [_collectionView reloadData];
         }
@@ -633,6 +767,7 @@ RLM_ARRAY_TYPE(Movie);
                 [_allMovies addObject:m];
             }
         }
+        [self setStoredMovies:mappingResult.array];
         _didScroll=YES;
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -681,11 +816,11 @@ RLM_ARRAY_TYPE(Movie);
     
     if([localFilterString isEqualToString:@"first_air_date.desc"]){
         NSDictionary *queryParams = @{
-                                          @"sort_by":@"popularity_desc",
-                                          @"air_date.gte":currentDate,
-                                          @"timezone":@"Sarajevo",
-                                          @"api_key": [ApiKey getApiKey] /*add your api*/
-                                          };
+                                      @"sort_by":@"popularity_desc",
+                                      @"air_date.gte":currentDate,
+                                      @"timezone":@"Sarajevo",
+                                      @"api_key": [ApiKey getApiKey] /*add your api*/
+                                      };
         queryParameters=queryParams;
     }
     if([localFilterString isEqualToString:@"air_date.desc"]){
@@ -697,7 +832,7 @@ RLM_ARRAY_TYPE(Movie);
                                       @"api_key": [ApiKey getApiKey] /*add your api*/
                                       };
         queryParameters=queryParams;
-
+        
     }
     
     if([localFilterString isEqualToString:@"vote_average.desc"]){
@@ -729,6 +864,7 @@ RLM_ARRAY_TYPE(Movie);
                     [_allShows addObject:tv];
                 }
             }
+            [self setStoredTV:mappingResult.array];
             if([_allShows count]<4){
                 [self getMoreShows];
             }
@@ -820,6 +956,7 @@ RLM_ARRAY_TYPE(Movie);
                 [_allShows addObject:tv];
             }
         }
+        [self setStoredTV:mappingResult.array];
         _didScroll=YES;
         [self.collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
@@ -830,7 +967,7 @@ RLM_ARRAY_TYPE(Movie);
 - (void)getTVGenres
 {
     NSString *pathP =@"/3/genre/tv/list";
-
+    
     NSDictionary *queryParameters = @{
                                       @"api_key": [ApiKey getApiKey]/*add your api*/
                                       };

@@ -11,7 +11,7 @@
 
 @interface RLMovie : RLMObject
 
-
+//@property NSString *movieModelID;
 @property NSNumber<RLMInt> *movieID;
 @property NSString *title;
 @property NSString *posterPath;

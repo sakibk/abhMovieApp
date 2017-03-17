@@ -33,11 +33,13 @@
 
 -(void)application:(UIApplication *)application didReceiveLocalNotification:(nonnull UILocalNotification *)notification{
     NSLog(@"%@",notification);
-
+    _currentPage=[NSNumber numberWithInt:1];
     if([[notification alertTitle] isEqualToString:@"Upcoming Movies"]){
         [self getMovies];
     }
     else{
+        _notifShows =[[NSMutableArray alloc]init];
+        _lmp =[[ListMappingTV alloc] init];
         [self getShowLists];
     }
     
@@ -76,9 +78,8 @@
     [DateFormatter setDateFormat:@"yyyy-MM-dd"];
     NSString *currentDate=[DateFormatter stringFromDate:[NSDate date]];
     NSString *tomorrowDate = [DateFormatter stringFromDate:[NSDate dateWithTimeInterval:(24*60*60) sinceDate:[NSDate date]]];
-    
     NSDictionary *queryParameters = @{
-                                  @"sort_by":@"popularity_desc",
+                                  @"sort_by":@"popularity.desc",
                                   @"air_date.gte":currentDate,
                                   @"air_date:lte":tomorrowDate,
                                   @"timezone":@"Sarajevo",
@@ -90,11 +91,12 @@
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        _lmp=[[mappingResult array] firstObject];
-        for(TVShow *tv in [_lmp showList]){
-            [_notifShows addObject:tv];
+        _lmp = mappingResult.array.lastObject;
+        for(TVShow *tv in mappingResult.array){
+            if([tv isKindOfClass:[TVShow class]])
+                [_notifShows addObject:tv];
         }
-        if([[_lmp pageCount] isEqualToNumber:_currentPage] || [[_lmp pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
+        if([[_lmp pageCount] isEqualToNumber:_currentPage] || [[_lmp pageCount] isEqualToNumber:[NSNumber numberWithInt:0]] || _currentPage == [NSNumber numberWithInt:5]){
             _currentPage=[NSNumber numberWithInt:1];
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             NotificationListViewController *list = [storyboard instantiateViewControllerWithIdentifier:@"Notifications"];
@@ -137,7 +139,7 @@
         // Set icon badge number to zero
         application.applicationIconBadgeNumber = 0;
     }
-
+    application.applicationIconBadgeNumber = 0;
     
 //    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
 //    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
@@ -158,7 +160,7 @@
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     // Set the new schema version. This must be greater than the previously used
     // version (if you've never set a schema version before, the version is 0).
-    config.schemaVersion = 3;
+    config.schemaVersion = 6;
     // Set the block which will be called automatically when opening a Realm with a
     // schema version lower than the one set above
     config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
@@ -233,10 +235,10 @@
     
     NSDateComponents *nowComponents = [gregorian components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate date]];
     
-    [nowComponents setHour:12];
-    [nowComponents setMinute:50];
+    [nowComponents setHour:14];
+    [nowComponents setMinute:15];
     [nowComponents setSecond:00];
-    [nowComponents setWeekday:1];
+    [nowComponents setWeekday:4];
     
     NSLog(@"%@",nowComponents);
     

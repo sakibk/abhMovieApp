@@ -17,4 +17,10 @@
     
 }
 
++(void)deleteAllIn:(RLMArray*)arr{
+    [[RLMRealm defaultRealm] beginWriteTransaction];
+    [arr removeAllObjects];
+    [[RLMRealm defaultRealm] commitWriteTransaction];
+}
+
 @end

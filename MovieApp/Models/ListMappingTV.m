@@ -57,6 +57,9 @@
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
              [RKResponseDescriptor responseDescriptorWithMapping:[ListMappingTV responseMapping] method:RKRequestMethodGET pathPattern:@"/3/tv/airing_today"
                                                          keyPath:nil
+                                                     statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)],
+             [RKResponseDescriptor responseDescriptorWithMapping:[ListMappingTV responseMapping] method:RKRequestMethodGET pathPattern:@"/3/discover/tv"
+                                                         keyPath:nil
                                                      statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)]
              ];
     

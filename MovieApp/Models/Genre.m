@@ -7,6 +7,7 @@
 //
 
 #import "Genre.h"
+#import "RLMGenre.h"
 
 @implementation Genre
 
@@ -69,5 +70,11 @@
     
 }
 
+-(id)initWithGenre:(RLMGenre*)genre{
+    self = [super init];
+    self.genreID=genre.genreID;
+    self.genreName = genre.genreName;
+    return self;
+}
 
 @end

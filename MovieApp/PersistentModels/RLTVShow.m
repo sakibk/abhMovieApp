@@ -10,9 +10,9 @@
 
 @implementation RLTVShow
 
-+ (NSString *)primaryKey {
-    return @"showID";
-}
+//+ (NSString *)primaryKey {
+//    return @"ShowModelID";
+//}
 
 -(void)setupWithShow:(TVShow *)singleObject{
     self.showID=singleObject.showID;

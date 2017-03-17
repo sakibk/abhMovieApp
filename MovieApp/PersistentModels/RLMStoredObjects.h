@@ -10,6 +10,7 @@
 #import "RLMFeeds.h"
 #import "RLMovie.h"
 #import "RLTVShow.h"
+#import "RLMGenre.h"
 
 @interface RLMStoredObjects : RLMObject
 
@@ -19,23 +20,27 @@
 @property RLMArray<RLMovie*><RLMovie> *storedPopularMovies;
 @property RLMArray<RLMovie*><RLMovie> *storedHighestRatedMovies;
 @property RLMArray<RLMovie*><RLMovie> *storedLatestMovies;
+@property RLMArray<RLMGenre*><RLMGenre> *storedMovieGenres;
 
 @property RLMArray<RLTVShow*><RLTVShow> *storedPopularTV;
 @property RLMArray<RLTVShow*><RLTVShow> *storedHighestRatedTV;
-@property RLMArray<RLTVShow*><RLTVShow> *storedLatestVT;
+@property RLMArray<RLTVShow*><RLTVShow> *storedLatestTV;
 @property RLMArray<RLTVShow*><RLTVShow> *storedAiringTodayTV;
 @property RLMArray<RLTVShow*><RLTVShow> *storedOnAirTV;
+@property RLMArray<RLMGenre*><RLMGenre> *storedTVGenres;
 
 -(void)addToStoredFeeds:(RLMFeeds*)feed;
 
 -(void)addToStoredPopularMovies:(RLMovie*)movie;
 -(void)addToStoredHighestRatedMovies:(RLMovie*)movie;
 -(void)addToStoredLatestMovies:(RLMovie*)movie;
+-(void)addToStoredMovieGenres:(RLMGenre*)genre;
 
 -(void)addToStoredPopularTV:(RLTVShow*)tv;
 -(void)addToStoredHighestRatedTV:(RLTVShow*)tv;
 -(void)addToStoredLatestTV:(RLTVShow*)tv;
 -(void)addToStoredAiringTodayTV:(RLTVShow*)tv;
 -(void)addToStoredOnAirTV:(RLTVShow*)tv;
+-(void)addToStoredTVGenres:(RLMGenre*)genre;
 
 @end
