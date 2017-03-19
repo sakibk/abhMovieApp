@@ -50,5 +50,13 @@
 -(void)addToStoredCrew:(RLMCrew*)crew{
     [self.movieCrew addObject:crew];
 }
+-(void)addToStoredVideos:(RLMTrailerVideos*)video{
+    BOOL alreadyIn=NO;
+    for(RLMTrailerVideos *vd in self.videos)
+        if(video.videoID==vd.videoID)
+            alreadyIn=YES;
+    if(!alreadyIn)
+        [self.videos addObject:video];
+}
 
 @end

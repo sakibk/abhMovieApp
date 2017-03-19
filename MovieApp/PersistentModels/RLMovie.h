@@ -11,6 +11,7 @@
 #import "RLMReview.h"
 #import "RLMCrew.h"
 #import "RLMCast.h"
+#import "RLMTrailerVideos.h"
 
 @interface RLMovie : RLMObject
 
@@ -27,10 +28,12 @@
 @property RLMArray<RLMReview*><RLMReview> *Reviews;
 @property RLMArray<RLMCrew*><RLMCrew> *movieCrew;
 @property RLMArray<RLMCast*><RLMCast> *movieCast;
+@property RLMArray<RLMTrailerVideos*><RLMTrailerVideos> *videos;
 
 -(void)addToStoredReviews:(RLMReview*)review;
 -(void)addToStoredCasts:(RLMCast*)cast;
 -(void)addToStoredCrew:(RLMCrew*)crew;
+-(void)addToStoredVideos:(RLMTrailerVideos*)video;
 
 -(id) initWithMovie:(Movie *)movie;
 -(void)setupWithMovie:(Movie *)singleObject;

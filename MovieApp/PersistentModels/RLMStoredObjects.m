@@ -41,7 +41,14 @@
 //    [RealmHelper putInto:self.storedMovieGenres :genre];
     [self.storedMovieGenres addObject:genre];
 }
-
+-(void)addToStoredMovies:(RLMovie*)movie{
+    BOOL alreadyIn = NO;
+    for(RLMovie *mov in self.storedMovies)
+        if(mov.movieID == movie.movieID)
+            alreadyIn = YES;
+    if(!alreadyIn)
+        [self.storedMovies addObject:movie];
+}
 
 -(void)addToStoredPopularTV:(RLTVShow*)tv{
 //    [RealmHelper putInto:self.storedPopularTV :tv];
@@ -66,6 +73,14 @@
 -(void)addToStoredTVGenres:(RLMGenre*)genre{
 //    [RealmHelper putInto:self.storedTVGenres :genre];
     [self.storedTVGenres addObject:genre];
+}
+-(void)addToStoredTV:(RLTVShow*)tv{
+    BOOL alreadyIn=NO;
+    for(RLTVShow *sh in self.storedTV)
+        if(sh.showID == tv.showID)
+            alreadyIn = YES;
+    if(!alreadyIn)
+        [self.storedTV addObject:tv];
 }
 
 

@@ -22,4 +22,6 @@
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
 
+-(id)initWithVideo:(RLMTrailerVideos*)video;
+
 @end

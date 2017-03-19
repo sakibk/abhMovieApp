@@ -13,6 +13,7 @@
 #import <RestKit/RestKit.h>
 #import "ListPost.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
 
 @interface RatingViewController ()
 
@@ -25,6 +26,7 @@
 @property BOOL isMovie;
 @property BOOL didRate;
 @property BOOL isSuccessful;
+@property BOOL isConnected;
 
 @end
 
@@ -49,6 +51,7 @@
         _user = [users firstObject];
     }
     _didRate= NO;
+    _isConnected = [ConnectivityTest isConnected];
 }
 
 -(void)setupView{
@@ -134,22 +137,26 @@
 
 -(IBAction)rateMe:(id)sender{
     if(!_didRate){
-        if(_isMovie){
-            _singleMovie.userRate=_rate;
-            [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-            [self noRestkitRate];
-            [self postStatusError:@"Successfuly rated Movie"];
-            [starRatingView setUserInteractionEnabled:NO];
-            _didRate=YES;
+        if(_isConnected){
+            [self postStatusError:@"Please Connect to proceed"];
         }
         else{
-            _singleShow.userRate=_rate;
-            [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
-            [self noRestkitRate];
-            [self postStatusError:@"Successfuly rated Show"];
-            [starRatingView setUserInteractionEnabled:NO];
-            _didRate=YES;
-        }}
+            if(_isMovie){
+                _singleMovie.userRate=_rate;
+                [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+                [self noRestkitRate];
+                [self postStatusError:@"Successfuly rated Movie"];
+                [starRatingView setUserInteractionEnabled:NO];
+                _didRate=YES;
+            }
+            else{
+                _singleShow.userRate=_rate;
+                [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
+                [self noRestkitRate];
+                [self postStatusError:@"Successfuly rated Show"];
+                [starRatingView setUserInteractionEnabled:NO];
+                _didRate=YES;
+            }}}
     else{
         [self postStatusError:@"Already Rated"];
     }

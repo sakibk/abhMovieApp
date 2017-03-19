@@ -10,6 +10,10 @@
 #import <RestKit/RestKit.h>
 #import "TrailerVideos.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
+#import "RLMStoredObjects.h"
+#import "RLMovie.h"
+#import "RLMTrailerVideos.h"
 
 @interface TrailerViewController ()
 
@@ -17,6 +21,9 @@
 @property NSString *overviewString;
 @property TrailerVideos *singleTrailer;
 @property NSMutableArray <TrailerVideos *> *allTrailers;
+@property BOOL isConnected;
+@property RLMRealm *realm;
+@property RLMStoredObjects *storedObjetctMedia;
 
 @end
 
@@ -24,6 +31,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupOffline];
     self.playerView.delegate = self;
     [self setNavBarTitle];
     if(_isEpisode){
@@ -32,17 +40,49 @@
     // Do any additional setup after loading the view.
 }
 
+-(void)setupOffline{
+    _isConnected = [ConnectivityTest isConnected];
+    _realm =[RLMRealm defaultRealm];
+    RLMResults<RLMStoredObjects*> *objs= [RLMStoredObjects allObjects];
+    _storedObjetctMedia = objs.firstObject;
+}
+
 -(void)setupWithMovieID:(NSNumber *)movieID andOverview:(NSString *)overview{
     
     _movieID=movieID;
     _overviewString=overview;
-    [self getTrailers];
+    if(_isConnected)
+        [self getTrailers];
+    else
+        [self getStoredTrailers];
 }
 
 -(void)setupWithTVEpisode{
     _singleTrailer=_episodeTrailer;
     _overviewString=_episodeOverview;
     [self setupPlayer];
+}
+
+-(void)getStoredTrailers{
+    RLMResults<RLMovie*> *movs =[_storedObjetctMedia.storedMovies objectsWhere:@"movieID = %@", _movieID];
+    RLMovie* mv = movs.firstObject;
+    for(RLMTrailerVideos *vd in mv.videos)
+        [_allTrailers addObject:[[TrailerVideos alloc] initWithVideo:vd]];
+}
+
+-(void)setStoredTrailers{
+    RLMResults<RLMovie*> *movs =[_storedObjetctMedia.storedMovies objectsWhere:@"movieID = %@", _movieID];
+    RLMovie* mv = movs.firstObject;
+    [_realm beginWriteTransaction];
+    for(TrailerVideos *vid in _allTrailers)
+        [mv addToStoredVideos:[[RLMTrailerVideos alloc] initWithVideo:vid]];
+    int i;
+    for(i = 0; i< [_storedObjetctMedia.storedMovies count];i++){
+        if(mv.movieID == [[_storedObjetctMedia.storedMovies objectAtIndex:i] movieID])
+            [_storedObjetctMedia.storedMovies setObject:mv atIndexedSubscript:i];
+    }
+    [_realm addOrUpdateObject:_storedObjetctMedia];
+    [_realm commitWriteTransaction];
 }
 
 -(void)setupPlayer{
@@ -83,6 +123,7 @@
         for(TrailerVideos *tv in _allTrailers){
             [allIds addObject:tv.videoID];
         }
+        [self setStoredTrailers];
         [self setupPlayer];
         
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {

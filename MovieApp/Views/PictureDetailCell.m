@@ -12,6 +12,7 @@
 #import "TrailerViewController.h"
 #import <RestKit/RestKit.h>
 #import "RLUserInfo.h"
+#import "ConnectivityTest.h"
 
 NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 
