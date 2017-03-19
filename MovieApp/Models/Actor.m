@@ -7,8 +7,24 @@
 //
 
 #import "Actor.h"
+#import "RLMActor.h"
 
 @implementation Actor
+
+-(id)initWithActor:(RLMActor*)actor{
+    self = [super init];
+    self.name=actor.name;
+    [self.nickNames initWithObjects:actor.nickName, nil];
+    self.biography = actor.biography;
+    self.birthDate = actor.birthDate;
+    self.birthPlace = actor.birthPlace;
+    self.actorID = actor.actorID;
+    self.profilePath = actor.profilePath;
+    self.deathDate = actor.deathDate;
+    self.gender = actor.gender;
+    self.homePage = actor.homePage;
+    return self;
+}
 
 // Here you need to add all Movie properties that needs to be mapped.
 + (NSDictionary*)elementToPropertyMappings {

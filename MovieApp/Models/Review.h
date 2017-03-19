@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+@class RLMReview;
 
 @interface Review : NSObject
 
@@ -19,5 +20,7 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
+
+-(id)initWithReview:(RLMReview*)rev;
 
 @end

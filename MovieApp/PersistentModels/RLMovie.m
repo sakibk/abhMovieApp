@@ -41,4 +41,14 @@
     return self;
 }
 
+-(void)addToStoredReviews:(RLMReview*)review{
+    [self.Reviews addObject:review];
+}
+-(void)addToStoredCasts:(RLMCast*)cast{
+    [self.movieCast addObject:cast];
+}
+-(void)addToStoredCrew:(RLMCrew*)crew{
+    [self.movieCrew addObject:crew];
+}
+
 @end

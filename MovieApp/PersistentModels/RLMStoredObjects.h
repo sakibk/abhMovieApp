@@ -11,11 +11,14 @@
 #import "RLMovie.h"
 #import "RLTVShow.h"
 #import "RLMGenre.h"
+#import "RLMActor.h"
 
 @interface RLMStoredObjects : RLMObject
 
 @property NSString *objectID;
 @property RLMArray<RLMFeeds*><RLMFeeds> *storedFeeds;
+
+@property RLMArray<RLMActor*><RLMActor> *storedActors;
 
 @property RLMArray<RLMovie*><RLMovie> *storedPopularMovies;
 @property RLMArray<RLMovie*><RLMovie> *storedHighestRatedMovies;
@@ -30,6 +33,8 @@
 @property RLMArray<RLMGenre*><RLMGenre> *storedTVGenres;
 
 -(void)addToStoredFeeds:(RLMFeeds*)feed;
+
+-(void)addToStoredActors:(RLMActor*)actor;
 
 -(void)addToStoredPopularMovies:(RLMovie*)movie;
 -(void)addToStoredHighestRatedMovies:(RLMovie*)movie;

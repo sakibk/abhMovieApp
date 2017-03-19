@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+@class RLMTrailerVideos;
 
 @interface TrailerVideos : NSObject
 

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
 #import "TrailerVideos.h"
+@class RLMEpisode;
 
 @interface Episode : NSObject
 
@@ -27,5 +28,7 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
+
+-(id)initWithEpisode:(RLMEpisode*)ep;
 
 @end

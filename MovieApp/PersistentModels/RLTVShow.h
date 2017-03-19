@@ -8,6 +8,9 @@
 
 #import <Realm/Realm.h>
 #import "TVShow.h"
+#import "RLMCrew.h"
+#import "RLMCast.h"
+#import "RLMSeason.h"
 
 @interface RLTVShow : RLMObject
 
@@ -21,9 +24,16 @@
 @property NSString *singleGenre;
 @property NSString *overview;
 @property NSNumber<RLMInt> *userRate;
+@property RLMArray<RLMCast*><RLMCast> *showCast;
+@property RLMArray<RLMCrew*><RLMCrew> *showCrew;
+@property RLMArray<RLMSeason*><RLMSeason> *seasons;
 
 - (id) initWithShow:(TVShow *)show;
 -(void)setupWithShow:(TVShow *)singleObject;
+
+-(void)addToStoredSeasons:(RLMSeason*)season;
+-(void)addToStoredCasts:(RLMCast*)cast;
+-(void)addToStoredCrew:(RLMCrew*)crew;
 
 @end
 RLM_ARRAY_TYPE(RLTVShow);

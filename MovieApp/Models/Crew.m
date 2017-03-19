@@ -7,8 +7,17 @@
 //
 
 #import "Crew.h"
+#import "RLMCrew.h"
 
 @implementation Crew
+
+-(id)initWithCrew:(RLMCrew*)crew{
+    self = [super init];
+    self.crewName = crew.crewName;
+    self.jobName = crew.jobName;
+    return self;
+}
+
 
 + (NSDictionary*)elementToPropertyMappings {
     NSDictionary *dict=@{

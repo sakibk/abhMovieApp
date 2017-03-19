@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+@class RLMCast;
 
 @interface Cast : NSObject
 
@@ -26,5 +27,7 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
+
+-(id)initWithCast:(RLMCast*)cast;
 
 @end

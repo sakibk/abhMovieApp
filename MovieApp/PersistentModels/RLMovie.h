@@ -8,6 +8,9 @@
 
 #import <Realm/Realm.h>
 #import "Movie.h"
+#import "RLMReview.h"
+#import "RLMCrew.h"
+#import "RLMCast.h"
 
 @interface RLMovie : RLMObject
 
@@ -21,7 +24,13 @@
 @property NSString *singleGenre;
 @property NSString *overview;
 @property NSNumber<RLMInt> *userRate;
+@property RLMArray<RLMReview*><RLMReview> *Reviews;
+@property RLMArray<RLMCrew*><RLMCrew> *movieCrew;
+@property RLMArray<RLMCast*><RLMCast> *movieCast;
 
+-(void)addToStoredReviews:(RLMReview*)review;
+-(void)addToStoredCasts:(RLMCast*)cast;
+-(void)addToStoredCrew:(RLMCrew*)crew;
 
 -(id) initWithMovie:(Movie *)movie;
 -(void)setupWithMovie:(Movie *)singleObject;

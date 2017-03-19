@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+@class RLMActor;
 
 @interface Actor : NSObject
 
@@ -27,5 +28,7 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
+
+-(id)initWithActor:(RLMActor*)actor
 
 @end

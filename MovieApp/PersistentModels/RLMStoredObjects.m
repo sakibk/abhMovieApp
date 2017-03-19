@@ -21,6 +21,10 @@
 //    [[RLMRealm defaultRealm] commitWriteTransaction];
 }
 
+-(void)addToStoredActors:(RLMActor*)actor{
+    [self.storedActors addObject:actor];
+}
+
 -(void)addToStoredPopularMovies:(RLMovie*)movie{
 //    [RealmHelper putInto:self.storedPopularMovies :movie];
     [self.storedPopularMovies addObject:movie];

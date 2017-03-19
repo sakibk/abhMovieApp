@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+@class RLMCrew;
 
 @interface Crew : NSObject
 
@@ -19,5 +20,7 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
+
+-(id)initWithCrew:(RLMCrew*)crew;
 
 @end

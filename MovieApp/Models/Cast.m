@@ -7,6 +7,7 @@
 //
 
 #import "Cast.h"
+#import "RLMCast.h"
 
 @implementation Cast
 
@@ -75,6 +76,19 @@
     
 }
 
+-(id)initWithCast:(RLMCast*)cast{
+    self= [super init];
+    self.castID = cast.castID;
+    self.castWithID = cast.castWithID;
+    self.castName = cast.castName;
+    self.castRoleName = cast.castRoleName;
+    self.castImagePath = cast.castImagePath;
+    self.castPosterPath = cast.castPosterPath;
+    self.castMovieTitle = cast.castMovieTitle;
+    self.releaseDate = cast.releaseDate;
+    self.mediaType = cast.mediaType;
+    return self;
+}
 
 
 @end

@@ -7,8 +7,17 @@
 //
 
 #import "TrailerVideos.h"
+#import "RLMTrailerVideos.h"
 
 @implementation TrailerVideos
+
+-(id)initWithVideo:(RLMTrailerVideos*)video{
+    self=[super init];
+    self.videoID=video.videoID;
+    self.videoName=video.videoName;
+    self.videoKey=video.videoKey;
+    return self;
+}
 
 
 // Here you need to add all Movie properties that needs to be mapped.

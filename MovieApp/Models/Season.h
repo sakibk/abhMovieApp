@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
 #import "Episode.h"
+@class RLMSeason;
 
 @interface Season : NSObject
 
@@ -25,5 +26,7 @@
 +(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
+
+-(id)initWithSeason:(RLMSeason*)season;
 
 @end

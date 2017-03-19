@@ -28,6 +28,7 @@
 #import "ListPost.h"
 #import "RLUserInfo.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
 
 
 @interface MovieDetailViewController ()
@@ -76,6 +77,7 @@
 @property (strong, nonatomic) NSMutableString *directorString;
 
 @property BOOL isSuccessful;
+@property BOOL isConnected;
 
 @end
 
@@ -96,10 +98,16 @@
     
     
     if(_isMovie){
-        [self getMovies];
+        if(_isConnected)
+            [self getMovies];
+        else
+            [self getStoredMovie];
     }
     else{
-        [self getShows];
+        if(_isConnected)
+            [self getShows];
+        else
+            [self getStoredShow];
     }
     
 }
@@ -139,6 +147,7 @@
     _areWritersSet=NO;
     _areProducentsSet=NO;
     
+    _isConnected = [ConnectivityTest isConnected];
 }
 
 -(void)setSizes{
@@ -199,6 +208,22 @@
     titleLabel.textColor=[UIColor whiteColor];
     [iv addSubview:titleLabel];
     self.navigationItem.titleView = iv;
+}
+
+-(void)getStoredMovie{
+    
+}
+
+-(void)getStoredShow{
+    
+}
+
+-(void)setStoredMovie{
+    
+}
+
+-(void)setStoredShow{
+    
 }
 
 -(void)getMovies{

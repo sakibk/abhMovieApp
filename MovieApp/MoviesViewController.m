@@ -543,6 +543,7 @@ RLM_ARRAY_TYPE(Movie);
                 [_allMovies addObject:[[Movie alloc] initWithObject:oneMovie]];
             }
     }
+    [self getStoredGenres];
     [self.collectionView reloadData];
 }
 
@@ -630,6 +631,7 @@ RLM_ARRAY_TYPE(Movie);
             }
         
     }
+    [self getStoredGenres];
     [self.collectionView reloadData];
 }
 
@@ -788,7 +790,7 @@ RLM_ARRAY_TYPE(Movie);
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allGenres=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
+        [self setStoredGenres:mappingResult.array];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -975,6 +977,7 @@ RLM_ARRAY_TYPE(Movie);
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allGenres=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [self setStoredGenres:mappingResult.array];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);

@@ -19,6 +19,13 @@
 		AD0C91561E7BE1F100049DB4 /* ApiKey.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91551E7BE1F100049DB4 /* ApiKey.m */; };
 		AD0C915F1E7BF56900049DB4 /* RealmHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C915E1E7BF56900049DB4 /* RealmHelper.m */; };
 		AD0C91621E7C2F8F00049DB4 /* RLMGenre.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91611E7C2F8F00049DB4 /* RLMGenre.m */; };
+		AD0C91681E7DECB600049DB4 /* RLMReview.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91671E7DECB600049DB4 /* RLMReview.m */; };
+		AD0C916B1E7DF8AB00049DB4 /* RLMCrew.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C916A1E7DF8AB00049DB4 /* RLMCrew.m */; };
+		AD0C916E1E7DF8C100049DB4 /* RLMCast.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C916D1E7DF8C100049DB4 /* RLMCast.m */; };
+		AD0C91711E7E026900049DB4 /* RLMSeason.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91701E7E026900049DB4 /* RLMSeason.m */; };
+		AD0C91741E7E027D00049DB4 /* RLMEpisode.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91731E7E027D00049DB4 /* RLMEpisode.m */; };
+		AD0C91771E7E5DCC00049DB4 /* RLMTrailerVideos.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91761E7E5DCC00049DB4 /* RLMTrailerVideos.m */; };
+		AD0C917A1E7E62B100049DB4 /* RLMActor.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91791E7E62B100049DB4 /* RLMActor.m */; };
 		AD12827F1E77E50F00226CA4 /* ConnectivityTest.m in Sources */ = {isa = PBXBuildFile; fileRef = AD12827E1E77E50F00226CA4 /* ConnectivityTest.m */; };
 		AD13A6041E5E569300671C41 /* RegistrationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD13A6031E5E569300671C41 /* RegistrationViewController.m */; };
 		AD17837D1E2D4C1B0037DC44 /* MoviesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD17837C1E2D4C1B0037DC44 /* MoviesViewController.m */; };
@@ -137,6 +144,20 @@
 		AD0C915E1E7BF56900049DB4 /* RealmHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RealmHelper.m; path = MovieApp/RealmHelper.m; sourceTree = "<group>"; };
 		AD0C91601E7C2F8F00049DB4 /* RLMGenre.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMGenre.h; path = MovieApp/PersistentModels/RLMGenre.h; sourceTree = "<group>"; };
 		AD0C91611E7C2F8F00049DB4 /* RLMGenre.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMGenre.m; path = MovieApp/PersistentModels/RLMGenre.m; sourceTree = "<group>"; };
+		AD0C91661E7DECB600049DB4 /* RLMReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMReview.h; path = MovieApp/PersistentModels/RLMReview.h; sourceTree = "<group>"; };
+		AD0C91671E7DECB600049DB4 /* RLMReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMReview.m; path = MovieApp/PersistentModels/RLMReview.m; sourceTree = "<group>"; };
+		AD0C91691E7DF8AB00049DB4 /* RLMCrew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMCrew.h; path = MovieApp/PersistentModels/RLMCrew.h; sourceTree = "<group>"; };
+		AD0C916A1E7DF8AB00049DB4 /* RLMCrew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMCrew.m; path = MovieApp/PersistentModels/RLMCrew.m; sourceTree = "<group>"; };
+		AD0C916C1E7DF8C100049DB4 /* RLMCast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMCast.h; path = MovieApp/PersistentModels/RLMCast.h; sourceTree = "<group>"; };
+		AD0C916D1E7DF8C100049DB4 /* RLMCast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMCast.m; path = MovieApp/PersistentModels/RLMCast.m; sourceTree = "<group>"; };
+		AD0C916F1E7E026900049DB4 /* RLMSeason.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMSeason.h; path = MovieApp/PersistentModels/RLMSeason.h; sourceTree = "<group>"; };
+		AD0C91701E7E026900049DB4 /* RLMSeason.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMSeason.m; path = MovieApp/PersistentModels/RLMSeason.m; sourceTree = "<group>"; };
+		AD0C91721E7E027D00049DB4 /* RLMEpisode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMEpisode.h; path = MovieApp/PersistentModels/RLMEpisode.h; sourceTree = "<group>"; };
+		AD0C91731E7E027D00049DB4 /* RLMEpisode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMEpisode.m; path = MovieApp/PersistentModels/RLMEpisode.m; sourceTree = "<group>"; };
+		AD0C91751E7E5DCC00049DB4 /* RLMTrailerVideos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMTrailerVideos.h; path = MovieApp/PersistentModels/RLMTrailerVideos.h; sourceTree = "<group>"; };
+		AD0C91761E7E5DCC00049DB4 /* RLMTrailerVideos.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMTrailerVideos.m; path = MovieApp/PersistentModels/RLMTrailerVideos.m; sourceTree = "<group>"; };
+		AD0C91781E7E62B100049DB4 /* RLMActor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMActor.h; path = MovieApp/PersistentModels/RLMActor.h; sourceTree = "<group>"; };
+		AD0C91791E7E62B100049DB4 /* RLMActor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMActor.m; path = MovieApp/PersistentModels/RLMActor.m; sourceTree = "<group>"; };
 		AD12827D1E77E50F00226CA4 /* ConnectivityTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectivityTest.h; sourceTree = "<group>"; };
 		AD12827E1E77E50F00226CA4 /* ConnectivityTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectivityTest.m; sourceTree = "<group>"; };
 		AD13A6021E5E569300671C41 /* RegistrationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegistrationViewController.h; path = Controllers/RegistrationViewController.h; sourceTree = "<group>"; };
@@ -714,6 +735,20 @@
 				ADC07D1F1E5C718E00172221 /* RLUserInfo.m */,
 				AD076D061E77DBD8001B356F /* RLMFeeds.h */,
 				AD076D071E77DBD8001B356F /* RLMFeeds.m */,
+				AD0C91661E7DECB600049DB4 /* RLMReview.h */,
+				AD0C91671E7DECB600049DB4 /* RLMReview.m */,
+				AD0C91691E7DF8AB00049DB4 /* RLMCrew.h */,
+				AD0C916A1E7DF8AB00049DB4 /* RLMCrew.m */,
+				AD0C916C1E7DF8C100049DB4 /* RLMCast.h */,
+				AD0C916D1E7DF8C100049DB4 /* RLMCast.m */,
+				AD0C916F1E7E026900049DB4 /* RLMSeason.h */,
+				AD0C91701E7E026900049DB4 /* RLMSeason.m */,
+				AD0C91721E7E027D00049DB4 /* RLMEpisode.h */,
+				AD0C91731E7E027D00049DB4 /* RLMEpisode.m */,
+				AD0C91751E7E5DCC00049DB4 /* RLMTrailerVideos.h */,
+				AD0C91761E7E5DCC00049DB4 /* RLMTrailerVideos.m */,
+				AD0C91781E7E62B100049DB4 /* RLMActor.h */,
+				AD0C91791E7E62B100049DB4 /* RLMActor.m */,
 				AD0C91501E7ABC8E00049DB4 /* RLMStoredObjects.h */,
 				AD0C91511E7ABC8E00049DB4 /* RLMStoredObjects.m */,
 			);
@@ -1000,6 +1035,7 @@
 			files = (
 				AD34A0181E3B78F3009C4367 /* Cast.m in Sources */,
 				ADD9C7C21E65D194001A1809 /* NotificationListViewController.m in Sources */,
+				AD0C916B1E7DF8AB00049DB4 /* RLMCrew.m in Sources */,
 				AD4F93931E4B946600E55630 /* SingleFilmographyCell.m in Sources */,
 				AD4F93A71E4E61AA00E55630 /* TVMovie.m in Sources */,
 				AD076D031E7410BE001B356F /* OverviewdLineCell.m in Sources */,
@@ -1014,13 +1050,16 @@
 				AD4F93BB1E4E99CE00E55630 /* SeasonControllCell.m in Sources */,
 				AD34A00E1E3A31AE009C4367 /* ImagePathUrl.m in Sources */,
 				ADC07D1A1E5C70B300172221 /* RLToken.m in Sources */,
+				AD0C91771E7E5DCC00049DB4 /* RLMTrailerVideos.m in Sources */,
 				AD34A0251E3B8692009C4367 /* SingleCastCell.m in Sources */,
 				ADADC9691E50695300EF25D8 /* EpisodeOverviewCell.m in Sources */,
 				AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */,
+				AD0C91681E7DECB600049DB4 /* RLMReview.m in Sources */,
 				AD34A0311E3BDD9E009C4367 /* SingleReviewCell.m in Sources */,
 				AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */,
 				AD86961E1E559984009B75F0 /* LeftViewCell.m in Sources */,
 				AD0C91521E7ABC8E00049DB4 /* RLMStoredObjects.m in Sources */,
+				AD0C91741E7E027D00049DB4 /* RLMEpisode.m in Sources */,
 				AD34A01D1E3B7A12009C4367 /* CastCollectionCell.m in Sources */,
 				ADC07D101E5C289200172221 /* RatingViewController.m in Sources */,
 				AD4F93801E4B38AC00E55630 /* ActorDetailsViewController.m in Sources */,
@@ -1031,6 +1070,7 @@
 				ADF64D1C1E2D0528000DFCFA /* AppDelegate.m in Sources */,
 				AD4F93B31E4E840D00E55630 /* SingleSeasonCell.m in Sources */,
 				AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */,
+				AD0C917A1E7E62B100049DB4 /* RLMActor.m in Sources */,
 				AD349FFC1E39EE9E009C4367 /* BellowImageCell.m in Sources */,
 				AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */,
 				ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */,
@@ -1038,6 +1078,7 @@
 				AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */,
 				AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */,
 				AD8696171E53B795009B75F0 /* ImageCell.m in Sources */,
+				AD0C91711E7E026900049DB4 /* RLMSeason.m in Sources */,
 				AD4F93721E48A31600E55630 /* SearchCell.m in Sources */,
 				ADF64D571E2D12BC000DFCFA /* Movie.m in Sources */,
 				AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */,
@@ -1054,6 +1095,7 @@
 				AD13A6041E5E569300671C41 /* RegistrationViewController.m in Sources */,
 				AD4F93BE1E4F216500E55630 /* Episode.m in Sources */,
 				AD4F93751E48D4FC00E55630 /* SearchViewController.m in Sources */,
+				AD0C916E1E7DF8C100049DB4 /* RLMCast.m in Sources */,
 				AD7DE4F51E64371000866A93 /* ForgottenPasswordViewController.m in Sources */,
 				AD34A0061E39FF4D009C4367 /* ImageCollectionCell.m in Sources */,
 				AD86961B1E559860009B75F0 /* LeftViewController.m in Sources */,

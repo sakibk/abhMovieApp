@@ -7,6 +7,7 @@
 //
 
 #import "Review.h"
+#import "RLMReview.h"
 
 @implementation Review
 
@@ -57,6 +58,11 @@
     
 }
 
-
+-(id)initWithReview:(RLMReview*)rev{
+    self = [super init];
+    self.author=rev.author;
+    self.text =rev.text;
+    return self;
+}
 
 @end

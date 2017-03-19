@@ -7,6 +7,7 @@
 //
 
 #import "Season.h"
+#import "RLMSeason.h"
 
 @implementation Season
 
@@ -58,6 +59,17 @@
 + (NSArray *)additionalRequestDescriptors{
     return nil;
     
+}
+
+-(id)initWithSeason:(RLMSeason*)season{
+    self= [super init];
+    self.seasonID=season.seasonID;
+    self.seasonNumber=season.seasonNumber;
+    self.episodeCount=season.episodeCount;
+    self.airDate =season.airDate;
+    self.posterPath=season.posterPath;
+    
+    return self;
 }
 
 

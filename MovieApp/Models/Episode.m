@@ -7,8 +7,22 @@
 //
 
 #import "Episode.h"
+#import "RLMEpisode.h"
 
 @implementation Episode
+
+-(id)initWithEpisode:(RLMEpisode*)ep{
+    self= [super init];
+    self.episodeNumber = ep.episodeNumber;
+    self.seasonNumber = ep.seasonNumber;
+    self.airDate = ep.airDate;
+    self.episodePoster = ep.episodePoster;
+    self.episodeName = ep.episodeName;
+    self.overview = ep.overview;
+    self.rating = ep.rating;
+    self.showID = ep.showID;
+    return self;
+}
 
 // Here you need to add all Movie properties that needs to be mapped.
 + (NSDictionary*)elementToPropertyMappings {

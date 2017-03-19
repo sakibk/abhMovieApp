@@ -42,4 +42,16 @@
     return self;
 }
 
+-(void)addToStoredSeasons:(RLMSeason*)season{
+    [self.seasons addObject:season];
+}
+
+-(void)addToStoredCasts:(RLMCast*)cast{
+    [self.showCast addObject:cast];
+}
+
+-(void)addToStoredCrew:(RLMCrew*)crew{
+    [self.showCrew addObject:crew];
+}
+
 @end
