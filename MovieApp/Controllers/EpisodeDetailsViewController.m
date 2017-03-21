@@ -17,6 +17,11 @@
 #import "TrailerViewController.h"
 #import "AboveImageCell.h"
 #import "ApiKey.h"
+#import "RLMTrailerVideos.h"
+#import "ConnectivityTest.h"
+#import "RLMEpisode.h"
+#import "RLTVShow.h"
+#import "RLMSeason.h"
 
 @interface EpisodeDetailsViewController ()
 
@@ -26,6 +31,8 @@
 @property CGFloat episodeDetailsHeight;
 @property CGFloat episodeCastHeight;
 @property CGFloat noHeight;
+@property BOOL isConnected;
+@property RLMRealm *realm;
 
 @end
 
@@ -43,8 +50,14 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeDetailsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeDetailsCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeOverviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeOverviewCellIdentifier];
+    _isConnected = [ConnectivityTest isConnected];
+    _realm = [RLMRealm defaultRealm];
+    
     [self setupSizes];
-    [self getTrailers];
+    if(_isConnected)
+        [self getTrailers];
+    else
+        [self getStoredTrailers];
 }
 
 -(void)setupSizes{
@@ -60,6 +73,53 @@
     self.navigationItem.title =_showName;
 }
 
+-(void)getStoredTrailers{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleEpisode.showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.seasons != nil){
+        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_singleEpisode.seasonNumber integerValue]];
+        if([selectedSeason.episodes count]){
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]];
+            if(ep!=nil)
+                _singleEpisode = [[Episode alloc] initWithEpisode:ep];
+            else{
+                //connect to proceed
+            }
+        }
+        else{
+            //connect to proceed
+        }
+    }
+    else{
+        //connect to proceed
+    }
+}
+-(void)setStoredTrailers{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleEpisode.showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.seasons!= nil){
+        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_singleEpisode.seasonNumber integerValue]];
+        if(selectedSeason!=nil){
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]];
+            if(ep != nil)
+                for(TrailerVideos* video in _singleEpisode.trailers)
+                    [ep.trailers addObject:[[RLMTrailerVideos alloc] initWithVideo:video]];
+        }
+        else{
+                //connect to proceed
+            }
+        }
+
+    else{
+        //connect to proceede
+    }
+    [_realm beginWriteTransaction];
+    [_realm addOrUpdateObject:tv];
+    [_realm commitWriteTransaction];
+    
+
+}
+
 -(void)getTrailers{
     
     NSString *pathP=[NSString stringWithFormat:@"%@%@%@%@%@%@%@",@"/3/tv/",_singleEpisode.showID,@"/season/",_singleEpisode.seasonNumber,@"/episode/",_singleEpisode.episodeNumber,@"/videos"];
@@ -70,6 +130,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _singleEpisode.trailers=[[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [self setStoredTrailers];
         [_tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);

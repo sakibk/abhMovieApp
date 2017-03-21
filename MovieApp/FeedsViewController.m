@@ -93,18 +93,15 @@
     [RSSParser parseRSSFeedForRequest:req success:^(NSArray *feedItems) {
         _allFeeds=[[NSMutableArray alloc] init];
         [_realm beginWriteTransaction];
-
-        [_storedObjetctFeeds.storedFeeds removeAllObjects];
+        [_realm deleteObjects:[RLMFeeds allObjects]];
         
         for (RSSItem *item in feedItems) {
             _singleFeed = [[RLMFeeds alloc]initWithRSSItem:item];
             if([_singleFeed.desc length]>15){
                 [_allFeeds addObject:_singleFeed];
-                [_storedObjetctFeeds addToStoredFeeds:_singleFeed];
+                [_realm addObject:_singleFeed];
             }
         }
-        
-//        [_realm addOrUpdateObject:_storedObjetctFeeds];
         [_realm commitWriteTransaction];
 
         [self.tableView reloadData];
@@ -114,13 +111,9 @@
     }];
 }
 -(void)getStoredFeeds{
-    RLMResults<RLMStoredObjects*> *objs = [RLMStoredObjects allObjects];
-    if([objs count]){
-    RLMStoredObjects *obj = objs.firstObject;
     _allFeeds=[[NSMutableArray alloc] init];
-    for(RLMFeeds *oneFeed in obj.storedFeeds){
+    for(RLMFeeds *oneFeed in [RLMFeeds allObjects]){
         [_allFeeds addObject:oneFeed];
-    }
     }
     [self.tableView reloadData];
 }

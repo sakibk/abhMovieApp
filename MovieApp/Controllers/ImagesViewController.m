@@ -12,6 +12,11 @@
 #import <RestKit/RestKit.h>
 #import "SingleImageViewController.h"
 #import "ApiKey.h"
+#import "RLMovie.h"
+#import <Realm/Realm.h>
+#import "RLMImagePaths.h"
+#import "RLTVShow.h"
+#import "ConnectivityTest.h"
 
 @interface ImagesViewController ()
 
@@ -20,6 +25,9 @@
 @property NSString *movieID;
 @property NSString *galleryTitle;
 @property BOOL isMovie;
+@property BOOL isConnected;
+@property RLMRealm *realm;
+
 @end
 
 @implementation ImagesViewController
@@ -31,7 +39,8 @@
     _collectionView.dataSource = self;
     
     [self setNavBarTitle];
-    
+    _isConnected = [ConnectivityTest isConnected];
+    _realm = [RLMRealm defaultRealm];
     [self.collectionView registerNib:[UINib nibWithNibName:@"ImageCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:imageCellIdentifier];
 }
 
@@ -44,8 +53,40 @@
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
+-(void) setupWithMovie:(Movie *)singleMovie{
+    if(_isConnected)
+        [self getMovieImages:singleMovie];
+    else
+        [self getStoredMovieImages:singleMovie];
+}
 
--(void)setupWithMovie:(Movie *)singleMovie{
+-(void)getStoredMovieImages:(Movie *)singleMovie{
+    RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
+    RLMovie *mv = mvs.firstObject;
+    if(mv.images!=nil){
+        for(RLMImagePaths *image in mv.images)
+            [_allImagePaths addObject:[[ImagePathUrl alloc] initWithPaths:image]];
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredMovieImages:(NSNumber*)movieID{
+    RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",movieID];
+    RLMovie *mv = mvs.firstObject;
+    if(mv.images==nil){
+        for(ImagePathUrl *image in _allImagePaths){
+            [mv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
+        }
+    }
+    [_realm beginWriteTransaction];
+    [_realm addOrUpdateObject:mv];
+    [_realm commitWriteTransaction];
+}
+
+
+-(void)getMovieImages:(Movie *)singleMovie{
     _movieID = [NSString stringWithFormat:@"%@",singleMovie.movieID];
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", _movieID,@"/images"];
     
@@ -72,7 +113,39 @@
     _isMovie=YES;
 }
 
--(void)setupWithShow:(TVShow *)singleShow{
+-(void) setupWithShow:(TVShow *)singleShow{
+    if(_isConnected)
+        [self getShowImages:singleShow];
+    else
+        [self getStoredShowImages:singleShow];
+}
+
+-(void)getStoredShowImages:(TVShow *)singleShow{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.images!=nil){
+        for(RLMImagePaths *image in tv.images)
+            [_allImagePaths addObject:[[ImagePathUrl alloc]initWithPaths:image]];
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredShowImages:(NSNumber*)showID{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.showCast==nil){
+        for(ImagePathUrl *image in _allImagePaths)
+            [tv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
+    }
+    [_realm beginWriteTransaction];
+    [_realm addOrUpdateObject:tv];
+    [_realm commitWriteTransaction];
+}
+
+
+-(void)getShowImages:(TVShow *)singleShow{
     
     _movieID = [NSString stringWithFormat:@"%@",singleShow.showID];
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/tv/", _movieID,@"/images"];

@@ -10,10 +10,17 @@
 #import "SingleFilmographyCell.h"
 #import <RestKit/RestKit.h>
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
+#import "Actor.h"
+#import <Realm/Realm.h>
+#import "RLMActor.h"
 
 NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 
-@implementation FilmographyCell
+@implementation FilmographyCell{
+    BOOL isConnected;
+    RLMRealm *realm;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -22,13 +29,39 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
     _collectionView.dataSource=self;
     
     [_collectionView registerNib:[UINib nibWithNibName:@"SingleFilmographyCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:singleFilmographyCellIdentifier];
-    
+    isConnected = [ConnectivityTest isConnected];
+    realm = [RLMRealm defaultRealm];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
     // Configure the view for the selected state
+}
+
+-(void)getStoredCasts{
+    RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_actorID];
+    RLMActor *act = acts.firstObject;
+    if(act.casts!=nil){
+        for(RLMCast *cst in act.casts)
+            [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredCasts{
+    RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_actorID];
+    RLMActor *act = acts.firstObject;
+    if(act.casts==nil){
+        for(Cast *cst in _allCasts){
+            [act.casts addObject:[[RLMCast alloc]initWithCast:cst]];
+        }
+    }
+    [realm beginWriteTransaction];
+    [realm addOrUpdateObject:act];
+    [realm commitWriteTransaction];
 }
 
 -(void)getCasts{
@@ -47,6 +80,7 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
                 [_allCasts addObject:cast];
             }
         }
+        [self setStoredCasts];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -56,7 +90,10 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 
 -(void)setupWithActor:(Actor *)singleActor{
     _actorID=singleActor.actorID;
-    [self getCasts];
+    if(isConnected)
+        [self getCasts];
+    else
+        [self getStoredCasts];
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {

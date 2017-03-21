@@ -13,7 +13,7 @@
 @property (strong, nonatomic) NSNumber<RLMInt> *genreID;
 @property (strong,nonatomic) NSString *genreName;
 
-
 -(id)initWithGenre:(Genre*)genre;
+
 @end
 RLM_ARRAY_TYPE(RLMGenre);

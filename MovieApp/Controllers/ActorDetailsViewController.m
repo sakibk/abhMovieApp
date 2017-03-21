@@ -16,6 +16,9 @@
 #import "Movie.h"
 #import "TVShow.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
+#import "RLMActor.h"
+#import <Realm/Realm.h>
 
 @interface ActorDetailsViewController ()
 
@@ -37,6 +40,9 @@
 @property BOOL hasBirth;
 @property BOOL hasLink;
 
+@property BOOL isConnected;
+@property RLMRealm *realm;
+
 @end
 
 @implementation ActorDetailsViewController
@@ -47,9 +53,13 @@
     _tableView.dataSource=self;
     // Do any additional setup after loading the view.
     [self setupCells];
-    
     [self setSizes];
-    [self searchForActor];
+    _isConnected = [ConnectivityTest isConnected];
+    _realm = [RLMRealm defaultRealm];
+    if(_isConnected)
+        [self searchForActor];
+    else
+        [self getStoredActor];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,6 +92,28 @@
     [self.navigationItem.leftBarButtonItem setTintColor:[UIColor lightGrayColor]];
 }
 
+-(void)getStoredActor{
+    RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_singleActor.actorID];
+    RLMActor *act = acts.firstObject;
+    if(act != nil){
+        _singleActor = [[Actor alloc]initWithActor:act];
+    }
+    else{
+        //connect to proceed
+    }
+}
+
+-(void)setStoredActor{
+    RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_singleActor.actorID];
+    RLMActor *act = acts.firstObject;
+    if(act == nil){
+        act = [[RLMActor alloc] initWithActor:_singleActor];
+    }
+    [_realm beginWriteTransaction];
+    [_realm addOrUpdateObject:act];
+    [_realm commitWriteTransaction];
+}
+
 -(void)searchForActor{
     
     NSString *pathP = [NSString stringWithFormat:@"/3/person/%@",_actorID];
@@ -93,6 +125,7 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _singleActor=mappingResult.array.firstObject;
+        [self setStoredActor];
         [self setNavBarTitle];
         [self setOverviewLineHeights];
         [self.tableView reloadData];

@@ -14,6 +14,7 @@
 #import "Season.h"
 #import "TVMovie.h"
 @class RLTVShow;
+#import "ListType.h"
 
 @interface TVShow : NSObject
 
@@ -36,6 +37,7 @@
 @property (strong, nonatomic) NSArray <NSNumber *> *runtime;
 @property (strong, nonatomic) NSMutableArray<Season *> *seasons;
 @property (strong, nonatomic) NSNumber *seasonCount;
+@property (strong, nonatomic) NSMutableArray<ListType *> *listType;
 
 - (id) initWithObject:(RLTVShow *)show;
 -(void)setupWithTVMovie:(TVMovie *)singleObject;

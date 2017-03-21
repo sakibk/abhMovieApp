@@ -13,6 +13,9 @@
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <RestKit/RestKit.h>
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
+#import "RLMovie.h"
+#import "RLTVShow.h"
 
 NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 
@@ -21,6 +24,8 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 @property NSMutableArray<ImagePathUrl *> *allImagePaths;
 @property ImagePathUrl *singleImage;
 @property NSString *movieID;
+@property BOOL isConnected;
+@property RLMRealm *realm;
 
 @end
 
@@ -34,11 +39,44 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     _collectionView.dataSource = self;
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"SingleImageCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:SingleImageCellIdentifier];
-    
-    
+    _realm = [RLMRealm defaultRealm];
+    _isConnected = [ConnectivityTest isConnected];
 }
 
--(void)setupWithMovie:(Movie *)singleMovie{
+-(void) setupWithMovie:(Movie *)singleMovie{
+    if(_isConnected)
+        [self getMovieImages:singleMovie];
+    else
+        [self getStoredMovieImages:singleMovie];
+}
+
+-(void)getStoredMovieImages:(Movie *)singleMovie{
+    RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
+    RLMovie *mv = mvs.firstObject;
+    if(mv.images!=nil){
+        for(RLMImagePaths *image in mv.images)
+            [_allImagePaths addObject:[[ImagePathUrl alloc] initWithPaths:image]];
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredMovieImages:(NSNumber*)movieID{
+    RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",movieID];
+    RLMovie *mv = mvs.firstObject;
+    if(mv.images==nil){
+        for(ImagePathUrl *image in _allImagePaths){
+            [mv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
+        }
+    }
+    [_realm beginWriteTransaction];
+    [_realm addOrUpdateObject:mv];
+    [_realm commitWriteTransaction];
+}
+
+
+-(void)getMovieImages:(Movie *)singleMovie{
     _movieID = [NSString stringWithFormat:@"%@",singleMovie.movieID];
     
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/movie/", _movieID,@"/images"];
@@ -50,6 +88,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allImagePaths = [[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [self setStoredMovieImages:singleMovie.movieID];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -57,7 +96,39 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     
 }
 
--(void)setupWithShow:(TVShow *)singleShow{
+-(void) setupWithShow:(TVShow *)singleShow{
+    if(_isConnected)
+        [self getShowImages:singleShow];
+    else
+        [self getStoredShowImages:singleShow];
+}
+
+-(void)getStoredShowImages:(TVShow *)singleShow{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.images!=nil){
+        for(RLMImagePaths *image in tv.images)
+            [_allImagePaths addObject:[[ImagePathUrl alloc]initWithPaths:image]];
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredShowImages:(NSNumber*)showID{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.showCast==nil){
+        for(ImagePathUrl *image in _allImagePaths)
+            [tv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
+    }
+    [_realm beginWriteTransaction];
+    [_realm addOrUpdateObject:tv];
+    [_realm commitWriteTransaction];
+}
+
+
+-(void)getShowImages:(TVShow *)singleShow{
     _movieID = [NSString stringWithFormat:@"%@",singleShow.showID];
     
     NSString *pathP = [NSString stringWithFormat:@"%@%@%@", @"/3/tv/", _movieID,@"/images"];
@@ -69,6 +140,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _allImagePaths = [[NSMutableArray alloc]initWithArray:mappingResult.array];
+        [self setStoredShowImages:singleShow.showID];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);

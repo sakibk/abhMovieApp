@@ -10,6 +10,11 @@
 
 @implementation RLMActor
 
++ (NSString *)primaryKey {
+    return @"actorID";
+}
+
+
 -(id)initWithActor:(Actor*)actor{
     self = [super init];
     self.name=actor.name;

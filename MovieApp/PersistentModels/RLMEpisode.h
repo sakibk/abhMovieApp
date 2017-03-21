@@ -8,6 +8,8 @@
 
 #import <Realm/Realm.h>
 #import "Episode.h"
+#import "RLMCast.h"
+#import "RLMTrailerVideos.h"
 
 @interface RLMEpisode : RLMObject
 
@@ -19,6 +21,8 @@
 @property (strong, nonatomic) NSString *overview;
 @property (strong, nonatomic) NSNumber<RLMFloat> *rating;
 @property (strong, nonatomic) NSNumber<RLMInt> *showID;
+@property RLMArray<RLMCast*><RLMCast> *episodeCasts;
+@property RLMArray<RLMTrailerVideos*><RLMTrailerVideos> *trailers;
 
 -(id)initWithEpisode:(Episode*)ep;
 

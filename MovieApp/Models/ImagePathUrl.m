@@ -7,8 +7,15 @@
 //
 
 #import "ImagePathUrl.h"
+#import "RLMImagePaths.h"
 
 @implementation ImagePathUrl
+
+-(id)initWithPaths:(RLMImagePaths*)image{
+    self = [super init];
+    self.posterPath = image.posterPath;
+    return self;
+}
 
 + (NSDictionary*)elementToPropertyMappings {
     NSDictionary *dict = @{@"file_path": @"posterPath"

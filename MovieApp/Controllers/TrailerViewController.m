@@ -64,25 +64,27 @@
 }
 
 -(void)getStoredTrailers{
-    RLMResults<RLMovie*> *movs =[_storedObjetctMedia.storedMovies objectsWhere:@"movieID = %@", _movieID];
+    RLMResults<RLMovie*> *movs =[RLMovie objectsWhere:@"movieID = %@", _movieID];
     RLMovie* mv = movs.firstObject;
+    if(mv.videos !=nil){
     for(RLMTrailerVideos *vd in mv.videos)
         [_allTrailers addObject:[[TrailerVideos alloc] initWithVideo:vd]];
+    }
+    else{
+        //please reconnect
+    }
 }
 
 -(void)setStoredTrailers{
-    RLMResults<RLMovie*> *movs =[_storedObjetctMedia.storedMovies objectsWhere:@"movieID = %@", _movieID];
+    RLMResults<RLMovie*> *movs =[RLMovie objectsWhere:@"movieID = %@", _movieID];
     RLMovie* mv = movs.firstObject;
+    if(mv.videos == nil){
     [_realm beginWriteTransaction];
     for(TrailerVideos *vid in _allTrailers)
-        [mv addToStoredVideos:[[RLMTrailerVideos alloc] initWithVideo:vid]];
-    int i;
-    for(i = 0; i< [_storedObjetctMedia.storedMovies count];i++){
-        if(mv.movieID == [[_storedObjetctMedia.storedMovies objectAtIndex:i] movieID])
-            [_storedObjetctMedia.storedMovies setObject:mv atIndexedSubscript:i];
-    }
-    [_realm addOrUpdateObject:_storedObjetctMedia];
+        [mv.videos addObject:[[RLMTrailerVideos alloc] initWithVideo:vid]];
+    [_realm addOrUpdateObject:mv];
     [_realm commitWriteTransaction];
+    }
 }
 
 -(void)setupPlayer{

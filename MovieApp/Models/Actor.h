@@ -29,6 +29,6 @@
 +(NSArray*)additionalResponseDescriptors;
 +(NSArray*)additionalRequestDescriptors;
 
--(id)initWithActor:(RLMActor*)actor
+-(id)initWithActor:(RLMActor*)actor;
 
 @end

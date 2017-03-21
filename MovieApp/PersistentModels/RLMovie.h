@@ -12,6 +12,9 @@
 #import "RLMCrew.h"
 #import "RLMCast.h"
 #import "RLMTrailerVideos.h"
+#import "RLMListType.h"
+#import "RLMImagePaths.h"
+
 
 @interface RLMovie : RLMObject
 
@@ -29,6 +32,8 @@
 @property RLMArray<RLMCrew*><RLMCrew> *movieCrew;
 @property RLMArray<RLMCast*><RLMCast> *movieCast;
 @property RLMArray<RLMTrailerVideos*><RLMTrailerVideos> *videos;
+@property RLMArray<RLMListType *><RLMListType> *listType;
+@property RLMArray<RLMImagePaths*><RLMImagePaths> *images;
 
 -(void)addToStoredReviews:(RLMReview*)review;
 -(void)addToStoredCasts:(RLMCast*)cast;

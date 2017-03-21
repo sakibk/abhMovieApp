@@ -7,12 +7,14 @@
 //
 
 #import "RLTVShow.h"
+#import "ListType.h"
 
 @implementation RLTVShow
 
-//+ (NSString *)primaryKey {
-//    return @"ShowModelID";
-//}
++ (NSString *)primaryKey {
+    return @"showID";
+}
+
 
 -(void)setupWithShow:(TVShow *)singleObject{
     self.showID=singleObject.showID;

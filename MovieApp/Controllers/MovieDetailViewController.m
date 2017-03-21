@@ -215,9 +215,9 @@
 }
 
 -(void)getStoredMovie{
-    RLMResults<RLMovie*> *movs= [_storedObjetctMedia.storedMovies objectsWhere:@"movieID = %@",_movieID];
+    RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
     RLMovie *mov = movs.firstObject;
-    if(mov==nil){
+    if(mov.movieCrew==nil && mov.movieCrew==nil){
         //show pls connect
     }
     else{
@@ -234,9 +234,9 @@
 }
 
 -(void)getStoredShow{
-    RLMResults<RLTVShow*> *tvs= [_storedObjetctMedia.storedTV objectsWhere:@"showID = %@",_movieID];
+    RLMResults<RLTVShow*> *tvs= [RLTVShow objectsWhere:@"showID = %@",_movieID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv == nil){
+    if(tv.showCrew == nil && tv.seasons == nil){
         //show pls connect
     }
     else{
@@ -253,27 +253,34 @@
 }
 
 -(void)setStoredMovie{
-    RLMovie *mov = [[RLMovie alloc] initWithMovie:_movieDetail];
-    for(Crew *cr in _movieDetail.crews)
-        [mov.movieCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
-    for(Review *rv in _allReviews)
-        [mov.Reviews addObject:[[RLMReview alloc] initWithReview:rv]];
-    [_realm beginWriteTransaction];
-    [_storedObjetctMedia addToStoredMovies:mov];
-    [_realm addOrUpdateObject:_storedObjetctMedia];
-    [_realm commitWriteTransaction];
+    RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
+    RLMovie *mov = movs.firstObject;
+    if(mov.movieCrew==nil && mov.movieCrew==nil){
+        mov = [[RLMovie alloc] initWithMovie:_movieDetail];
+        for(Crew *cr in _movieDetail.crews)
+            [mov.movieCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
+        for(Review *rv in _allReviews)
+            [mov.Reviews addObject:[[RLMReview alloc] initWithReview:rv]];
+        [_realm beginWriteTransaction];
+        [_realm addOrUpdateObject:mov];
+        [_realm commitWriteTransaction];
+    }
 }
 
 -(void)setStoredShow{
-    RLTVShow *tv = [[RLTVShow alloc] initWithShow:_showDetail];
-    for(Crew *cr in _movieDetail.crews)
-        [tv.showCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
-    for(Season *ss in _allSeasons)
-        [tv.seasons addObject:[[RLMSeason alloc]initWithSeason:ss]];
-    [_realm beginWriteTransaction];
-    [_storedObjetctMedia addToStoredTV:tv];
-    [_realm addOrUpdateObject:_storedObjetctMedia];
-    [_realm commitWriteTransaction];
+    RLMResults<RLTVShow*> *tvs= [RLTVShow objectsWhere:@"showID = %@",_movieID];
+    RLTVShow *tv = tvs.firstObject;
+    if (tv.showCrew == nil && tv.seasons == nil) {
+        tv=[[RLTVShow alloc] initWithShow:_showDetail];
+        for(Crew *cr in _movieDetail.crews)
+            [tv.showCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
+        for(Season *ss in _allSeasons)
+            [tv.seasons addObject:[[RLMSeason alloc]initWithSeason:ss]];
+        [_realm beginWriteTransaction];
+        [_storedObjetctMedia addToStoredTV:tv];
+        [_realm addOrUpdateObject:_storedObjetctMedia];
+        [_realm commitWriteTransaction];
+    }
 }
 
 -(void)getMovies{

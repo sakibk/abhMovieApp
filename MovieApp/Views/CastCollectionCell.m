@@ -10,24 +10,68 @@
 #import "SingleCastCell.h"
 #import "ActorDetailsViewController.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
+#import "RLMStoredObjects.h"
+#import "RLMActor.h"
+#import "RLMovie.h"
+#import "RLTVShow.h"
+#import "RLMEpisode.h"
+#import "RLMCast.h"
+#import "RLMSeason.h"
+#import <Realm/Realm.h>
 
 NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 
 
-@implementation CastCollectionCell
+@implementation CastCollectionCell{
+    RLMRealm *realm;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
     _collectionView.delegate=self;
     _collectionView.dataSource=self;
-    
+    _isConnected = [ConnectivityTest isConnected];
+    realm = [RLMRealm defaultRealm];
     [self.collectionView registerNib:[UINib nibWithNibName:@"SingleCastCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:singleCastCellIdentifier];
 }
 
 
+
 -(void) setupWithMovie:(Movie *)singleMovie{
-    
+    if(_isConnected)
+        [self getMovieCasts:singleMovie];
+    else
+        [self getStoredMovieCasts:singleMovie];
+}
+
+-(void)getStoredMovieCasts:(Movie *)singleMovie{
+    RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
+    RLMovie *mv = mvs.firstObject;
+    if(mv.movieCast!=nil){
+        for(RLMCast *cst in mv.movieCast)
+            [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredMovieCasts:(NSNumber*)movieID{
+    RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",movieID];
+    RLMovie *mv = mvs.firstObject;
+    if(mv.movieCast==nil){
+        for(Cast *cst in _allCasts){
+            [mv.movieCast addObject:[[RLMCast alloc]initWithCast:cst]];
+        }
+    }
+    [realm beginWriteTransaction];
+    [realm addOrUpdateObject:mv];
+    [realm commitWriteTransaction];
+}
+
+-(void)getMovieCasts:(Movie*)singleMovie{
     NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",singleMovie.movieID];
     
     NSDictionary *queryParameters = @{
@@ -43,15 +87,45 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
                 [_allCasts addObject:cast];
             }
         }
-        
+        [self setStoredMovieCasts:singleMovie.movieID];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
-
 -(void) setupWithShow:(TVShow *)singleShow{
+    if(_isConnected)
+        [self getShowCasts:singleShow];
+    else
+        [self getStoredShowCasts:singleShow];
+}
+
+-(void)getStoredShowCasts:(TVShow *)singleShow{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.showCast!=nil){
+        for(RLMCast *cst in tv.showCast)
+            [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredShowCasts:(NSNumber*)showID{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.showCast==nil){
+        for(Cast *cst in _allCasts)
+            [tv.showCast addObject:[[RLMCast alloc]initWithCast:cst]];
+    }
+    [realm beginWriteTransaction];
+    [realm addOrUpdateObject:tv];
+    [realm commitWriteTransaction];
+}
+
+-(void)getShowCasts:(TVShow*)singleShow{
     
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/credits",singleShow.showID];
     
@@ -68,16 +142,45 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
                 [_allCasts addObject:cast];
             }
         }
-        
+        [self setStoredShowCasts:singleShow.showID];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
 }
 
-
 -(void) setupWithEpisode:(Episode *)singleEpisode{
+    if(_isConnected)
+        [self getEpisodeCasts:singleEpisode];
+    else
+        [self getStoredEpisodeCasts:singleEpisode];
+}
+
+-(void)getStoredEpisodeCasts:(Episode *)singleEpisode{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleEpisode.showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.seasons!= nil){
+        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[singleEpisode.seasonNumber integerValue]];
+        if(selectedSeason!=nil){
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[singleEpisode.episodeNumber integerValue]];
+            for(RLMCast *cst in ep.episodeCasts)
+                [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+        }
+        else{
+            //connect to proceede
+        }
+    }
+    else{
+        //connect to proceede
+    }
+}
+
+-(void)setStoredEpisodeCasts:(NSNumber*)showID and:(NSNumber*)seasonNumber and:(NSNumber*)episodeNumber{
     
+}
+
+
+-(void)getEpisodeCasts:(Episode *)singleEpisode{
     NSString *pathP =[NSString stringWithFormat:@"/3/tv/%@/season/%@/episode/%@/credits",singleEpisode.showID,singleEpisode.seasonNumber,singleEpisode.episodeNumber];
     
     NSDictionary *queryParameters = @{
@@ -93,14 +196,11 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
                 [_allCasts addObject:cast];
             }
         }
-        //        _allCasts=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-        
-        
+        [self setStoredEpisodeCasts:singleEpisode.showID and:singleEpisode.seasonNumber and:singleEpisode.episodeNumber];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

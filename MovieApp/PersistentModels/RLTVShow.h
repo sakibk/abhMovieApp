@@ -11,6 +11,8 @@
 #import "RLMCrew.h"
 #import "RLMCast.h"
 #import "RLMSeason.h"
+#import "RLMListType.h"
+#import "RLMImagePaths.h"
 
 @interface RLTVShow : RLMObject
 
@@ -27,6 +29,8 @@
 @property RLMArray<RLMCast*><RLMCast> *showCast;
 @property RLMArray<RLMCrew*><RLMCrew> *showCrew;
 @property RLMArray<RLMSeason*><RLMSeason> *seasons;
+@property RLMArray<RLMListType*><RLMListType> *listType;
+@property RLMArray<RLMImagePaths*><RLMImagePaths> *images;
 
 - (id) initWithShow:(TVShow *)show;
 -(void)setupWithShow:(TVShow *)singleObject;

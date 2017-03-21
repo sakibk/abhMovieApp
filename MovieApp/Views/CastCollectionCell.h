@@ -32,5 +32,6 @@ extern NSString *const castCollectionCellIdentifier;
 @property NSMutableArray<Cast *> *allCasts;
 @property Cast *singleCast;
 @property NSString *movieID;
+@property BOOL isConnected;
 
 @end

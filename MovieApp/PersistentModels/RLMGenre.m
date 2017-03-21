@@ -10,6 +10,10 @@
 
 @implementation RLMGenre
 
++ (NSString *)primaryKey {
+    return @"genreID";
+}
+
 -(id)initWithGenre:(Genre*)genre{
     self = [super init];
     self.genreID=genre.genreID;

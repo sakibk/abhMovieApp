@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
+@class RLMImagePaths;
 
 @interface ImagePathUrl : NSObject
 
 @property(strong, nonatomic) NSString *posterPath;
+
+-(id)initWithPaths:(RLMImagePaths*)image;
 
 +(NSDictionary*)elementToPropertyMappings;
 +(RKObjectMapping *)responseMapping;

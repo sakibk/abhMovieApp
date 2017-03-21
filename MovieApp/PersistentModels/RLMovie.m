@@ -7,12 +7,13 @@
 //
 
 #import "RLMovie.h"
+#import "ListType.h"
 
 @implementation RLMovie
 
-//+ (NSString *)primaryKey {
-//    return @"movieModelID";
-//}
++ (NSString *)primaryKey {
+    return @"movieID";
+}
 
 -(void)setupWithMovie:(Movie *)singleObject{
     self.movieID=singleObject.movieID;
@@ -38,6 +39,7 @@
     self.posterPath=movie.posterPath;
     self.overview=movie.overview;
     self.userRate=movie.userRate;
+
     return self;
 }
 

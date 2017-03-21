@@ -8,6 +8,7 @@
 
 #import <Realm/Realm.h>
 #import "Actor.h"
+#import "RLMCast.h"
 
 @interface RLMActor : RLMObject
 
@@ -21,6 +22,7 @@
 @property(strong,nonatomic) NSString *homePage;
 @property(strong,nonatomic) NSString *biography;
 @property(strong,nonatomic) NSString *profilePath;
+@property RLMArray<RLMCast*><RLMCast> *casts;
 
 -(id)initWithActor:(Actor*)actor;
 

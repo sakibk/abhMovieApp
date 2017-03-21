@@ -14,6 +14,7 @@
 #import "TVShow.h"
 #import "TVMovie.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
 
 @interface SearchViewController ()
 
@@ -24,6 +25,7 @@
 @property TVShow *tempShow;
 @property NSNumber *pageNumber;
 @property int setupScroll;
+@property BOOL isConnected;
 
 @end
 
@@ -44,6 +46,7 @@
     _pageNumber = [NSNumber numberWithInt:1];
     _setupScroll = 0;
     _searchString = @"";
+    _isConnected = [ConnectivityTest isConnected];
     
 }
 

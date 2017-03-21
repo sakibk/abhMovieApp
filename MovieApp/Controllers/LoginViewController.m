@@ -19,6 +19,7 @@
 #import "ListMapping.h"
 #import "ListMappingTV.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
 
 @interface LoginViewController ()
 
@@ -39,6 +40,8 @@
 
 @property RLUserInfo *user;
 
+@property BOOL isConnected;
+
 @end
 
 @implementation LoginViewController
@@ -48,7 +51,8 @@
     // Do any additional setup after loading the view.
     [self setVariables];
     [self setLoginView];
-    [self getToken];
+    if(_isConnected)
+        [self getToken];
     
 }
 
@@ -62,16 +66,21 @@
     _onePageRateShowList = [[ListMappingTV alloc]init];
     _user = [[RLUserInfo alloc] init];
     _realm = [RLMRealm defaultRealm];
+    _isConnected = [ConnectivityTest isConnected];
 }
 
 -(IBAction)sessionPressed:(id)sender{
+    if(_isConnected){
     if(self.emailEditor.text!=nil && ![self.emailEditor.text isEqualToString:@""] && self.passwordEditor.text!=nil && ![self.passwordEditor.text isEqualToString:@""]){
         [self getTokenForSesion];
     }
     else{
         [self postStatusError:@"Enter Your Credentials"];
-    }
+    }}
+    else
+        [self postStatusError:@"Please connect to proceed"];
     [self.passwordEditor resignFirstResponder];
+        
 }
 
 -(void)setLoginView{

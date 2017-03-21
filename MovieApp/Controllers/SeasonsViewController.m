@@ -14,6 +14,11 @@
 #import <RestKit/RestKit.h>
 #import "EpisodeDetailsViewController.h"
 #import "ApiKey.h"
+#import <Realm/Realm.h>
+#import "ConnectivityTest.h"
+#import "RLTVShow.h"
+#import "RLMSeason.h"
+#import "RLMEpisode.h"
 
 @interface SeasonsViewController ()
 
@@ -23,6 +28,8 @@
 @property NSNumberFormatter *formatter;
 @property NSIndexPath *selectedSeason;
 @property BOOL firstTime;
+@property BOOL isConnected;
+@property RLMRealm *realm;
 
 @end
 
@@ -36,6 +43,8 @@
     _tableView.delegate =self;
     _tableView.dataSource=self;
     [self setNavBarTitle];
+    _isConnected = [ConnectivityTest isConnected];
+    _realm = [RLMRealm defaultRealm];
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"SeasonControllCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:seasonControllCellIdentifier];
     [self.tableView registerNib:[UINib nibWithNibName:@"SingleSeasonCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:singleSeasonCellIdentifier];
@@ -81,8 +90,41 @@
 
 -(void)setupSeasonView{
     [self setFormater];
-    [self getAllEpisodes];
+    if(_isConnected)
+        [self getAllEpisodes];
+    else
+        [self getStoredEpisodes];
     _currentSeason=_seasons.firstObject;
+}
+
+-(void)getStoredEpisodes{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleShow.showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.seasons!= nil){
+        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_seasonID integerValue]];
+        if(selectedSeason!=nil){
+            for(RLMEpisode *ep in selectedSeason.episodes)
+                [_allEpisodes addObject:[[Episode alloc]initWithEpisode:ep]];
+        }
+        else{
+            RLMSeason *selectedSeason = [[RLMSeason alloc] initWithSeason:[_seasons objectAtIndex:[_seasonID integerValue]]];
+            if(selectedSeason!=nil){
+                for(RLMEpisode *ep in selectedSeason.episodes)
+                    [_allEpisodes addObject:[[Episode alloc]initWithEpisode:ep]];
+            }
+            else{
+                //connect to proceed
+            }
+        }
+    }
+    else{
+        //connect to proceede
+    }
+
+}
+
+-(void)setStoredEpisodes{
+    
 }
 
 -(void)setupSeasonYear{
@@ -169,7 +211,10 @@
     _currentSeason=[_seasons objectAtIndex:indexPath.row];
     
     [self setupSeasonYear];
-    [self getAllEpisodes];
+    if(_isConnected)
+        [self getAllEpisodes];
+    else
+        [self getStoredEpisodes];
 }
 
 - (void)didReceiveMemoryWarning {
