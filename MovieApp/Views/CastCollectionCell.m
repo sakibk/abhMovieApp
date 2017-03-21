@@ -176,7 +176,22 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 }
 
 -(void)setStoredEpisodeCasts:(NSNumber*)showID and:(NSNumber*)seasonNumber and:(NSNumber*)episodeNumber{
-    
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
+    RLTVShow *tv = tvs.firstObject;
+    if(tv.seasons!= nil){
+        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[seasonNumber integerValue]];
+        if(selectedSeason!=nil){
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[episodeNumber integerValue]];
+            if(ep.episodeCasts == nil){
+                for(Cast *cst in _allCasts)
+                    [ep.episodeCasts addObject:[[RLMCast alloc]initWithCast:cst]];
+                [realm beginWriteTransaction];
+                [realm addOrUpdateObject:ep];
+                [realm commitWriteTransaction];
+            }
+        }
+        
+    }
 }
 
 
