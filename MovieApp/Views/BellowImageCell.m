@@ -47,10 +47,17 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     _releaseDate.text = [dateFormatter stringFromDate:singleMovie.releaseDate];
     
     _genreString = [[NSMutableString alloc]init];
-    
-    for (Genre *str in singleMovie.genres ){
-        [_genreString appendString:str.genreName];
-        [_genreString appendString:@", "];
+    if([singleMovie.genres count]){
+        for (Genre *str in singleMovie.genres ){
+            [_genreString appendString:str.genreName];
+            [_genreString appendString:@", "];
+        }
+    }
+    else{
+        for (Genre *str in singleMovie.genreSet ){
+            [_genreString appendString:str.genreName];
+            [_genreString appendString:@", "];
+        }
     }
     if([_genreString length]>3){
         [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
@@ -89,10 +96,17 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     }
     
     _genreString = [[NSMutableString alloc]init];
-    
-    for (Genre *str in singleShow.genres ){
-        [_genreString appendString:str.genreName];
-        [_genreString appendString:@", "];
+    if([singleShow.genres count]){
+        for (Genre *str in singleShow.genres ){
+            [_genreString appendString:str.genreName];
+            [_genreString appendString:@", "];
+        }
+    }
+    else{
+        for (Genre *str in singleShow.genreSet ){
+            [_genreString appendString:str.genreName];
+            [_genreString appendString:@", "];
+        }
     }
     if([_genreString length]>3){
         [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];

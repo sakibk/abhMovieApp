@@ -93,10 +93,13 @@
 }
 
 -(void)getStoredActor{
-    RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_singleActor.actorID];
+    RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_actorID];
     RLMActor *act = acts.firstObject;
     if(act.actorID != nil){
         _singleActor = [[Actor alloc]initWithActor:act];
+        [self setNavBarTitle];
+        [self setOverviewLineHeights];
+        [self.tableView reloadData];
     }
     else{
         //connect to proceed

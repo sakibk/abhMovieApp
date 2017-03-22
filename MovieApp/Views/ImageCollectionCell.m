@@ -53,9 +53,11 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 -(void)getStoredMovieImages:(Movie *)singleMovie{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
     RLMovie *mv = mvs.firstObject;
+    _allImagePaths = [[NSMutableArray alloc] init];
     if(mv.images.firstObject!=nil){
         for(RLMImagePaths *image in mv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc] initWithPaths:image]];
+        [self.collectionView reloadData];
     }
     else{
         //connect to proceede
@@ -108,8 +110,10 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
     if(tv.images.firstObject!=nil){
+        _allImagePaths = [[NSMutableArray alloc] init];
         for(RLMImagePaths *image in tv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc]initWithPaths:image]];
+        [self.collectionView reloadData];
     }
     else{
         //connect to proceede

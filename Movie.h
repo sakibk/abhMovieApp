@@ -14,6 +14,10 @@
 #import <RestKit/RestKit.h>
 @class RLMovie;
 #import "ListType.h"
+#import "Cast.h"
+#import "Crew.h"
+#import "TrailerVideos.h"
+#import "Review.h"
 
 @interface Movie : NSObject
 
@@ -31,7 +35,10 @@
 @property (strong, nonatomic) NSMutableArray<Crew *> *crews;
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
+@property (strong, nonatomic) NSMutableArray<Cast*> *casts;
 @property (strong, nonatomic) NSMutableArray<ListType*> *listType;
+@property (strong, nonatomic) NSMutableArray<TrailerVideos*> *videos;
+@property (strong, nonatomic) NSMutableArray<Review*> *reviews;
 
 - (id) initWithObject:(RLMovie *)movie;
 -(void)setupWithTVMovie:(TVMovie *)singleObject;

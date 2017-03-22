@@ -560,7 +560,7 @@ RLM_ARRAY_TYPE(Movie);
                 [_allMovies addObject:[[Movie alloc] initWithObject:oneMovie]];
             }
         }
-        else if([_filterString isEqualToString:@"first_air_date.desc"]){
+        else if([_filterString isEqualToString:@"release_date.desc"]){
             
             RLMResults<RLMovie*> *movies=[RLMovie objectsWhere:@"ANY listType.listTypeID = %@", _latest.listTypeID];
             for(RLMovie *oneMovie in movies){
@@ -581,6 +581,7 @@ RLM_ARRAY_TYPE(Movie);
 
 -(void)addListTypeToMovie:(RLMListType*)type and:(Movie*)oneMovie{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",oneMovie.movieID];
+    oneMovie.listType =[[NSMutableArray alloc] init];
     if([mvs count]){
         BOOL sameType=NO;
         RLMovie *movie = mvs.firstObject;
@@ -588,18 +589,21 @@ RLM_ARRAY_TYPE(Movie);
             if([typ.listTypeID isEqualToNumber:type.listTypeID]){
                 sameType=YES;
             }
+            [oneMovie.listType addObject:[[ListType alloc]initWithRLMListType:typ]];
         }
         if(!sameType){
             [movie.listType addObject:type];
             [_realm addOrUpdateObject:movie];
+            [oneMovie.listType addObject:[[ListType alloc]initWithRLMListType:type]];
         }
     }
     else{
+        [oneMovie.listType addObject:[[ListType alloc]initWithRLMListType:type]];
         RLMovie *movie = [[RLMovie alloc] initWithMovie:oneMovie];
         [movie.listType addObject:type];
         [_realm addOrUpdateObject:movie];
     }
-
+    [_allMovies addObject:oneMovie];
 }
 
 -(void)setStoredMovies:(NSArray*)movieArray{
@@ -609,7 +613,7 @@ RLM_ARRAY_TYPE(Movie);
             [self addListTypeToMovie:_mostPopular and:oneMovie];
         }
     }
-    else if([_filterString isEqualToString:@"first_air_date.desc"]){
+    else if([_filterString isEqualToString:@"release_date.desc"]){
         for(Movie *oneMovie in movieArray){
             [self addListTypeToMovie:_latest and:oneMovie];
         }
@@ -682,6 +686,7 @@ RLM_ARRAY_TYPE(Movie);
 }
 
 -(void)addListTypeToShow:(RLMListType*)type and:(TVShow*)oneTV{
+    oneTV.listType =[[NSMutableArray alloc] init];
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",oneTV.showID];
     if([tvs count]){
         BOOL sameType=NO;
@@ -690,18 +695,21 @@ RLM_ARRAY_TYPE(Movie);
             if([typ.listTypeID isEqualToNumber:type.listTypeID]){
                 sameType=YES;
             }
+            [oneTV.listType addObject:[[ListType alloc]initWithRLMListType:typ]];
         }
         if(!sameType){
             [show.listType addObject:type];
             [_realm addOrUpdateObject:show];
+            [oneTV.listType addObject:[[ListType alloc]initWithRLMListType:type]];
         }
+        
     }
     else{
         RLTVShow *show = [[RLTVShow alloc] initWithShow:oneTV];
         [show.listType addObject:type];
         [_realm addOrUpdateObject:show];
     }
-    
+    [_allShows addObject:oneTV];
 }
 
 -(void)setStoredTV:(NSArray*)showArray{
@@ -775,7 +783,6 @@ RLM_ARRAY_TYPE(Movie);
             _allMovies=[[NSMutableArray alloc]init];
             for(Movie *m in mappingResult.array){
                 if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
-                    [_allMovies addObject:[self setMovieGenre:m]];
                     [moviesToStore addObject:[self setMovieGenre:m]];
                 }
             }
@@ -788,7 +795,6 @@ RLM_ARRAY_TYPE(Movie);
             NSMutableArray<Movie*> *moviesToStore = [[NSMutableArray alloc] init];
             for(Movie *m in mappingResult.array){
                 if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
-                    [_allMovies addObject:[self setMovieGenre:m]];
                     [moviesToStore addObject:[self setMovieGenre:m]];
                 }
             }
@@ -861,7 +867,6 @@ RLM_ARRAY_TYPE(Movie);
         NSMutableArray<Movie*> *moviesToStore = [[NSMutableArray alloc] init];
         for(Movie *m in mappingResult.array){
             if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
-                [_allMovies addObject:[self setMovieGenre:m]];
                 [moviesToStore addObject:[self setMovieGenre:m]];
             }
         }
@@ -960,7 +965,6 @@ RLM_ARRAY_TYPE(Movie);
             NSMutableArray<TVShow*> *showsToStore = [[NSMutableArray alloc] init];
             for(TVShow *tv in [(ListMappingTV *)[mappingResult.array lastObject] showList]){
                 if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
-                    [_allShows addObject:[self setTVGenre:tv]];
                     [showsToStore addObject:[self setTVGenre:tv]];
                 }
             }
@@ -976,7 +980,6 @@ RLM_ARRAY_TYPE(Movie);
             NSMutableArray<TVShow*> *showsToStore = [[NSMutableArray alloc] init];
             for(TVShow *tv in [(ListMappingTV *)[mappingResult.array lastObject] showList]){
                 if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
-                    [_allShows addObject:[self setTVGenre:tv]];
                     [showsToStore addObject:[self setTVGenre:tv]];
                 }
             }
@@ -1078,7 +1081,6 @@ RLM_ARRAY_TYPE(Movie);
         NSMutableArray<TVShow*> *showsToStore = [[NSMutableArray alloc] init];
         for(TVShow *tv in [[(ListMappingTV *)[mappingResult.array lastObject] showList] allObjects]){
             if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
-                [_allShows addObject:[self setTVGenre:tv]];
                 [showsToStore addObject:[self setTVGenre:tv]];
             }
         }

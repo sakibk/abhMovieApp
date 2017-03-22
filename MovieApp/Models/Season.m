@@ -8,6 +8,7 @@
 
 #import "Season.h"
 #import "RLMSeason.h"
+#import "RLMEpisode.h"
 
 @implementation Season
 
@@ -68,6 +69,8 @@
     self.episodeCount=season.episodeCount;
     self.airDate =season.airDate;
     self.posterPath=season.posterPath;
+    for(RLMEpisode *ep in season.episodes)
+        [self.episodes addObject:[[Episode alloc] initWithEpisode:ep]];
     
     return self;
 }

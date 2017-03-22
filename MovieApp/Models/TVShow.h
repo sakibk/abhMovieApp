@@ -36,6 +36,7 @@
 @property (strong, nonatomic) NSArray<NSNumber *> *genreIds;
 @property (strong, nonatomic) NSArray <NSNumber *> *runtime;
 @property (strong, nonatomic) NSMutableArray<Season *> *seasons;
+@property (strong, nonatomic) NSMutableArray<Cast*> *casts;
 @property (strong, nonatomic) NSNumber *seasonCount;
 @property (strong, nonatomic) NSMutableArray<ListType *> *listType;
 

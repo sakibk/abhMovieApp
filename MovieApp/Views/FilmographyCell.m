@@ -43,8 +43,10 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
     RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_actorID];
     RLMActor *act = acts.firstObject;
     if(act.casts.firstObject!=nil){
+        _allCasts = [[NSMutableArray alloc] init];
         for(RLMCast *cst in act.casts)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+        [self.collectionView reloadData];
     }
     else{
         //connect to proceede

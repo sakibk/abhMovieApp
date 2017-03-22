@@ -9,6 +9,10 @@
 #import "RLTVShow.h"
 #import "ListType.h"
 #import "Genre.h"
+#import "Cast.h"
+#import "Crew.h"
+#import "Season.h"
+#import "ListType.h"
 
 @implementation RLTVShow
 
@@ -52,6 +56,14 @@
         self.StartRuntime=[show.runtime objectAtIndex:0];
     if([show.runtime objectAtIndex:1])
         self.endRuntime=[show.runtime objectAtIndex:1];
+    for(Cast *cs in show.casts)
+        [self.showCast addObject:[[RLMCast alloc] initWithCast:cs]];
+    for(Crew *cr in show.crews)
+        [self.showCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
+    for(Season *s in show.seasons)
+        [self.seasons addObject:[[RLMSeason alloc] initWithSeason:s]];
+    for(ListType *lt in show.listType)
+        [self.listType addObject:[[RLMListType alloc] initWithRLMListType:lt]];
     return self;
 }
 

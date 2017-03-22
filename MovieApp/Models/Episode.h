@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <RestKit/RestKit.h>
 #import "TrailerVideos.h"
+#import "Cast.h"
 @class RLMEpisode;
 
 @interface Episode : NSObject
@@ -21,6 +22,7 @@
 @property (strong, nonatomic) NSString *overview;
 @property (strong, nonatomic) NSNumber *rating;
 @property (strong, nonatomic) NSNumber *showID;
+@property (strong, nonatomic) NSMutableArray<Cast*> *episodeCast;
 @property (strong,nonatomic) NSMutableArray<TrailerVideos*> *trailers;
 
 +(NSDictionary*)elementToPropertyMappings;

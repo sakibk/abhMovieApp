@@ -9,6 +9,11 @@
 #import "Movie.h"
 #import "TVMovie.h"
 #import "RLMovie.h"
+#import "RLMCast.h"
+#import "RLMCrew.h"
+#import "RLMTrailerVideos.h"
+#import "RLMListType.h"
+#import "RLMReview.h"
 
 @implementation Movie
 
@@ -112,6 +117,21 @@
     for(RLMGenre *g in movie.genres)
         [gns addObject:[[Genre alloc] initWithGenre:g] ];
     self.genres = [[NSArray alloc] initWithArray:gns];
+    self.videos = [[NSMutableArray alloc] init];
+    for(RLMTrailerVideos *trv in movie.videos)
+        [self.videos addObject:[[TrailerVideos alloc] initWithVideo:trv]];
+    self.casts = [[NSMutableArray alloc] init];
+    for(RLMCast *rcs in movie.movieCast)
+        [self.casts addObject:[[Cast alloc]initWithCast:rcs]];
+    self.crews = [[NSMutableArray alloc] init];
+    for(RLMCrew *rcr in movie.movieCrew)
+        [self.crews addObject:[[Crew alloc] initWithCrew:rcr]];
+    self.listType = [[NSMutableArray alloc] init];
+    for(RLMListType *lt in movie.listType)
+        [self.listType addObject:[[ListType alloc] initWithRLMListType:lt]];
+    self.reviews = [[NSMutableArray alloc] init];
+    for(RLMReview *rw in movie.Reviews)
+        [self.reviews addObject:[[Review alloc] initWithReview:rw]];
     return self;
 }
 

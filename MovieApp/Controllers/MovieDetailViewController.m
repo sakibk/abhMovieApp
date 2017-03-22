@@ -217,17 +217,18 @@
 -(void)getStoredMovie{
     RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
     RLMovie *mov = movs.firstObject;
-    if(mov.movieCrew.firstObject==nil && mov.movieCrew.firstObject==nil){
+    if(mov.movieCrew.firstObject==nil && mov.Reviews.firstObject==nil){
         //show pls connect
     }
     else{
         _movieDetail = [[Movie alloc] initWithObject:mov];
         [self setNavBarTitle];
-        for(RLMReview *rv in mov.Reviews)
-            [_allReviews addObject:[[Review alloc] initWithReview:rv]];
+        _allReviews = _movieDetail.reviews;
+//        for(RLMReview *rv in mov.Reviews)
+//            [_allReviews addObject:[[Review alloc] initWithReview:rv]];
         [self setupHeights];
-        for(RLMCrew *cr in mov.movieCrew)
-            [_movieDetail.crews addObject:[[Crew alloc] initWithCrew:cr]];
+//        for(RLMCrew *cr in mov.movieCrew)
+//            [_movieDetail.crews addObject:[[Crew alloc] initWithCrew:cr]];
         [self setMovieCredits];
         [self.tableView reloadData];
     }
@@ -253,6 +254,8 @@
 }
 
 -(void)setStoredMovie{
+    _movieDetail.genres=_singleMovie.genres;
+    _movieDetail.listType=_singleMovie.listType;
     RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
     RLMovie *mov = movs.firstObject;
     if(mov.movieCrew.firstObject==nil && mov.movieCrew.firstObject==nil){
@@ -268,6 +271,8 @@
 }
 
 -(void)setStoredShow{
+    _showDetail.genres = _singleShow.genres;
+    _showDetail.listType=_singleShow.listType;
     RLMResults<RLTVShow*> *tvs= [RLTVShow objectsWhere:@"showID = %@",_movieID];
     RLTVShow *tv = tvs.firstObject;
     if (tv.showCrew.firstObject == nil || tv.seasons.firstObject == nil) {
@@ -296,7 +301,6 @@
         else if ([mappingResult.array.firstObject isKindOfClass:[Movie class]])
             _movieDetail = [mappingResult.array firstObject];
         NSLog(@"%@", _movieDetail.overview);
-        _movieDetail.genres=_singleMovie.genres;
         [self setupReviewsWithMovieID:_movieDetail.movieID];
         [self setupOverviewWithMovie];
         [self setNavBarTitle];

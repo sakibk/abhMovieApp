@@ -66,6 +66,12 @@ NSString* const identifier= @"MovieCellIdentifier";
 
         _genreLabel.text=singleMovie.singleGenre;
     }
+    else if ([singleMovie.genres count]){
+        for(Genre *g in singleMovie.genres){
+            if(singleMovie.genreIds.firstObject==g.genreID)
+                _genreLabel.text=g.genreName;
+        }
+    }
     else{
         _genreLabel.text=@"N/A";
     }
@@ -112,6 +118,12 @@ NSString* const identifier= @"MovieCellIdentifier";
     
     if(singleShow.singleGenre){
         _genreLabel.text=singleShow.singleGenre;
+    }
+    else if ([singleShow.genres count]){
+        for(Genre *g in singleShow.genres){
+            if(singleShow.genreIds.firstObject==g.genreID)
+                _genreLabel.text=g.genreName;
+        }
     }
     else{
         _genreLabel.text=@"N/A";

@@ -7,6 +7,8 @@
 //
 
 #import "RLMEpisode.h"
+#import "Cast.h"
+#import "TrailerVideos.h"
 
 @implementation RLMEpisode
 
@@ -20,6 +22,10 @@
     self.overview = ep.overview;
     self.rating = ep.rating;
     self.showID = ep.showID;
+    for(Cast *c in ep.episodeCast)
+        [self.episodeCasts addObject:[[RLMCast alloc]initWithCast:c]];
+    for(TrailerVideos *tv in ep.trailers)
+        [self.trailers addObject:[[RLMTrailerVideos alloc] initWithVideo:tv]];
     return self;
 }
 

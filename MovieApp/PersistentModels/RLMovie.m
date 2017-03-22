@@ -8,6 +8,11 @@
 
 #import "RLMovie.h"
 #import "ListType.h"
+#import "TrailerVideos.h"
+#import "Cast.h"
+#import "Crew.h"
+#import "ListType.h"
+#import "Review.h"
 
 @implementation RLMovie
 
@@ -43,7 +48,16 @@
     self.runtime=movie.runtime;
     for(Genre *g in movie.genres)
         [self.genres addObject:[[RLMGenre alloc]initWithGenre:g]];
-    
+    for(Crew *cr in movie.crews)
+        [self.movieCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
+    for(Cast *cs in movie.casts)
+        [self.movieCast addObject:[[RLMCast alloc]initWithCast:cs]];
+    for(TrailerVideos *trv in movie.videos)
+        [self.videos addObject:[[RLMTrailerVideos alloc] initWithVideo:trv]];
+    for(ListType *lt in movie.listType)
+        [self.listType addObject:[[RLMListType alloc] initWithRLMListType:lt]];
+    for(Review *rw in movie.reviews)
+        [self.Reviews addObject:[[RLMReview alloc] initWithReview:rw]];
     
     return self;
 }

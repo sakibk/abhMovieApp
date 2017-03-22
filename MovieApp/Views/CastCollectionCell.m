@@ -49,9 +49,11 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)getStoredMovieCasts:(Movie *)singleMovie{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
     RLMovie *mv = mvs.firstObject;
+    _allCasts = [[NSMutableArray alloc] init];
     if(mv.movieCast.firstObject!=nil){
         for(RLMCast *cst in mv.movieCast)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+        [self.collectionView reloadData];
     }
     else{
         //connect to proceede
@@ -105,8 +107,10 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
     if(tv.showCast.firstObject!=nil){
+        _allCasts = [[NSMutableArray alloc] init];
         for(RLMCast *cst in tv.showCast)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+        [self.collectionView reloadData];
     }
     else{
         //connect to proceede
@@ -163,8 +167,10 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[singleEpisode.seasonNumber integerValue]];
         if(selectedSeason.episodes.firstObject.episodeCasts.firstObject!=nil){
             RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[singleEpisode.episodeNumber integerValue]];
+            _allCasts = [[NSMutableArray alloc] init];
             for(RLMCast *cst in ep.episodeCasts)
                 [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+            [self.collectionView reloadData];
         }
         else{
             //connect to proceede
