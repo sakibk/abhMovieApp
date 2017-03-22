@@ -13,6 +13,7 @@
 #import "RLMSeason.h"
 #import "RLMListType.h"
 #import "RLMImagePaths.h"
+#import "RLMGenre.h"
 
 @interface RLTVShow : RLMObject
 
@@ -22,15 +23,20 @@
 @property NSString *posterPath;
 @property NSNumber<RLMFloat> *rating;
 @property NSDate *airDate;
+@property NSDate *firstAirDate;
+@property NSDate *lastAirDate;
 @property NSString *backdropPath;
 @property NSString *singleGenre;
 @property NSString *overview;
+@property NSNumber<RLMInt> *StartRuntime;
+@property NSNumber<RLMInt> *endRuntime;
 @property NSNumber<RLMInt> *userRate;
 @property RLMArray<RLMCast*><RLMCast> *showCast;
 @property RLMArray<RLMCrew*><RLMCrew> *showCrew;
 @property RLMArray<RLMSeason*><RLMSeason> *seasons;
 @property RLMArray<RLMListType*><RLMListType> *listType;
 @property RLMArray<RLMImagePaths*><RLMImagePaths> *images;
+@property RLMArray<RLMGenre*><RLMGenre> *genres;
 
 - (id) initWithShow:(TVShow *)show;
 -(void)setupWithShow:(TVShow *)singleObject;

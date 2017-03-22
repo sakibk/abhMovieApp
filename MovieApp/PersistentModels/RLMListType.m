@@ -10,6 +10,10 @@
 
 @implementation RLMListType
 
++ (NSString *)primaryKey {
+    return @"listTypeID";
+}
+
 -(id)initWithRLMListType:(ListType*)type{
     self=[super init];
     self.listTypeID=type.listTypeID;

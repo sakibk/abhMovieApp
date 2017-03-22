@@ -217,7 +217,7 @@
 -(void)getStoredMovie{
     RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
     RLMovie *mov = movs.firstObject;
-    if(mov.movieCrew==nil && mov.movieCrew==nil){
+    if(mov.movieCrew.firstObject==nil && mov.movieCrew.firstObject==nil){
         //show pls connect
     }
     else{
@@ -236,7 +236,7 @@
 -(void)getStoredShow{
     RLMResults<RLTVShow*> *tvs= [RLTVShow objectsWhere:@"showID = %@",_movieID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.showCrew == nil && tv.seasons == nil){
+    if(tv.showCrew.firstObject == nil && tv.seasons.firstObject == nil){
         //show pls connect
     }
     else{
@@ -255,13 +255,13 @@
 -(void)setStoredMovie{
     RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
     RLMovie *mov = movs.firstObject;
-    if(mov.movieCrew==nil && mov.movieCrew==nil){
+    if(mov.movieCrew.firstObject==nil && mov.movieCrew.firstObject==nil){
         mov = [[RLMovie alloc] initWithMovie:_movieDetail];
+        [_realm beginWriteTransaction];
         for(Crew *cr in _movieDetail.crews)
             [mov.movieCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
         for(Review *rv in _allReviews)
             [mov.Reviews addObject:[[RLMReview alloc] initWithReview:rv]];
-        [_realm beginWriteTransaction];
         [_realm addOrUpdateObject:mov];
         [_realm commitWriteTransaction];
     }
@@ -270,15 +270,14 @@
 -(void)setStoredShow{
     RLMResults<RLTVShow*> *tvs= [RLTVShow objectsWhere:@"showID = %@",_movieID];
     RLTVShow *tv = tvs.firstObject;
-    if (tv.showCrew == nil && tv.seasons == nil) {
+    if (tv.showCrew.firstObject == nil || tv.seasons.firstObject == nil) {
         tv=[[RLTVShow alloc] initWithShow:_showDetail];
-        for(Crew *cr in _movieDetail.crews)
-            [tv.showCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
-        for(Season *ss in _allSeasons)
-            [tv.seasons addObject:[[RLMSeason alloc]initWithSeason:ss]];
         [_realm beginWriteTransaction];
-        [_storedObjetctMedia addToStoredTV:tv];
-        [_realm addOrUpdateObject:_storedObjetctMedia];
+        for(Crew *cr in _showDetail.crews)
+            [tv.showCrew addObject:[[RLMCrew alloc] initWithCrew:cr]];
+        for(Season *ss in _showDetail.seasons)
+            [tv.seasons addObject:[[RLMSeason alloc]initWithSeason:ss]];
+        [_realm addOrUpdateObject:tv];
         [_realm commitWriteTransaction];
     }
 }
@@ -292,8 +291,12 @@
     
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
-        _movieDetail = [mappingResult firstObject];
+        if([mappingResult.array.lastObject isKindOfClass:[Movie class]])
+            _movieDetail = [mappingResult.array lastObject];
+        else if ([mappingResult.array.firstObject isKindOfClass:[Movie class]])
+            _movieDetail = [mappingResult.array firstObject];
         NSLog(@"%@", _movieDetail.overview);
+        _movieDetail.genres=_singleMovie.genres;
         [self setupReviewsWithMovieID:_movieDetail.movieID];
         [self setupOverviewWithMovie];
         [self setNavBarTitle];
@@ -442,6 +445,7 @@
             }
         }
         [self setShowCredits];
+        [self setStoredShow];
         [_tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -1221,8 +1225,8 @@
 
 -(void)addWatchlist{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
-    if(_isConnected){
-        //say Pls connect to proceede
+    if(!_isConnected){
+        //say Pls connect to proceed
     }
     else{
     if(_isMovie){

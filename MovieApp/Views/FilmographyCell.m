@@ -42,7 +42,7 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 -(void)getStoredCasts{
     RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_actorID];
     RLMActor *act = acts.firstObject;
-    if(act.casts!=nil){
+    if(act.casts.firstObject!=nil){
         for(RLMCast *cst in act.casts)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
     }
@@ -54,14 +54,14 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 -(void)setStoredCasts{
     RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_actorID];
     RLMActor *act = acts.firstObject;
-    if(act.casts==nil){
+    if(act.casts.firstObject==nil){
+        [realm beginWriteTransaction];
         for(Cast *cst in _allCasts){
             [act.casts addObject:[[RLMCast alloc]initWithCast:cst]];
         }
+        [realm addOrUpdateObject:act];
+        [realm commitWriteTransaction];
     }
-    [realm beginWriteTransaction];
-    [realm addOrUpdateObject:act];
-    [realm commitWriteTransaction];
 }
 
 -(void)getCasts{

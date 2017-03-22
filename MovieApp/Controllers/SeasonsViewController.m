@@ -76,6 +76,7 @@
         _allEpisodes = [NSMutableArray arrayWithArray:mappingResult.array];
         [self setupShowID];
         [self setupSeasonYear];
+        [self setStoredEpisodes];
         [self.tableView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -90,41 +91,74 @@
 
 -(void)setupSeasonView{
     [self setFormater];
+    _isConnected = [ConnectivityTest isConnected];
+    _currentSeason=_seasons.firstObject;
     if(_isConnected)
         [self getAllEpisodes];
     else
         [self getStoredEpisodes];
-    _currentSeason=_seasons.firstObject;
 }
 
 -(void)getStoredEpisodes{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.seasons!= nil){
-        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_seasonID integerValue]];
-        if(selectedSeason!=nil){
+    if(tv.seasons.firstObject!= nil){
+        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:_selectedSeason.row];
+        if(selectedSeason.seasonID!=nil){
             for(RLMEpisode *ep in selectedSeason.episodes)
                 [_allEpisodes addObject:[[Episode alloc]initWithEpisode:ep]];
         }
         else{
-            RLMSeason *selectedSeason = [[RLMSeason alloc] initWithSeason:[_seasons objectAtIndex:[_seasonID integerValue]]];
-            if(selectedSeason!=nil){
-                for(RLMEpisode *ep in selectedSeason.episodes)
-                    [_allEpisodes addObject:[[Episode alloc]initWithEpisode:ep]];
-            }
-            else{
-                //connect to proceed
+            if([_seasons count]){
+                RLMSeason *selectedSeason = [[RLMSeason alloc] initWithSeason:[_seasons objectAtIndex:_selectedSeason.row]];
+                if(selectedSeason.episodes.firstObject!=nil){
+                    for(RLMEpisode *ep in selectedSeason.episodes)
+                        [_allEpisodes addObject:[[Episode alloc]initWithEpisode:ep]];
+                }
+                else{
+                    //connect to proceed
+                }
             }
         }
     }
     else{
         //connect to proceede
     }
-
+    
 }
 
 -(void)setStoredEpisodes{
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleShow.showID];
+    RLTVShow *tv = tvs.firstObject;
+    [_realm beginWriteTransaction];
+    if(tv.seasons.firstObject!= nil){
+        RLMSeason *selectedSeason = [tv.seasons objectAtIndex:_selectedSeason.row];
+        if(selectedSeason.seasonID!=nil){
+            for(Episode *ep in _allEpisodes)
+                [selectedSeason.episodes addObject:[[RLMEpisode alloc] initWithEpisode:ep]];
+            [tv.seasons replaceObjectAtIndex:_selectedSeason.row  withObject:selectedSeason];
+        }
+        else{
+            if([_seasons count]){
+                RLMSeason *selectedSeason = [[RLMSeason alloc] initWithSeason:[_seasons objectAtIndex:_selectedSeason.row]];
+                if(selectedSeason.episodes.firstObject==nil){
+                    
+                    for(Episode *ep in _allEpisodes)
+                        [selectedSeason.episodes addObject:[[RLMEpisode alloc] initWithEpisode:ep]];
+                    [tv.seasons addObject:selectedSeason];
+                }
+                else{
+                    //connect to proceed
+                }
+            }
+        }
+    }
+    else{
+        //connect to proceede
+    }
     
+    [_realm addOrUpdateObject:tv];
+    [_realm commitWriteTransaction];
 }
 
 -(void)setupSeasonYear{

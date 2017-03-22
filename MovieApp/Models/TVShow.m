@@ -8,6 +8,7 @@
 
 #import "TVShow.h"
 #import "RLTVShow.h"
+#import "Genre.h"
 
 @implementation TVShow
 
@@ -90,17 +91,25 @@
     
 }
 
-- (id) initWithObject:(RLTVShow *)show{
+- (id) initWithObject:(RLTVShow *)singleObject{
         self=[super init];
     
-    self.showID=show.showID ;
-    self.backdropPath=show.backdropPath;
-    self.airDate=show.airDate;
-    self.name=show.name;
-    self.rating=show.rating;
-    self.posterPath=show.posterPath;
-    self.overview=show.overview;
-    self.userRate=show.userRate;
+    self.showID=singleObject.showID;
+    self.backdropPath=singleObject.backdropPath;
+    self.airDate=singleObject.airDate;
+    self.firstAirDate=singleObject.firstAirDate;
+    self.lastAirDate=singleObject.lastAirDate;
+    self.name=singleObject.name;
+    self.rating=singleObject.rating;
+    self.singleGenre = singleObject.singleGenre;
+    self.posterPath=singleObject.posterPath;
+    self.overview=singleObject.overview;
+    self.userRate=singleObject.userRate;
+    NSMutableArray *gns = [[NSMutableArray alloc] init];
+    for(RLMGenre *g in singleObject.genres)
+        [gns addObject:[[Genre alloc] initWithGenre:g] ];
+    self.genres = [[NSArray alloc] initWithArray:gns];
+    self.runtime = [[NSArray alloc] initWithObjects:singleObject.StartRuntime,singleObject.endRuntime,nil];
     
     return self;
 }

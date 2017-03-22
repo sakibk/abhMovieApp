@@ -54,6 +54,7 @@
 }
 
 -(void) setupWithMovie:(Movie *)singleMovie{
+    _isConnected = [ConnectivityTest isConnected];
     if(_isConnected)
         [self getMovieImages:singleMovie];
     else
@@ -63,7 +64,7 @@
 -(void)getStoredMovieImages:(Movie *)singleMovie{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
     RLMovie *mv = mvs.firstObject;
-    if(mv.images!=nil){
+    if(mv.images.firstObject!=nil){
         for(RLMImagePaths *image in mv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc] initWithPaths:image]];
     }
@@ -75,14 +76,14 @@
 -(void)setStoredMovieImages:(NSNumber*)movieID{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",movieID];
     RLMovie *mv = mvs.firstObject;
-    if(mv.images==nil){
+    if(mv.images.firstObject==nil){
+        [_realm beginWriteTransaction];
         for(ImagePathUrl *image in _allImagePaths){
             [mv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
         }
+        [_realm addOrUpdateObject:mv];
+        [_realm commitWriteTransaction];
     }
-    [_realm beginWriteTransaction];
-    [_realm addOrUpdateObject:mv];
-    [_realm commitWriteTransaction];
 }
 
 
@@ -98,6 +99,7 @@
         NSLog(@"%@", mappingResult.array);
         _allImagePaths = [[NSMutableArray alloc]initWithArray:mappingResult.array];
         [self setupMovieLabels:singleMovie.title];
+        [self setStoredMovieImages:singleMovie.movieID];
         [_collectionView reloadData];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
@@ -114,6 +116,7 @@
 }
 
 -(void) setupWithShow:(TVShow *)singleShow{
+    _isConnected = [ConnectivityTest isConnected];
     if(_isConnected)
         [self getShowImages:singleShow];
     else
@@ -123,7 +126,7 @@
 -(void)getStoredShowImages:(TVShow *)singleShow{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.images!=nil){
+    if(tv.images.firstObject!=nil){
         for(RLMImagePaths *image in tv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc]initWithPaths:image]];
     }
@@ -135,13 +138,13 @@
 -(void)setStoredShowImages:(NSNumber*)showID{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.showCast==nil){
+    if(tv.images.firstObject==nil){
+        [_realm beginWriteTransaction];
         for(ImagePathUrl *image in _allImagePaths)
             [tv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
+        [_realm addOrUpdateObject:tv];
+        [_realm commitWriteTransaction];
     }
-    [_realm beginWriteTransaction];
-    [_realm addOrUpdateObject:tv];
-    [_realm commitWriteTransaction];
 }
 
 

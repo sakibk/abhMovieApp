@@ -257,7 +257,11 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
     _searchString=searchText;
-    [self searchForString];
+    if (_isConnected) {
+        [self searchForString];
+    }
+    else
+        //Please reconect to proceed
     _pageNumber=[NSNumber numberWithInt:1];
 }
 

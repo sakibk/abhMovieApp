@@ -14,6 +14,7 @@
 #import "RLMTrailerVideos.h"
 #import "RLMListType.h"
 #import "RLMImagePaths.h"
+#import "RLMGenre.h"
 
 
 @interface RLMovie : RLMObject
@@ -28,12 +29,14 @@
 @property NSString *singleGenre;
 @property NSString *overview;
 @property NSNumber<RLMInt> *userRate;
+@property NSNumber<RLMInt> *runtime;
 @property RLMArray<RLMReview*><RLMReview> *Reviews;
 @property RLMArray<RLMCrew*><RLMCrew> *movieCrew;
 @property RLMArray<RLMCast*><RLMCast> *movieCast;
 @property RLMArray<RLMTrailerVideos*><RLMTrailerVideos> *videos;
 @property RLMArray<RLMListType *><RLMListType> *listType;
 @property RLMArray<RLMImagePaths*><RLMImagePaths> *images;
+@property RLMArray<RLMGenre*><RLMGenre> *genres;
 
 -(void)addToStoredReviews:(RLMReview*)review;
 -(void)addToStoredCasts:(RLMCast*)cast;

@@ -36,10 +36,15 @@
     self.releaseDate=movie.releaseDate;
     self.title=movie.title;
     self.rating=movie.rating;
+    self.singleGenre=movie.singleGenre;
     self.posterPath=movie.posterPath;
     self.overview=movie.overview;
     self.userRate=movie.userRate;
-
+    self.runtime=movie.runtime;
+    for(Genre *g in movie.genres)
+        [self.genres addObject:[[RLMGenre alloc]initWithGenre:g]];
+    
+    
     return self;
 }
 

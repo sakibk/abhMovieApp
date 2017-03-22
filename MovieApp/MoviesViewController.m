@@ -105,14 +105,18 @@ RLM_ARRAY_TYPE(Movie);
     _storedObjetctMedia = objs.firstObject;
     if(_isMovie)
     {
-        if(_isConnected)
+        if(_isConnected){
+            [self getMovieGenres];
             [self getMovies];
+    }
         else
             [self getStoredMovies];
     }
     else{
-        if(_isConnected)
+        if(_isConnected){
+            [self getTVGenres];
             [self getShows];
+        }
         else
             [self getStoredTV];
     }
@@ -581,7 +585,7 @@ RLM_ARRAY_TYPE(Movie);
         BOOL sameType=NO;
         RLMovie *movie = mvs.firstObject;
         for(RLMListType *typ in movie.listType){
-            if(typ == type){
+            if([typ.listTypeID isEqualToNumber:type.listTypeID]){
                 sameType=YES;
             }
         }
@@ -621,7 +625,8 @@ RLM_ARRAY_TYPE(Movie);
 
 -(void)getStoredGenres{
     _allGenres = [[NSMutableArray alloc]init];
-        RLMResults<RLMGenre*> *genres=[RLMGenre allObjects];
+    
+    RLMResults<RLMGenre*> *genres = [RLMGenre allObjects];
         for(RLMGenre *genre in genres){
             [_allGenres addObject:[[Genre alloc] initWithGenre:genre]];
         }
@@ -629,11 +634,11 @@ RLM_ARRAY_TYPE(Movie);
 
 -(void)setStoredGenres:(NSArray*)genres{
     [_realm beginWriteTransaction];
-    for(Genre *genre in genres){
-        [_realm addOrUpdateObject:[[RLMGenre alloc]initWithGenre:genre]];
-    }
+        for(Genre *genre in _allGenres){
+            [_realm addOrUpdateObject:[[RLMGenre alloc] initWithGenre:genre]];
+        }
     [_realm commitWriteTransaction];
-}
+    }
 
 -(void)getStoredTV{
         _allShows=[[NSMutableArray alloc] init];
@@ -682,7 +687,7 @@ RLM_ARRAY_TYPE(Movie);
         BOOL sameType=NO;
         RLTVShow *show = tvs.firstObject;
         for(RLMListType *typ in show.listType){
-            if(typ == type){
+            if([typ.listTypeID isEqualToNumber:type.listTypeID]){
                 sameType=YES;
             }
         }
@@ -770,8 +775,8 @@ RLM_ARRAY_TYPE(Movie);
             _allMovies=[[NSMutableArray alloc]init];
             for(Movie *m in mappingResult.array){
                 if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
-                    [_allMovies addObject:m];
-                    [moviesToStore addObject:m];
+                    [_allMovies addObject:[self setMovieGenre:m]];
+                    [moviesToStore addObject:[self setMovieGenre:m]];
                 }
             }
             [self setStoredMovies:moviesToStore];
@@ -779,8 +784,15 @@ RLM_ARRAY_TYPE(Movie);
             [_collectionView reloadData];
         }
         else{
-            _allMovies=[[NSMutableArray alloc]initWithArray:mappingResult.array];
-            [self setStoredMovies:_allMovies];
+            _allMovies=[[NSMutableArray alloc]init];
+            NSMutableArray<Movie*> *moviesToStore = [[NSMutableArray alloc] init];
+            for(Movie *m in mappingResult.array){
+                if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
+                    [_allMovies addObject:[self setMovieGenre:m]];
+                    [moviesToStore addObject:[self setMovieGenre:m]];
+                }
+            }
+             [self setStoredMovies:moviesToStore];
             [self setPageNumber:[NSNumber numberWithInt:1]];
             [_collectionView reloadData];
         }
@@ -788,9 +800,25 @@ RLM_ARRAY_TYPE(Movie);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-    if(_allGenres==nil) {
-        [self getMovieGenres];
+}
+
+-(Movie*)setMovieGenre:(Movie*)singleMovie{
+    
+    if( singleMovie.genreIds.count!=0){
+        NSNumber *genID = [singleMovie.genreIds objectAtIndex:0];
+        NSMutableArray *gens = [[NSMutableArray alloc] init];
+        for (Genre *gen in  _allGenres) {
+            if (gen.genreID == genID) {
+                singleMovie.singleGenre=gen.genreName;
+            }
+            int i;
+            for(i=0;i<[singleMovie.genreIds count];i++)
+                if(gen.genreID == [singleMovie.genreIds objectAtIndex:i])
+                    [gens addObject:gen];
+        }
+        singleMovie.genres = [[NSArray alloc] initWithArray:gens];
     }
+    return singleMovie;
 }
 
 -(void)getMoreMovies{
@@ -833,8 +861,8 @@ RLM_ARRAY_TYPE(Movie);
         NSMutableArray<Movie*> *moviesToStore = [[NSMutableArray alloc] init];
         for(Movie *m in mappingResult.array){
             if(m.backdropPath!=nil && m.posterPath!=nil && m.releaseDate!=nil){
-                [_allMovies addObject:m];
-                [moviesToStore addObject:m];
+                [_allMovies addObject:[self setMovieGenre:m]];
+                [moviesToStore addObject:[self setMovieGenre:m]];
             }
         }
         [self setStoredMovies:moviesToStore];
@@ -932,8 +960,8 @@ RLM_ARRAY_TYPE(Movie);
             NSMutableArray<TVShow*> *showsToStore = [[NSMutableArray alloc] init];
             for(TVShow *tv in [(ListMappingTV *)[mappingResult.array lastObject] showList]){
                 if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
-                    [_allShows addObject:tv];
-                    [showsToStore addObject:tv];
+                    [_allShows addObject:[self setTVGenre:tv]];
+                    [showsToStore addObject:[self setTVGenre:tv]];
                 }
             }
             [self setStoredTV:showsToStore];
@@ -944,8 +972,15 @@ RLM_ARRAY_TYPE(Movie);
             [self setPageNumber:[NSNumber numberWithInt:1]];
         }
         else{
-            _allShows =[[NSMutableArray alloc]initWithArray:[[(ListMappingTV *)[mappingResult.array lastObject] showList] allObjects]];
-            [self setStoredTV:_allShows];
+            _allShows=[[NSMutableArray alloc]init];
+            NSMutableArray<TVShow*> *showsToStore = [[NSMutableArray alloc] init];
+            for(TVShow *tv in [(ListMappingTV *)[mappingResult.array lastObject] showList]){
+                if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
+                    [_allShows addObject:[self setTVGenre:tv]];
+                    [showsToStore addObject:[self setTVGenre:tv]];
+                }
+            }
+            [self setStoredTV:showsToStore];
             [self.collectionView reloadData];
             [self setPageNumber:[NSNumber numberWithInt:1]];
         }
@@ -953,9 +988,25 @@ RLM_ARRAY_TYPE(Movie);
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
-    if(_allGenres==nil){
-        [self getTVGenres];
+}
+
+-(TVShow*)setTVGenre:(TVShow*)singleShow{
+    
+    if( [singleShow.genreIds count]){
+        NSNumber *genID = [singleShow.genreIds objectAtIndex:0];
+        NSMutableArray *gens = [[NSMutableArray alloc] init];
+        for (Genre *gen in  _allGenres) {
+            if (gen.genreID == genID) {
+                singleShow.singleGenre=gen.genreName;
+            }
+            int i;
+            for(i=0;i<[singleShow.genreIds count];i++)
+                if(gen.genreID == [singleShow.genreIds objectAtIndex:i])
+                    [gens addObject:gen];
+        }
+        singleShow.genres=[[NSArray alloc] initWithArray:gens];
     }
+    return singleShow;
 }
 
 -(void)getMoreShows{
@@ -1027,8 +1078,8 @@ RLM_ARRAY_TYPE(Movie);
         NSMutableArray<TVShow*> *showsToStore = [[NSMutableArray alloc] init];
         for(TVShow *tv in [[(ListMappingTV *)[mappingResult.array lastObject] showList] allObjects]){
             if(tv.posterPath!=nil && tv.backdropPath!=nil && tv.firstAirDate!=nil){
-                [_allShows addObject:tv];
-                [showsToStore addObject:tv];
+                [_allShows addObject:[self setTVGenre:tv]];
+                [showsToStore addObject:[self setTVGenre:tv]];
             }
         }
         [self setStoredTV:showsToStore];
@@ -1088,14 +1139,10 @@ RLM_ARRAY_TYPE(Movie);
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     MoviesCell *cell = (MoviesCell *)[collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     if (_isMovie) {
-        _test =[_allMovies objectAtIndex:indexPath.row];
-        _test.genres=[[NSMutableArray alloc]initWithArray:_allGenres];
-        [cell setupMovieCell:_test];
+        [cell setupMovieCell:[_allMovies objectAtIndex:indexPath.row]];
     }
     else {
-        _tvTest =[_allShows objectAtIndex:indexPath.row];
-        _tvTest.genres=[[NSMutableArray alloc]initWithArray:_allGenres];
-        [cell setupShowCell:_tvTest];
+        [cell setupShowCell:[_allShows objectAtIndex:indexPath.row]];
     }
     
     if(_isLoged){
@@ -1168,7 +1215,8 @@ RLM_ARRAY_TYPE(Movie);
         NSIndexPath *indexPath = [self.collectionView.indexPathsForSelectedItems objectAtIndex:0];
         if (_isMovie) {
             _test =[_allMovies objectAtIndex:indexPath.row];
-            movieDetails.singleMovie = _test;
+            movieDetails.singleMovie =[[Movie alloc]init];
+            movieDetails.singleMovie=_test;
             movieDetails.movieID = _test.movieID;
             movieDetails.isMovie=_isMovie;
         }

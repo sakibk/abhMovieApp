@@ -8,6 +8,7 @@
 
 #import "RLTVShow.h"
 #import "ListType.h"
+#import "Genre.h"
 
 @implementation RLTVShow
 
@@ -19,9 +20,12 @@
 -(void)setupWithShow:(TVShow *)singleObject{
     self.showID=singleObject.showID;
     self.backdropPath=singleObject.backdropPath;
-    self.airDate=singleObject.airDate;
+    self.airDate=singleObject.firstAirDate;
+    self.firstAirDate=singleObject.firstAirDate;
+    self.lastAirDate=singleObject.lastAirDate;
     self.name=singleObject.name;
     self.rating=singleObject.rating;
+    self.singleGenre = singleObject.singleGenre;
     self.posterPath=singleObject.posterPath;
     self.overview=singleObject.overview;
     self.userRate=singleObject.userRate;
@@ -33,14 +37,21 @@
     
     self.showID=show.showID ;
     self.backdropPath=show.backdropPath;
-    self.airDate=show.airDate;
+    self.airDate=show.firstAirDate;
+    self.firstAirDate=show.firstAirDate;
+    self.lastAirDate=show.lastAirDate;
     self.name=show.name;
     self.rating=show.rating;
     self.posterPath=show.posterPath;
+    self.singleGenre = show.singleGenre;
     self.overview=show.overview;
-    self.singleGenre=show.singleGenre;
     self.userRate=show.userRate;
-    
+    for(Genre *g in show.genres)
+        [self.genres addObject:[[RLMGenre alloc]initWithGenre:g]];
+    if([show.runtime objectAtIndex:0])
+        self.StartRuntime=[show.runtime objectAtIndex:0];
+    if([show.runtime objectAtIndex:1])
+        self.endRuntime=[show.runtime objectAtIndex:1];
     return self;
 }
 

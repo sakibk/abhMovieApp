@@ -51,6 +51,7 @@
     
     _movieID=movieID;
     _overviewString=overview;
+    _isConnected = [ConnectivityTest isConnected];
     if(_isConnected)
         [self getTrailers];
     else
@@ -66,9 +67,9 @@
 -(void)getStoredTrailers{
     RLMResults<RLMovie*> *movs =[RLMovie objectsWhere:@"movieID = %@", _movieID];
     RLMovie* mv = movs.firstObject;
-    if(mv.videos !=nil){
-    for(RLMTrailerVideos *vd in mv.videos)
-        [_allTrailers addObject:[[TrailerVideos alloc] initWithVideo:vd]];
+    if(mv.videos.firstObject !=nil){
+        for(RLMTrailerVideos *vd in mv.videos)
+            [_allTrailers addObject:[[TrailerVideos alloc] initWithVideo:vd]];
     }
     else{
         //please reconnect
@@ -78,12 +79,12 @@
 -(void)setStoredTrailers{
     RLMResults<RLMovie*> *movs =[RLMovie objectsWhere:@"movieID = %@", _movieID];
     RLMovie* mv = movs.firstObject;
-    if(mv.videos == nil){
-    [_realm beginWriteTransaction];
-    for(TrailerVideos *vid in _allTrailers)
-        [mv.videos addObject:[[RLMTrailerVideos alloc] initWithVideo:vid]];
-    [_realm addOrUpdateObject:mv];
-    [_realm commitWriteTransaction];
+    if(mv.videos.firstObject == nil){
+        [_realm beginWriteTransaction];
+        for(TrailerVideos *vid in _allTrailers)
+            [mv.videos addObject:[[RLMTrailerVideos alloc] initWithVideo:vid]];
+        [_realm addOrUpdateObject:mv];
+        [_realm commitWriteTransaction];
     }
 }
 

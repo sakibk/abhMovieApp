@@ -53,7 +53,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 -(void)getStoredMovieImages:(Movie *)singleMovie{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
     RLMovie *mv = mvs.firstObject;
-    if(mv.images!=nil){
+    if(mv.images.firstObject!=nil){
         for(RLMImagePaths *image in mv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc] initWithPaths:image]];
     }
@@ -65,14 +65,15 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 -(void)setStoredMovieImages:(NSNumber*)movieID{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",movieID];
     RLMovie *mv = mvs.firstObject;
-    if(mv.images==nil){
+    if(mv.images.firstObject==nil){
+            [_realm beginWriteTransaction];
         for(ImagePathUrl *image in _allImagePaths){
             [mv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
         }
+        [_realm addOrUpdateObject:mv];
+        [_realm commitWriteTransaction];
     }
-    [_realm beginWriteTransaction];
-    [_realm addOrUpdateObject:mv];
-    [_realm commitWriteTransaction];
+    
 }
 
 
@@ -106,7 +107,7 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 -(void)getStoredShowImages:(TVShow *)singleShow{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.images!=nil){
+    if(tv.images.firstObject!=nil){
         for(RLMImagePaths *image in tv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc]initWithPaths:image]];
     }
@@ -118,13 +119,14 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 -(void)setStoredShowImages:(NSNumber*)showID{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.showCast==nil){
+    if(tv.showCast.firstObject==nil){
+        [_realm beginWriteTransaction];
         for(ImagePathUrl *image in _allImagePaths)
             [tv.images addObject:[[RLMImagePaths alloc]initWithPaths:image]];
+        [_realm addOrUpdateObject:tv];
+        [_realm commitWriteTransaction];
     }
-    [_realm beginWriteTransaction];
-    [_realm addOrUpdateObject:tv];
-    [_realm commitWriteTransaction];
+    
 }
 
 

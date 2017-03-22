@@ -80,7 +80,7 @@
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_singleEpisode.seasonNumber integerValue]];
         if([selectedSeason.episodes count]){
             RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]];
-            if(ep!=nil)
+            if(ep.episodeNumber!=nil)
                 _singleEpisode = [[Episode alloc] initWithEpisode:ep];
             else{
                 //connect to proceed
@@ -97,23 +97,24 @@
 -(void)setStoredTrailers{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleEpisode.showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.seasons!= nil){
+    [_realm beginWriteTransaction];
+    if([tv.seasons count]>= [_singleEpisode.seasonNumber integerValue]){
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_singleEpisode.seasonNumber integerValue]];
         if(selectedSeason!=nil){
+            if([selectedSeason.episodes count]>=[_singleEpisode.episodeNumber integerValue]){
             RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]];
-            if(ep != nil)
+            if(ep.trailers.firstObject != nil)
                 for(TrailerVideos* video in _singleEpisode.trailers)
                     [ep.trailers addObject:[[RLMTrailerVideos alloc] initWithVideo:video]];
+            }
         }
         else{
                 //connect to proceed
             }
         }
-
     else{
         //connect to proceede
     }
-    [_realm beginWriteTransaction];
     [_realm addOrUpdateObject:tv];
     [_realm commitWriteTransaction];
     

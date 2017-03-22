@@ -11,17 +11,20 @@
 #import "Genre.h"
 #import <RestKit/RestKit.h>
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "ConnectivityTest.h"
 
 NSString* const identifier= @"MovieCellIdentifier";
 
 @implementation MoviesCell
 {
     NSNumberFormatter *formatter;
+    BOOL isConnected;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     [self setFormater];
+    isConnected = [ConnectivityTest isConnected];
 }
 
 -(void)setFormater{
@@ -59,15 +62,8 @@ NSString* const identifier= @"MovieCellIdentifier";
     
     _ratingLabel.text = [NSString stringWithFormat:@"%@",[formatter stringFromNumber:singleMovie.rating]];
     
-    if( singleMovie.genreIds.count!=0){
-        _genID = [singleMovie.genreIds objectAtIndex:0];
-        
-        
-        for (Genre *gen in  singleMovie.genres) {
-            if (gen.genreID == _genID) {
-                singleMovie.singleGenre=gen.genreName;
-            }
-        }
+    if( singleMovie.singleGenre){
+
         _genreLabel.text=singleMovie.singleGenre;
     }
     else{
@@ -114,14 +110,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     
     _ratingLabel.text = [NSString stringWithFormat:@"%@",[formatter stringFromNumber:singleShow.rating]];
     
-    if( singleShow.genreIds.count!=0){
-        _genID = [singleShow.genreIds objectAtIndex:0];
-        for (Genre *gen in  singleShow.genres) {
-            if (gen.genreID == _genID) {
-                singleShow.singleGenre=gen.genreName;
-            }
-        }
-        
+    if(singleShow.singleGenre){
         _genreLabel.text=singleShow.singleGenre;
     }
     else{

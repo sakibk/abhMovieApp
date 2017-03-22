@@ -49,7 +49,7 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)getStoredMovieCasts:(Movie *)singleMovie{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
     RLMovie *mv = mvs.firstObject;
-    if(mv.movieCast!=nil){
+    if(mv.movieCast.firstObject!=nil){
         for(RLMCast *cst in mv.movieCast)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
     }
@@ -61,14 +61,14 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)setStoredMovieCasts:(NSNumber*)movieID{
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",movieID];
     RLMovie *mv = mvs.firstObject;
-    if(mv.movieCast==nil){
+    if(mv.movieCast.firstObject==nil){
+        [realm beginWriteTransaction];
         for(Cast *cst in _allCasts){
             [mv.movieCast addObject:[[RLMCast alloc]initWithCast:cst]];
         }
+        [realm addOrUpdateObject:mv];
+        [realm commitWriteTransaction];
     }
-    [realm beginWriteTransaction];
-    [realm addOrUpdateObject:mv];
-    [realm commitWriteTransaction];
 }
 
 -(void)getMovieCasts:(Movie*)singleMovie{
@@ -104,7 +104,7 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)getStoredShowCasts:(TVShow *)singleShow{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.showCast!=nil){
+    if(tv.showCast.firstObject!=nil){
         for(RLMCast *cst in tv.showCast)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
     }
@@ -116,13 +116,13 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)setStoredShowCasts:(NSNumber*)showID{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.showCast==nil){
+    if(tv.showCast.firstObject==nil){
+        [realm beginWriteTransaction];
         for(Cast *cst in _allCasts)
             [tv.showCast addObject:[[RLMCast alloc]initWithCast:cst]];
+        [realm addOrUpdateObject:tv];
+        [realm commitWriteTransaction];
     }
-    [realm beginWriteTransaction];
-    [realm addOrUpdateObject:tv];
-    [realm commitWriteTransaction];
 }
 
 -(void)getShowCasts:(TVShow*)singleShow{
@@ -159,9 +159,9 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)getStoredEpisodeCasts:(Episode *)singleEpisode{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleEpisode.showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.seasons!= nil){
+    if(tv.seasons.firstObject!= nil){
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[singleEpisode.seasonNumber integerValue]];
-        if(selectedSeason!=nil){
+        if(selectedSeason.episodes.firstObject.episodeCasts.firstObject!=nil){
             RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[singleEpisode.episodeNumber integerValue]];
             for(RLMCast *cst in ep.episodeCasts)
                 [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
@@ -178,14 +178,14 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 -(void)setStoredEpisodeCasts:(NSNumber*)showID and:(NSNumber*)seasonNumber and:(NSNumber*)episodeNumber{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.seasons!= nil){
+    if(tv.seasons.firstObject!= nil){
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[seasonNumber integerValue]];
-        if(selectedSeason!=nil){
+        if(selectedSeason.episodes.firstObject.episodeCasts.firstObject!=nil){
             RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[episodeNumber integerValue]];
-            if(ep.episodeCasts == nil){
+            if(ep.episodeCasts.firstObject == nil){
+                [realm beginWriteTransaction];
                 for(Cast *cst in _allCasts)
                     [ep.episodeCasts addObject:[[RLMCast alloc]initWithCast:cst]];
-                [realm beginWriteTransaction];
                 [realm addOrUpdateObject:ep];
                 [realm commitWriteTransaction];
             }

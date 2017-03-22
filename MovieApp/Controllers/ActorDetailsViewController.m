@@ -95,7 +95,7 @@
 -(void)getStoredActor{
     RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_singleActor.actorID];
     RLMActor *act = acts.firstObject;
-    if(act != nil){
+    if(act.actorID != nil){
         _singleActor = [[Actor alloc]initWithActor:act];
     }
     else{
@@ -106,7 +106,7 @@
 -(void)setStoredActor{
     RLMResults<RLMActor*> *acts = [RLMActor objectsWhere:@"actorID = %@",_singleActor.actorID];
     RLMActor *act = acts.firstObject;
-    if(act == nil){
+    if(act.actorID == nil){
         act = [[RLMActor alloc] initWithActor:_singleActor];
     }
     [_realm beginWriteTransaction];
