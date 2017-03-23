@@ -50,11 +50,12 @@
     self.singleGenre = show.singleGenre;
     self.overview=show.overview;
     self.userRate=show.userRate;
+    self.seasonCount = show.seasonCount;
     for(Genre *g in show.genres)
         [self.genres addObject:[[RLMGenre alloc]initWithGenre:g]];
-    if([show.runtime objectAtIndex:0])
+    if([show.runtime count]>1)
         self.StartRuntime=[show.runtime objectAtIndex:0];
-    if([show.runtime objectAtIndex:1])
+    if([show.runtime count]>2)
         self.endRuntime=[show.runtime objectAtIndex:1];
     for(Cast *cs in show.casts)
         [self.showCast addObject:[[RLMCast alloc] initWithCast:cs]];

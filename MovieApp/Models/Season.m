@@ -69,6 +69,7 @@
     self.episodeCount=season.episodeCount;
     self.airDate =season.airDate;
     self.posterPath=season.posterPath;
+    self.episodes = [[NSMutableArray alloc] init];
     for(RLMEpisode *ep in season.episodes)
         [self.episodes addObject:[[Episode alloc] initWithEpisode:ep]];
     

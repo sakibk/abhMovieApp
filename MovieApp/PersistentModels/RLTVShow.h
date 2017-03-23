@@ -31,6 +31,7 @@
 @property NSNumber<RLMInt> *StartRuntime;
 @property NSNumber<RLMInt> *endRuntime;
 @property NSNumber<RLMInt> *userRate;
+@property NSNumber<RLMInt> *seasonCount;
 @property RLMArray<RLMCast*><RLMCast> *showCast;
 @property RLMArray<RLMCrew*><RLMCrew> *showCrew;
 @property RLMArray<RLMSeason*><RLMSeason> *seasons;

@@ -109,17 +109,22 @@
     self.posterPath=singleObject.posterPath;
     self.overview=singleObject.overview;
     self.userRate=singleObject.userRate;
+    self.seasonCount=singleObject.seasonCount;
     NSMutableArray *gns = [[NSMutableArray alloc] init];
     for(RLMGenre *g in singleObject.genres)
         [gns addObject:[[Genre alloc] initWithGenre:g] ];
     self.genres = [[NSArray alloc] initWithArray:gns];
     self.runtime = [[NSArray alloc] initWithObjects:singleObject.StartRuntime,singleObject.endRuntime,nil];
+    self.seasons =[[NSMutableArray alloc] init];
     for( RLMSeason *s in singleObject.seasons)
         [self.seasons addObject:[[Season alloc]initWithSeason:s]];
+    self.crews = [[NSMutableArray alloc] init];
     for(RLMCrew *rcr in singleObject.showCrew)
         [self.crews addObject:[[Crew alloc] initWithCrew:rcr]];
+    self.casts = [[NSMutableArray alloc] init];
     for(RLMCast *rcs in singleObject.showCast)
         [self.casts addObject:[[Cast alloc]initWithCast:rcs]];
+    self.listType = [[NSMutableArray alloc] init];
     for(RLMListType *lt in singleObject.listType)
         [self.listType addObject:[[ListType alloc] initWithRLMListType:lt]];
     

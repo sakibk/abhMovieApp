@@ -23,10 +23,12 @@
     self.overview = ep.overview;
     self.rating = ep.rating;
     self.showID = ep.showID;
+    self.episodeCast = [[NSMutableArray alloc] init];
     for(RLMCast *cs in ep.episodeCasts)
         [self.episodeCast addObject:[[Cast alloc]initWithCast:cs]];
+    self.trailers = [[NSMutableArray alloc] init];
     for(RLMTrailerVideos *trv in ep.trailers)
-        [self.trailers addObject:[[RLMTrailerVideos alloc]initWithVideo:trv]];
+        [self.trailers addObject:[[TrailerVideos alloc]initWithVideo:trv]];
     return self;
 }
 

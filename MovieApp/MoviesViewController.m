@@ -653,7 +653,7 @@ RLM_ARRAY_TYPE(Movie);
                 [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
             }
         }
-        else if([_filterString isEqualToString:@"first_air_date.desc"]){
+        else if([_filterString isEqualToString:@"release_date.desc"]){
             RLMResults<RLTVShow*> *shows=[RLTVShow objectsWhere:@"ANY listType.listTypeID = %@", _latest.listTypeID];
             for(RLTVShow *oneTV in shows){
                 [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
@@ -674,7 +674,7 @@ RLM_ARRAY_TYPE(Movie);
             }
         }
         
-        else if([_filterString isEqualToString:@"release_date.desc"]){
+        else if([_filterString isEqualToString:@"first_air_date.desc"]){
             RLMResults<RLTVShow*> *shows=[RLTVShow objectsWhere:@"ANY listType.listTypeID = %@", _onAir.listTypeID];
             for(RLTVShow *oneTV in shows){
                 [_allShows addObject:[[TVShow alloc] initWithObject:oneTV]];
@@ -705,6 +705,7 @@ RLM_ARRAY_TYPE(Movie);
         
     }
     else{
+        [oneTV.listType addObject:[[ListType alloc]initWithRLMListType:type]];
         RLTVShow *show = [[RLTVShow alloc] initWithShow:oneTV];
         [show.listType addObject:type];
         [_realm addOrUpdateObject:show];
@@ -719,7 +720,7 @@ RLM_ARRAY_TYPE(Movie);
             [self addListTypeToShow:_mostPopular and:oneTV];
         }
     }
-    else if([_filterString isEqualToString:@"first_air_date.desc"]){
+    else if([_filterString isEqualToString:@"release_date.desc"]){
         for(TVShow *oneTV in showArray){
             [self addListTypeToShow:_latest and:oneTV];
         }
@@ -737,7 +738,7 @@ RLM_ARRAY_TYPE(Movie);
         }
     }
     
-    else if([_filterString isEqualToString:@"release_date.desc"]){
+    else if([_filterString isEqualToString:@"first_air_date.desc"]){
         for(TVShow *oneTV in showArray){
             [self addListTypeToShow:_onAir and:oneTV];
         }

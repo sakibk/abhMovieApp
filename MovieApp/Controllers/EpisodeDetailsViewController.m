@@ -79,9 +79,11 @@
     if(tv.seasons != nil){
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_singleEpisode.seasonNumber integerValue]];
         if([selectedSeason.episodes count]){
-            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]];
-            if(ep.episodeNumber!=nil)
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]-1];
+            if(ep.episodeNumber!=nil){
                 _singleEpisode = [[Episode alloc] initWithEpisode:ep];
+                [self.tableView reloadData];
+            }
             else{
                 //connect to proceed
             }
@@ -106,6 +108,8 @@
             if(ep.trailers.firstObject != nil)
                 for(TrailerVideos* video in _singleEpisode.trailers)
                     [ep.trailers addObject:[[RLMTrailerVideos alloc] initWithVideo:video]];
+                [selectedSeason.episodes replaceObjectAtIndex:[_singleEpisode.episodeNumber integerValue] withObject:ep];
+                [tv.seasons replaceObjectAtIndex:[_singleEpisode.seasonNumber integerValue] withObject:selectedSeason];
             }
         }
         else{

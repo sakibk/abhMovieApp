@@ -98,7 +98,7 @@
     // Do any additional setup after loading the view.
     [self setBools];
     [self setSizes];
-
+    
     if(_isMovie){
         if(_isConnected)
             [self getMovies];
@@ -224,11 +224,7 @@
         _movieDetail = [[Movie alloc] initWithObject:mov];
         [self setNavBarTitle];
         _allReviews = _movieDetail.reviews;
-//        for(RLMReview *rv in mov.Reviews)
-//            [_allReviews addObject:[[Review alloc] initWithReview:rv]];
         [self setupHeights];
-//        for(RLMCrew *cr in mov.movieCrew)
-//            [_movieDetail.crews addObject:[[Crew alloc] initWithCrew:cr]];
         [self setMovieCredits];
         [self.tableView reloadData];
     }
@@ -243,11 +239,7 @@
     else{
         _showDetail =[[TVShow alloc]initWithObject:tv];
         [self setNavBarTitle];
-        for(RLMSeason *sh in tv.seasons)
-            [_allSeasons addObject:[[Season alloc] initWithSeason:sh]];
         _showDetail.seasons=_allSeasons;
-        for(RLMCrew *cr in tv.showCrew)
-            [_showDetail.crews addObject:[[Crew alloc] initWithCrew:cr]];
         [self setShowCredits];
         [self.tableView reloadData];
     }
@@ -256,6 +248,7 @@
 -(void)setStoredMovie{
     _movieDetail.genres=_singleMovie.genres;
     _movieDetail.listType=_singleMovie.listType;
+    _movieDetail.singleGenre = _singleMovie.singleGenre;
     RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
     RLMovie *mov = movs.firstObject;
     if(mov.movieCrew.firstObject==nil && mov.movieCrew.firstObject==nil){
@@ -273,9 +266,10 @@
 -(void)setStoredShow{
     _showDetail.genres = _singleShow.genres;
     _showDetail.listType=_singleShow.listType;
+    _showDetail.singleGenre=_singleShow.singleGenre;
     RLMResults<RLTVShow*> *tvs= [RLTVShow objectsWhere:@"showID = %@",_movieID];
     RLTVShow *tv = tvs.firstObject;
-    if (tv.showCrew.firstObject == nil || tv.seasons.firstObject == nil) {
+    if (tv.showCrew.firstObject == nil && tv.seasons.firstObject == nil) {
         tv=[[RLTVShow alloc] initWithShow:_showDetail];
         [_realm beginWriteTransaction];
         for(Crew *cr in _showDetail.crews)
@@ -669,6 +663,7 @@
             case 3:
             {
                 SeasonsCell *cell = (SeasonsCell *)[tableView dequeueReusableCellWithIdentifier:seasonsCellIdentifier forIndexPath:indexPath];
+                [cell setSingleShowID:_showDetail.showID];
                 [cell setupWithShowID:_showDetail];
                 [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
                 cell.delegate = self;
@@ -1190,37 +1185,35 @@
 
 -(void)addFavorite{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
-    if(!_isConnected){
-        //say Pls connect to proceede
-    }
-    else{
-        if(_isMovie){
-            if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+    if(_isMovie){
+        if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
+            if(_isConnected)
                 [self noRestkitPost:@"favorite":@"true"];
-                [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                [cell favoureIt];
-                _isSuccessful=YES;
-            }
-            else{
-                [self noRestkitPost:@"favorite":@"false"];
-                [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                [cell unFavoureIt];
-                _isSuccessful=YES;
-            }
+            else
+                
+            [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            [cell favoureIt];
+            _isSuccessful=YES;
         }
         else{
-            if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
-                [self noRestkitPost:@"favorite":@"true"];
-                [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                [cell favoureIt];
-                _isSuccessful=YES;
-            }
-            else{
-                [self noRestkitPost:@"favorite":@"false"];
-                [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
-                [cell unFavoureIt];
-                _isSuccessful=YES;
-            }
+            [self noRestkitPost:@"favorite":@"false"];
+            [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            [cell unFavoureIt];
+            _isSuccessful=YES;
+        }
+    }
+    else{
+        if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
+            [self noRestkitPost:@"favorite":@"true"];
+            [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [cell favoureIt];
+            _isSuccessful=YES;
+        }
+        else{
+            [self noRestkitPost:@"favorite":@"false"];
+            [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [cell unFavoureIt];
+            _isSuccessful=YES;
         }
     }
     //    [self postToList:@"favorites"];
@@ -1229,10 +1222,6 @@
 
 -(void)addWatchlist{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
-    if(!_isConnected){
-        //say Pls connect to proceed
-    }
-    else{
     if(_isMovie){
         if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
             [self noRestkitPost:@"watchlist":@"true"];
@@ -1261,7 +1250,6 @@
             _isSuccessful=NO;
             
         }
-    }
     }
 }
 

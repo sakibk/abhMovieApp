@@ -68,8 +68,10 @@
     RLMResults<RLMovie*> *movs =[RLMovie objectsWhere:@"movieID = %@", _movieID];
     RLMovie* mv = movs.firstObject;
     if(mv.videos.firstObject !=nil){
+        _allTrailers = [[NSMutableArray alloc]init];
         for(RLMTrailerVideos *vd in mv.videos)
             [_allTrailers addObject:[[TrailerVideos alloc] initWithVideo:vd]];
+        [self setupPlayer];
     }
     else{
         //please reconnect

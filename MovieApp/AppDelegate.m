@@ -21,6 +21,7 @@
 #import "ListMappingTV.h"
 #import "ObjectMapper.h"
 #import "ApiKey.h"
+#import <Reachability/Reachability.h>
 
 @interface AppDelegate ()
 @property NSMutableArray<Movie*> *notifMovies;
@@ -133,6 +134,23 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
+     [self setReachabilityNotif];
+    [self setupNotifCenter:application finish:launchOptions];
+//    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
+//    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
+//    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
+    [RKObjectManager setSharedManager:[self setupRestKit]];
+    
+    [self setupNavbar];
+    [self setupSidebar];
+    [self requestAuthorisation];
+    [self setNotifications];
+    [self setupRealmSchema];
+    
+    return YES;
+}
+
+-(void)setupNotifCenter:(UIApplication *)application finish:(NSDictionary *)launchOptions{
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
     UILocalNotification *locationNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (locationNotification) {
@@ -141,22 +159,20 @@
     }
     application.applicationIconBadgeNumber = 0;
     
-//    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
-//    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
-//    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
-    [RKObjectManager setSharedManager:[self setupRestKit]];
-    
+
+}
+
+-(void)setupNavbar{
     [[UINavigationBar appearance] setBarStyle:UIBarStyleBlack];
     [[UINavigationBar appearance] setBarTintColor:[UIColor blackColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor lightGrayColor]];
     [[UINavigationBar appearance] setContentMode:UIViewContentModeCenter];
-//    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+    //    [[UITabBar appearance] setSelectedImageTintColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
     
-    [self setupSidebar];
-    [self requestAuthorisation];
-    [self setNotifications];
-    
+}
+
+-(void)setupRealmSchema{
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     // Set the new schema version. This must be greater than the previously used
     // version (if you've never set a schema version before, the version is 0).
@@ -172,10 +188,23 @@
     // Tell Realm to use this new configuration object for the default Realm
     [RLMRealmConfiguration setDefaultConfiguration:config];
     [RLMRealm defaultRealm];
-    
-    return YES;
 }
 
+-(void)setReachabilityNotif{
+    // Initialize Reachability
+    Reachability *reachability = [Reachability reachabilityWithHostname:@"www.google.com"];
+    
+    reachability.reachableBlock = ^(Reachability *reachability) {
+        NSLog(@"Network is reachable.");
+    };
+    
+    reachability.unreachableBlock = ^(Reachability *reachability) {
+        NSLog(@"Network is unreachable.");
+    };
+    
+    // Start Monitoring
+    [reachability startNotifier];
+}
 
 // Move this method in AppDelegate and call in didFinishLaunchingWithOptions.
 -(RKObjectManager *)setupRestKit {

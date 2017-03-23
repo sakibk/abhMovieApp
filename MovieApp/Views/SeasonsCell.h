@@ -25,6 +25,7 @@ extern NSString *const seasonsCellIdentifier;
 
 @property (strong,nonatomic) Season* singleSeason;
 @property (strong,nonatomic) TVShow *singleShow;
+@property (strong,nonatomic) NSNumber *singleShowID;
 @property (strong,nonatomic) NSMutableArray<Season *> *allSeasons;
 
 @property (strong,nonatomic) NSMutableArray<NSNumber *> *allYears;

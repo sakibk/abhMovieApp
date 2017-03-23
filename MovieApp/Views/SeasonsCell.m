@@ -18,6 +18,7 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
 
 @implementation SeasonsCell{
     BOOL isConnected;
+    RLMRealm *realm;
 }
 
 - (void)awakeFromNib {
@@ -34,6 +35,8 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
 
 -(void) setupWithShowID:(TVShow *)singleShow{
     isConnected = [ConnectivityTest isConnected];
+    realm = [RLMRealm defaultRealm];
+    
     if(isConnected)
         [self getSeasonsNet:singleShow];
     else
@@ -71,21 +74,26 @@ NSString *const seasonsCellIdentifier=@"SeasonsCellIdentifier";
 }
 
 -(void)getStoredSeasons:(TVShow*)singleShow{
-    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleShow.showID];
+    RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
     if(tv.seasons.firstObject!= nil){
-        
+        _singleShow =[[TVShow alloc] initWithObject:tv];
+        [self setupSeasons];
+    }
+    else{
+        //please reconnect
     }
 }
 
 -(void)setStoredSeasons{
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",_singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
-    if(tv.seasons.firstObject!= nil){
-        
-    }
-    else{
-        //please reconnect 
+    if(tv.seasons.firstObject== nil){
+        for(Season *s in _singleShow.seasons)
+            [tv.seasons addObject:[[RLMSeason alloc] initWithSeason:s]];
+        [realm beginWriteTransaction];
+        [realm addOrUpdateObject:tv];
+        [realm commitWriteTransaction];
     }
 }
 

@@ -21,6 +21,7 @@
 #import <Realm/Realm.h>
 #import "RLMFeeds.h"
 #import "RLMStoredObjects.h"
+#import <Reachability/Reachability.h>
 
 
 @interface FeedsViewController ()
@@ -41,12 +42,11 @@
     UITableViewController *leftViewController;
     UITableViewController *rightViewController;
     LGSideMenuController *sideMenuController;
-    
+    Reachability *reachability;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     _tableView.delegate=self;
     _tableView.dataSource=self;
     _realm = [RLMRealm defaultRealm];
@@ -62,7 +62,24 @@
         [self getStoredFeeds];
     }
     [self setupSearchbar];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+
     
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    
+    if (!reachability) {
+        reachability = (Reachability *)[notification object];
+        
+        if ([reachability isReachable]) {
+            NSLog(@"Reachable");
+            [self getFeeds];
+        } else {
+            NSLog(@"Unreachable");
+            [self getStoredFeeds];
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -14,7 +14,7 @@
 -(id)initWithActor:(RLMActor*)actor{
     self = [super init];
     self.name=actor.name;
-    [self.nickNames initWithObjects:actor.nickName, nil];
+    self.nickNames = [[NSArray alloc] initWithObjects:actor.nickName, nil];
     self.biography = actor.biography;
     self.birthDate = actor.birthDate;
     self.birthPlace = actor.birthPlace;

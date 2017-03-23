@@ -187,12 +187,14 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     if(tv.seasons.firstObject!= nil){
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[seasonNumber integerValue]];
         if(selectedSeason.episodes.firstObject.episodeCasts.firstObject!=nil){
-            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[episodeNumber integerValue]];
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[episodeNumber integerValue]-1];
             if(ep.episodeCasts.firstObject == nil){
                 [realm beginWriteTransaction];
                 for(Cast *cst in _allCasts)
                     [ep.episodeCasts addObject:[[RLMCast alloc]initWithCast:cst]];
-                [realm addOrUpdateObject:ep];
+                [selectedSeason.episodes replaceObjectAtIndex:[episodeNumber integerValue] withObject:ep];
+                [tv.seasons replaceObjectAtIndex:[seasonNumber integerValue] withObject:selectedSeason];
+                [realm addOrUpdateObject:tv];
                 [realm commitWriteTransaction];
             }
         }
