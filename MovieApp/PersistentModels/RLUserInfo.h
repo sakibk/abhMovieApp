@@ -39,10 +39,7 @@
 -(void)deleteFavoriteMovies:(RLMovie*)movie;
 -(void)deleteRatedMovies:(RLMovie*)movie;
 
-
-
-
-
+-(void)AddToFavMov:(RLMovie*)movie;
 
 - (id) initWithUser:(UserInfo *)user;
 @end

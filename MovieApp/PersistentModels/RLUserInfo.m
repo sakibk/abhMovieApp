@@ -10,6 +10,10 @@
 
 @implementation RLUserInfo
 
++ (NSString *)primaryKey {
+    return @"userID";
+}
+
 
 - (id) initWithUser:(UserInfo *)user{
         self=[super init];
@@ -47,6 +51,11 @@
     [self.favoriteMovies addObject:movie];
     [[RLMRealm defaultRealm] commitWriteTransaction];
 }
+
+-(void)AddToFavMov:(RLMovie*)movie{
+    [self.favoriteMovies addObject:movie];
+}
+
 
 -(void)deleteFavoriteMovies:(RLMovie*)movie{
     int i,j = 0;

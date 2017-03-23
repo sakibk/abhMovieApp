@@ -1186,32 +1186,41 @@
 -(void)addFavorite{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
     if(_isMovie){
+        RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@", _movieID];
+        RLMovie *mv = mvs.firstObject;
         if(![[[_user favoriteMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-            if(_isConnected)
+            if(_isConnected){
                 [self noRestkitPost:@"favorite":@"true"];
-            else
-                
-            [_user addToFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            }
+            else{
+            }
+            [_user addToFavoriteMovies:mv];
             [cell favoureIt];
             _isSuccessful=YES;
         }
         else{
-            [self noRestkitPost:@"favorite":@"false"];
-            [_user deleteFavoriteMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            if(_isConnected)
+                [self noRestkitPost:@"favorite":@"false"];
+            else
+            [_user deleteFavoriteMovies:mv];
             [cell unFavoureIt];
             _isSuccessful=YES;
         }
     }
     else{
+        RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@", _movieID];
+        RLTVShow *tv = tvs.firstObject;
         if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
-            [self noRestkitPost:@"favorite":@"true"];
-            [_user addToFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            if(_isConnected)
+                [self noRestkitPost:@"favorite":@"true"];
+            else
+            [_user addToFavoriteShows:tv];
             [cell favoureIt];
             _isSuccessful=YES;
         }
         else{
             [self noRestkitPost:@"favorite":@"false"];
-            [_user deleteFavoriteShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [_user deleteFavoriteShows:tv];
             [cell unFavoureIt];
             _isSuccessful=YES;
         }
@@ -1223,29 +1232,37 @@
 -(void)addWatchlist{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
     if(_isMovie){
+        RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@", _movieID];
+        RLMovie *mv = mvs.firstObject;
         if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
-            [self noRestkitPost:@"watchlist":@"true"];
-            [_user addToWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            if(_isConnected)
+                [self noRestkitPost:@"watchlist":@"true"];
+            else
+            [_user addToWatchlistMovies:mv];
             [cell watchIt];
             _isSuccessful=NO;
         }
         else{
-            [self noRestkitPost:@"watchlist":@"false"];
-            [_user deleteWatchlistMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
+            if(_isConnected)
+                [self noRestkitPost:@"watchlist":@"false"];
+            else
+            [_user deleteWatchlistMovies:mv];
             [cell unWatchIt];
             _isSuccessful=NO;
         }
     }
     else{
+        RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@", _movieID];
+        RLTVShow *tv = tvs.firstObject;
         if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
             [self noRestkitPost:@"watchlist":@"true"];
-            [_user addToWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [_user addToWatchlistShows:tv];
             [cell watchIt];
             _isSuccessful=NO;
         }
         else{
             [self noRestkitPost:@"watchlist":@"false"];
-            [_user deleteWatchlistShows:[[RLTVShow alloc]initWithShow:_singleShow]];
+            [_user deleteWatchlistShows:tv];
             [cell unWatchIt];
             _isSuccessful=NO;
             

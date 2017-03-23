@@ -29,7 +29,7 @@
     self.posterPath=singleObject.posterPath;
     self.overview=singleObject.overview;
     self.userRate=singleObject.userRate;
-    
+    self.runtime=singleObject.runtime;
 }
 
 

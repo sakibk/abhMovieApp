@@ -33,7 +33,9 @@
     self.posterPath=singleObject.posterPath;
     self.overview=singleObject.overview;
     self.userRate=singleObject.userRate;
-    
+    self.seasonCount = singleObject.seasonCount;
+    for(Genre *g in singleObject.genres)
+        [self.genres addObject:[[RLMGenre alloc]initWithGenre:g]];
 }
 
 - (id) initWithShow:(TVShow *)show{

@@ -262,10 +262,17 @@
         NSLog(@"%@", mappingResult.array);
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         [dateFormatter setDateFormat:@"yyyy-MM-dd"];
-        
         _onePageFavMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageFavMovieList movieList]){
-            [_user addToFavoriteMovies:[[RLMovie alloc] initWithMovie:mv]];
+            RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",mv.movieID];
+            if([mvs count]){
+                RLMovie *oneMov = mvs.firstObject;
+                [_user addToFavoriteMovies:oneMov];
+            }
+            else{
+                RLMovie *oneMov = [[RLMovie alloc] initWithMovie:mv];
+                [_user addToFavoriteMovies:oneMov];
+            }
         }
         
         if([[_onePageFavMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageFavMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
@@ -303,7 +310,15 @@
         
         _onePageWtchMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageWtchMovieList movieList]){
-            [_user addToWatchlistMovies:[[RLMovie alloc] initWithMovie:mv]];
+            RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",mv.movieID];
+            if([mvs count]){
+                RLMovie *oneMov = mvs.firstObject;
+                [_user addToWatchlistMovies:oneMov];
+            }
+            else{
+                RLMovie *oneMov = [[RLMovie alloc] initWithMovie:mv];
+                [_user addToWatchlistMovies:oneMov];
+            }
         }
         if([[_onePageWtchMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageWtchMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
@@ -339,7 +354,15 @@
         
         _onePageRateMovieList=[[mappingResult array] firstObject];
         for(Movie *mv in [_onePageRateMovieList movieList]){
-            [_user addToRatedMovies:[[RLMovie alloc] initWithMovie:mv]];
+            RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",mv.movieID];
+            if([mvs count]){
+                RLMovie *oneMov = mvs.firstObject;
+                [_user addToRatedMovies:oneMov];
+            }
+            else{
+                RLMovie *oneMov = [[RLMovie alloc] initWithMovie:mv];
+                [_user addToRatedMovies:oneMov];
+            }
         }
         if([[_onePageRateMovieList pageCount] isEqualToNumber:_currentPage] || [[_onePageRateMovieList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
@@ -376,7 +399,15 @@
         
         _onePageFavShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageFavShowList showList]){
-            [_user addToFavoriteShows:[[RLTVShow alloc] initWithShow:tv]];
+            RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",tv.showID];
+            if([tvs count]){
+                RLTVShow *oneTV = tvs.firstObject;
+                [_user addToFavoriteShows:oneTV];
+            }
+            else{
+                RLTVShow *oneTV = [[RLTVShow alloc] initWithShow:tv];
+                [_user addToFavoriteShows:oneTV];
+            }
         }
         if([[_onePageFavShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageFavShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
@@ -413,7 +444,15 @@
         
         _onePageWtchShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageWtchShowList showList]){
-            [_user addToWatchlistShows:[[RLTVShow alloc] initWithShow:tv]];
+            RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",tv.showID];
+            if([tvs count]){
+                RLTVShow *oneTV = tvs.firstObject;
+                [_user addToWatchlistShows:oneTV];
+            }
+            else{
+                RLTVShow *oneTV = [[RLTVShow alloc] initWithShow:tv];
+                [_user addToWatchlistShows:oneTV];
+            }
         }
         if([[_onePageWtchShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageWtchShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
             _currentPage=[NSNumber numberWithInt:1];
@@ -451,7 +490,15 @@
         
         _onePageRateShowList=[[mappingResult array] firstObject];
         for(TVShow *tv in [_onePageRateShowList showList]){
-            [_user addToRatedShows:[[RLTVShow alloc] initWithShow:tv]];
+            RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",tv.showID];
+            if([tvs count]){
+                RLTVShow *oneTV = tvs.firstObject;
+                [_user addToRatedShows:oneTV];
+            }
+            else{
+                RLTVShow *oneTV = [[RLTVShow alloc] initWithShow:tv];
+                [_user addToRatedShows:oneTV];
+            }
         }
         
         if([[_onePageRateShowList pageCount] isEqualToNumber:_currentPage] || [[_onePageRateShowList pageCount] isEqualToNumber:[NSNumber numberWithInt:0]]){
