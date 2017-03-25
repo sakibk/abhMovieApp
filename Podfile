@@ -14,6 +14,7 @@ target 'MovieApp' do
  pod 'LGSideMenuController'
  pod 'HCSStarRatingView', '~> 1.4.5'
  pod 'Reachability', '~> 3.2'
+ pod 'Firebase/Core'
   # Pods for MovieApp
 
 end

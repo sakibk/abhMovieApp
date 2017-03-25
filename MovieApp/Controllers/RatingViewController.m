@@ -14,6 +14,8 @@
 #import "ListPost.h"
 #import "ApiKey.h"
 #import "ConnectivityTest.h"
+#import "ReconnectedList.h"
+#import "RLReconectedList.h"
 
 @interface RatingViewController ()
 
@@ -137,29 +139,49 @@
 
 -(IBAction)rateMe:(id)sender{
     if(!_didRate){
-        if(_isConnected){
-            [self postStatusError:@"Please Connect to proceed"];
-        }
-        else{
+        ReconnectedList* rl = [[ReconnectedList alloc] init];
+        rl.isMovie = _isMovie;
+        rl.listName=@"rating";
+        rl.rate=_rate;
             if(_isMovie){
-                _singleMovie.userRate=_rate;
-                [_user addToRatedMovies:[[RLMovie alloc]initWithMovie:_singleMovie]];
-                [self noRestkitRate];
+                RLMResults<RLMovie*> *movies=[RLMovie objectsWhere:@"movieID = %@",_singleMovie.movieID];
+                RLMovie *mov = movies.firstObject;
+                mov.userRate=_rate;
+                rl.mediaID = _singleMovie.movieID;
+                [_user addToRatedMovies:mov];
+                if(_isConnected)
+                    [self noRestkitRate];
+                else
+                    rl.toSet=YES;
                 [self postStatusError:@"Successfuly rated Movie"];
                 [starRatingView setUserInteractionEnabled:NO];
                 _didRate=YES;
             }
             else{
-                _singleShow.userRate=_rate;
-                [_user addToRatedShows:[[RLTVShow alloc] initWithShow:_singleShow]];
-                [self noRestkitRate];
+                RLMResults<RLTVShow*> *tvs =[RLTVShow objectsWhere:@"showID = %@",_singleShow.showID];
+                RLTVShow *tv = tvs.firstObject;
+                tv.userRate=_rate;
+                rl.mediaID=_singleShow.showID;
+                [_user addToRatedShows:tv];
+                if(_isConnected)
+                    [self noRestkitRate];
+                else
+                    rl.toSet=YES;
                 [self postStatusError:@"Successfuly rated Show"];
                 [starRatingView setUserInteractionEnabled:NO];
                 _didRate=YES;
-            }}}
+            }
+        if(!_isConnected){
+            [_realm beginWriteTransaction];
+            RLReconectedList * rlr = [[RLReconectedList alloc] initWithRL:rl];
+            [_realm addObject:rlr];
+            [_realm commitWriteTransaction];
+        }
+    }
     else{
         [self postStatusError:@"Already Rated"];
     }
+    
     
 }
 

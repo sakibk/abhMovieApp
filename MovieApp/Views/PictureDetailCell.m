@@ -13,12 +13,19 @@
 #import <RestKit/RestKit.h>
 #import "RLUserInfo.h"
 #import "ConnectivityTest.h"
+#import <Reachability/Reachability.h>
+
 
 NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 
 
 
-@implementation PictureDetailCell
+@implementation PictureDetailCell{
+    NSString *picturePath;
+    Reachability *reachability;
+    BOOL isConnected;
+    BOOL notifRec;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -26,8 +33,29 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     [_watchButton addTarget:self action:@selector(addToWatchList:) forControlEvents:UIControlEventTouchUpInside];
     [_favouriteButton addTarget:self action:@selector(addToFavoriteList:) forControlEvents:UIControlEventTouchUpInside];
     _realm =[RLMRealm defaultRealm];
+    notifRec=NO;
+    isConnected=[ConnectivityTest isConnected];
     [self.watchButton setImageEdgeInsets:UIEdgeInsetsMake(10, 13, 9, 5)];
     [self.favouriteButton setImageEdgeInsets:UIEdgeInsetsMake(8, 5, 9, 14)];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    
+    reachability = (Reachability *)[notification object];
+    if(!notifRec){
+    if ([reachability isReachable]) {
+        NSLog(@"Reachable");
+        isConnected=[ConnectivityTest isConnected];
+        [self setPicture:picturePath];
+    } else {
+        NSLog(@"Unreachable");
+        isConnected=[ConnectivityTest isConnected];
+    }
+        notifRec=YES;
+    }
+    else
+        notifRec=NO;
 }
 
 -(void)setHidenButtons{
@@ -51,11 +79,16 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     [self.delegate addFavorite];
 }
 
+-(void)setPicture:(NSString*)picPath{
+    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",picPath]]
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noBackdropAvalible"]]];
+}
+
 -(void) setupWithMovie:(Movie *) singleMovie{
     [self setHidenButtons];
-    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleMovie.backdropPath]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
-    
+    if(singleMovie.backdropPath != nil)
+    picturePath=[[NSString alloc] initWithString:singleMovie.backdropPath];
+    [self setPicture:singleMovie.backdropPath];
     NSDate *releaseYear = singleMovie.releaseDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
@@ -84,9 +117,9 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 
 -(void) setupWithShow:(TVShow *) singleShow{
     [self setHidenButtons];
-    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleShow.backdropPath]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleShow.name,@".png"]]];
-    
+    if(singleShow.backdropPath != nil)
+    picturePath=[[NSString alloc] initWithString:singleShow.backdropPath];
+    [self setPicture:singleShow.backdropPath];
     NSDate *releaseYear = singleShow.firstAirDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
@@ -114,9 +147,9 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 }
 
 -(void) setupWithActor:(Actor *)singleActor{
-    
-    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleActor.profilePath]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleActor.name,@".png"]]];
+    if(singleActor.profilePath != nil)
+        picturePath=[[NSString alloc] initWithString:singleActor.profilePath];
+    [self setPicture:singleActor.profilePath];
     [_movieTitle setFont:[_movieTitle.font fontWithSize:27.0]];
     _movieTitle.text=singleActor.name;
     [_playButton setHidden:YES];
@@ -127,8 +160,9 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 
 -(void) setupWithEpisode:(Episode *) singleEpisode;{
     [self setHidenButtons];
-    [self.poster sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",singleEpisode.episodePoster]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleEpisode.episodeName,@".png"]]];
+    if(singleEpisode.episodePoster != nil)
+        picturePath=[[NSString alloc] initWithString:singleEpisode.episodePoster];
+    [self setPicture:singleEpisode.episodePoster];
     [_movieTitle setFont:[_movieTitle.font fontWithSize:27.0]];
     _movieTitle.text=@" ";
     if(singleEpisode.trailers.firstObject!=nil){

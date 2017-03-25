@@ -32,7 +32,7 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
 -(void)setSearchCellWithMovie:(Movie *)singleMovie{
     
     [_searchImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleMovie.posterPath]]
-                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
+                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noPosterAvalible"]]];
     if (singleMovie.releaseDate!=nil) {
         NSDate *releaseYear = singleMovie.releaseDate;
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
@@ -55,7 +55,7 @@ NSString *const searchCellIdentifier=@"SearchCellIdentifier";
 -(void)setSearchCellWithTVShow:(TVShow *)singleShow{
     
     [_searchImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w92/",singleShow.posterPath]]
-                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleShow.name,@".png"]]];
+                    placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noPosterAvalible"]]];
     if(singleShow.airDate!=nil){
         NSDate *releaseYear = singleShow.airDate;
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];

@@ -16,6 +16,7 @@
 #import "ConnectivityTest.h"
 #import "RLMovie.h"
 #import "RLTVShow.h"
+#import <Reachability/Reachability.h>
 
 NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 
@@ -26,6 +27,12 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 @property NSString *movieID;
 @property BOOL isConnected;
 @property RLMRealm *realm;
+@property BOOL haveData;
+@property BOOL notifRec;
+@property Reachability *reachability;
+@property BOOL isMovie;
+@property Movie *movie;
+@property TVShow *show;
 
 @end
 
@@ -40,10 +47,47 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     
     [self.collectionView registerNib:[UINib nibWithNibName:@"SingleImageCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:SingleImageCellIdentifier];
     _realm = [RLMRealm defaultRealm];
+    _notifRec=NO;
     _isConnected = [ConnectivityTest isConnected];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    //ubaciti u sve ove bool da poziva samo jednom ..
+    _reachability = (Reachability *)[notification object];
+    if(!_notifRec){
+        if ([_reachability isReachable]) {
+            NSLog(@"Reachable");
+            _isConnected=[ConnectivityTest isConnected];
+            if(_isMovie){
+                if(!_haveData)
+                    [self getMovieImages:_movie];
+                else
+                    [self.collectionView reloadData];
+            }
+            else{
+                if(!_haveData)
+                   [self getShowImages:_show];
+                else
+                    [self.collectionView reloadData];
+            }
+            
+            
+        } else {
+            NSLog(@"Unreachable");
+            _isConnected=[ConnectivityTest isConnected];
+        }
+        _notifRec=YES;
+    }
+    else
+        _notifRec=NO;
 }
 
 -(void) setupWithMovie:(Movie *)singleMovie{
+    _isConnected = [ConnectivityTest isConnected];
+    _isMovie=YES;
+    _movie=[[Movie alloc]init];
+    _movie=singleMovie;
     if(_isConnected)
         [self getMovieImages:singleMovie];
     else
@@ -57,10 +101,11 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
     if(mv.images.firstObject!=nil){
         for(RLMImagePaths *image in mv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc] initWithPaths:image]];
+        _haveData=YES;
         [self.collectionView reloadData];
     }
     else{
-        //connect to proceede
+        _haveData=NO;
     }
 }
 
@@ -100,6 +145,10 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
 }
 
 -(void) setupWithShow:(TVShow *)singleShow{
+    _isConnected = [ConnectivityTest isConnected];
+    _isMovie = NO;
+    _show=[[TVShow alloc]init];
+    _show=singleShow;
     if(_isConnected)
         [self getShowImages:singleShow];
     else
@@ -113,10 +162,11 @@ NSString * const ImageCollectionCellIdentifier=@"ImageCollectionCellIdentivier";
         _allImagePaths = [[NSMutableArray alloc] init];
         for(RLMImagePaths *image in tv.images)
             [_allImagePaths addObject:[[ImagePathUrl alloc]initWithPaths:image]];
+        _haveData=YES;
         [self.collectionView reloadData];
     }
     else{
-        //connect to proceede
+        _haveData=NO;
     }
 }
 

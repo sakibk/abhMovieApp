@@ -90,6 +90,7 @@
 		AD64D8371E5A196D00DAE191 /* ListsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8361E5A196D00DAE191 /* ListsViewController.m */; };
 		AD64D83A1E5AD73100DAE191 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD64D8391E5AD73100DAE191 /* SettingsViewController.m */; };
 		AD74DF8D1E84624600D7490E /* RLReconectedList.m in Sources */ = {isa = PBXBuildFile; fileRef = AD74DF8C1E84624600D7490E /* RLReconectedList.m */; };
+		AD74DF901E8468A100D7490E /* ReconnectedList.m in Sources */ = {isa = PBXBuildFile; fileRef = AD74DF8F1E8468A100D7490E /* ReconnectedList.m */; };
 		AD7DE4F51E64371000866A93 /* ForgottenPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD7DE4F41E64371000866A93 /* ForgottenPasswordViewController.m */; };
 		AD8521451E6072CA008F235D /* ListMapping.m in Sources */ = {isa = PBXBuildFile; fileRef = AD8521441E6072CA008F235D /* ListMapping.m */; };
 		AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD8696131E53B721009B75F0 /* ImageCell.xib */; };
@@ -105,6 +106,7 @@
 		ADADC9691E50695300EF25D8 /* EpisodeOverviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADADC9681E50695300EF25D8 /* EpisodeOverviewCell.m */; };
 		ADADC96B1E506ADB00EF25D8 /* EpisodeDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */; };
 		ADADC96E1E506B1100EF25D8 /* EpisodeDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADADC96D1E506B1100EF25D8 /* EpisodeDetailsCell.m */; };
+		ADBDE5CF1E872E03003D2A81 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADBDE5CE1E872E03003D2A81 /* GoogleService-Info.plist */; };
 		ADC07D101E5C289200172221 /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D0F1E5C289200172221 /* RatingViewController.m */; };
 		ADC07D141E5C6A2700172221 /* RLMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D131E5C6A2700172221 /* RLMovie.m */; };
 		ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D161E5C6FA500172221 /* RLTVShow.m */; };
@@ -272,6 +274,8 @@
 		AD64D8391E5AD73100DAE191 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Controllers/SettingsViewController.m; sourceTree = "<group>"; };
 		AD74DF8B1E84624600D7490E /* RLReconectedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLReconectedList.h; path = MovieApp/PersistentModels/RLReconectedList.h; sourceTree = "<group>"; };
 		AD74DF8C1E84624600D7490E /* RLReconectedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLReconectedList.m; path = MovieApp/PersistentModels/RLReconectedList.m; sourceTree = "<group>"; };
+		AD74DF8E1E8468A100D7490E /* ReconnectedList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReconnectedList.h; path = MovieApp/Models/ReconnectedList.h; sourceTree = "<group>"; };
+		AD74DF8F1E8468A100D7490E /* ReconnectedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReconnectedList.m; path = MovieApp/Models/ReconnectedList.m; sourceTree = "<group>"; };
 		AD7DE4F31E64371000866A93 /* ForgottenPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ForgottenPasswordViewController.h; path = Controllers/ForgottenPasswordViewController.h; sourceTree = "<group>"; };
 		AD7DE4F41E64371000866A93 /* ForgottenPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ForgottenPasswordViewController.m; path = Controllers/ForgottenPasswordViewController.m; sourceTree = "<group>"; };
 		AD8521431E6072CA008F235D /* ListMapping.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListMapping.h; path = MovieApp/Models/ListMapping.h; sourceTree = "<group>"; };
@@ -299,6 +303,7 @@
 		ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EpisodeDetailsCell.xib; path = Views/EpisodeDetailsCell.xib; sourceTree = "<group>"; };
 		ADADC96C1E506B1100EF25D8 /* EpisodeDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeDetailsCell.h; path = Views/EpisodeDetailsCell.h; sourceTree = "<group>"; };
 		ADADC96D1E506B1100EF25D8 /* EpisodeDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeDetailsCell.m; path = Views/EpisodeDetailsCell.m; sourceTree = "<group>"; };
+		ADBDE5CE1E872E03003D2A81 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADC07D0E1E5C289200172221 /* RatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RatingViewController.h; path = Controllers/RatingViewController.h; sourceTree = "<group>"; };
 		ADC07D0F1E5C289200172221 /* RatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RatingViewController.m; path = Controllers/RatingViewController.m; sourceTree = "<group>"; };
 		ADC07D121E5C6A2700172221 /* RLMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMovie.h; path = MovieApp/PersistentModels/RLMovie.h; sourceTree = "<group>"; };
@@ -822,6 +827,7 @@
 				ADF64D201E2D0528000DFCFA /* Main.storyboard */,
 				ADF64D231E2D0528000DFCFA /* Assets.xcassets */,
 				ADF64D281E2D0528000DFCFA /* Info.plist */,
+				ADBDE5CE1E872E03003D2A81 /* GoogleService-Info.plist */,
 				ADF64D181E2D0528000DFCFA /* main.m */,
 				ADF64D1A1E2D0528000DFCFA /* AppDelegate.h */,
 				ADF64D1B1E2D0528000DFCFA /* AppDelegate.m */,
@@ -873,6 +879,8 @@
 				AD97DF371E6227340014BB0E /* PostResponse.m */,
 				ADA981621E80202E005663B6 /* ListType.h */,
 				ADA981631E80202E005663B6 /* ListType.m */,
+				AD74DF8E1E8468A100D7490E /* ReconnectedList.h */,
+				AD74DF8F1E8468A100D7490E /* ReconnectedList.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -968,6 +976,7 @@
 				AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */,
 				ADD9C7BE1E65A6B7001A1809 /* sub.caf in Resources */,
 				AD4F936C1E48A2C300E55630 /* SearchCell.xib in Resources */,
+				ADBDE5CF1E872E03003D2A81 /* GoogleService-Info.plist in Resources */,
 				ADF64D241E2D0528000DFCFA /* Assets.xcassets in Resources */,
 				AD34A01F1E3B8592009C4367 /* SingleCastCell.xib in Resources */,
 				AD34A0271E3B96FD009C4367 /* ReviewsCell.xib in Resources */,
@@ -1095,6 +1104,7 @@
 				AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */,
 				AD0C917A1E7E62B100049DB4 /* RLMActor.m in Sources */,
 				AD349FFC1E39EE9E009C4367 /* BellowImageCell.m in Sources */,
+				AD74DF901E8468A100D7490E /* ReconnectedList.m in Sources */,
 				AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */,
 				ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */,
 				AD97DF381E6227340014BB0E /* PostResponse.m in Sources */,

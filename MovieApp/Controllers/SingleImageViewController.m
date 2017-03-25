@@ -47,7 +47,7 @@
 -(void)setupPicture{
     _imageCountLabel.text =[NSString stringWithFormat:@"  %d of %lu",[_currentImageIndex intValue]+1,(unsigned long)[_allImagePaths count]];
     
-    [_imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",[_allImagePaths objectAtIndex:[_currentImageIndex intValue]].posterPath]]placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",_currentImageIndex,@".png"]]];
+    [_imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",[_allImagePaths objectAtIndex:[_currentImageIndex intValue]].posterPath]]placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noBackdropAvalible"]]];
 }
 
 - (IBAction)swipedLeft:(UISwipeGestureRecognizer *)recognizer

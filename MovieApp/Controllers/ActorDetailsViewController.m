@@ -19,6 +19,7 @@
 #import "ConnectivityTest.h"
 #import "RLMActor.h"
 #import <Realm/Realm.h>
+#import <Reachability/Reachability.h>
 
 @interface ActorDetailsViewController ()
 
@@ -42,6 +43,11 @@
 
 @property BOOL isConnected;
 @property RLMRealm *realm;
+@property UIView *dropDown;
+@property UIButton *showList;
+
+@property BOOL haveData;
+@property Reachability *reachability;
 
 @end
 
@@ -54,12 +60,80 @@
     // Do any additional setup after loading the view.
     [self setupCells];
     [self setSizes];
+    [self CreateDropDownList];
     _isConnected = [ConnectivityTest isConnected];
     _realm = [RLMRealm defaultRealm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+    [self getData];
+
+}
+
+-(void)getData{
     if(_isConnected)
         [self searchForActor];
     else
         [self getStoredActor];
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    
+    _reachability = (Reachability *)[notification object];
+    
+    if ([_reachability isReachable]) {
+        NSLog(@"Reachable");
+        _isConnected=[ConnectivityTest isConnected];
+        if(!_haveData)
+            [self getData];
+        if([_dropDown alpha]==1.0){
+           [_dropDown setAlpha:0.0];
+        }
+        
+    } else {
+        NSLog(@"Unreachable");
+        _isConnected=[ConnectivityTest isConnected];
+    }
+}
+
+-(void)setButtonTitle{
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithFormat:@"Please Reconnect to proceed!"]];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(0, 7)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]
+                 range:NSMakeRange(7, 10)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(17, 11)];
+    [_showList setAttributedTitle:text forState:UIControlStateNormal];
+}
+
+-(void)CreateDropDownList{
+    CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
+    _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
+    [_dropDown setBackgroundColor:[UIColor clearColor]];
+    CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    _showList = [[UIButton alloc]init];
+    _showList.frame = buttonFrame;
+    [_showList setBackgroundColor:[UIColor clearColor]];
+    _showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    _showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    [self setButtonTitle];
+    [_showList addTarget:self action:@selector(openWifiSettings:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_dropDown addSubview:_showList];
+    [self.view addSubview:_dropDown];
+    [_dropDown setAlpha:0.0];
+}
+
+- (IBAction)openWifiSettings:(id)sender{
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"prefs:root=WIFI"]]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -99,10 +173,12 @@
         _singleActor = [[Actor alloc]initWithActor:act];
         [self setNavBarTitle];
         [self setOverviewLineHeights];
+        _haveData=YES;
         [self.tableView reloadData];
     }
     else{
-        //connect to proceed
+        _haveData=NO;
+        [_dropDown setAlpha:1.0];
     }
 }
 

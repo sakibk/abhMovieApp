@@ -22,6 +22,7 @@
 #import "RLMEpisode.h"
 #import "RLTVShow.h"
 #import "RLMSeason.h"
+#import <Reachability/Reachability.h>
 
 @interface EpisodeDetailsViewController ()
 
@@ -33,6 +34,11 @@
 @property CGFloat noHeight;
 @property BOOL isConnected;
 @property RLMRealm *realm;
+@property Reachability *reachability;
+@property BOOL haveData;
+@property BOOL notifRec;
+@property UIView *dropDown;
+@property UIButton *showList;
 
 @end
 
@@ -44,14 +50,13 @@
     self.tableView.dataSource=self;
     
     [self setNavBarTitle];
+    [self CreateDropDownList];
+    [self registerCells];
     // Do any additional setup after loading the view.
-    [self.tableView registerNib:[UINib nibWithNibName:@"AboveImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboveImageCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeDetailsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeDetailsCellIdentifier];
-    [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeOverviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeOverviewCellIdentifier];
     _isConnected = [ConnectivityTest isConnected];
     _realm = [RLMRealm defaultRealm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+    _notifRec=NO;
     
     [self setupSizes];
     if(_isConnected)
@@ -59,6 +64,80 @@
     else
         [self getStoredTrailers];
 }
+
+-(void)registerCells{
+    [self.tableView registerNib:[UINib nibWithNibName:@"AboveImageCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:aboveImageCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"PictureDetailCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pictureDetailCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"CastCollectionCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:castCollectionCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeDetailsCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeDetailsCellIdentifier];
+    [self.tableView registerNib:[UINib nibWithNibName:@"EpisodeOverviewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:episodeOverviewCellIdentifier];
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    
+    _reachability = (Reachability *)[notification object];
+    if(!_notifRec){
+        if ([_reachability isReachable]) {
+            NSLog(@"Reachable");
+            _isConnected=[ConnectivityTest isConnected];
+            if(!_haveData)
+               [self getTrailers];
+            if([_dropDown alpha]==1.0)
+                [_dropDown setAlpha:0.0];
+        } else {
+            NSLog(@"Unreachable");
+            _isConnected=[ConnectivityTest isConnected];
+        }
+        _notifRec=YES;
+    }
+    else{
+        _notifRec=NO;
+    }
+    
+}
+
+-(void)setButtonTitle{
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithFormat:@"Please Reconnect to proceed!"]];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(0, 7)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]
+                 range:NSMakeRange(7, 10)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(17, 11)];
+    [_showList setAttributedTitle:text forState:UIControlStateNormal];
+}
+
+-(void)CreateDropDownList{
+    CGRect dropDownFrame =CGRectMake(0, [[UIScreen mainScreen] bounds].size.height-174, [[UIScreen mainScreen] bounds].size.width, 64);
+    _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
+    [_dropDown setBackgroundColor:[UIColor clearColor]];
+    CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    _showList = [[UIButton alloc]init];
+    _showList.frame = buttonFrame;
+    [_showList setBackgroundColor:[UIColor clearColor]];
+    _showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    _showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    [self setButtonTitle];
+    [_showList addTarget:self action:@selector(openWifiSettings:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_dropDown addSubview:_showList];
+    [self.view addSubview:_dropDown];
+    [_dropDown setAlpha:0.0];
+}
+
+- (IBAction)openWifiSettings:(id)sender{
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"prefs:root=WIFI"]]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];
+    }
+}
+
 
 -(void)setupSizes{
     _aboveEpisodePosterHeight=60.0;
@@ -82,18 +161,20 @@
             RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]-1];
             if(ep.episodeNumber!=nil){
                 _singleEpisode = [[Episode alloc] initWithEpisode:ep];
+                _haveData=YES;
                 [self.tableView reloadData];
             }
             else{
-                //connect to proceed
+                _haveData=NO;
+                [_dropDown setAlpha:1.0];
             }
         }
         else{
-            //connect to proceed
+            _haveData=NO;
         }
     }
     else{
-        //connect to proceed
+        _haveData=NO;
     }
 }
 -(void)setStoredTrailers{
@@ -104,20 +185,21 @@
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[_singleEpisode.seasonNumber integerValue]];
         if(selectedSeason!=nil){
             if([selectedSeason.episodes count]>=[_singleEpisode.episodeNumber integerValue]){
-            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]];
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[_singleEpisode.episodeNumber integerValue]-1];
             if(ep.trailers.firstObject != nil)
                 for(TrailerVideos* video in _singleEpisode.trailers)
                     [ep.trailers addObject:[[RLMTrailerVideos alloc] initWithVideo:video]];
-                [selectedSeason.episodes replaceObjectAtIndex:[_singleEpisode.episodeNumber integerValue] withObject:ep];
+                [selectedSeason.episodes replaceObjectAtIndex:[_singleEpisode.episodeNumber integerValue]-1 withObject:ep];
                 [tv.seasons replaceObjectAtIndex:[_singleEpisode.seasonNumber integerValue] withObject:selectedSeason];
+                _haveData=YES;
             }
         }
         else{
-                //connect to proceed
+            _haveData=NO;
             }
         }
     else{
-        //connect to proceede
+        _haveData=NO;
     }
     [_realm addOrUpdateObject:tv];
     [_realm commitWriteTransaction];

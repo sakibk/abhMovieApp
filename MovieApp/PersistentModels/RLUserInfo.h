@@ -11,6 +11,7 @@
 #import "RLMovie.h"
 #import "RLTVShow.h"
 #import "RLToken.h"
+#import "RLReconectedList.h"
 
 @interface RLUserInfo : RLMObject
 

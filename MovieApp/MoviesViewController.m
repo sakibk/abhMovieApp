@@ -26,6 +26,7 @@
 #import "RLMGenre.h"
 #import "ListType.h"
 #import "ListMappingTV.h"
+#import <Reachability/Reachability.h>
 
 RLM_ARRAY_TYPE(Movie);
 
@@ -81,6 +82,7 @@ RLM_ARRAY_TYPE(Movie);
     LeftViewController *leftViewController;
     UITableViewController *rightViewController;
     LGSideMenuController *sideMenuController;
+    Reachability *reachability;
 }
 
 
@@ -123,8 +125,21 @@ RLM_ARRAY_TYPE(Movie);
     [self CreateDropDownList];
     [self setNavBar];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 }
 
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    
+        reachability = (Reachability *)[notification object];
+        
+        if ([reachability isReachable]) {
+            NSLog(@"Reachable");
+            _isConnected=[ConnectivityTest isConnected];
+        } else {
+            NSLog(@"Unreachable");
+             _isConnected=[ConnectivityTest isConnected];
+        }
+}
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];

@@ -20,6 +20,7 @@
 #import "ListMappingTV.h"
 #import "ApiKey.h"
 #import "ConnectivityTest.h"
+#import <Reachability/Reachability.h>
 
 @interface LoginViewController ()
 
@@ -41,6 +42,7 @@
 @property RLUserInfo *user;
 
 @property BOOL isConnected;
+@property Reachability *reachability;
 
 @end
 
@@ -53,7 +55,23 @@
     [self setLoginView];
     if(_isConnected)
         [self getToken];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
     
+    _reachability = (Reachability *)[notification object];
+    
+    if ([_reachability isReachable]) {
+        NSLog(@"Reachable");
+        _isConnected=[ConnectivityTest isConnected];
+        [self getToken];
+        [self postStatusError:@"Connection Established .."];
+    } else {
+        NSLog(@"Unreachable");
+        _isConnected=[ConnectivityTest isConnected];
+        [self postStatusError:@"Connection Lost .."];
+    }
 }
 
 -(void)setVariables{

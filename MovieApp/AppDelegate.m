@@ -22,6 +22,9 @@
 #import "ObjectMapper.h"
 #import "ApiKey.h"
 #import <Reachability/Reachability.h>
+#import "ListPost.h"
+#import "RLUserInfo.h"
+#import <Firebase.h>
 
 @interface AppDelegate ()
 @property NSMutableArray<Movie*> *notifMovies;
@@ -134,18 +137,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
-     [self setReachabilityNotif];
     [self setupNotifCenter:application finish:launchOptions];
 //    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
 //    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
 //    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
     [RKObjectManager setSharedManager:[self setupRestKit]];
-    
+    [self setupRealmSchema];
+    [self setReachabilityNotif];
+    [FIRApp configure];
     [self setupNavbar];
     [self setupSidebar];
     [self requestAuthorisation];
     [self setNotifications];
-    [self setupRealmSchema];
     
     return YES;
 }
@@ -176,7 +179,7 @@
     RLMRealmConfiguration *config = [RLMRealmConfiguration defaultConfiguration];
     // Set the new schema version. This must be greater than the previously used
     // version (if you've never set a schema version before, the version is 0).
-    config.schemaVersion = 1;
+    config.schemaVersion = 2;
     // Set the block which will be called automatically when opening a Realm with a
     // schema version lower than the one set above
     config.migrationBlock = ^(RLMMigration *migration, uint64_t oldSchemaVersion) {
@@ -196,6 +199,16 @@
     
     reachability.reachableBlock = ^(Reachability *reachability) {
         NSLog(@"Network is reachable.");
+        RLMResults<RLReconectedList*> *rlr = [RLReconectedList allObjects];
+        for(RLReconectedList *rl in rlr){
+            if([rl.listName isEqualToString:@"rating"])
+                [self rateWith:rl.mediaID ifMedia:rl.isMovie postOrDelete:rl.toSet rate:rl.rate];
+            else
+                [self postToList:rl.listName forList:rl.toSet with:rl.mediaID ifMedia:rl.isMovie];
+            [[RLMRealm defaultRealm] beginWriteTransaction];
+            [[RLMRealm defaultRealm] deleteObject:rl];
+            [[RLMRealm defaultRealm] commitWriteTransaction];
+        }
     };
     
     reachability.unreachableBlock = ^(Reachability *reachability) {
@@ -314,6 +327,129 @@
     localNotification.category = @"reminderCategory";
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
+
+-(void)postToList:(NSString*)list forList:(BOOL)postOrDelete with:(NSNumber*)mediaID ifMedia:(BOOL)isMovie{
+    NSError *error;
+    NSDictionary *userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+    NSString *pathP = [NSString stringWithFormat:@"https://api.themoviedb.org/3/account/%@/%@?api_key=%@&session_id=%@",[userCredits objectForKey:@"userID"],list,[ApiKey getApiKey],[userCredits objectForKey:@"sessionID"]];
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"Content-Type" : @"application/json;charset=utf-8"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:pathP];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPMethod:@"POST"];
+    
+    ListPost *postObject = [ListPost new];
+    postObject.mediaID = mediaID;
+    if(isMovie){
+        postObject.mediaType=@"movie";
+    }
+    else{
+        postObject.mediaType=@"tv";
+    }
+    NSDictionary *dataMapped = @{@"media_type" : postObject.mediaType,
+                                 @"media_id" : postObject.mediaID,
+                                 [NSString stringWithFormat:@"%@",list] : @NO
+                                 };
+    
+    if(postOrDelete){
+        NSDictionary *mappedData = @{@"media_type" : postObject.mediaType,
+                                     @"media_id" : postObject.mediaID,
+                                     [NSString stringWithFormat:@"%@",list] : @YES
+                                     };
+        dataMapped=mappedData;
+    }
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:dataMapped options:0 error:&error];
+    [request setHTTPBody:postData];
+    
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            if([[dictionary valueForKey:@"status_code"] intValue]==1){
+                NSLog(@"Successfuly added");
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==13){
+                NSLog(@"The item/record was Deleted successfully");
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==12){
+                NSLog(@"The item/record was updated successfully");
+            }
+        }
+    }];
+    
+    [postDataTask resume];
+}
+
+-(void)rateWith:(NSNumber*)mediaID ifMedia:(BOOL)isMovie postOrDelete:(BOOL)option rate:(NSNumber*)rate{
+    NSError *error;
+    NSString *pathK;
+    NSDictionary *userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+    if(isMovie){
+        pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/movie/%@/rating?api_key=%@&session_id=%@",mediaID, [ApiKey getApiKey], [userCredits objectForKey:@"sessionID"]];
+    }
+    else{
+        pathK = [NSString stringWithFormat:@"https://api.themoviedb.org/3/tv/%@/rating?api_key=%@&session_id=%@",mediaID, [ApiKey getApiKey], [userCredits objectForKey:@"sessionID"]];
+    }
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"Content-Type" : @"application/json;charset=utf-8"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:pathK];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    if(option){
+        [request setHTTPMethod:@"POST"];
+        
+        NSDictionary *dataMapped = @{
+                                     @"value" : rate
+                                     };
+        
+        NSData *postData = [NSJSONSerialization dataWithJSONObject:dataMapped options:0 error:&error];
+        [request setHTTPBody:postData];
+    }
+    else{
+    [request setHTTPMethod:@"DELETE"];
+    NSData *postData = [[NSData alloc] initWithData:[@"{}" dataUsingEncoding:NSUTF8StringEncoding]];
+        [request setHTTPBody:postData];
+    }
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            if([[dictionary valueForKey:@"status_code"] intValue]==13){
+                NSLog(@"Rating deleted");
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==12){
+                NSLog(@"The item/record was updated successfully");
+            }
+            else if([[dictionary valueForKey:@"status_code"] intValue]==1){
+                NSLog(@"The Media Rated Succesfully");
+            }
+        }
+        else{
+        }
+    }];
+    
+    [postDataTask resume];
+}
+
 
 - (void)getNotificationSettingsWithCompletionHandler:(void (^)(UNNotificationSettings *settings))completionHandler{
     

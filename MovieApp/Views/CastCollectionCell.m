@@ -19,27 +19,80 @@
 #import "RLMCast.h"
 #import "RLMSeason.h"
 #import <Realm/Realm.h>
+#import <Reachability/Reachability.h>
 
 NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 
 
 @implementation CastCollectionCell{
     RLMRealm *realm;
+    Reachability *reachability;
+    BOOL isMovie;
+    BOOL isShow;
+    BOOL isEpisode;
+    BOOL haveData;
+    BOOL notifRec;
+    Movie *movie;
+    TVShow *show;
+    Episode *episode;
 }
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    isMovie=NO;
+    isShow=NO;
+    isEpisode=NO;
+    notifRec=NO;
     _collectionView.delegate=self;
     _collectionView.dataSource=self;
     _isConnected = [ConnectivityTest isConnected];
     realm = [RLMRealm defaultRealm];
     [self.collectionView registerNib:[UINib nibWithNibName:@"SingleCastCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:singleCastCellIdentifier];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 }
 
-
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    //ubaciti u sve ove bool da poziva samo jednom ..
+    reachability = (Reachability *)[notification object];
+    if(!notifRec){
+        if ([reachability isReachable]) {
+            NSLog(@"Reachable");
+            _isConnected=[ConnectivityTest isConnected];
+            if(isEpisode && !isMovie && !isShow){
+                if(!haveData)
+                    [self getEpisodeCasts:episode];
+                else
+                    [self.collectionView reloadData];
+            }
+            else if(!isEpisode && isMovie &&!isShow){
+                if(!haveData)
+                    [self getMovieCasts:movie];
+                else
+                    [self.collectionView reloadData];
+            }
+            else if(!isEpisode && !isMovie && isShow){
+                if(!haveData)
+                    [self getShowCasts:show];
+                else
+                    [self.collectionView reloadData];
+            }
+            
+            
+        } else {
+            NSLog(@"Unreachable");
+            _isConnected=[ConnectivityTest isConnected];
+        }
+        notifRec=YES;
+    }
+    else
+        notifRec=NO;
+}
 
 -(void) setupWithMovie:(Movie *)singleMovie{
+    movie = [[Movie alloc]init];
+    movie = singleMovie;
+    isMovie=YES;
     if(_isConnected)
         [self getMovieCasts:singleMovie];
     else
@@ -53,10 +106,11 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     if(mv.movieCast.firstObject!=nil){
         for(RLMCast *cst in mv.movieCast)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+        haveData=YES;
         [self.collectionView reloadData];
     }
     else{
-        //connect to proceede
+        haveData=NO;
     }
 }
 
@@ -97,6 +151,9 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 }
 
 -(void) setupWithShow:(TVShow *)singleShow{
+    show = [[TVShow alloc]init];
+    show=singleShow;
+    isShow=YES;
     if(_isConnected)
         [self getShowCasts:singleShow];
     else
@@ -110,10 +167,11 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
         _allCasts = [[NSMutableArray alloc] init];
         for(RLMCast *cst in tv.showCast)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+        haveData=YES;
         [self.collectionView reloadData];
     }
     else{
-        //connect to proceede
+        haveData=NO;
     }
 }
 
@@ -154,6 +212,9 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
 }
 
 -(void) setupWithEpisode:(Episode *)singleEpisode{
+    episode = [[Episode alloc]init];
+    episode=singleEpisode;
+    isEpisode=YES;
     if(_isConnected)
         [self getEpisodeCasts:singleEpisode];
     else
@@ -166,18 +227,19 @@ NSString *const castCollectionCellIdentifier=@"CastCollectionCellIdentifier";
     if(tv.seasons.firstObject!= nil){
         RLMSeason *selectedSeason = [tv.seasons objectAtIndex:[singleEpisode.seasonNumber integerValue]];
         if(selectedSeason.episodes.firstObject.episodeCasts.firstObject!=nil){
-            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[singleEpisode.episodeNumber integerValue]];
+            RLMEpisode *ep = [selectedSeason.episodes objectAtIndex:[singleEpisode.episodeNumber integerValue]-1];
             _allCasts = [[NSMutableArray alloc] init];
             for(RLMCast *cst in ep.episodeCasts)
                 [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+            haveData=YES;
             [self.collectionView reloadData];
         }
         else{
-            //connect to proceede
+            haveData=NO;
         }
     }
     else{
-        //connect to proceede
+        haveData=NO;
     }
 }
 

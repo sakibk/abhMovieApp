@@ -15,6 +15,7 @@
 #import "TVMovie.h"
 #import "ApiKey.h"
 #import "ConnectivityTest.h"
+#import <Reachability/Reachability.h>
 
 @interface SearchViewController ()
 
@@ -26,6 +27,10 @@
 @property NSNumber *pageNumber;
 @property int setupScroll;
 @property BOOL isConnected;
+@property UIView *dropDown;
+@property UIButton *showList;
+@property Reachability *reachability;
+@property BOOL notifRec;
 
 @end
 
@@ -38,7 +43,9 @@
     _searchBar.delegate=self;
     // Do any additional setup after loading the view.
     [self.tableView registerNib:[UINib nibWithNibName:@"SearchCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:searchCellIdentifier];
+    _isConnected = [ConnectivityTest isConnected];
     [self searchBarSetup];
+    [self CreateDropDownList];
     [self setGestures];
     _searchResults = [[NSMutableArray alloc]init];
     _tempMovie=[[Movie alloc]init];
@@ -46,9 +53,83 @@
     _pageNumber = [NSNumber numberWithInt:1];
     _setupScroll = 0;
     _searchString = @"";
-    _isConnected = [ConnectivityTest isConnected];
+    _notifRec=NO;
     
+    if(!_isConnected){
+        [_dropDown setAlpha:1.0];
+        [_searchBar setUserInteractionEnabled:NO];
+    }
 }
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    
+    _reachability = (Reachability *)[notification object];
+    if(!_notifRec){
+    if ([_reachability isReachable]) {
+        NSLog(@"Reachable");
+        _isConnected=[ConnectivityTest isConnected];
+        if([_dropDown alpha]==1.0){
+            [_dropDown setAlpha:0.0];
+        }
+        [_searchBar setUserInteractionEnabled:YES];
+        [_searchBar becomeFirstResponder];
+        
+    } else {
+        NSLog(@"Unreachable");
+        _isConnected=[ConnectivityTest isConnected];
+        [_searchBar setUserInteractionEnabled:NO];
+        [_searchBar resignFirstResponder];
+    }
+        _notifRec=YES;
+    }
+    else{
+        _notifRec=NO;
+    }
+}
+
+
+-(void)setButtonTitle{
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithFormat:@"Please Reconnect to proceed!"]];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(0, 7)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]
+                 range:NSMakeRange(7, 10)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(17, 11)];
+    [_showList setAttributedTitle:text forState:UIControlStateNormal];
+}
+
+-(void)CreateDropDownList{
+    CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
+    _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
+    [_dropDown setBackgroundColor:[UIColor clearColor]];
+    CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    _showList = [[UIButton alloc]init];
+    _showList.frame = buttonFrame;
+    [_showList setBackgroundColor:[UIColor clearColor]];
+    _showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    _showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    [self setButtonTitle];
+    [_showList addTarget:self action:@selector(openWifiSettings:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_dropDown addSubview:_showList];
+    [self.view addSubview:_dropDown];
+    [_dropDown setAlpha:0.0];
+}
+
+- (IBAction)openWifiSettings:(id)sender{
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"prefs:root=WIFI"]]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -58,7 +139,8 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.searchBar becomeFirstResponder];
+    if([ConnectivityTest isConnected])
+        [self.searchBar becomeFirstResponder];
 }
 
 - (void)viewWillAppear:(BOOL)animated {

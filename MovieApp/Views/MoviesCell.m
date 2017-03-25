@@ -42,9 +42,6 @@ NSString* const identifier= @"MovieCellIdentifier";
         [_watchlisted setHidden:YES];
         [_favoured setHidden:YES];
     }
-    else{
-        
-    }
     NSDate *releaseYear = singleMovie.releaseDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
@@ -52,7 +49,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     _title.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
     
     [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleMovie.posterPath]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleMovie.title,@".png"]]];
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noPosterAvalible"]]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd LLLL yyyy"];
@@ -96,9 +93,6 @@ NSString* const identifier= @"MovieCellIdentifier";
         [_watchlisted setHidden:YES];
         [_favoured setHidden:YES];
     }
-    else{
-        
-    }
     NSDate *releaseYear = singleShow.firstAirDate;
     NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
     NSInteger year = [components year];
@@ -106,7 +100,7 @@ NSString* const identifier= @"MovieCellIdentifier";
     _title.text = [NSString stringWithFormat:@"%@(%ld)",singleShow.name,(long)year];
     
     [_coverImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",singleShow.posterPath]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleShow.name,@".png"]]];
+                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noPosterAvalible"]]];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy"];

@@ -14,12 +14,16 @@
 #import "Actor.h"
 #import <Realm/Realm.h>
 #import "RLMActor.h"
+#import <Reachability/Reachability.h>
 
 NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
 
 @implementation FilmographyCell{
     BOOL isConnected;
     RLMRealm *realm;
+    BOOL haveData;
+    BOOL notifRec;
+    Reachability *reachability;
 }
 
 - (void)awakeFromNib {
@@ -31,6 +35,27 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
     [_collectionView registerNib:[UINib nibWithNibName:@"SingleFilmographyCell" bundle:[NSBundle mainBundle]] forCellWithReuseIdentifier:singleFilmographyCellIdentifier];
     isConnected = [ConnectivityTest isConnected];
     realm = [RLMRealm defaultRealm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
+    //ubaciti u sve ove bool da poziva samo jednom ..
+    reachability = (Reachability *)[notification object];
+    if(!notifRec){
+        if ([reachability isReachable]) {
+            NSLog(@"Reachable");
+            isConnected=[ConnectivityTest isConnected];
+            if(!haveData)
+               [self getCasts];
+            
+        } else {
+            NSLog(@"Unreachable");
+            isConnected=[ConnectivityTest isConnected];
+        }
+        notifRec=YES;
+    }
+    else
+        notifRec=NO;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -46,10 +71,11 @@ NSString *const filmographyCellIdentifier=@"FilmographyCellIdentifier";
         _allCasts = [[NSMutableArray alloc] init];
         for(RLMCast *cst in act.casts)
             [_allCasts addObject:[[Cast alloc]initWithCast:cst]];
+        haveData=YES;
         [self.collectionView reloadData];
     }
     else{
-        //connect to proceede
+        haveData=NO;
     }
 }
 

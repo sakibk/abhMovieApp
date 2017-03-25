@@ -16,6 +16,7 @@
 #import "PostResponse.h"
 #import "ListPost.h"
 #import "ApiKey.h"
+#import "ConnectivityTest.h"
 
 @interface ListsViewController ()
 @property NSString *dropDownTitle;
@@ -29,6 +30,7 @@
 @property NSDictionary *userCredits;
 @property RLUserInfo *user;
 @property RLMRealm *realm;
+@property BOOL isConnected;
 
 @property (strong,nonatomic) NSString *pathK;
 
@@ -103,10 +105,10 @@
 }
 
 -(void)setupUser{
-        _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
-        RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
-        _user = [users firstObject];
-        _realm=[RLMRealm defaultRealm];
+    _userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+    RLMResults<RLUserInfo*> *users= [RLUserInfo objectsWhere:@"userID = %@", [_userCredits objectForKey:@"userID"]];
+    _user = [users firstObject];
+    _realm=[RLMRealm defaultRealm];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -129,6 +131,7 @@
     _dropDownTitle=@"Movies";
     _selectedButton = 0;
     _isMovie=YES;
+    _isConnected=[ConnectivityTest isConnected];
 }
 
 -(void)setButtonTitle{
@@ -323,7 +326,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:searchCellIdentifier];
+    SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:searchCellIdentifier];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     // Configure the cell...
     cell.isSideBar=YES;
@@ -341,7 +344,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-       UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     MovieDetailViewController *movieDetails = [storyboard instantiateViewControllerWithIdentifier:@"MovieDetails"];
     if (_isMovie) {
         Movie *test =[[Movie alloc] initWithObject:[_movieList objectAtIndex:indexPath.row]];
@@ -369,36 +372,65 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
 }
 
 -(NSArray *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+    _isConnected = [ConnectivityTest isConnected];
     UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"Remove"  handler:^(UITableViewRowAction *action, NSIndexPath *indexPath){
         //insert your deleteAction here
+        ReconnectedList* rl = [[ReconnectedList alloc] init];
+        rl.isMovie = _isMovie;
+        rl.toSet=NO;
         if(_isMovie){
+            rl.mediaID= [[_movieList objectAtIndex:indexPath.row] movieID];
             if(_isFavorites){
-                [self noRestkitPost:@"favorite": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
+                if(_isConnected)
+                    [self noRestkitPost:@"favorite": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
+                else
+                    rl.listName = @"favorite";
                 [_user deleteFavoriteMovies:[_movieList objectAtIndex:indexPath.row]];
             }
             else if(_isWatchlist){
-                [self noRestkitPost:@"watchlist": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
+                if(_isConnected)
+                    [self noRestkitPost:@"watchlist": @"movie" :[_movieList objectAtIndex:indexPath.row].movieID];
+                else
+                    rl.listName=@"watchlist";
                 [_user deleteWatchlistMovies:[_movieList objectAtIndex:indexPath.row]];
             }
             else if (_isRating){
-                [self noRestkitDeleteRate:[_movieList objectAtIndex:indexPath.row].movieID];
-                    [_user deleteRatedMovies:[_movieList objectAtIndex:indexPath.row]];
+                if(_isConnected)
+                    [self noRestkitDeleteRate:[_movieList objectAtIndex:indexPath.row].movieID];
+                else
+                    rl.listName=@"rating";
+                [_user deleteRatedMovies:[_movieList objectAtIndex:indexPath.row]];
             }
         }
         else{
+            rl.mediaID =[[_showsList objectAtIndex:indexPath.row] showID];
             if(_isFavorites){
-                [self noRestkitPost:@"favorite": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
+                if(_isConnected)
+                    [self noRestkitPost:@"favorite": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
+                else
+                    rl.listName=@"favorite";
                 [_user deleteFavoriteShows:[_showsList objectAtIndex:indexPath.row]];
             }
             else if(_isWatchlist){
-                [self noRestkitPost:@"watchlist": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
+                if(_isConnected)
+                    [self noRestkitPost:@"watchlist": @"tv" :[_showsList objectAtIndex:indexPath.row].showID];
+                else
+                    rl.listName=@"watchlist";
                 [_user deleteWatchlistShows:[_showsList objectAtIndex:indexPath.row]];
             }
             else if (_isRating){
-                [self noRestkitDeleteRate:[_showsList objectAtIndex:indexPath.row].showID];
-                    [_user deleteRatedShows:[_showsList objectAtIndex:indexPath.row]];
+                if(_isConnected)
+                    [self noRestkitDeleteRate:[_showsList objectAtIndex:indexPath.row].showID];
+                else
+                    rl.listName=@"rating";
+                [_user deleteRatedShows:[_showsList objectAtIndex:indexPath.row]];
             }
+        }
+        if(_isConnected){
+            [_realm beginWriteTransaction];
+            RLReconectedList * rlr = [[RLReconectedList alloc] initWithRL:rl];
+            [_realm addObject:rlr];
+            [_realm commitWriteTransaction];
         }
         [self.tableView reloadData];
     }];
@@ -430,7 +462,7 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
      * We include UIView in the containment hierarchy because there is another button in UserCell that is a direct descendant of UserCell that we don't want this to affect.
      */
     [[UIButton appearanceWhenContainedIn:[UIView class], [SearchCell class], nil] setAttributedTitle: attributedTitle
-                                                                                          forState: UIControlStateNormal];
+                                                                                            forState: UIControlStateNormal];
 }
 
 
@@ -453,12 +485,12 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
     [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
     [request setHTTPMethod:@"POST"];
     
-
+    
     NSDictionary *dataMapped = @{@"media_type" : mediaType,
                                  @"media_id" : mediaID,
                                  [NSString stringWithFormat:@"%@",list] : @NO
                                  };
-
+    
     
     NSData *postData = [NSJSONSerialization dataWithJSONObject:dataMapped options:0 error:&error];
     [request setHTTPBody:postData];
@@ -531,13 +563,13 @@ SearchCell *cell =(SearchCell*)[tableView dequeueReusableCellWithIdentifier:sear
 
 #pragma mark - Navigation
 /*
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
-//        MovieDetailViewController *movieDetails = segue.destinationViewController;
-//        NSIndexPath *indexPath = [self.tableView.indexPathsForSelectedRows objectAtIndex:0];
-//        }
-}
-*/
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ //    if ([segue.identifier isEqualToString:@"MovieOrTVShowDetails"]) {
+ //        MovieDetailViewController *movieDetails = segue.destinationViewController;
+ //        NSIndexPath *indexPath = [self.tableView.indexPathsForSelectedRows objectAtIndex:0];
+ //        }
+ }
+ */
 
 @end

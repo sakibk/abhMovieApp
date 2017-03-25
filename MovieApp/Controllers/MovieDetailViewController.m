@@ -30,6 +30,9 @@
 #import "ApiKey.h"
 #import "ConnectivityTest.h"
 #import "RLMStoredObjects.h"
+#import "RLReconectedList.h"
+#import "ReconnectedList.h"
+#import <Reachability/Reachability.h>
 
 
 @interface MovieDetailViewController ()
@@ -77,8 +80,11 @@
 @property (strong, nonatomic) NSMutableString *producentString;
 @property (strong, nonatomic) NSMutableString *directorString;
 
+@property (strong,nonatomic) UIView *dropDown;
+
 @property BOOL isSuccessful;
 @property BOOL isConnected;
+@property BOOL haveData;
 
 @property RLMStoredObjects *storedObjetctMedia;
 
@@ -87,6 +93,8 @@
 @implementation MovieDetailViewController
 {
     bool isRowOpen[20];
+    Reachability *reachability;
+    UIButton *showList;
 }
 
 - (void)viewDidLoad {
@@ -95,10 +103,15 @@
     _tableView.dataSource=self;
     [self setCells];
     [self setupUser];
+    [self CreateDropDownList];
     // Do any additional setup after loading the view.
     [self setBools];
     [self setSizes];
-    
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
+    [self getData];
+}
+
+-(void)getData{
     if(_isMovie){
         if(_isConnected)
             [self getMovies];
@@ -111,7 +124,67 @@
         else
             [self getStoredShow];
     }
+}
+
+- (void)reachabilityDidChange:(NSNotification *)notification {
     
+    reachability = (Reachability *)[notification object];
+    
+    if ([reachability isReachable]) {
+        NSLog(@"Reachable");
+        _isConnected=[ConnectivityTest isConnected];
+        if(!_haveData)
+           [self getData];
+        if([_dropDown alpha] == 1.0){
+            [_dropDown setAlpha:0.0];
+        }
+        
+    } else {
+        NSLog(@"Unreachable");
+        _isConnected=[ConnectivityTest isConnected];
+    }
+}
+
+-(void)setButtonTitle{
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithFormat:@"Please Reconnect to proceed!"]];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(0, 7)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]
+                 range:NSMakeRange(7, 10)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(17, 11)];
+    [showList setAttributedTitle:text forState:UIControlStateNormal];
+}
+
+-(void)CreateDropDownList{
+    CGRect dropDownFrame =CGRectMake(0, 74, [[UIScreen mainScreen] bounds].size.width, 64);
+    _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
+    [_dropDown setBackgroundColor:[UIColor clearColor]];
+    CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    showList = [[UIButton alloc]init];
+    showList.frame = buttonFrame;
+    [showList setBackgroundColor:[UIColor clearColor]];
+    showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    [self setButtonTitle];
+    [showList addTarget:self action:@selector(openWifiSettings:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [_dropDown addSubview:showList];
+    [self.view addSubview:_dropDown];
+    [_dropDown setAlpha:0.0];
+}
+
+- (IBAction)openWifiSettings:(id)sender{
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"prefs:root=WIFI"]]) {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=WIFI"]];
+    } else {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"App-Prefs:root=WIFI"]];
+    }
 }
 
 -(void)setupUser{
@@ -218,7 +291,8 @@
     RLMResults<RLMovie*> *movs= [RLMovie objectsWhere:@"movieID = %@",_movieID];
     RLMovie *mov = movs.firstObject;
     if(mov.movieCrew.firstObject==nil && mov.Reviews.firstObject==nil){
-        //show pls connect
+        _haveData=NO;
+        [_dropDown setAlpha:1.0];
     }
     else{
         _movieDetail = [[Movie alloc] initWithObject:mov];
@@ -226,6 +300,7 @@
         _allReviews = _movieDetail.reviews;
         [self setupHeights];
         [self setMovieCredits];
+        _haveData=YES;
         [self.tableView reloadData];
     }
 }
@@ -234,13 +309,15 @@
     RLMResults<RLTVShow*> *tvs= [RLTVShow objectsWhere:@"showID = %@",_movieID];
     RLTVShow *tv = tvs.firstObject;
     if(tv.showCrew.firstObject == nil && tv.seasons.firstObject == nil){
-        //show pls connect
+        _haveData=NO;
+        [_dropDown setAlpha:1.0];
     }
     else{
         _showDetail =[[TVShow alloc]initWithObject:tv];
         [self setNavBarTitle];
         _showDetail.seasons=_allSeasons;
         [self setShowCredits];
+        _haveData=YES;
         [self.tableView reloadData];
     }
 }
@@ -1185,6 +1262,10 @@
 
 -(void)addFavorite{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
+    ReconnectedList* rl = [[ReconnectedList alloc] init];
+    rl.mediaID = _movieID;
+    rl.isMovie = _isMovie;
+    rl.listName=@"favorite";
     if(_isMovie){
         RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@", _movieID];
         RLMovie *mv = mvs.firstObject;
@@ -1193,6 +1274,7 @@
                 [self noRestkitPost:@"favorite":@"true"];
             }
             else{
+                rl.toSet=YES;
             }
             [_user addToFavoriteMovies:mv];
             [cell favoureIt];
@@ -1201,7 +1283,8 @@
         else{
             if(_isConnected)
                 [self noRestkitPost:@"favorite":@"false"];
-            else
+            else{
+                rl.toSet=NO;            }
             [_user deleteFavoriteMovies:mv];
             [cell unFavoureIt];
             _isSuccessful=YES;
@@ -1213,31 +1296,46 @@
         if(![[[_user favoriteShows] valueForKey:@"showID"] containsObject:_movieID]){
             if(_isConnected)
                 [self noRestkitPost:@"favorite":@"true"];
-            else
+            else{
+                rl.toSet=YES;
+            }
             [_user addToFavoriteShows:tv];
             [cell favoureIt];
             _isSuccessful=YES;
         }
         else{
-            [self noRestkitPost:@"favorite":@"false"];
+            if(_isConnected)
+                [self noRestkitPost:@"favorite":@"false"];
+            else{
+                rl.toSet=NO;
+            }
             [_user deleteFavoriteShows:tv];
             [cell unFavoureIt];
             _isSuccessful=YES;
         }
     }
-    //    [self postToList:@"favorites"];
+    [_realm beginWriteTransaction];
+    RLReconectedList * rlr = [[RLReconectedList alloc] initWithRL:rl];
+    [_realm addObject:rlr];
+    [_realm commitWriteTransaction];
 }
 
 
 -(void)addWatchlist{
     PictureDetailCell *cell = (PictureDetailCell*)[_tableView cellForRowAtIndexPath:_pictureIndexPath];
+    ReconnectedList* rl = [[ReconnectedList alloc] init];
+    rl.mediaID = _movieID;
+    rl.isMovie = _isMovie;
+    rl.listName=@"watchlist";
     if(_isMovie){
         RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@", _movieID];
         RLMovie *mv = mvs.firstObject;
         if(![[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_movieID]){
             if(_isConnected)
                 [self noRestkitPost:@"watchlist":@"true"];
-            else
+            else{
+                rl.toSet=YES;
+            }
             [_user addToWatchlistMovies:mv];
             [cell watchIt];
             _isSuccessful=NO;
@@ -1246,6 +1344,7 @@
             if(_isConnected)
                 [self noRestkitPost:@"watchlist":@"false"];
             else
+                rl.toSet=NO;
             [_user deleteWatchlistMovies:mv];
             [cell unWatchIt];
             _isSuccessful=NO;
@@ -1255,18 +1354,30 @@
         RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@", _movieID];
         RLTVShow *tv = tvs.firstObject;
         if(![[[_user watchlistShows] valueForKey:@"showID"] containsObject:_movieID]){
-            [self noRestkitPost:@"watchlist":@"true"];
+            if(_isConnected)
+                [self noRestkitPost:@"watchlist":@"true"];
+            else
+                rl.toSet = YES;
             [_user addToWatchlistShows:tv];
             [cell watchIt];
             _isSuccessful=NO;
         }
         else{
-            [self noRestkitPost:@"watchlist":@"false"];
+            if(_isConnected)
+                [self noRestkitPost:@"watchlist":@"false"];
+            else
+                rl.toSet=NO;
             [_user deleteWatchlistShows:tv];
             [cell unWatchIt];
             _isSuccessful=NO;
             
         }
+    }
+    if(!_isConnected){
+    [_realm beginWriteTransaction];
+    RLReconectedList * rlr = [[RLReconectedList alloc] initWithRL:rl];
+    [_realm addObject:rlr];
+    [_realm commitWriteTransaction];
     }
 }
 
