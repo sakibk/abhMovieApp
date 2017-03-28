@@ -58,7 +58,9 @@
     if(!_isConnected){
         [_dropDown setAlpha:1.0];
         [_searchBar setUserInteractionEnabled:NO];
-        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+            self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+        }
     }
 }
 

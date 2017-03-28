@@ -102,7 +102,7 @@
 }
 
 -(void)CreateDropDownList{
-    CGRect dropDownFrame =CGRectMake(0, [[UIScreen mainScreen] bounds].size.height*3/4, [[UIScreen mainScreen] bounds].size.width, 64);
+    CGRect dropDownFrame =CGRectMake(0, [[UIScreen mainScreen] bounds].size.height*3/5, [[UIScreen mainScreen] bounds].size.width, 64);
     _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
     [_dropDown setBackgroundColor:[UIColor clearColor]];
     CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);

@@ -18,11 +18,34 @@
 @property (strong, nonatomic) FIRDatabaseReference *commentsRef;
 @property(strong, nonatomic) NSMutableArray<Movie*> *allMovies;
 
+@property NSString *dropDownTitle;
+@property int selectedButton;
+@property (nonatomic,strong) UIView *dropDown;
+@property (nonatomic,assign) BOOL isDroped;
+@property (nonatomic,assign) BOOL isNavBarSet;
+
 @end
 
 @implementation FirebaseViewController{
-     FIRDatabaseHandle _refHandle;
+    FIRDatabaseHandle _refHandle;
     UIButton *butt;
+    CGRect initialTableViewFrame;
+    UIButton *showList;
+    UIButton *optionOne;
+    UIButton *optionTwo;
+    UIButton *optionThree;
+    UIButton *optionFour;
+    UIButton *optionFive;
+    UIButton *optionSix;
+    UIButton *optionSeven;
+    UIImageView *imageOne;
+    UIImageView *imageTwo;
+    UIImageView *imageThree;
+    UIImageView *imageFour;
+    UIImageView *imageFive;
+    UIImageView *imageSix;
+    UIImageView *imageSeven;
+    UIImageView *dropDownImage;
 }
 
 - (void)viewDidLoad {
@@ -36,7 +59,17 @@
     [_tableView registerNib:[UINib nibWithNibName:@"CinemaCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:cinemaCellIdentifier];
     _tableView.delegate=self;
     _tableView.dataSource=self;
-    [self setupButton];
+       [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    //    [self setupButton];
+    [self setupVariables];
+    [self CreateDropDownList];
+}
+
+-(void)setupVariables{
+    _isDroped = NO;
+    _isNavBarSet=NO;
+    _dropDownTitle=@"Movies";
+    _selectedButton = 0;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -49,8 +82,9 @@
      observeEventType:FIRDataEventTypeChildAdded
      withBlock:^(FIRDataSnapshot *snapshot) {
          [self.comments addObject:snapshot];
+         [_allMovies addObject:[[Movie alloc] initWithSnap:snapshot.value]];
+         [self.tableView reloadData];
      }];
-
     // Listen for deleted comments in the Firebase database
     [_commentsRef
      observeEventType:FIRDataEventTypeChildRemoved
@@ -71,6 +105,8 @@
     [self.commentsRef removeAllObservers];
 }
 
+
+//#setupButtons
 -(void)setupButton{
     [self.view setBackgroundColor:[UIColor blackColor]];
     CGRect a = CGRectMake(10, 10, [UIScreen mainScreen].bounds.size.width-20, 60);
@@ -82,29 +118,431 @@
 }
 
 -(IBAction)addToFirebase:(id)sender{
-[[[[FIRDatabase database].reference child:@"users"] child:@""]
-observeSingleEventOfType:FIRDataEventTypeValue
-withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-    NSDictionary *comment = @{@"uid": @"",
-                              @"author": @"",
-                              @"text": @""};
-    [[_commentsRef childByAutoId] setValue:comment];
-
-}];
+    [[[[FIRDatabase database].reference child:@"users"] child:@""]
+     observeSingleEventOfType:FIRDataEventTypeValue
+     withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+         NSDictionary *comment = @{@"uid": @"",
+                                   @"author": @"",
+                                   @"text": @""};
+         [[_commentsRef childByAutoId] setValue:comment];
+         
+     }];
+}
+//#setup dropdown menu
+-(void)setButtonTitle{
+    NSMutableAttributedString *text =
+    [[NSMutableAttributedString alloc]
+     initWithString:[NSString stringWithFormat:@" Filter by: %@",_dropDownTitle]];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor whiteColor]
+                 range:NSMakeRange(0, 11)];
+    [text addAttribute:NSForegroundColorAttributeName
+                 value:[UIColor lightGrayColor]
+                 range:NSMakeRange(11, [text length]-11)];
+    [showList setAttributedTitle:text forState:UIControlStateNormal];
 }
 
+-(void)CreateDropDownList{
+    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
+    dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
+    [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
+    CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+    _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
+    [_dropDown setBackgroundColor:[UIColor darkGrayColor]];
+    CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    showList = [[UIButton alloc]init];
+    showList.frame = buttonFrame;
+    [showList setBackgroundColor:[UIColor blackColor]];
+    showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    [self setButtonTitle];
+    [showList addTarget:self action:@selector(ListDroped:) forControlEvents:UIControlEventTouchUpInside];
+    [_dropDown addSubview:showList];
+    [_dropDown addSubview:dropDownImage];
+    
+    CGRect pictureOneFrame = CGRectMake(22, 64+24 , 20, 15);
+    imageOne = [[UIImageView alloc]initWithFrame:pictureOneFrame];
+    [imageOne setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    optionOne = [[UIButton alloc]init];
+    optionOne.frame=buttonOneFrame;
+    optionOne.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionOne setBackgroundColor:[UIColor blackColor]];
+    [optionOne setTitle:@"Monday" forState:UIControlStateNormal];
+    optionOne.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionOne addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionOne.tag=0;
+    [_dropDown addSubview:optionOne];
+    [_dropDown addSubview:imageOne];
+    
+    CGRect pictureTwoFrame = CGRectMake(22, 64*2+24 , 20, 15);
+    imageTwo = [[UIImageView alloc]initWithFrame:pictureTwoFrame];
+    [imageTwo setImage:[UIImage imageNamed:@""]];
+    CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    optionTwo = [[UIButton alloc]init];
+    optionTwo.frame=buttonTwoFrame;
+    optionTwo.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionTwo setBackgroundColor:[UIColor blackColor]];
+    [optionTwo setTitle:@"Tuesday" forState:UIControlStateNormal];
+    optionTwo.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionTwo addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionTwo.tag=1;
+    [_dropDown addSubview:optionTwo];
+    [_dropDown addSubview:imageTwo];
+    
+    CGRect pictureThreeFrame = CGRectMake(22, 64*3+24 , 20, 15);
+    imageThree = [[UIImageView alloc]initWithFrame:pictureThreeFrame];
+    [imageThree setImage:[UIImage imageNamed:@""]];
+    CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    
+    optionThree = [[UIButton alloc]init];
+    optionThree.frame=buttonThreeFrame;
+    optionThree.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionThree setBackgroundColor:[UIColor blackColor]];
+    [optionThree setTitle:@"Wednesday" forState:UIControlStateNormal];
+    optionThree.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionThree addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionThree.tag=2;
+    [_dropDown addSubview:optionThree];
+    [_dropDown addSubview:imageThree];
+    
+    CGRect pictureFourFrame = CGRectMake(22, 64*4+24 , 20, 15);
+    imageFour = [[UIImageView alloc]initWithFrame:pictureFourFrame];
+    [imageFour setImage:[UIImage imageNamed:@""]];
+    CGRect buttonFourFrame = CGRectMake(0, 64*4, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    optionFour = [[UIButton alloc]init];
+    optionFour.frame=buttonFourFrame;
+    optionFour.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionFour setBackgroundColor:[UIColor blackColor]];
+    [optionFour setTitle:@"Thursday" forState:UIControlStateNormal];
+    optionFour.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionFour addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionFour.tag=3;
+    [_dropDown addSubview:optionFour];
+    [_dropDown addSubview:imageFour];
+    
+    CGRect pictureFiveFrame = CGRectMake(22, 64*5+24 , 20, 15);
+    imageFive = [[UIImageView alloc]initWithFrame:pictureFiveFrame];
+    [imageFive setImage:[UIImage imageNamed:@""]];
+    CGRect buttonFiveFrame = CGRectMake(0, 64*5, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    optionFive = [[UIButton alloc]init];
+    optionFive.frame=buttonFiveFrame;
+    optionFive.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionFive setBackgroundColor:[UIColor blackColor]];
+    [optionFive setTitle:@"Friday" forState:UIControlStateNormal];
+    optionFive.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionFive addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionFive.tag=4;
+    [_dropDown addSubview:optionFive];
+    [_dropDown addSubview:imageFive];
+    
+    CGRect pictureSixFrame = CGRectMake(22, 64*6+24 , 20, 15);
+    imageSix = [[UIImageView alloc]initWithFrame:pictureSixFrame];
+    [imageSix setImage:[UIImage imageNamed:@""]];
+    CGRect buttonSixFrame = CGRectMake(0, 64*6, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
+    optionSix = [[UIButton alloc]init];
+    optionSix.frame=buttonSixFrame;
+    optionSix.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionSix setBackgroundColor:[UIColor blackColor]];
+    [optionSix setTitle:@"Saturday" forState:UIControlStateNormal];
+    optionSix.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionSix addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionSix.tag=5;
+    [_dropDown addSubview:optionSix];
+    [_dropDown addSubview:imageSix];
+    
+    CGRect pictureSevenFrame = CGRectMake(22, 64*7+24 , 20, 15);
+    imageSeven = [[UIImageView alloc]initWithFrame:pictureSevenFrame];
+    [imageSeven setImage:[UIImage imageNamed:@""]];
+    CGRect buttonSevenFrame = CGRectMake(0, 64*7, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
+    optionSeven = [[UIButton alloc]init];
+    optionSeven.frame=buttonSevenFrame;
+    optionSeven.contentEdgeInsets = UIEdgeInsetsMake(0, 64, 0, 0);
+    [optionSeven setBackgroundColor:[UIColor blackColor]];
+    [optionSeven setTitle:@"Sunday" forState:UIControlStateNormal];
+    optionSeven.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [optionSeven addTarget:self action:@selector(optionPressed:) forControlEvents:UIControlEventTouchUpInside];
+    optionSeven.tag=6;
+    [_dropDown addSubview:optionSeven];
+    [_dropDown addSubview:imageSeven];
+    
+    [optionOne setAlpha:0.0];
+    [optionTwo setAlpha:0.0];
+    [optionThree setAlpha:0.0];
+    [optionFour setAlpha:0.0];
+    [optionFive setAlpha:0.0];
+    [optionSix setAlpha:0.0];
+    [optionSeven setAlpha:0.0];
+    [imageOne setAlpha:0.0];
+    [imageTwo setAlpha:0.0];
+    [imageThree setAlpha:0.0];
+    [imageFour setAlpha:0.0];
+    [imageFive setAlpha:0.0];
+    [imageSix setAlpha:0.0];
+    [imageSeven setAlpha:0.0];
+    [self.view insertSubview:_dropDown aboveSubview:_tableView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:_tableView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_dropDown attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    
+}
+
+
+-(IBAction)ListDroped:(id)sender{
+    if(!_isDroped){
+        
+        [UIView animateWithDuration:0.2 animations:^{
+            self.tableView.frame = CGRectMake(0, self.tableView.frame.origin.y + 64*8, CGRectGetWidth(initialTableViewFrame), CGRectGetHeight(initialTableViewFrame));
+            [self setButtonTitle];
+            [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.2 animations:^{
+                CGRect openedListFrame = CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64*8);
+                [_dropDown setFrame:openedListFrame];
+                _isDroped = YES;
+                [optionOne setAlpha:1.0];
+                [optionTwo setAlpha:1.0];
+                [optionThree setAlpha:1.0];
+                [optionFour setAlpha:1.0];
+                [optionFive setAlpha:1.0];
+                [optionSix setAlpha:1.0];
+                [optionSeven setAlpha:1.0];
+                [imageOne setAlpha:1.0];
+                [imageTwo setAlpha:1.0];
+                [imageThree setAlpha:1.0];
+                [imageFour setAlpha:1.0];
+                [imageFive setAlpha:1.0];
+                [imageSix setAlpha:1.0];
+                [imageSeven setAlpha:1.0];
+            }];
+        }];
+    } else{
+        [UIView animateWithDuration:0.05 animations:^{
+            [optionOne setAlpha:0.0];
+            [optionTwo setAlpha:0.0];
+            [optionThree setAlpha:0.0];
+            [optionFour setAlpha:0.0];
+            [optionFive setAlpha:0.0];
+            [optionSix setAlpha:0.0];
+            [optionSeven setAlpha:0.0];
+            [imageOne setAlpha:0.0];
+            [imageTwo setAlpha:0.0];
+            [imageThree setAlpha:0.0];
+            [imageFour setAlpha:0.0];
+            [imageFive setAlpha:0.0];
+            [imageSix setAlpha:0.0];
+            [imageSeven setAlpha:0.0];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.2 animations:^{
+                CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+                [_dropDown setFrame:dropDownFrame];
+                [self setButtonTitle];
+                [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
+                
+                self.tableView.frame = initialTableViewFrame;
+                _isDroped = NO;
+            }];
+        }];
+    }
+}
+
+-(void)setDropDownTitleButton{
+    if(_isDroped){
+        [self setButtonTitle];
+        [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
+        
+    }
+    else{
+        [self setButtonTitle];
+        [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
+        
+    }
+}
+
+-(IBAction)optionPressed:(UIButton*)sender{
+    
+    if(sender.tag==0){
+        [self setDropDownTitleButton];
+        _selectedButton=0;
+        _dropDownTitle=@"Monday";
+    }
+    else if(sender.tag==1){
+        [self setDropDownTitleButton];
+        _selectedButton=1;
+        _dropDownTitle=@"Tuesday";
+    }
+    else if(sender.tag==2){
+        [self setDropDownTitleButton];
+        _selectedButton=2;
+        _dropDownTitle=@"Wednesday";
+    }
+    else if(sender.tag==3){
+        [self setDropDownTitleButton];
+        _selectedButton=3;
+        _dropDownTitle=@"Thursday";
+    }
+    else if(sender.tag==4){
+        [self setDropDownTitleButton];
+        _selectedButton=4;
+        _dropDownTitle=@"Friday";
+    }
+    else if(sender.tag==5){
+        [self setDropDownTitleButton];
+        _selectedButton=5;
+        _dropDownTitle=@"Saturday";
+    }
+    else if(sender.tag==6){
+        [self setDropDownTitleButton];
+        _selectedButton=6;
+        _dropDownTitle=@"Sunday";
+    }
+
+    [self ListDroped:sender];
+    [self setupButtons];
+    [self setupAllMovies];
+    [self.tableView reloadData];
+}
+
+-(void)setupButtons{
+    NSString *selectedButton =@"DropDownSelected";
+    NSString *notSelectedButton=@"";
+    NSString *buttonOne;
+    NSString *buttonTwo;
+    NSString *buttonThree;
+    NSString *buttonFour;
+    NSString *buttonFive;
+    NSString *buttonSix;
+    NSString *buttonSeven;
+    
+    if(_selectedButton ==0){
+        buttonOne=selectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+        buttonSix=notSelectedButton;
+        buttonSeven=notSelectedButton;
+
+    }
+    else if(_selectedButton ==1){
+        buttonOne=notSelectedButton;
+        buttonTwo=selectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+        buttonSix=notSelectedButton;
+        buttonSeven=notSelectedButton;
+    }
+    else if(_selectedButton ==2){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=selectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+        buttonSix=notSelectedButton;
+        buttonSeven=notSelectedButton;
+    }
+    else if(_selectedButton ==3){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=selectedButton;
+        buttonFive=notSelectedButton;
+        buttonSix=notSelectedButton;
+        buttonSeven=notSelectedButton;
+    }
+    else if(_selectedButton ==4){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=selectedButton;
+        buttonSix=notSelectedButton;
+        buttonSeven=notSelectedButton;
+    }
+    else if(_selectedButton ==5){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+        buttonSix=selectedButton;
+        buttonSeven=notSelectedButton;
+    }
+    else if(_selectedButton ==6){
+        buttonOne=notSelectedButton;
+        buttonTwo=notSelectedButton;
+        buttonThree=notSelectedButton;
+        buttonFour=notSelectedButton;
+        buttonFive=notSelectedButton;
+        buttonSix=notSelectedButton;
+        buttonSeven=selectedButton;
+    }
+    [imageOne setImage:[UIImage imageNamed:buttonOne]];
+    [imageTwo setImage:[UIImage imageNamed:buttonTwo]];
+    [imageThree setImage:[UIImage imageNamed:buttonThree]];
+    [imageFour setImage:[UIImage imageNamed:buttonFour]];
+    [imageFive setImage:[UIImage imageNamed:buttonFive]];
+    [imageSix setImage:[UIImage imageNamed:buttonSix]];
+    [imageSeven setImage:[UIImage imageNamed:buttonSeven]];
+}
+
+
+//#setup allMovies
+
+-(void)setupAllMovies{
+    switch (_selectedButton) {
+        case 0:{
+            
+        }
+            break;
+        case 1:{
+            
+        }
+            break;
+        case 2:{
+            
+        }
+            break;
+        case 3:{
+            
+        }
+            break;
+        case 4:{
+            
+        }
+            break;
+        case 5:{
+            
+        }
+            break;
+        case 6:{
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+//#setup tableview
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [_comments count] > 0? [_comments count] :0;
+    return [_allMovies count] > 0? [_allMovies count] :0;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CinemaCell *cell = (CinemaCell*)[tableView dequeueReusableCellWithIdentifier:cinemaCellIdentifier forIndexPath:indexPath];
+    [cell setupWithMovie:[_allMovies objectAtIndex:indexPath.row]];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return ([UIScreen mainScreen].bounds.size.height-150)/3;
 }
 
 
@@ -112,13 +550,13 @@ withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
     
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

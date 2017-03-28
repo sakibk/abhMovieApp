@@ -358,7 +358,7 @@
                                     <outletCollection property="gestureRecognizers" destination="gcC-ad-Xda" appends="YES" id="VIG-IS-Yvf"/>
                                 </connections>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pv6-US-Rc0">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Pv6-US-Rc0">
                                 <rect key="frame" x="0.0" y="64" width="414" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="ttV-sT-KP3"/>
@@ -367,9 +367,10 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfG-Up-ZXw">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kfG-Up-ZXw">
                                 <rect key="frame" x="0.0" y="132" width="94" height="21"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="IaM-Lj-ee5"/>
                                     <constraint firstAttribute="width" constant="94" id="aP2-6W-Ay8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -436,7 +437,7 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Ddk-5R-li5">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="Ddk-5R-li5">
                                 <rect key="frame" x="0.0" y="64" width="414" height="60"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="dxE-E1-vaF"/>
@@ -445,10 +446,11 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRl-Dm-93a">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PRl-Dm-93a">
                                 <rect key="frame" x="0.0" y="132" width="191" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="191" id="6SX-kg-VXS"/>
+                                    <constraint firstAttribute="height" constant="21" id="Epd-Q0-3fJ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -934,14 +936,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vie-Cv-7Qd">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vie-Cv-7Qd">
                                 <rect key="frame" x="0.0" y="80" width="414" height="607"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.192" green="0.192" blue="0.192" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Vie-Cv-7Qd" secondAttribute="trailing" id="5Ox-KZ-gv9"/>
+                            <constraint firstItem="Vie-Cv-7Qd" firstAttribute="top" secondItem="8YY-Uv-HLx" secondAttribute="bottom" constant="64" id="AoR-Mb-LNz"/>
+                            <constraint firstItem="Vie-Cv-7Qd" firstAttribute="leading" secondItem="Tqh-YJ-LQr" secondAttribute="leading" id="MbH-5O-V0e"/>
+                            <constraint firstItem="CgY-20-q8v" firstAttribute="top" secondItem="Vie-Cv-7Qd" secondAttribute="bottom" id="V2e-5l-O5k"/>
+                        </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="tableView" destination="Vie-Cv-7Qd" id="ahF-s7-1WR"/>
                     </connections>
@@ -1376,6 +1385,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fQi-24-qVs"/>
-        <segue reference="7W3-4z-gvt"/>
+        <segue reference="d9N-gh-CQQ"/>
     </inferredMetricsTieBreakers>
 </document>

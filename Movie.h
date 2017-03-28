@@ -19,6 +19,8 @@
 #import "TrailerVideos.h"
 #import "Review.h"
 
+@import Firebase;
+
 @interface Movie : NSObject
 
 @property (strong, nonatomic) NSNumber *movieID;
@@ -42,6 +44,7 @@
 
 - (id) initWithObject:(RLMovie *)movie;
 -(void)setupWithTVMovie:(TVMovie *)singleObject;
+- (id) initWithSnap:(NSDictionary *)movie;
 
 +(NSDictionary*)elementToPropertyMappings;
 +(RKObjectMapping *)responseMapping;

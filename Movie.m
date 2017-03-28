@@ -22,16 +22,16 @@
 + (NSDictionary*)elementToPropertyMappings {
     
     NSDictionary *dict = @{
-                                      @"title": @"title",
-                                      @"vote_average": @"rating",
-                                      @"poster_path": @"posterPath",
-                                      @"release_date": @"releaseDate",
-                                      @"id": @"movieID",
-                                      @"runtime": @"runtime",
-                                      @"backdrop_path": @"backdropPath",
-                                      @"overview": @"overview",
-                                      @"genre_ids": @"genreIds"
-                                      };
+                           @"title": @"title",
+                           @"vote_average": @"rating",
+                           @"poster_path": @"posterPath",
+                           @"release_date": @"releaseDate",
+                           @"id": @"movieID",
+                           @"runtime": @"runtime",
+                           @"backdrop_path": @"backdropPath",
+                           @"overview": @"overview",
+                           @"genre_ids": @"genreIds"
+                           };
     return dict;
 }
 
@@ -134,5 +134,34 @@
         [self.reviews addObject:[[Review alloc] initWithReview:rw]];
     return self;
 }
+
+- (id) initWithSnap:(NSDictionary *)movie{
+    self=[super init];
+    self.movieID = movie[@"id"];
+    self.title = movie[@"title"];
+    self.overview = movie[@"overview"];
+    self.backdropPath = movie[@"backdrop_path"];
+    self.posterPath = movie[@"poster_path"];
+    self.rating = movie[@"vote_average"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd"];
+    //EE - kod za naziv dana
+    self.releaseDate = [dateFormatter dateFromString:movie[@"release_date"]];
+    NSMutableArray *gen = [[NSMutableArray alloc] init];
+    Genre *g = [[Genre alloc] init];
+    int i = 0;
+    for (NSString *nm in movie[@"genres"]){
+        if(nm !=nil){
+            g.genreName = nm;
+            g.genreID=[NSNumber numberWithInt:i];
+            [gen addObject:g];
+            i++;
+        }
+        
+    }
+    self.genres =[[NSArray alloc]initWithArray:gen];
+    return self;
+}
+
 
 @end

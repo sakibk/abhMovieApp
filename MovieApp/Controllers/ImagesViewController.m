@@ -57,12 +57,14 @@
     _isConnected = [ConnectivityTest isConnected];
     if(_isConnected)
         [self getMovieImages:singleMovie];
-    else
+    else{
         [self getStoredMovieImages:singleMovie];
+        [self setupMovieLabels:singleMovie.title];
+    }
 }
 
 -(void)getStoredMovieImages:(Movie *)singleMovie{
-    [self setupMovieLabels:singleMovie.title];
+   
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
     RLMovie *mv = mvs.firstObject;
     if(mv.images.firstObject!=nil){
@@ -127,12 +129,14 @@
     _isConnected = [ConnectivityTest isConnected];
     if(_isConnected)
         [self getShowImages:singleShow];
-    else
+    else{
         [self getStoredShowImages:singleShow];
+        [self setupShowLabels:singleShow.name];
+    }
+    
 }
 
 -(void)getStoredShowImages:(TVShow *)singleShow{
-    [self setupShowLabels:singleShow.name];
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
     if(tv.images.firstObject!=nil){

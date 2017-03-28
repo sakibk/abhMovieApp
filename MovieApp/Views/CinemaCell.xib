@@ -16,11 +16,11 @@
             <rect key="frame" x="0.0" y="0.0" width="394" height="200"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0za-Gc-U0B" id="E3h-gM-hZY">
-                <rect key="frame" x="0.0" y="0.0" width="394" height="199"/>
+                <rect key="frame" x="0.0" y="0.0" width="394" height="200"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7lh-Vh-Ke8">
-                        <rect key="frame" x="10" y="5" width="374" height="190"/>
+                        <rect key="frame" x="10" y="5" width="374" height="189"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0MB-T7-QYZ">
                         <rect key="frame" x="25" y="127" width="344" height="21"/>
@@ -80,8 +80,9 @@
                     <constraint firstItem="7EZ-pg-F3J" firstAttribute="top" secondItem="5l7-Gx-TYc" secondAttribute="bottom" constant="4" id="yYo-Y2-nHc"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
-                <outlet property="backdropImage" destination="E3h-gM-hZY" id="1NG-LJ-jNm"/>
+                <outlet property="backdropImage" destination="7lh-Vh-Ke8" id="QdC-ad-wy3"/>
                 <outlet property="genreLabel" destination="5l7-Gx-TYc" id="eQR-nh-JN1"/>
                 <outlet property="movieTitle" destination="0MB-T7-QYZ" id="HbH-bS-vAo"/>
                 <outlet property="rating" destination="7EZ-pg-F3J" id="nNP-Vv-N2j"/>

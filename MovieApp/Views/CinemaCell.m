@@ -33,10 +33,10 @@ NSString *const cinemaCellIdentifier=@"CinemaCellIdentifier";
     
     _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",mov.title,(long)year];
     if([mov.genres count]>1){
-        _genreLabel.text = [NSString stringWithFormat:@"%@/%@",[mov.genres objectAtIndex:0],[mov.genres objectAtIndex:1]];
+        _genreLabel.text = [NSString stringWithFormat:@"%@/%@",[mov.genres objectAtIndex:0].genreName,[mov.genres objectAtIndex:1].genreName];
     }
     else if ([mov.genres count]==1){
-        _genreLabel.text = [NSString stringWithFormat:@"%@",[mov.genres objectAtIndex:0]];
+        _genreLabel.text = [NSString stringWithFormat:@"%@",[mov.genres objectAtIndex:0].genreName];
     }
     if(mov.rating!=nil){
         _rating.text = [NSString stringWithFormat:@"%@",mov.rating];
@@ -59,7 +59,6 @@ NSString *const cinemaCellIdentifier=@"CinemaCellIdentifier";
 }
 
 -(void)setPicture:(NSString*)picPath{
-    [_backdropImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780/",picPath]]
-                   placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noBackdropAvalible"]]];
+    [_backdropImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w780",picPath]] placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"noBackdropAvalible"]]];
 }
 @end

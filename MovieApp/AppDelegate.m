@@ -206,10 +206,10 @@
                 [self rateWith:rl.mediaID ifMedia:rl.isMovie postOrDelete:rl.toSet rate:rl.rate];
             else
                 [self postToList:rl.listName forList:rl.toSet with:rl.mediaID ifMedia:rl.isMovie];
-            [[RLMRealm defaultRealm] beginWriteTransaction];
-            [[RLMRealm defaultRealm] deleteObject:rl];
-            [[RLMRealm defaultRealm] commitWriteTransaction];
         }
+        [[RLMRealm defaultRealm] beginWriteTransaction];
+        [[RLMRealm defaultRealm] deleteObjects:rlr];
+        [[RLMRealm defaultRealm] commitWriteTransaction];
     };
     
     reachability.unreachableBlock = ^(Reachability *reachability) {
