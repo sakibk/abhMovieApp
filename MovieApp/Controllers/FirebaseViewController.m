@@ -9,6 +9,7 @@
 #import "FirebaseViewController.h"
 #import "CinemaCell.h"
 #import "Movie.h"
+#import "FirebaseDetailViewController.h"
 
 @import Firebase;
 
@@ -17,6 +18,7 @@
 @property (strong, nonatomic) FIRDatabaseReference *postRef;
 @property (strong, nonatomic) FIRDatabaseReference *commentsRef;
 @property(strong, nonatomic) NSMutableArray<Movie*> *allMovies;
+@property(strong, nonatomic) NSMutableArray<Movie*> *showingMovie;
 
 @property NSString *dropDownTitle;
 @property int selectedButton;
@@ -56,10 +58,11 @@
     self.commentsRef = [ref child:@"Movies"];
     self.comments =[[NSMutableArray alloc] init];
     _allMovies = [[NSMutableArray alloc] init];
+    _showingMovie = [[NSMutableArray alloc] init];
     [_tableView registerNib:[UINib nibWithNibName:@"CinemaCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:cinemaCellIdentifier];
     _tableView.delegate=self;
     _tableView.dataSource=self;
-       [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    [[self navigationController] setNavigationBarHidden:NO animated:YES];
     //    [self setupButton];
     [self setupVariables];
     [self CreateDropDownList];
@@ -83,6 +86,7 @@
      withBlock:^(FIRDataSnapshot *snapshot) {
          [self.comments addObject:snapshot];
          [_allMovies addObject:[[Movie alloc] initWithSnap:snapshot.value]];
+         [self setupShowingMovies];
          [self.tableView reloadData];
      }];
     // Listen for deleted comments in the Firebase database
@@ -394,10 +398,10 @@
         _selectedButton=6;
         _dropDownTitle=@"Sunday";
     }
-
+    
     [self ListDroped:sender];
     [self setupButtons];
-    [self setupAllMovies];
+    [self setupShowingMovies];
     [self.tableView reloadData];
 }
 
@@ -420,7 +424,7 @@
         buttonFive=notSelectedButton;
         buttonSix=notSelectedButton;
         buttonSeven=notSelectedButton;
-
+        
     }
     else if(_selectedButton ==1){
         buttonOne=notSelectedButton;
@@ -488,39 +492,52 @@
 
 //#setup allMovies
 
--(void)setupAllMovies{
-    switch (_selectedButton) {
-        case 0:{
-            
+-(void)setupShowingMovies{
+    _showingMovie = [[NSMutableArray alloc] init];
+    for(Movie *mv in _allMovies){
+        switch (_selectedButton) {
+            case 0:{
+                for(int i=0; i<[mv.playingDays count];i++){
+                    if( [[[mv.playingDays objectAtIndex:i] playingDay] isEqualToString:@"Monday"]){
+                        [_showingMovie addObject:mv];
+                    }}}
+                break;
+            case 1:{
+                for(int i=0; i<[mv.playingDays count];i++){
+                    if( [[[mv.playingDays objectAtIndex:i] playingDay] isEqualToString:@"Tuesday"]){
+                        [_showingMovie addObject:mv];
+                    }}}
+                break;
+            case 2:{
+                for(int i=0; i<[mv.playingDays count];i++){
+                    if( [[[mv.playingDays objectAtIndex:i] playingDay] isEqualToString:@"Wednesday"]){
+                        [_showingMovie addObject:mv];
+                    }}}
+                break;
+            case 3:{for(int i=0; i<[mv.playingDays count];i++){
+                if( [[[mv.playingDays objectAtIndex:i] playingDay] isEqualToString:@"Thursday"]){
+                    [_showingMovie addObject:mv];
+                }}}
+                break;
+            case 4:{for(int i=0; i<[mv.playingDays count];i++){
+                if( [[[mv.playingDays objectAtIndex:i] playingDay] isEqualToString:@"Friday"]){
+                    [_showingMovie addObject:mv];
+                }}}
+                break;
+            case 5:{for(int i=0; i<[mv.playingDays count];i++){
+                if( [[[mv.playingDays objectAtIndex:i] playingDay] isEqualToString:@"Saturday"]){
+                    [_showingMovie addObject:mv];
+                }}}
+                break;
+            case 6:{for(int i=0; i<[mv.playingDays count];i++){
+                if( [[[mv.playingDays objectAtIndex:i] playingDay] isEqualToString:@"Sunday"]){
+                    [_showingMovie addObject:mv];
+                }}}
+                break;
+                
+            default:
+                break;
         }
-            break;
-        case 1:{
-            
-        }
-            break;
-        case 2:{
-            
-        }
-            break;
-        case 3:{
-            
-        }
-            break;
-        case 4:{
-            
-        }
-            break;
-        case 5:{
-            
-        }
-            break;
-        case 6:{
-            
-        }
-            break;
-            
-        default:
-            break;
     }
 }
 
@@ -530,13 +547,13 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [_allMovies count] > 0? [_allMovies count] :0;
+    return [_showingMovie count] > 0? [_showingMovie count] :0;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     CinemaCell *cell = (CinemaCell*)[tableView dequeueReusableCellWithIdentifier:cinemaCellIdentifier forIndexPath:indexPath];
-    [cell setupWithMovie:[_allMovies objectAtIndex:indexPath.row]];
+    [cell setupWithMovie:[_showingMovie objectAtIndex:indexPath.row]];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
@@ -547,7 +564,10 @@
 
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    FirebaseDetailViewController *firebaseDetails = (FirebaseDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"FirebaseDetailController"];
+    firebaseDetails.singleMovie = [_showingMovie objectAtIndex:indexPath.row];
+    [self.navigationController pushViewController:firebaseDetails animated:YES];
 }
 /*
  #pragma mark - Navigation

@@ -160,6 +160,23 @@
         
     }
     self.genres =[[NSArray alloc]initWithArray:gen];
+    
+    self.playingDays = [[NSMutableArray alloc] init];
+
+    
+    for(int i=0; i<[movie[@"days_playing"] count];i++){
+        if(![[movie[@"days_playing"] objectAtIndex:i] isKindOfClass:[NSNull class]]){
+        DaysPlaying *pd = [[DaysPlaying alloc] init];
+        pd.playingDate =[dateFormatter dateFromString:[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"date"]];
+        pd.playingDay=[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"day"];
+            pd.playingHours =[[NSMutableArray alloc] init];
+            for(NSString* str in [[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"hours"]){
+                if(str!=nil)
+                    [pd.playingHours addObject:str];
+            }
+            [self.playingDays addObject:pd];
+           }
+    }
     return self;
 }
 

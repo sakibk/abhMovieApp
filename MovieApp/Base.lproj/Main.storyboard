@@ -953,6 +953,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="tableView" destination="Vie-Cv-7Qd" id="ahF-s7-1WR"/>
+                        <segue destination="jLy-e7-V00" kind="show" identifier="FirebaseDetailIdentifier" id="PK6-Qj-pHR"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2OK-OC-4kU" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1090,6 +1091,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ICe-ak-MTF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1707" y="-1208"/>
+        </scene>
+        <!--Firebase Detail View Controller-->
+        <scene sceneID="CGF-w3-4qC">
+            <objects>
+                <viewController storyboardIdentifier="FirebaseDetailController" id="jLy-e7-V00" customClass="FirebaseDetailViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="g1c-He-oWd"/>
+                        <viewControllerLayoutGuide type="bottom" id="C6e-Mw-Sez"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ums-g3-8Zu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q30-oH-dI6">
+                                <rect key="frame" x="0.0" y="28" width="414" height="659"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="q30-oH-dI6" id="Zeq-CJ-0fF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5nz-oY-KC4" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3502.898550724638" y="-1962.2282608695655"/>
         </scene>
         <!--Registration View Controller-->
         <scene sceneID="p7A-DN-RmH">

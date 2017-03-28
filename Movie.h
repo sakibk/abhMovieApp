@@ -18,6 +18,7 @@
 #import "Crew.h"
 #import "TrailerVideos.h"
 #import "Review.h"
+#import "DaysPlaying.h"
 
 @import Firebase;
 
@@ -33,6 +34,7 @@
 @property (strong, nonatomic) NSString *singleGenre;
 @property (strong, nonatomic) NSString *overview;
 @property (strong, nonatomic) NSNumber *userRate;
+@property (strong, nonatomic) NSMutableArray<DaysPlaying*> *playingDays;
 @property (strong, nonatomic) NSArray<Genre *> *genres;
 @property (strong, nonatomic) NSMutableArray<Crew *> *crews;
 @property (strong, nonatomic) NSSet<Genre *> *genreSet;
