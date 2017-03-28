@@ -138,6 +138,7 @@
 }
 
 -(IBAction)rateMe:(id)sender{
+    _isConnected = [ConnectivityTest isConnected];
     if(!_didRate){
         ReconnectedList* rl = [[ReconnectedList alloc] init];
         rl.isMovie = _isMovie;
@@ -146,7 +147,9 @@
             if(_isMovie){
                 RLMResults<RLMovie*> *movies=[RLMovie objectsWhere:@"movieID = %@",_singleMovie.movieID];
                 RLMovie *mov = movies.firstObject;
+                [_realm beginWriteTransaction];
                 mov.userRate=_rate;
+                [_realm commitWriteTransaction];
                 rl.mediaID = _singleMovie.movieID;
                 [_user addToRatedMovies:mov];
                 if(_isConnected)
@@ -160,7 +163,9 @@
             else{
                 RLMResults<RLTVShow*> *tvs =[RLTVShow objectsWhere:@"showID = %@",_singleShow.showID];
                 RLTVShow *tv = tvs.firstObject;
+                [_realm beginWriteTransaction];
                 tv.userRate=_rate;
+                [_realm commitWriteTransaction];
                 rl.mediaID=_singleShow.showID;
                 [_user addToRatedShows:tv];
                 if(_isConnected)

@@ -826,7 +826,7 @@
             }
                 break;
             case 5:{
-                return _allReviews.firstObject != nil ? [_allReviews count] : 0;;
+                return _allReviews.firstObject != nil ? [_allReviews count] : 0;
             }
                 break;
             default: return 0;
@@ -957,7 +957,7 @@
                     return _overviewCellHeight;
                 else{
                     if(indexPath.row==0)
-                        return [[_cellOverviewHeights objectAtIndex:0]floatValue]+4;
+                        return [[_cellOverviewHeights objectAtIndex:0]floatValue];
                     else
                         return [[_cellOverviewHeights objectAtIndex:indexPath.row] floatValue];
                 }

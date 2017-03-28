@@ -12,6 +12,7 @@
 #import "LoginViewController.h"
 #import "ListsViewController.h"
 #import "SettingsViewController.h"
+#import "FirebaseViewController.h"
 
 @interface LeftViewController ()
 
@@ -60,9 +61,9 @@
                                   @"Your Watchlist",
                                   @"Your Ratings",
                                   @"More",
+                                  @"Cinema",
                                   @"Settings",
                                   @"Logout",
-                                  @"",
                                   @"",
                                   @"",
                                   @"",
@@ -79,9 +80,9 @@
                              @"WatchlistButton",
                              @"RatingsButton",
                              @"",
+                             @"Cinema",
                              @"SettingsButton",
                              @"LogoutButton",
-                             @"",
                              @"",
                              @"",
                              @"",
@@ -301,6 +302,13 @@
                 }
                     break;
                 case 5:{
+                    [cell.imageView setImage:[UIImage imageNamed:@"YellowCinema"]];
+                    FirebaseViewController *firebaseController = (FirebaseViewController *)[storyboard instantiateViewControllerWithIdentifier:@"FirebaseViewController"];
+                    [self.navigationController pushViewController:firebaseController animated:YES];
+                    [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
+                }
+                    break;
+                case 6:{
                     [cell.imageView setImage:[UIImage imageNamed:@"YellowSettingsButton"]];
                     SettingsViewController *settingsView = (SettingsViewController*)[storyboard instantiateViewControllerWithIdentifier:@"SettingsViewController"];
                     [self.navigationController pushViewController:settingsView animated:YES];
@@ -308,7 +316,7 @@
                     [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
                 }
                     break;
-                case 6:{
+                case 7:{
                     [cell.imageView setImage:[UIImage imageNamed:@"YellowLogoutButton"]];
                     [_menuButton setAlpha:0.0];
                     [self.sideMenuController hideLeftViewAnimated:NO completionHandler:nil];

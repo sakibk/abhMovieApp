@@ -62,6 +62,7 @@
 }
 
 -(void)getStoredMovieImages:(Movie *)singleMovie{
+    [self setupMovieLabels:singleMovie.title];
     RLMResults<RLMovie*> *mvs = [RLMovie objectsWhere:@"movieID = %@",singleMovie.movieID];
     RLMovie *mv = mvs.firstObject;
     if(mv.images.firstObject!=nil){
@@ -71,7 +72,7 @@
         [self.collectionView reloadData];
     }
     else{
-        //connect to proceede
+        //reconnect
     }
 }
 
@@ -112,7 +113,12 @@
 -(void)setupMovieLabels:(NSString*)movieTitle{
     self.navigationItem.title =@"Movies";
     _imageGalleryTitle.text = [NSString stringWithFormat:@"  Image gallery: %@",movieTitle];
+    if([_allImagePaths count]){
     _imageCount.text = [NSString stringWithFormat:@"  %lu images",(unsigned long)[_allImagePaths count]];
+    }
+    else{
+        _imageCount.text = [NSString stringWithFormat:@"  %d images",0];
+    }
     _galleryTitle=movieTitle;
     _isMovie=YES;
 }
@@ -126,6 +132,7 @@
 }
 
 -(void)getStoredShowImages:(TVShow *)singleShow{
+    [self setupShowLabels:singleShow.name];
     RLMResults<RLTVShow*> *tvs = [RLTVShow objectsWhere:@"showID = %@",singleShow.showID];
     RLTVShow *tv = tvs.firstObject;
     if(tv.images.firstObject!=nil){
@@ -174,7 +181,13 @@
 -(void)setupShowLabels:(NSString*)showTitle{
     self.navigationItem.title =@"TV Show";
     _imageGalleryTitle.text = [NSString stringWithFormat:@"  Image gallery: %@",showTitle];
-    _imageCount.text = [NSString stringWithFormat:@"  %lu images",(unsigned long)[_allImagePaths count]];
+    if([_allImagePaths count]){
+        _imageCount.text = [NSString stringWithFormat:@"  %lu images",(unsigned long)[_allImagePaths count]];
+    }
+    else{
+        _imageCount.text = [NSString stringWithFormat:@"  %d images",0];
+    }
+    
     _galleryTitle=showTitle;
     _isMovie=NO;
 }

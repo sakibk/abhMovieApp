@@ -43,6 +43,10 @@
     if(_isEpisode){
         [self setupWithTVEpisode];
     }
+    _isConnected = [ConnectivityTest isConnected];
+    if (!_isConnected) {
+        [_dropDown setAlpha:1.0];
+    }
     // Do any additional setup after loading the view.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
 }

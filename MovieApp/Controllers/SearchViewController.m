@@ -58,6 +58,7 @@
     if(!_isConnected){
         [_dropDown setAlpha:1.0];
         [_searchBar setUserInteractionEnabled:NO];
+        self.navigationController.interactivePopGestureRecognizer.enabled = YES;
     }
 }
 
@@ -190,6 +191,15 @@
     _searchBar.keyboardType=UIKeyboardTypeDefault;
     _searchBar.keyboardAppearance=UIKeyboardAppearanceDark;
     self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+    for (UIView *possibleButton in _searchBar.subviews)
+    {
+        if ([possibleButton isKindOfClass:[UIButton class]])
+        {
+            UIButton *cancelButton = (UIButton*)possibleButton;
+            cancelButton.enabled = YES;
+            break;
+        }
+    }
 }
 
 -(void)searchForString{

@@ -1162,7 +1162,8 @@ RLM_ARRAY_TYPE(Movie);
     else {
         [cell setupShowCell:[_allShows objectAtIndex:indexPath.row]];
     }
-    
+            _test = [_allMovies objectAtIndex:indexPath.row];
+             _tvTest = [_allShows objectAtIndex:indexPath.row];
     if(_isLoged){
         if(_isMovie){
             if([[[_user watchlistMovies] valueForKey:@"movieID"] containsObject:_test.movieID]){

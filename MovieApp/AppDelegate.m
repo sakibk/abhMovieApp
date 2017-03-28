@@ -24,7 +24,8 @@
 #import <Reachability/Reachability.h>
 #import "ListPost.h"
 #import "RLUserInfo.h"
-#import <Firebase.h>
+
+@import Firebase;
 
 @interface AppDelegate ()
 @property NSMutableArray<Movie*> *notifMovies;

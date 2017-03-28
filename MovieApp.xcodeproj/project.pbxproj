@@ -60,6 +60,8 @@
 		AD34A0311E3BDD9E009C4367 /* SingleReviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A0301E3BDD9E009C4367 /* SingleReviewCell.m */; };
 		AD34A0331E3BDDC3009C4367 /* SingleReviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD34A0321E3BDDC3009C4367 /* SingleReviewCell.xib */; };
 		AD34A0361E3CB852009C4367 /* Crew.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34A0351E3CB851009C4367 /* Crew.m */; };
+		AD3718B51E89C29900006506 /* CinemaCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD3718B41E89C29900006506 /* CinemaCell.xib */; };
+		AD3718B81E89C2B700006506 /* CinemaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3718B71E89C2B700006506 /* CinemaCell.m */; };
 		AD4F93631E41CE1C00E55630 /* SeasonsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD4F93621E41CE1C00E55630 /* SeasonsCell.xib */; };
 		AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93651E41CE4900E55630 /* SeasonsCell.m */; };
 		AD4F93691E41D3A300E55630 /* Season.m in Sources */ = {isa = PBXBuildFile; fileRef = AD4F93681E41D3A300E55630 /* Season.m */; };
@@ -107,6 +109,7 @@
 		ADADC96B1E506ADB00EF25D8 /* EpisodeDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */; };
 		ADADC96E1E506B1100EF25D8 /* EpisodeDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADADC96D1E506B1100EF25D8 /* EpisodeDetailsCell.m */; };
 		ADBDE5CF1E872E03003D2A81 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADBDE5CE1E872E03003D2A81 /* GoogleService-Info.plist */; };
+		ADBDE5D31E8907CE003D2A81 /* FirebaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADBDE5D21E8907CE003D2A81 /* FirebaseViewController.m */; };
 		ADC07D101E5C289200172221 /* RatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D0F1E5C289200172221 /* RatingViewController.m */; };
 		ADC07D141E5C6A2700172221 /* RLMovie.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D131E5C6A2700172221 /* RLMovie.m */; };
 		ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */ = {isa = PBXBuildFile; fileRef = ADC07D161E5C6FA500172221 /* RLTVShow.m */; };
@@ -221,6 +224,9 @@
 		AD34A0321E3BDDC3009C4367 /* SingleReviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SingleReviewCell.xib; path = Views/SingleReviewCell.xib; sourceTree = "<group>"; };
 		AD34A0341E3CB851009C4367 /* Crew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Crew.h; path = MovieApp/Models/Crew.h; sourceTree = "<group>"; };
 		AD34A0351E3CB851009C4367 /* Crew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Crew.m; path = MovieApp/Models/Crew.m; sourceTree = "<group>"; };
+		AD3718B41E89C29900006506 /* CinemaCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CinemaCell.xib; path = Views/CinemaCell.xib; sourceTree = "<group>"; };
+		AD3718B61E89C2B700006506 /* CinemaCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CinemaCell.h; path = Views/CinemaCell.h; sourceTree = "<group>"; };
+		AD3718B71E89C2B700006506 /* CinemaCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CinemaCell.m; path = Views/CinemaCell.m; sourceTree = "<group>"; };
 		AD4F93621E41CE1C00E55630 /* SeasonsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SeasonsCell.xib; path = Views/SeasonsCell.xib; sourceTree = "<group>"; };
 		AD4F93641E41CE4900E55630 /* SeasonsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeasonsCell.h; path = Views/SeasonsCell.h; sourceTree = "<group>"; };
 		AD4F93651E41CE4900E55630 /* SeasonsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = SeasonsCell.m; path = Views/SeasonsCell.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -304,6 +310,8 @@
 		ADADC96C1E506B1100EF25D8 /* EpisodeDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeDetailsCell.h; path = Views/EpisodeDetailsCell.h; sourceTree = "<group>"; };
 		ADADC96D1E506B1100EF25D8 /* EpisodeDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeDetailsCell.m; path = Views/EpisodeDetailsCell.m; sourceTree = "<group>"; };
 		ADBDE5CE1E872E03003D2A81 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		ADBDE5D11E8907CE003D2A81 /* FirebaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirebaseViewController.h; path = Controllers/FirebaseViewController.h; sourceTree = "<group>"; };
+		ADBDE5D21E8907CE003D2A81 /* FirebaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirebaseViewController.m; path = Controllers/FirebaseViewController.m; sourceTree = "<group>"; };
 		ADC07D0E1E5C289200172221 /* RatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RatingViewController.h; path = Controllers/RatingViewController.h; sourceTree = "<group>"; };
 		ADC07D0F1E5C289200172221 /* RatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RatingViewController.m; path = Controllers/RatingViewController.m; sourceTree = "<group>"; };
 		ADC07D121E5C6A2700172221 /* RLMovie.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMovie.h; path = MovieApp/PersistentModels/RLMovie.h; sourceTree = "<group>"; };
@@ -516,6 +524,7 @@
 		AD1783841E2E45A80037DC44 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				AD3718B31E89C27500006506 /* Cinema */,
 				AD86961F1E55998F009B75F0 /* SideBar */,
 				AD4F93841E4B935100E55630 /* Actor */,
 				AD4F936A1E48A2A200E55630 /* Search */,
@@ -539,6 +548,7 @@
 				AD13A6011E5E566600671C41 /* LoginView */,
 				AD64D8341E5A17BA00DAE191 /* ListView */,
 				ADD9C7C31E65D19C001A1809 /* InAppNotificationView */,
+				ADBDE5D01E8906D0003D2A81 /* FirebaseStripe */,
 			);
 			name = Controllers;
 			path = MovieApp;
@@ -596,6 +606,16 @@
 				AD34A0111E3A49EB009C4367 /* RKObjectManager+SharedInstances.m */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		AD3718B31E89C27500006506 /* Cinema */ = {
+			isa = PBXGroup;
+			children = (
+				AD3718B41E89C29900006506 /* CinemaCell.xib */,
+				AD3718B61E89C2B700006506 /* CinemaCell.h */,
+				AD3718B71E89C2B700006506 /* CinemaCell.m */,
+			);
+			name = Cinema;
 			sourceTree = "<group>";
 		};
 		AD4F936A1E48A2A200E55630 /* Search */ = {
@@ -735,6 +755,15 @@
 				AD4F93A81E4E76F800E55630 /* SeasonsView */,
 			);
 			name = DetailView;
+			sourceTree = "<group>";
+		};
+		ADBDE5D01E8906D0003D2A81 /* FirebaseStripe */ = {
+			isa = PBXGroup;
+			children = (
+				ADBDE5D11E8907CE003D2A81 /* FirebaseViewController.h */,
+				ADBDE5D21E8907CE003D2A81 /* FirebaseViewController.m */,
+			);
+			name = FirebaseStripe;
 			sourceTree = "<group>";
 		};
 		ADC07D111E5C69E800172221 /* Persistent Models */ = {
@@ -982,6 +1011,7 @@
 				AD34A0271E3B96FD009C4367 /* ReviewsCell.xib in Resources */,
 				AD349FF41E3972F2009C4367 /* PictureDetailCell.xib in Resources */,
 				AD4F93B01E4E838C00E55630 /* SingleSeasonCell.xib in Resources */,
+				AD3718B51E89C29900006506 /* CinemaCell.xib in Resources */,
 				AD1783881E2E499C0037DC44 /* MovieCell.xib in Resources */,
 				AD34A0031E39FEDC009C4367 /* ImageCollectionCell.xib in Resources */,
 				ADF64D221E2D0528000DFCFA /* Main.storyboard in Resources */,
@@ -1086,6 +1116,7 @@
 				AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */,
 				AD0C91681E7DECB600049DB4 /* RLMReview.m in Sources */,
 				AD34A0311E3BDD9E009C4367 /* SingleReviewCell.m in Sources */,
+				AD3718B81E89C2B700006506 /* CinemaCell.m in Sources */,
 				AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */,
 				AD86961E1E559984009B75F0 /* LeftViewCell.m in Sources */,
 				AD0C91521E7ABC8E00049DB4 /* RLMStoredObjects.m in Sources */,
@@ -1093,6 +1124,7 @@
 				AD34A01D1E3B7A12009C4367 /* CastCollectionCell.m in Sources */,
 				ADC07D101E5C289200172221 /* RatingViewController.m in Sources */,
 				ADA981611E801FC4005663B6 /* RLMListType.m in Sources */,
+				ADBDE5D31E8907CE003D2A81 /* FirebaseViewController.m in Sources */,
 				AD4F93801E4B38AC00E55630 /* ActorDetailsViewController.m in Sources */,
 				ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */,
 				AD4F939C1E4C809700E55630 /* TrailerVideos.m in Sources */,

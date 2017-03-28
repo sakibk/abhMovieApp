@@ -15,6 +15,8 @@ target 'MovieApp' do
  pod 'HCSStarRatingView', '~> 1.4.5'
  pod 'Reachability', '~> 3.2'
  pod 'Firebase/Core'
+ pod 'Firebase/Storage'
+ pod 'Firebase/Database'
   # Pods for MovieApp
 
 end
