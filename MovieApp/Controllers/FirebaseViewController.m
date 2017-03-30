@@ -52,35 +52,55 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    FIRDatabaseReference *ref = [FIRDatabase database].reference;
-    self.postRef = [ref child:@"Movies"];
-    self.commentsRef = [ref child:@"Movies"];
-    self.comments =[[NSMutableArray alloc] init];
-    _allMovies = [[NSMutableArray alloc] init];
-    _showingMovie = [[NSMutableArray alloc] init];
-    [_tableView registerNib:[UINib nibWithNibName:@"CinemaCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:cinemaCellIdentifier];
+    // Do any additional setup after loading the view
     _tableView.delegate=self;
     _tableView.dataSource=self;
-    [[self navigationController] setNavigationBarHidden:NO animated:YES];
+    [self setupView];
     //    [self setupButton];
     [self setupVariables];
     [self CreateDropDownList];
+    [self setObservers];
 }
+
+-(void)setupView{
+    if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
+        self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+    }
+    [self.navigationController.navigationBar setHidden:NO];
+    [self setNavBarTitle];
+    
+}
+-(void)setNavBarTitle{
+    self.navigationItem.leftBarButtonItem.tintColor=[UIColor lightGrayColor];
+    UIView *iv = [[UIView alloc] initWithFrame:CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width-150, 27)];
+    [iv setBackgroundColor:[UIColor clearColor]];
+    UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, iv.frame.size.width, 27)];
+    titleLabel.textAlignment=NSTextAlignmentCenter;
+    titleLabel.font=[UIFont systemFontOfSize:18];
+        titleLabel.text= @"Cinema";
+
+    titleLabel.textColor=[UIColor whiteColor];
+    [iv addSubview:titleLabel];
+    self.navigationItem.titleView = iv;
+}
+
 
 -(void)setupVariables{
     _isDroped = NO;
     _isNavBarSet=NO;
     _dropDownTitle=@"Movies";
     _selectedButton = 0;
+    FIRDatabaseReference *ref = [FIRDatabase database].reference;
+    self.postRef = [ref child:@"Movies"];
+    self.commentsRef = [ref child:@"Movies"];
+    self.comments =[[NSMutableArray alloc] init];
+    _allMovies = [[NSMutableArray alloc] init];
+    _showingMovie = [[NSMutableArray alloc] init];
+    
+    [_tableView registerNib:[UINib nibWithNibName:@"CinemaCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:cinemaCellIdentifier];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
--(void)viewWillAppear:(BOOL)animated{
+-(void)setObservers{
     [_commentsRef
      observeEventType:FIRDataEventTypeChildAdded
      withBlock:^(FIRDataSnapshot *snapshot) {
@@ -102,6 +122,14 @@
         NSLog(@"%@",postDict);
         // [END_EXCLUDE]
     }];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)viewWillAppear:(BOOL)animated{
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -147,10 +175,10 @@
 }
 
 -(void)CreateDropDownList{
-    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
+    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width-[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
-    CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+    CGRect dropDownFrame =CGRectMake(0, 14, [[UIScreen mainScreen] bounds].size.width, 64);
     _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
     [_dropDown setBackgroundColor:[UIColor darkGrayColor]];
     CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
@@ -299,7 +327,7 @@
             [dropDownImage setImage:[UIImage imageNamed:@"DropDownUp"]];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
-                CGRect openedListFrame = CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64*8);
+                CGRect openedListFrame = CGRectMake(0, 14, [[UIScreen mainScreen] bounds].size.width, 64*8);
                 [_dropDown setFrame:openedListFrame];
                 _isDroped = YES;
                 [optionOne setAlpha:1.0];
@@ -336,7 +364,7 @@
             [imageSeven setAlpha:0.0];
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.2 animations:^{
-                CGRect dropDownFrame =CGRectMake(0, 64, [[UIScreen mainScreen] bounds].size.width, 64);
+                CGRect dropDownFrame =CGRectMake(0, 14, [[UIScreen mainScreen] bounds].size.width, 64);
                 [_dropDown setFrame:dropDownFrame];
                 [self setButtonTitle];
                 [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
@@ -567,6 +595,50 @@
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     FirebaseDetailViewController *firebaseDetails = (FirebaseDetailViewController*)[storyboard instantiateViewControllerWithIdentifier:@"FirebaseDetailController"];
     firebaseDetails.singleMovie = [_showingMovie objectAtIndex:indexPath.row];
+    switch (_selectedButton) {
+        case 0:{
+            for(int i=0; i<[[_showingMovie objectAtIndex:indexPath.row].playingDays count];i++){
+                if( [[[[_showingMovie objectAtIndex:indexPath.row].playingDays objectAtIndex:i] playingDay] isEqualToString:@"Monday"]){
+                    firebaseDetails.indexPlayDay =[NSNumber numberWithInt:i];
+                }}}
+            break;
+        case 1:{
+            for(int i=0; i<[[_showingMovie objectAtIndex:indexPath.row].playingDays count];i++){
+                if( [[[[_showingMovie objectAtIndex:indexPath.row].playingDays objectAtIndex:i] playingDay] isEqualToString:@"Tuesday"]){
+                    firebaseDetails.indexPlayDay =[NSNumber numberWithInt:i];
+                }}}
+            break;
+        case 2:{
+            for(int i=0; i<[[_showingMovie objectAtIndex:indexPath.row].playingDays count];i++){
+                if( [[[[_showingMovie objectAtIndex:indexPath.row].playingDays objectAtIndex:i] playingDay] isEqualToString:@"Wednesday"]){
+                    firebaseDetails.indexPlayDay =[NSNumber numberWithInt:i];
+                }}}
+            break;
+        case 3:{for(int i=0; i<[[_showingMovie objectAtIndex:indexPath.row].playingDays count];i++){
+            if( [[[[_showingMovie objectAtIndex:indexPath.row].playingDays objectAtIndex:i] playingDay] isEqualToString:@"Thursday"]){
+                firebaseDetails.indexPlayDay =[NSNumber numberWithInt:i];
+            }}}
+            break;
+        case 4:{for(int i=0; i<[[_showingMovie objectAtIndex:indexPath.row].playingDays count];i++){
+            if( [[[[_showingMovie objectAtIndex:indexPath.row].playingDays objectAtIndex:i] playingDay] isEqualToString:@"Friday"]){
+                firebaseDetails.indexPlayDay =[NSNumber numberWithInt:i];
+            }}}
+            break;
+        case 5:{for(int i=0; i<[[_showingMovie objectAtIndex:indexPath.row].playingDays count];i++){
+            if( [[[[_showingMovie objectAtIndex:indexPath.row].playingDays objectAtIndex:i] playingDay] isEqualToString:@"Saturday"]){
+                firebaseDetails.indexPlayDay =[NSNumber numberWithInt:i];
+            }}}
+            break;
+        case 6:{for(int i=0; i<[[_showingMovie objectAtIndex:indexPath.row].playingDays count];i++){
+            if( [[[[_showingMovie objectAtIndex:indexPath.row].playingDays objectAtIndex:i] playingDay] isEqualToString:@"Sunday"]){
+                firebaseDetails.indexPlayDay =[NSNumber numberWithInt:i];
+            }}}
+            break;
+            
+        default:
+            break;
+    }
+
     [self.navigationController pushViewController:firebaseDetails animated:YES];
 }
 /*

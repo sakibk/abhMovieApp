@@ -287,6 +287,7 @@
                     listsController.isFavorites=NO;
                     listsController.isWatchlist=YES;
                     listsController.isRating=NO;
+                    [listsController.navigationController setNavigationBarHidden:NO];
                     [self.navigationController pushViewController:listsController animated:YES];
                     [self.sideMenuController hideLeftViewAnimated:YES completionHandler:nil];
                 }

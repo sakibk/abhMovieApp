@@ -146,6 +146,22 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
     [self setCellGradient];
 }
 
+-(void) setupWithSnapMovie:(Movie *) singleMovie{
+    [_watchButton setHidden:YES];
+    [_favouriteButton setHidden:YES];
+    [_playButton setHidden:YES];
+    if(singleMovie.backdropPath != nil)
+        picturePath=[[NSString alloc] initWithString:singleMovie.backdropPath];
+    [self setPicture:singleMovie.backdropPath];
+    NSDate *releaseYear = singleMovie.releaseDate;
+    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:releaseYear];
+    NSInteger year = [components year];
+    _movieTitle.text = [NSString stringWithFormat:@"%@(%ld)",singleMovie.title,(long)year];
+    _singleMovie=singleMovie;
+    [self setCellGradient];
+    
+}
+
 -(void) setupWithActor:(Actor *)singleActor{
     if(singleActor.profilePath != nil)
         picturePath=[[NSString alloc] initWithString:singleActor.profilePath];

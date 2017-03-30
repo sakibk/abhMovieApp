@@ -35,6 +35,11 @@
 		AD1783881E2E499C0037DC44 /* MovieCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD1783871E2E499C0037DC44 /* MovieCell.xib */; };
 		AD17838C1E2E4A810037DC44 /* MoviesCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD17838B1E2E4A810037DC44 /* MoviesCell.m */; };
 		AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD17838E1E323ACE0037DC44 /* MovieDetailViewController.m */; };
+		AD237DF41E8CC94B0082E220 /* PickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237DF31E8CC94B0082E220 /* PickerCell.m */; };
+		AD237DF61E8CC95B0082E220 /* PickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237DF51E8CC95B0082E220 /* PickerCell.xib */; };
+		AD237DF81E8D338C0082E220 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237DF71E8D338C0082E220 /* ButtonCell.xib */; };
+		AD237DFB1E8D33A10082E220 /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237DFA1E8D33A10082E220 /* ButtonCell.m */; };
+		AD237DFE1E8D3FC30082E220 /* PushOnFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237DFD1E8D3FC30082E220 /* PushOnFirebase.m */; };
 		AD34430A1E5B044E00CD2DD9 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3443091E5B044E00CD2DD9 /* UserInfo.m */; };
 		AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34430C1E5B261900CD2DD9 /* ListPost.m */; };
 		AD349FE81E35A617009C4367 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FE71E35A617009C4367 /* Feeds.m */; };
@@ -186,6 +191,14 @@
 		AD17838B1E2E4A810037DC44 /* MoviesCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoviesCell.m; path = Views/MoviesCell.m; sourceTree = "<group>"; };
 		AD17838D1E323ACE0037DC44 /* MovieDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MovieDetailViewController.h; path = Controllers/MovieDetailViewController.h; sourceTree = "<group>"; };
 		AD17838E1E323ACE0037DC44 /* MovieDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = MovieDetailViewController.m; path = Controllers/MovieDetailViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		AD237DF21E8CC94B0082E220 /* PickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PickerCell.h; path = Views/PickerCell.h; sourceTree = "<group>"; };
+		AD237DF31E8CC94B0082E220 /* PickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PickerCell.m; path = Views/PickerCell.m; sourceTree = "<group>"; };
+		AD237DF51E8CC95B0082E220 /* PickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = PickerCell.xib; path = Views/PickerCell.xib; sourceTree = "<group>"; };
+		AD237DF71E8D338C0082E220 /* ButtonCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ButtonCell.xib; path = Views/ButtonCell.xib; sourceTree = "<group>"; };
+		AD237DF91E8D33A10082E220 /* ButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ButtonCell.h; path = Views/ButtonCell.h; sourceTree = "<group>"; };
+		AD237DFA1E8D33A10082E220 /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonCell.m; path = Views/ButtonCell.m; sourceTree = "<group>"; };
+		AD237DFC1E8D3FC30082E220 /* PushOnFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushOnFirebase.h; path = MovieApp/PushOnFirebase.h; sourceTree = "<group>"; };
+		AD237DFD1E8D3FC30082E220 /* PushOnFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushOnFirebase.m; path = MovieApp/PushOnFirebase.m; sourceTree = "<group>"; };
 		AD3443081E5B044E00CD2DD9 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = MovieApp/Models/UserInfo.h; sourceTree = "<group>"; };
 		AD3443091E5B044E00CD2DD9 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = MovieApp/Models/UserInfo.m; sourceTree = "<group>"; };
 		AD34430B1E5B261900CD2DD9 /* ListPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListPost.h; path = MovieApp/Models/ListPost.h; sourceTree = "<group>"; };
@@ -402,6 +415,7 @@
 				AD0C91531E7BE1C800049DB4 /* Credentials */,
 				AD0C91491E7808E500049DB4 /* ObjectMapper */,
 				AD12827C1E77E42100226CA4 /* ConnectionTest */,
+				AD237DFF1E8D3FC80082E220 /* FirebaseHelper */,
 			);
 			name = Helpers;
 			path = ..;
@@ -570,6 +584,15 @@
 			name = Movies;
 			sourceTree = "<group>";
 		};
+		AD237DFF1E8D3FC80082E220 /* FirebaseHelper */ = {
+			isa = PBXGroup;
+			children = (
+				AD237DFC1E8D3FC30082E220 /* PushOnFirebase.h */,
+				AD237DFD1E8D3FC30082E220 /* PushOnFirebase.m */,
+			);
+			name = FirebaseHelper;
+			sourceTree = "<group>";
+		};
 		AD349FE91E395FB2009C4367 /* Feeds */ = {
 			isa = PBXGroup;
 			children = (
@@ -620,6 +643,12 @@
 				AD3718B41E89C29900006506 /* CinemaCell.xib */,
 				AD3718B61E89C2B700006506 /* CinemaCell.h */,
 				AD3718B71E89C2B700006506 /* CinemaCell.m */,
+				AD237DF51E8CC95B0082E220 /* PickerCell.xib */,
+				AD237DF21E8CC94B0082E220 /* PickerCell.h */,
+				AD237DF31E8CC94B0082E220 /* PickerCell.m */,
+				AD237DF71E8D338C0082E220 /* ButtonCell.xib */,
+				AD237DF91E8D33A10082E220 /* ButtonCell.h */,
+				AD237DFA1E8D33A10082E220 /* ButtonCell.m */,
 			);
 			name = Cinema;
 			sourceTree = "<group>";
@@ -1011,6 +1040,7 @@
 				AD4F93861E4B937800E55630 /* AboutCell.xib in Resources */,
 				AD349FF91E39EE84009C4367 /* BellowImageCell.xib in Resources */,
 				AD34A0331E3BDDC3009C4367 /* SingleReviewCell.xib in Resources */,
+				AD237DF61E8CC95B0082E220 /* PickerCell.xib in Resources */,
 				AD4F938B1E4B93FF00E55630 /* FilmographyCell.xib in Resources */,
 				AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */,
 				ADD9C7BE1E65A6B7001A1809 /* sub.caf in Resources */,
@@ -1021,6 +1051,7 @@
 				AD34A0271E3B96FD009C4367 /* ReviewsCell.xib in Resources */,
 				AD349FF41E3972F2009C4367 /* PictureDetailCell.xib in Resources */,
 				AD4F93B01E4E838C00E55630 /* SingleSeasonCell.xib in Resources */,
+				AD237DF81E8D338C0082E220 /* ButtonCell.xib in Resources */,
 				AD3718B51E89C29900006506 /* CinemaCell.xib in Resources */,
 				AD1783881E2E499C0037DC44 /* MovieCell.xib in Resources */,
 				AD34A0031E39FEDC009C4367 /* ImageCollectionCell.xib in Resources */,
@@ -1159,6 +1190,7 @@
 				ADF64D571E2D12BC000DFCFA /* Movie.m in Sources */,
 				AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */,
 				AD34A00B1E3A04F2009C4367 /* SingleImageCell.m in Sources */,
+				AD237DFB1E8D33A10082E220 /* ButtonCell.m in Sources */,
 				AD0C91471E77FC0900049DB4 /* ObjectMapper.m in Sources */,
 				AD4F93691E41D3A300E55630 /* Season.m in Sources */,
 				AD4F93A21E4DCDC800E55630 /* SingleImageViewController.m in Sources */,
@@ -1187,6 +1219,8 @@
 				AD349FE81E35A617009C4367 /* Feeds.m in Sources */,
 				AD8521451E6072CA008F235D /* ListMapping.m in Sources */,
 				ADC07D201E5C718E00172221 /* RLUserInfo.m in Sources */,
+				AD237DFE1E8D3FC30082E220 /* PushOnFirebase.m in Sources */,
+				AD237DF41E8CC94B0082E220 /* PickerCell.m in Sources */,
 				AD1783831E2D51DB0037DC44 /* TVShow.m in Sources */,
 				AD0C914C1E79F3D000049DB4 /* ListMappingTV.m in Sources */,
 				ADEA6D481E40DB8000B4F89C /* TabBarViewController.m in Sources */,

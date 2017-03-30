@@ -41,6 +41,7 @@ extern NSString * const pictureDetailCellIdentifier;
 -(void) setupWithShow:(TVShow *) singleShow;
 -(void) setupWithActor:(Actor *) singleActor;
 -(void) setupWithEpisode:(Episode *) singleEpisode;
+-(void) setupWithSnapMovie:(Movie *) singleMovie;
 
 -(void)favoureIt;
 -(void)unFavoureIt;

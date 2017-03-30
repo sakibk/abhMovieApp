@@ -21,6 +21,7 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
 }
 
 -(void) setupWithMovie:(Movie *)singleMovie{
+    
     int mins = [singleMovie.runtime intValue] %60;
     int hours = [singleMovie.runtime intValue] /60;
     if(singleMovie.runtime!=nil){
@@ -104,6 +105,42 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     }
     else{
         for (Genre *str in singleShow.genreSet ){
+            [_genreString appendString:str.genreName];
+            [_genreString appendString:@", "];
+        }
+    }
+    if([_genreString length]>3){
+        [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
+    }
+    else{
+        [_genreString appendString:@"Genres not avalible"];
+    }
+    _genres.text = _genreString;
+    
+}
+
+-(void) setupWithSnapMovie:(Movie *)singleMovie{
+    
+    _duration.text = [NSString stringWithFormat:@""];
+    CGRect a = CGRectMake( 0, 0, [UIScreen mainScreen].bounds.size.width, [UIScreen mainScreen].bounds.size.height-_duration.frame.size.height);
+    [_duration setFrame:CGRectZero];
+    [_duration setAlpha:0.0];
+    [_duration removeFromSuperview];
+    [self setFrame:a];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd LLLL yyyy"];
+    
+    _releaseDate.text = [dateFormatter stringFromDate:singleMovie.releaseDate];
+    
+    _genreString = [[NSMutableString alloc]init];
+    if([singleMovie.genres count]){
+        for (Genre *str in singleMovie.genres ){
+            [_genreString appendString:str.genreName];
+            [_genreString appendString:@", "];
+        }
+    }
+    else{
+        for (Genre *str in singleMovie.genreSet ){
             [_genreString appendString:str.genreName];
             [_genreString appendString:@", "];
         }

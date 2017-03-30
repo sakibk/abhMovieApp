@@ -148,10 +148,10 @@
     //EE - kod za naziv dana
     self.releaseDate = [dateFormatter dateFromString:movie[@"release_date"]];
     NSMutableArray *gen = [[NSMutableArray alloc] init];
-    Genre *g = [[Genre alloc] init];
     int i = 0;
     for (NSString *nm in movie[@"genres"]){
-        if(nm !=nil){
+        if(![nm isKindOfClass:[NSNull class]]){
+            Genre *g = [[Genre alloc] init];
             g.genreName = nm;
             g.genreID=[NSNumber numberWithInt:i];
             [gen addObject:g];
