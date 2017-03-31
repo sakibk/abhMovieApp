@@ -40,6 +40,8 @@
 		AD237DF81E8D338C0082E220 /* ButtonCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237DF71E8D338C0082E220 /* ButtonCell.xib */; };
 		AD237DFB1E8D33A10082E220 /* ButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237DFA1E8D33A10082E220 /* ButtonCell.m */; };
 		AD237DFE1E8D3FC30082E220 /* PushOnFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237DFD1E8D3FC30082E220 /* PushOnFirebase.m */; };
+		AD237E021E8DC9280082E220 /* Hours.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E011E8DC9280082E220 /* Hours.m */; };
+		AD237E051E8DC9400082E220 /* Seats.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E041E8DC9400082E220 /* Seats.m */; };
 		AD34430A1E5B044E00CD2DD9 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3443091E5B044E00CD2DD9 /* UserInfo.m */; };
 		AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34430C1E5B261900CD2DD9 /* ListPost.m */; };
 		AD349FE81E35A617009C4367 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FE71E35A617009C4367 /* Feeds.m */; };
@@ -199,6 +201,10 @@
 		AD237DFA1E8D33A10082E220 /* ButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ButtonCell.m; path = Views/ButtonCell.m; sourceTree = "<group>"; };
 		AD237DFC1E8D3FC30082E220 /* PushOnFirebase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PushOnFirebase.h; path = MovieApp/PushOnFirebase.h; sourceTree = "<group>"; };
 		AD237DFD1E8D3FC30082E220 /* PushOnFirebase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PushOnFirebase.m; path = MovieApp/PushOnFirebase.m; sourceTree = "<group>"; };
+		AD237E001E8DC9280082E220 /* Hours.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hours.h; path = MovieApp/Models/Hours.h; sourceTree = "<group>"; };
+		AD237E011E8DC9280082E220 /* Hours.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hours.m; path = MovieApp/Models/Hours.m; sourceTree = "<group>"; };
+		AD237E031E8DC9400082E220 /* Seats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seats.h; path = MovieApp/Models/Seats.h; sourceTree = "<group>"; };
+		AD237E041E8DC9400082E220 /* Seats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Seats.m; path = MovieApp/Models/Seats.m; sourceTree = "<group>"; };
 		AD3443081E5B044E00CD2DD9 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = MovieApp/Models/UserInfo.h; sourceTree = "<group>"; };
 		AD3443091E5B044E00CD2DD9 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = MovieApp/Models/UserInfo.m; sourceTree = "<group>"; };
 		AD34430B1E5B261900CD2DD9 /* ListPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListPost.h; path = MovieApp/Models/ListPost.h; sourceTree = "<group>"; };
@@ -949,6 +955,10 @@
 				AD74DF8F1E8468A100D7490E /* ReconnectedList.m */,
 				AD12CEFB1E8AB6E8000A0131 /* DaysPlaying.h */,
 				AD12CEFC1E8AB6E8000A0131 /* DaysPlaying.m */,
+				AD237E001E8DC9280082E220 /* Hours.h */,
+				AD237E011E8DC9280082E220 /* Hours.m */,
+				AD237E031E8DC9400082E220 /* Seats.h */,
+				AD237E041E8DC9400082E220 /* Seats.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1159,6 +1169,7 @@
 				AD34A0311E3BDD9E009C4367 /* SingleReviewCell.m in Sources */,
 				AD3718B81E89C2B700006506 /* CinemaCell.m in Sources */,
 				AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */,
+				AD237E051E8DC9400082E220 /* Seats.m in Sources */,
 				AD86961E1E559984009B75F0 /* LeftViewCell.m in Sources */,
 				AD0C91521E7ABC8E00049DB4 /* RLMStoredObjects.m in Sources */,
 				AD0C91741E7E027D00049DB4 /* RLMEpisode.m in Sources */,
@@ -1184,6 +1195,7 @@
 				AD97DF381E6227340014BB0E /* PostResponse.m in Sources */,
 				AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */,
 				AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */,
+				AD237E021E8DC9280082E220 /* Hours.m in Sources */,
 				AD8696171E53B795009B75F0 /* ImageCell.m in Sources */,
 				AD0C91711E7E026900049DB4 /* RLMSeason.m in Sources */,
 				AD4F93721E48A31600E55630 /* SearchCell.m in Sources */,

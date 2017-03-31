@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Hours.h"
 
 @interface DaysPlaying : NSObject
 
 @property (strong,nonatomic) NSDate *playingDate;
 @property (strong,nonatomic) NSString *playingDay;
-@property (strong,nonatomic) NSMutableArray <NSString*> *playingHours;
+@property (strong,nonatomic) NSMutableArray <Hours*> *playingHours;
 
 
 @end

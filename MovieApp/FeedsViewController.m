@@ -22,6 +22,7 @@
 #import "RLMFeeds.h"
 #import "RLMStoredObjects.h"
 #import <Reachability/Reachability.h>
+#import "PushOnFirebase.h"
 
 
 @interface FeedsViewController ()
@@ -63,7 +64,6 @@
     }
     [self setupSearchbar];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityDidChange:) name:kReachabilityChangedNotification object:nil];
-
     
 }
 
@@ -157,6 +157,7 @@
 -(IBAction)pushSideBar:(id)sender{
     [self.sideMenuController showLeftViewAnimated:YES completionHandler:nil];
 //        [self testNotification];
+//        [PushOnFirebase pushMoviesOnFirebase];
 }
 
 -(void)testNotification{

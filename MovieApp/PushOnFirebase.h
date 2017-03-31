@@ -7,14 +7,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Movie.h"
+#import <Realm/Realm.h>
+#import "RLMovie.h"
+#import "RLMGenre.h"
+#import "RLMCrew.h"
+#import "RLMCast.h"
+#import "DaysPlaying.h"
+#import "Hours.h"
+#import "Seats.h"
 
 @import Firebase;
 
-@interface PushOnFirebase : NSObject{
-    NSMutableArray<FIRDataSnapshot *> *comments;
-    FIRDatabaseReference *postRef;
-    FIRDatabaseReference *commentsRef;
-}
+@interface PushOnFirebase : NSObject
 
 +(void)pushMoviesOnFirebase;
 
