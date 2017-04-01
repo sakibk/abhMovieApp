@@ -12,7 +12,7 @@
 #import "OverviewCell.h"
 #import "OverviewdLineCell.h"
 #import "PickerCell.h"
-#import "ButtonCell.h"
+#import "BookingViewController.h"
 
 @interface FirebaseDetailViewController ()
 
@@ -51,7 +51,7 @@
 }
 
 -(void)createBottomButton{
-    CGRect bottomFrame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height-70, [[UIScreen mainScreen] bounds].size.width, 70);
+    CGRect bottomFrame = CGRectMake(0, self.view.frame.size.height-130, self.view.frame.size.width, 70);
     bottomView=[[UIView alloc]initWithFrame:bottomFrame];
     [bottomView setBackgroundColor:[UIColor blackColor]];
     CGRect bottomButtomFrame = CGRectMake(10, 0, bottomView.frame.size.width-20, bottomView.frame.size.height-10);
@@ -94,8 +94,6 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"OverviewdLineCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:overviewLineCellIdentifier];
     
     [self.tableView registerNib:[UINib nibWithNibName:@"PickerCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pickerCellIdentifier];
-    
-    [self.tableView registerNib:[UINib nibWithNibName:@"ButtonCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:buttonCellIdentifier];
 }
 -(void)setSizes{
     _imageCellHeigh =222.0;
@@ -174,12 +172,6 @@
             return cell;
         }
             break;
-        case 4:{
-            ButtonCell *cell = (ButtonCell *)[tableView dequeueReusableCellWithIdentifier:buttonCellIdentifier forIndexPath:indexPath];
-            cell.delegate = self;
-            return cell;
-        }
-            break;
         default:{
             UITableViewCell *cell = [[UITableViewCell alloc]init];
             return cell;
@@ -223,7 +215,10 @@
 }
 
 -(void)pushBookingView{
-    NSLog(@"pushView");
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BookingViewController * bookingVC = [storyboard instantiateViewControllerWithIdentifier:@"BookingVC"];
+    [self.navigationController pushViewController:bookingVC animated:YES];
+    
 }
 
 -(void)setOverviewLineHeights:(NSMutableArray*)strings{

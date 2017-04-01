@@ -44,6 +44,14 @@
 		AD237E051E8DC9400082E220 /* Seats.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E041E8DC9400082E220 /* Seats.m */; };
 		AD237E081E8DE64D0082E220 /* BookingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E071E8DE64D0082E220 /* BookingViewController.m */; };
 		AD237E0B1E8E61B30082E220 /* PlayingHall.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E0A1E8E61B30082E220 /* PlayingHall.m */; };
+		AD237E181E8FE8C50082E220 /* LegendCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237E171E8FE8C50082E220 /* LegendCell.xib */; };
+		AD237E1C1E8FEBDD0082E220 /* LegendCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E1B1E8FEBDD0082E220 /* LegendCell.m */; };
+		AD237E1E1E902CF60082E220 /* CollectionSeatsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237E1D1E902CF60082E220 /* CollectionSeatsCell.xib */; };
+		AD237E211E902D180082E220 /* CollectionSeatsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E201E902D180082E220 /* CollectionSeatsCell.m */; };
+		AD237E231E902EAB0082E220 /* SeatCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237E221E902EAB0082E220 /* SeatCell.xib */; };
+		AD237E261E9030370082E220 /* SeatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E251E9030370082E220 /* SeatCell.m */; };
+		AD237E281E903CED0082E220 /* TwoPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237E271E903CED0082E220 /* TwoPickerCell.xib */; };
+		AD237E2B1E903D500082E220 /* TwoPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E2A1E903D500082E220 /* TwoPickerCell.m */; };
 		AD34430A1E5B044E00CD2DD9 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3443091E5B044E00CD2DD9 /* UserInfo.m */; };
 		AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34430C1E5B261900CD2DD9 /* ListPost.m */; };
 		AD349FE81E35A617009C4367 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FE71E35A617009C4367 /* Feeds.m */; };
@@ -211,6 +219,18 @@
 		AD237E071E8DE64D0082E220 /* BookingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookingViewController.m; path = Controllers/BookingViewController.m; sourceTree = "<group>"; };
 		AD237E091E8E61B30082E220 /* PlayingHall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayingHall.h; path = MovieApp/Models/PlayingHall.h; sourceTree = "<group>"; };
 		AD237E0A1E8E61B30082E220 /* PlayingHall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayingHall.m; path = MovieApp/Models/PlayingHall.m; sourceTree = "<group>"; };
+		AD237E171E8FE8C50082E220 /* LegendCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LegendCell.xib; sourceTree = "<group>"; };
+		AD237E1A1E8FEBDD0082E220 /* LegendCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LegendCell.h; path = Views/LegendCell.h; sourceTree = "<group>"; };
+		AD237E1B1E8FEBDD0082E220 /* LegendCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LegendCell.m; path = Views/LegendCell.m; sourceTree = "<group>"; };
+		AD237E1D1E902CF60082E220 /* CollectionSeatsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CollectionSeatsCell.xib; path = Views/CollectionSeatsCell.xib; sourceTree = "<group>"; };
+		AD237E1F1E902D180082E220 /* CollectionSeatsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionSeatsCell.h; path = Views/CollectionSeatsCell.h; sourceTree = "<group>"; };
+		AD237E201E902D180082E220 /* CollectionSeatsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionSeatsCell.m; path = Views/CollectionSeatsCell.m; sourceTree = "<group>"; };
+		AD237E221E902EAB0082E220 /* SeatCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SeatCell.xib; sourceTree = "<group>"; };
+		AD237E241E9030370082E220 /* SeatCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SeatCell.h; path = Views/SeatCell.h; sourceTree = "<group>"; };
+		AD237E251E9030370082E220 /* SeatCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SeatCell.m; path = Views/SeatCell.m; sourceTree = "<group>"; };
+		AD237E271E903CED0082E220 /* TwoPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TwoPickerCell.xib; path = Views/TwoPickerCell.xib; sourceTree = "<group>"; };
+		AD237E291E903D500082E220 /* TwoPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwoPickerCell.h; path = Views/TwoPickerCell.h; sourceTree = "<group>"; };
+		AD237E2A1E903D500082E220 /* TwoPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwoPickerCell.m; path = Views/TwoPickerCell.m; sourceTree = "<group>"; };
 		AD3443081E5B044E00CD2DD9 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = MovieApp/Models/UserInfo.h; sourceTree = "<group>"; };
 		AD3443091E5B044E00CD2DD9 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = MovieApp/Models/UserInfo.m; sourceTree = "<group>"; };
 		AD34430B1E5B261900CD2DD9 /* ListPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListPost.h; path = MovieApp/Models/ListPost.h; sourceTree = "<group>"; };
@@ -605,6 +625,41 @@
 			name = FirebaseHelper;
 			sourceTree = "<group>";
 		};
+		AD237E0C1E8FD4FF0082E220 /* TableView */ = {
+			isa = PBXGroup;
+			children = (
+				AD3718B41E89C29900006506 /* CinemaCell.xib */,
+				AD3718B61E89C2B700006506 /* CinemaCell.h */,
+				AD3718B71E89C2B700006506 /* CinemaCell.m */,
+				AD237DF51E8CC95B0082E220 /* PickerCell.xib */,
+				AD237DF21E8CC94B0082E220 /* PickerCell.h */,
+				AD237DF31E8CC94B0082E220 /* PickerCell.m */,
+				AD237DF71E8D338C0082E220 /* ButtonCell.xib */,
+				AD237DF91E8D33A10082E220 /* ButtonCell.h */,
+				AD237DFA1E8D33A10082E220 /* ButtonCell.m */,
+				AD237E171E8FE8C50082E220 /* LegendCell.xib */,
+				AD237E1A1E8FEBDD0082E220 /* LegendCell.h */,
+				AD237E1B1E8FEBDD0082E220 /* LegendCell.m */,
+				AD237E271E903CED0082E220 /* TwoPickerCell.xib */,
+				AD237E291E903D500082E220 /* TwoPickerCell.h */,
+				AD237E2A1E903D500082E220 /* TwoPickerCell.m */,
+			);
+			name = TableView;
+			sourceTree = "<group>";
+		};
+		AD237E191E8FEBBB0082E220 /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				AD237E1D1E902CF60082E220 /* CollectionSeatsCell.xib */,
+				AD237E1F1E902D180082E220 /* CollectionSeatsCell.h */,
+				AD237E201E902D180082E220 /* CollectionSeatsCell.m */,
+				AD237E221E902EAB0082E220 /* SeatCell.xib */,
+				AD237E241E9030370082E220 /* SeatCell.h */,
+				AD237E251E9030370082E220 /* SeatCell.m */,
+			);
+			name = CollectionView;
+			sourceTree = "<group>";
+		};
 		AD349FE91E395FB2009C4367 /* Feeds */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,15 +707,8 @@
 		AD3718B31E89C27500006506 /* Cinema */ = {
 			isa = PBXGroup;
 			children = (
-				AD3718B41E89C29900006506 /* CinemaCell.xib */,
-				AD3718B61E89C2B700006506 /* CinemaCell.h */,
-				AD3718B71E89C2B700006506 /* CinemaCell.m */,
-				AD237DF51E8CC95B0082E220 /* PickerCell.xib */,
-				AD237DF21E8CC94B0082E220 /* PickerCell.h */,
-				AD237DF31E8CC94B0082E220 /* PickerCell.m */,
-				AD237DF71E8D338C0082E220 /* ButtonCell.xib */,
-				AD237DF91E8D33A10082E220 /* ButtonCell.h */,
-				AD237DFA1E8D33A10082E220 /* ButtonCell.m */,
+				AD237E191E8FEBBB0082E220 /* CollectionView */,
+				AD237E0C1E8FD4FF0082E220 /* TableView */,
 			);
 			name = Cinema;
 			sourceTree = "<group>";
@@ -1061,18 +1109,22 @@
 				AD349FF91E39EE84009C4367 /* BellowImageCell.xib in Resources */,
 				AD34A0331E3BDDC3009C4367 /* SingleReviewCell.xib in Resources */,
 				AD237DF61E8CC95B0082E220 /* PickerCell.xib in Resources */,
+				AD237E231E902EAB0082E220 /* SeatCell.xib in Resources */,
 				AD4F938B1E4B93FF00E55630 /* FilmographyCell.xib in Resources */,
 				AD8696141E53B721009B75F0 /* ImageCell.xib in Resources */,
 				ADD9C7BE1E65A6B7001A1809 /* sub.caf in Resources */,
 				AD4F936C1E48A2C300E55630 /* SearchCell.xib in Resources */,
+				AD237E181E8FE8C50082E220 /* LegendCell.xib in Resources */,
 				ADBDE5CF1E872E03003D2A81 /* GoogleService-Info.plist in Resources */,
 				ADF64D241E2D0528000DFCFA /* Assets.xcassets in Resources */,
 				AD34A01F1E3B8592009C4367 /* SingleCastCell.xib in Resources */,
 				AD34A0271E3B96FD009C4367 /* ReviewsCell.xib in Resources */,
 				AD349FF41E3972F2009C4367 /* PictureDetailCell.xib in Resources */,
 				AD4F93B01E4E838C00E55630 /* SingleSeasonCell.xib in Resources */,
+				AD237E281E903CED0082E220 /* TwoPickerCell.xib in Resources */,
 				AD237DF81E8D338C0082E220 /* ButtonCell.xib in Resources */,
 				AD3718B51E89C29900006506 /* CinemaCell.xib in Resources */,
+				AD237E1E1E902CF60082E220 /* CollectionSeatsCell.xib in Resources */,
 				AD1783881E2E499C0037DC44 /* MovieCell.xib in Resources */,
 				AD34A0031E39FEDC009C4367 /* ImageCollectionCell.xib in Resources */,
 				ADF64D221E2D0528000DFCFA /* Main.storyboard in Resources */,
@@ -1163,8 +1215,10 @@
 				AD12827F1E77E50F00226CA4 /* ConnectivityTest.m in Sources */,
 				AD4F93C11E4FBC6500E55630 /* EpisodeDetailsViewController.m in Sources */,
 				AD0C915F1E7BF56900049DB4 /* RealmHelper.m in Sources */,
+				AD237E261E9030370082E220 /* SeatCell.m in Sources */,
 				AD4F93AB1E4E771A00E55630 /* SeasonsViewController.m in Sources */,
 				AD34A02A1E3B9731009C4367 /* ReviewsCell.m in Sources */,
+				AD237E2B1E903D500082E220 /* TwoPickerCell.m in Sources */,
 				AD4F938E1E4B941D00E55630 /* FilmographyCell.m in Sources */,
 				AD34430A1E5B044E00CD2DD9 /* UserInfo.m in Sources */,
 				AD4F93BB1E4E99CE00E55630 /* SeasonControllCell.m in Sources */,
@@ -1207,6 +1261,7 @@
 				AD97DF381E6227340014BB0E /* PostResponse.m in Sources */,
 				AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */,
 				AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */,
+				AD237E211E902D180082E220 /* CollectionSeatsCell.m in Sources */,
 				AD237E021E8DC9280082E220 /* Hours.m in Sources */,
 				AD8696171E53B795009B75F0 /* ImageCell.m in Sources */,
 				AD0C91711E7E026900049DB4 /* RLMSeason.m in Sources */,
@@ -1239,6 +1294,7 @@
 				AD4F93831E4B38CD00E55630 /* Actor.m in Sources */,
 				AD4F93891E4B93E000E55630 /* AboutCell.m in Sources */,
 				AD64D8371E5A196D00DAE191 /* ListsViewController.m in Sources */,
+				AD237E1C1E8FEBDD0082E220 /* LegendCell.m in Sources */,
 				ADC07D141E5C6A2700172221 /* RLMovie.m in Sources */,
 				AD349FE81E35A617009C4367 /* Feeds.m in Sources */,
 				AD8521451E6072CA008F235D /* ListMapping.m in Sources */,

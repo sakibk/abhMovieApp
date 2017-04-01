@@ -103,7 +103,7 @@
      observeSingleEventOfType:FIRDataEventTypeValue
      withBlock:^(FIRDataSnapshot *snapshot) {
 //         [self.snapMovies addObject:snapshot];
-         for(Movie *m in snapshot.value)
+         for(NSDictionary *m in snapshot.value)
              [_allMovies addObject:[[Movie alloc] initWithSnap:m]];
          [self setupShowingMovies];
          [self.tableView reloadData];

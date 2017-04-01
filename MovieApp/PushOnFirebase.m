@@ -100,7 +100,6 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     int k;
-    int z;
     for(k=0;k<2;k++){
         Hours *hrs = [[Hours alloc]init];
         if (k==0) {

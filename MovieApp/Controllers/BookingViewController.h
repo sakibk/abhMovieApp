@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BookingViewController : UIViewController
+@interface BookingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
