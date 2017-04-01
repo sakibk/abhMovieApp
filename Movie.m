@@ -143,26 +143,14 @@
     self.backdropPath = movie[@"backdrop_path"];
     self.posterPath = movie[@"poster_path"];
     self.rating = movie[@"vote_average"];
+    self.ticketPrice = movie[@"ticket_price"];
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd"];
     //EE - kod za naziv dana
     self.releaseDate = [dateFormatter dateFromString:movie[@"release_date"]];
-    NSMutableArray *gen = [[NSMutableArray alloc] init];
-    int i = 0;
-    for (NSString *nm in movie[@"genres"]){
-        if(![nm isKindOfClass:[NSNull class]]){
-            Genre *g = [[Genre alloc] init];
-            g.genreName = nm;
-            g.genreID=[NSNumber numberWithInt:i];
-            [gen addObject:g];
-            i++;
-        }
-        
-    }
-    self.genres =[[NSArray alloc]initWithArray:gen];
+    self.singleGenre =movie[@"genres"];
     
     self.playingDays = [[NSMutableArray alloc] init];
-
     
     for(int i=0; i<[movie[@"days_playing"] count];i++){
         if(![[movie[@"days_playing"] objectAtIndex:i] isKindOfClass:[NSNull class]]){
@@ -170,14 +158,17 @@
         pd.playingDate =[dateFormatter dateFromString:[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"date"]];
         pd.playingDay=[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"day"];
             pd.playingHours =[[NSMutableArray alloc] init];
-            for(NSString* str in [[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"hours"]){
-                if(str!=nil)
-                    [pd.playingHours addObject:str];
-            }
-            [self.playingDays addObject:pd];
+            int l;
+            for(l=0;l<[[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"hours"] count];l++){
+                Hours *hr = [[Hours alloc]init];
+                hr.playingHour=[[[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"hours"] objectAtIndex:l]valueForKey:@"time"];
+                hr.playingHall=[[[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"hours"] objectAtIndex:l]valueForKey:@"hall_id"];
+                [pd.playingHours addObject:hr];
            }
+        [self.playingDays addObject:pd];
     }
-    return self;
+}
+        return self;
 }
 
 

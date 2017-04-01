@@ -34,6 +34,7 @@
 @property (strong, nonatomic) NSString *singleGenre;
 @property (strong, nonatomic) NSString *overview;
 @property (strong, nonatomic) NSNumber *userRate;
+@property (strong, nonatomic) NSString *ticketPrice;
 @property (strong, nonatomic) NSMutableArray<DaysPlaying*> *playingDays;
 @property (strong, nonatomic) NSArray<Genre *> *genres;
 @property (strong, nonatomic) NSMutableArray<Crew *> *crews;

@@ -14,9 +14,8 @@
 @import Firebase;
 
 @interface FirebaseViewController ()
-@property (strong, nonatomic) NSMutableArray<FIRDataSnapshot *> *comments;
-@property (strong, nonatomic) FIRDatabaseReference *postRef;
-@property (strong, nonatomic) FIRDatabaseReference *commentsRef;
+@property (strong, nonatomic) NSMutableArray<FIRDataSnapshot *> *snapMovies;
+@property (strong, nonatomic) FIRDatabaseReference *movieRef;
 @property(strong, nonatomic) NSMutableArray<Movie*> *allMovies;
 @property(strong, nonatomic) NSMutableArray<Movie*> *showingMovie;
 
@@ -91,9 +90,8 @@
     _dropDownTitle=@"Movies";
     _selectedButton = 0;
     FIRDatabaseReference *ref = [FIRDatabase database].reference;
-    self.postRef = [ref child:@"Movies"];
-    self.commentsRef = [ref child:@"Movies"];
-    self.comments =[[NSMutableArray alloc] init];
+    self.movieRef = [ref child:@"Movies"];
+    self.snapMovies =[[NSMutableArray alloc] init];
     _allMovies = [[NSMutableArray alloc] init];
     _showingMovie = [[NSMutableArray alloc] init];
     
@@ -101,27 +99,16 @@
 }
 
 -(void)setObservers{
-    [_commentsRef
-     observeEventType:FIRDataEventTypeChildAdded
+    [_movieRef
+     observeSingleEventOfType:FIRDataEventTypeValue
      withBlock:^(FIRDataSnapshot *snapshot) {
-         [self.comments addObject:snapshot];
-         [_allMovies addObject:[[Movie alloc] initWithSnap:snapshot.value]];
+//         [self.snapMovies addObject:snapshot];
+         for(Movie *m in snapshot.value)
+             [_allMovies addObject:[[Movie alloc] initWithSnap:m]];
          [self setupShowingMovies];
          [self.tableView reloadData];
      }];
-    // Listen for deleted comments in the Firebase database
-    [_commentsRef
-     observeEventType:FIRDataEventTypeChildRemoved
-     withBlock:^(FIRDataSnapshot *snapshot) {
-     }];
-    // [END child_event_listener]
-    
-    _refHandle = [_postRef observeEventType:FIRDataEventTypeValue withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-        NSDictionary *postDict = snapshot.value;
-        // [START_EXCLUDE]
-        NSLog(@"%@",postDict);
-        // [END_EXCLUDE]
-    }];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -133,8 +120,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [self.postRef removeObserverWithHandle:_refHandle];
-    [self.commentsRef removeAllObservers];
+//    [self.postMovieRef removeObserverWithHandle:_refHandle];
+    [self.movieRef removeAllObservers];
 }
 
 
@@ -150,15 +137,15 @@
 }
 
 -(IBAction)addToFirebase:(id)sender{
-    [[[[FIRDatabase database].reference child:@"users"] child:@""]
-     observeSingleEventOfType:FIRDataEventTypeValue
-     withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-         NSDictionary *comment = @{@"uid": @"",
-                                   @"author": @"",
-                                   @"text": @""};
-         [[_commentsRef childByAutoId] setValue:comment];
-         
-     }];
+//    [[[[FIRDatabase database].reference child:@"users"] child:@""]
+//     observeSingleEventOfType:FIRDataEventTypeValue
+//     withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
+//         NSDictionary *comment = @{@"uid": @"",
+//                                   @"author": @"",
+//                                   @"text": @""};
+//         [[_movieRef childByAutoId] setValue:comment];
+//         
+//     }];
 }
 //#setup dropdown menu
 -(void)setButtonTitle{

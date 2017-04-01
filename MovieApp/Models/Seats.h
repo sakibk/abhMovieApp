@@ -10,6 +10,7 @@
 
 @interface Seats : NSObject
 
+@property (strong, nonatomic) NSNumber *seatID;
 @property (strong, nonatomic) NSString *row;
 @property (strong, nonatomic) NSNumber *seatNum;
 @property BOOL taken;

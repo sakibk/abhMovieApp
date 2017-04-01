@@ -42,6 +42,8 @@
 		AD237DFE1E8D3FC30082E220 /* PushOnFirebase.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237DFD1E8D3FC30082E220 /* PushOnFirebase.m */; };
 		AD237E021E8DC9280082E220 /* Hours.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E011E8DC9280082E220 /* Hours.m */; };
 		AD237E051E8DC9400082E220 /* Seats.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E041E8DC9400082E220 /* Seats.m */; };
+		AD237E081E8DE64D0082E220 /* BookingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E071E8DE64D0082E220 /* BookingViewController.m */; };
+		AD237E0B1E8E61B30082E220 /* PlayingHall.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E0A1E8E61B30082E220 /* PlayingHall.m */; };
 		AD34430A1E5B044E00CD2DD9 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3443091E5B044E00CD2DD9 /* UserInfo.m */; };
 		AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34430C1E5B261900CD2DD9 /* ListPost.m */; };
 		AD349FE81E35A617009C4367 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FE71E35A617009C4367 /* Feeds.m */; };
@@ -205,6 +207,10 @@
 		AD237E011E8DC9280082E220 /* Hours.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Hours.m; path = MovieApp/Models/Hours.m; sourceTree = "<group>"; };
 		AD237E031E8DC9400082E220 /* Seats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Seats.h; path = MovieApp/Models/Seats.h; sourceTree = "<group>"; };
 		AD237E041E8DC9400082E220 /* Seats.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Seats.m; path = MovieApp/Models/Seats.m; sourceTree = "<group>"; };
+		AD237E061E8DE64D0082E220 /* BookingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BookingViewController.h; path = Controllers/BookingViewController.h; sourceTree = "<group>"; };
+		AD237E071E8DE64D0082E220 /* BookingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BookingViewController.m; path = Controllers/BookingViewController.m; sourceTree = "<group>"; };
+		AD237E091E8E61B30082E220 /* PlayingHall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayingHall.h; path = MovieApp/Models/PlayingHall.h; sourceTree = "<group>"; };
+		AD237E0A1E8E61B30082E220 /* PlayingHall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayingHall.m; path = MovieApp/Models/PlayingHall.m; sourceTree = "<group>"; };
 		AD3443081E5B044E00CD2DD9 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = MovieApp/Models/UserInfo.h; sourceTree = "<group>"; };
 		AD3443091E5B044E00CD2DD9 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = MovieApp/Models/UserInfo.m; sourceTree = "<group>"; };
 		AD34430B1E5B261900CD2DD9 /* ListPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListPost.h; path = MovieApp/Models/ListPost.h; sourceTree = "<group>"; };
@@ -805,6 +811,8 @@
 				ADBDE5D21E8907CE003D2A81 /* FirebaseViewController.m */,
 				AD12CEFE1E8AC2E5000A0131 /* FirebaseDetailViewController.h */,
 				AD12CEFF1E8AC2E5000A0131 /* FirebaseDetailViewController.m */,
+				AD237E061E8DE64D0082E220 /* BookingViewController.h */,
+				AD237E071E8DE64D0082E220 /* BookingViewController.m */,
 			);
 			name = FirebaseStripe;
 			sourceTree = "<group>";
@@ -959,6 +967,8 @@
 				AD237E011E8DC9280082E220 /* Hours.m */,
 				AD237E031E8DC9400082E220 /* Seats.h */,
 				AD237E041E8DC9400082E220 /* Seats.m */,
+				AD237E091E8E61B30082E220 /* PlayingHall.h */,
+				AD237E0A1E8E61B30082E220 /* PlayingHall.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -1167,6 +1177,7 @@
 				AD349FF71E3973E2009C4367 /* PictureDetailCell.m in Sources */,
 				AD0C91681E7DECB600049DB4 /* RLMReview.m in Sources */,
 				AD34A0311E3BDD9E009C4367 /* SingleReviewCell.m in Sources */,
+				AD237E081E8DE64D0082E220 /* BookingViewController.m in Sources */,
 				AD3718B81E89C2B700006506 /* CinemaCell.m in Sources */,
 				AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */,
 				AD237E051E8DC9400082E220 /* Seats.m in Sources */,
@@ -1178,6 +1189,7 @@
 				ADA981611E801FC4005663B6 /* RLMListType.m in Sources */,
 				ADBDE5D31E8907CE003D2A81 /* FirebaseViewController.m in Sources */,
 				AD12CEFD1E8AB6E8000A0131 /* DaysPlaying.m in Sources */,
+				AD237E0B1E8E61B30082E220 /* PlayingHall.m in Sources */,
 				AD4F93801E4B38AC00E55630 /* ActorDetailsViewController.m in Sources */,
 				ADF64D1F1E2D0528000DFCFA /* FeedsViewController.m in Sources */,
 				AD4F939C1E4C809700E55630 /* TrailerVideos.m in Sources */,

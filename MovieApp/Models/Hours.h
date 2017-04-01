@@ -12,6 +12,8 @@
 @interface Hours : NSObject
 
 @property (strong, nonatomic)NSString *playingHour;
+@property (strong, nonatomic)NSNumber *playingHall;
 @property (strong, nonatomic)NSMutableArray<Seats*> *seats;
+
 
 @end

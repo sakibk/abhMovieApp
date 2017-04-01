@@ -16,6 +16,7 @@
 #import "DaysPlaying.h"
 #import "Hours.h"
 #import "Seats.h"
+#import "PlayingHall.h"
 
 @import Firebase;
 

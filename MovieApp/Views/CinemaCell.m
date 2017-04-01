@@ -38,6 +38,8 @@ NSString *const cinemaCellIdentifier=@"CinemaCellIdentifier";
     else if ([mov.genres count]==1){
         _genreLabel.text = [NSString stringWithFormat:@"%@",[mov.genres objectAtIndex:0].genreName];
     }
+    else
+        _genreLabel.text = [NSString stringWithFormat:@"%@",mov.singleGenre];
     if(mov.rating!=nil){
         _rating.text = [NSString stringWithFormat:@"%@",mov.rating];
     }
