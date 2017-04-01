@@ -7,6 +7,7 @@
 //
 
 #import "PickerCell.h"
+#import "Hours.h"
 
 NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
 
@@ -35,9 +36,10 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
     [self.delegate popPicker:sender];
 }
 
--(void)setupWithSnap:(NSMutableArray<NSString*>*) playingHours{
-    _hoursPlaying=playingHours;
+-(void)setupWithHours:(NSMutableArray<Hours*>*) playingHours{
+    _hoursPlaying =[[NSMutableArray alloc]initWithArray:playingHours];
 }
+
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
     
     return 1;
@@ -50,15 +52,15 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
 
 
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%@",[_hoursPlaying objectAtIndex:row]];
+    return [NSString stringWithFormat:@"%@",[[_hoursPlaying objectAtIndex:row] playingHour]];
 }
 
 
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
     //Here, like the table view you can get the each section of each row if you've multiple sections
-    NSLog(@"Selected Color: %@. Index of selected color: %ld", [_hoursPlaying objectAtIndex:row], (long)row);
-    [self.delegate pushStringValueTroughDelegate:[_hoursPlaying objectAtIndex:row]];
+    NSLog(@"Selected Tearm: %@. Index of selected term: %ld", [[_hoursPlaying objectAtIndex:row] playingHour], (long)row);
+    [self.delegate pushHoursTroughDelegate:[_hoursPlaying objectAtIndex:row]];
     [_pickerButton setAlpha:1.0];
     [_imageDown setAlpha:1.0];
     [self.delegate popPicker:_pickerButton];

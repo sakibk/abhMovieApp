@@ -26,14 +26,13 @@
 @property CGFloat popedHight;
 @property CGFloat buttonHeight;
 @property CGFloat noCellHeight;
-@property NSString *selectedHours;
+@property Hours *selectedHours;
 
 @end
 
 @implementation FirebaseDetailViewController
 {
-    UIButton *showList;
-    UIImageView *dropDownImage;
+    UIButton *bottomButton;
     UIView *bottomView;
     BOOL isPickerViewExtended;
 }
@@ -48,6 +47,25 @@
     [self setOverviewLineHeights:[[NSMutableArray alloc]initWithObjects:@"Neki direktor",@"neki producent",@"neka zvjezda", nil]];
     [self setNavBarTitle];
     isPickerViewExtended = NO;
+    [self createBottomButton];
+}
+
+-(void)createBottomButton{
+    CGRect bottomFrame = CGRectMake(0, [[UIScreen mainScreen] bounds].size.height-70, [[UIScreen mainScreen] bounds].size.width, 70);
+    bottomView=[[UIView alloc]initWithFrame:bottomFrame];
+    [bottomView setBackgroundColor:[UIColor blackColor]];
+    CGRect bottomButtomFrame = CGRectMake(10, 0, bottomView.frame.size.width-20, bottomView.frame.size.height-10);
+    bottomButton = [[UIButton alloc]initWithFrame:bottomButtomFrame];
+    [bottomButton setBackgroundColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+    [bottomButton setTitle:@"BOOK NOW" forState:UIControlStateNormal];
+    [bottomButton.titleLabel setFont:[UIFont systemFontOfSize:20.0 weight:0.78]];
+    [bottomButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    bottomButton.layer.cornerRadius=3;
+    [bottomButton addTarget:self action:@selector(pushBookingView) forControlEvents:UIControlEventTouchUpInside];
+    [bottomView addSubview:bottomButton];
+    [self.view insertSubview:bottomView aboveSubview:_tableView];
+    [self.view addConstraint:[NSLayoutConstraint constraintWithItem:bottomView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_tableView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
+    
 }
 
 -(void)setNavBarTitle{
@@ -96,7 +114,7 @@
     // Dispose of any resources that can be recreated.
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 5;
+    return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -151,7 +169,7 @@
             break;
         case 3:{
             PickerCell *cell =(PickerCell *)[tableView dequeueReusableCellWithIdentifier:pickerCellIdentifier forIndexPath:indexPath];
-            [cell setupWithSnap:[[_singleMovie.playingDays objectAtIndex:[_indexPlayDay integerValue]] playingHours]];
+            [cell setupWithHours:[[_singleMovie.playingDays objectAtIndex:[_indexPlayDay integerValue]] playingHours]];
             cell.delegate=self;
             return cell;
         }
@@ -180,7 +198,7 @@
     [self.tableView endUpdates];
 }
 
--(void)pushStringValueTroughDelegate:(NSString*)selectedHour{
+-(void)pushHoursTroughDelegate:(Hours*)selectedHour{
     _selectedHours=selectedHour;
 }
 
@@ -246,23 +264,24 @@
         return _noCellHeight;
 }
 
--(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if(section>2) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 30)];
-        return view;
-    }
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    if(section==3)
+        return 20.00;
     else
-        return nil;
+        return _noCellHeight;
 }
-
-
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(indexPath.section == 4){
         NSLog(@"push controller");
     }
 }
 
+-(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *hv =[[UIView alloc]init];
+    [hv setBackgroundColor:[UIColor blackColor]];
+    return hv;
+}
 /*
  #pragma mark - Navigation
  

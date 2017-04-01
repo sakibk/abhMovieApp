@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Hours.h"
 
 extern NSString *const pickerCellIdentifier;
 
 @protocol PickerCellDelegate <NSObject>
 
 -(IBAction)popPicker:(id)sender;
--(void)pushStringValueTroughDelegate:(NSString*)selectedHour;
+-(void)pushHoursTroughDelegate:(Hours*)selectedHour;
 
 @end
 
@@ -21,9 +22,9 @@ extern NSString *const pickerCellIdentifier;
 @interface PickerCell : UITableViewCell<UIPickerViewDelegate,UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UIButton *pickerButton;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
-@property (strong, nonatomic) NSMutableArray<NSString *> *hoursPlaying;
+@property (strong, nonatomic) NSMutableArray<Hours*> *hoursPlaying;
 @property (weak, nonatomic) IBOutlet UIImageView *imageDown;
 @property (strong, nonatomic) id<PickerCellDelegate> delegate;
 
--(void)setupWithSnap:(NSMutableArray<NSString*>*) playingHours;
+-(void)setupWithHours:(NSMutableArray<Hours*>*) playingHours;
 @end
