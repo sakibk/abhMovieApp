@@ -102,7 +102,7 @@
     _nonPopedHight=60.0;
     _legendCellHeigh = 110;
     _popedHight=120.0;
-    _buttonHeight=60;
+    _buttonHeight=60; 
     _noCellHeight =0.0001;
 }
 
