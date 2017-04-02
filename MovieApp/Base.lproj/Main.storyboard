@@ -937,7 +937,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EK3-TV-A4n">
-                                <rect key="frame" x="0.0" y="28" width="414" height="651"/>
+                                <rect key="frame" x="0.0" y="28" width="414" height="581"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </tableView>
@@ -946,7 +946,7 @@
                         <constraints>
                             <constraint firstItem="EK3-TV-A4n" firstAttribute="leading" secondItem="XtT-PL-NDr" secondAttribute="leading" id="4Rj-cp-V8L"/>
                             <constraint firstItem="EK3-TV-A4n" firstAttribute="top" secondItem="1w8-hk-LNz" secondAttribute="bottom" constant="8" id="Cfm-KN-AAN"/>
-                            <constraint firstItem="UBO-q4-v9l" firstAttribute="top" secondItem="EK3-TV-A4n" secondAttribute="bottom" constant="8" id="Xbc-Qh-hxm"/>
+                            <constraint firstItem="UBO-q4-v9l" firstAttribute="top" secondItem="EK3-TV-A4n" secondAttribute="bottom" constant="78" id="Xbc-Qh-hxm"/>
                             <constraint firstAttribute="trailing" secondItem="EK3-TV-A4n" secondAttribute="trailing" id="g7V-Uk-2rS"/>
                         </constraints>
                     </view>

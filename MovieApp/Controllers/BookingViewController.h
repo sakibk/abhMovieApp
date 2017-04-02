@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PickerCell.h"
+#import "Movie.h"
+#import "TwoPickerCell.h"
+#import "Hours.h"
 
-@interface BookingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource>
+@interface BookingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,PickerCellTwoDelegate,TwoPickerCellDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic) Movie *selectedMovie;
+@property (strong, nonatomic) NSMutableArray<Movie*> *allMovies;
+@property (strong, nonatomic) Hours *selectedHours;
 
 @end

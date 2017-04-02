@@ -164,6 +164,7 @@
                 hr.playingHour=[[[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"hours"] objectAtIndex:l]valueForKey:@"time"];
                 hr.playingHall=[[[[movie[@"days_playing"] objectAtIndex:i] valueForKeyPath:@"hours"] objectAtIndex:l]valueForKey:@"hall_id"];
                 hr.hourID=[NSNumber numberWithInt:l];
+                hr.playingDayID=[NSNumber numberWithInt:i];
                 [pd.playingHours addObject:hr];
            }
         [self.playingDays addObject:pd];

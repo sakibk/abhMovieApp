@@ -215,9 +215,16 @@
 }
 
 -(void)pushBookingView{
+    if(_selectedHours !=nil){
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     BookingViewController * bookingVC = [storyboard instantiateViewControllerWithIdentifier:@"BookingVC"];
+    bookingVC.allMovies=_allMovies;
+    bookingVC.selectedMovie=_singleMovie;
+    bookingVC.selectedHours=_selectedHours;
     [self.navigationController pushViewController:bookingVC animated:YES];
+    }
+    else
+        NSLog(@"Select playing hours");
     
 }
 

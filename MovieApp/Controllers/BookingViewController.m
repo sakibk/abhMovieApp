@@ -13,7 +13,9 @@
 #import "CollectionSeatsCell.h"
 
 @interface BookingViewController ()
+
 @property (strong,nonatomic)NSString *totalCost;
+@property NSNumber *ticketNumber;
 
 @property CGFloat legendCellHeigh;
 @property CGFloat seatsCellHeight;
@@ -23,14 +25,18 @@
 @property CGFloat popedHight;
 @property CGFloat buttonHeight;
 @property CGFloat noCellHeight;
+@property NSIndexPath *seatsIndexPath;
 
 @end
 
 @implementation BookingViewController{
-        UIButton *bottomButton;
-        UIView *bottomView;
-        UILabel *totalLabel;
-        BOOL isPickerViewExtended;
+    UIButton *bottomButton;
+    UIView *bottomView;
+    UILabel *totalLabel;
+    BOOL isPickerViewExtended;
+    BOOL isPickerTwoViewExtended;
+    BOOL senderOnePop;
+    BOOL senderTwoPop;
 }
 
 - (void)viewDidLoad {
@@ -39,9 +45,15 @@
     self.tableView.dataSource=self;
     // Do any additional setup after loading the view.
     _totalCost=@"TOTAL: $0.00";
+    senderOnePop=NO;
+    senderTwoPop=NO;
+    isPickerViewExtended=NO;
+    isPickerTwoViewExtended=NO;
     [self setNavBarTitle];
     [self createBottomButton];
     [self setupCells];
+    [self setSizes];
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -63,7 +75,7 @@
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, iv.frame.size.width, 27)];
     titleLabel.textAlignment=NSTextAlignmentCenter;
     titleLabel.font=[UIFont systemFontOfSize:18];
-    titleLabel.text= @"";
+    titleLabel.text=[_selectedMovie title];
     
     titleLabel.textColor=[UIColor whiteColor];
     [iv addSubview:titleLabel];
@@ -72,7 +84,7 @@
 
 
 -(void)createBottomButton{
-    CGRect bottomFrame = CGRectMake(0, self.view.frame.size.height-130, self.view.frame.size.width, 70);
+    CGRect bottomFrame = CGRectMake(0, self.view.frame.size.height-70, self.view.frame.size.width, 70);
     bottomView=[[UIView alloc]initWithFrame:bottomFrame];
     [bottomView setBackgroundColor:[UIColor blackColor]];
     CGRect bottomButtomFrame = CGRectMake(10, 0, bottomView.frame.size.width-20, bottomView.frame.size.height-10);
@@ -83,26 +95,75 @@
     [bottomButton.titleLabel setFont:[UIFont systemFontOfSize:20.0 weight:0.78]];
     [bottomButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     bottomButton.layer.cornerRadius=3;
+    [bottomButton setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 15)];
     [bottomButton addTarget:self action:@selector(pushCheckoutSummary) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:bottomButton];
-    CGRect totalRect = CGRectMake(20, 15, 100, 20);
+    CGRect totalRect = CGRectMake(20, 25, 120, 20);
     totalLabel = [[UILabel alloc] initWithFrame:totalRect];
     totalLabel.text=_totalCost;
     [totalLabel setContentMode:UIViewContentModeLeft];
     [totalLabel setFont:[UIFont systemFontOfSize:17.0]];
     [totalLabel setTextColor:[UIColor blackColor]];
+    [bottomView addSubview:totalLabel];
     [self.view insertSubview:bottomView aboveSubview:_tableView];
     [self.view addConstraint:[NSLayoutConstraint constraintWithItem:bottomView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:_tableView attribute:NSLayoutAttributeBottom multiplier:1.0 constant:0]];
     
 }
+-(void)pushMoviesTroughDelegate:(Movie*)selectedMovie{
+    _selectedMovie=selectedMovie;
+}
+
+-(IBAction)popPicker:(id)sender{
+    [self.tableView beginUpdates];
+    if (isPickerViewExtended) {
+        isPickerViewExtended = NO;
+    } else {
+        isPickerViewExtended = YES;
+    }
+    [self.tableView endUpdates];
+}
+
+-(void)pushTicketNo:(NSNumber*)numberOfTickets{
+    _ticketNumber = numberOfTickets;
+    _totalCost =[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:20*[numberOfTickets intValue]]];
+    totalLabel.text=_totalCost;
+}
+
+-(void)pushSelectedHours:(Hours*)hoursSelected{
+    _selectedHours=hoursSelected;
+    CollectionSeatsCell *cell =(CollectionSeatsCell*)[_tableView cellForRowAtIndexPath:_seatsIndexPath];
+    [cell setupWithHallID:_selectedHours.playingHall andPlayingDayID:_selectedHours.playingDayID andPlayingHourID:_selectedHours.hourID];
+}
+
+-(IBAction)popOneOfTwoPickers:(id)sender{
+    if (sender==0){
+        if(senderOnePop)
+            senderOnePop=NO;
+        else
+            senderOnePop=YES;
+    } else {
+        if(senderTwoPop)
+            senderTwoPop=NO;
+        else
+            senderTwoPop=YES;
+    }
+    [self.tableView beginUpdates];
+    if(senderOnePop || senderTwoPop){
+        isPickerTwoViewExtended=YES;
+    } else {
+        isPickerTwoViewExtended=NO;
+    }
+    [self.tableView endUpdates];
+}
 
 -(void)setSizes{
-    _nonPoppedTwoPickerHeight=60;
-    _poppedTwoPickerHeight=120;
+    _nonPoppedTwoPickerHeight=60.0;
+    _poppedTwoPickerHeight=120.0;
     _nonPopedHight=60.0;
-    _legendCellHeigh = 110;
+    _legendCellHeigh = 110.0;
     _popedHight=120.0;
-    _buttonHeight=60; 
+    _buttonHeight=60.0;
+    _seatsCellHeight = self.view.frame.size.width;
     _noCellHeight =0.0001;
 }
 
@@ -114,7 +175,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-        return 1;
+    return 1;
 }
 
 
@@ -122,11 +183,16 @@
     switch (indexPath.section) {
         case 0:{
             PickerCell *cell = (PickerCell*)[_tableView dequeueReusableCellWithIdentifier:pickerCellIdentifier forIndexPath:indexPath];
+            [cell setupWithPlayingMovies:_allMovies andSelectedMovie:_selectedMovie];
+            cell.delegateOne=self;
             return cell;
         }
             break;
         case 1:{
             TwoPickerCell *cell = (TwoPickerCell*)[_tableView dequeueReusableCellWithIdentifier:twoPickerCellIdentifier forIndexPath:indexPath];
+            [cell setSelectedHours:_selectedHours];
+            [cell.playingDays setArray:[_selectedMovie playingDays]];
+            cell.delegate=self;
             return cell;
         }
             break;
@@ -137,6 +203,8 @@
             break;
         case 3:{
             CollectionSeatsCell *cell = (CollectionSeatsCell*)[_tableView dequeueReusableCellWithIdentifier:seatsCollectionCellIdentifier forIndexPath:indexPath];
+            [cell setupWithHallID:_selectedHours.playingHall andPlayingDayID:_selectedHours.playingDayID andPlayingHourID:_selectedHours.hourID];
+            _seatsIndexPath=indexPath;
             return cell;
         }
             break;
@@ -148,9 +216,37 @@
             break;
     }
     return nil;
-    }
-    
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    switch (indexPath.section) {
+        case 0:{
+            if(isPickerViewExtended)
+                return _popedHight;
+            else
+                return _nonPopedHight;
+        }
+            break;
+        case 1:{
+            if(isPickerTwoViewExtended)
+                return _poppedTwoPickerHeight;
+            else
+                return _nonPoppedTwoPickerHeight;
+            
+        }
+            break;
+        case 2:{
+            return _legendCellHeigh;
+        }
+            break;
+        case 3:{
+            return _seatsCellHeight;
+        }
+            break;
+            
+        default:return 0.00001;
+            break;
+    }
     return 0.00001;
 }
 
@@ -158,9 +254,9 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return _noCellHeight;
 }
-    
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
 }
 
 -(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section{
@@ -170,13 +266,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

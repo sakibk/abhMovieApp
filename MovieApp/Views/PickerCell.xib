@@ -34,26 +34,26 @@
                         </state>
                     </button>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DropDownDown" translatesAutoresizingMaskIntoConstraints="NO" id="rBd-dG-9bf">
-                        <rect key="frame" x="321" y="21" width="26" height="20"/>
+                        <rect key="frame" x="331" y="21" width="26" height="18.5"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="20" id="9l7-Pu-qYv"/>
-                            <constraint firstAttribute="width" constant="26" id="Hw3-DR-JIt"/>
+                            <constraint firstAttribute="width" constant="26" id="PEB-cQ-jzH"/>
+                            <constraint firstAttribute="height" constant="18.5" id="b08-Bp-ECt"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstItem="e78-AG-JzR" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="7W8-lh-Pz0"/>
-                    <constraint firstItem="e78-AG-JzR" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="BOA-Tz-SGq"/>
-                    <constraint firstAttribute="bottom" secondItem="d1E-6I-kht" secondAttribute="bottom" id="TRd-lV-fg1"/>
-                    <constraint firstItem="d1E-6I-kht" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="Vf9-Ye-gfN"/>
-                    <constraint firstItem="rBd-dG-9bf" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="topMargin" constant="13" id="acJ-IS-OcU"/>
-                    <constraint firstAttribute="bottom" secondItem="e78-AG-JzR" secondAttribute="bottom" id="auX-al-hTL"/>
-                    <constraint firstAttribute="trailing" secondItem="d1E-6I-kht" secondAttribute="trailing" id="cCO-b6-XI1"/>
-                    <constraint firstItem="d1E-6I-kht" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="fzY-UU-OKz"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="rBd-dG-9bf" secondAttribute="trailing" constant="20" id="j3U-cc-vOy"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="rBd-dG-9bf" secondAttribute="bottom" constant="12" id="rkd-YJ-Ego"/>
-                    <constraint firstAttribute="trailing" secondItem="e78-AG-JzR" secondAttribute="trailing" id="usF-zi-jQM"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="rBd-dG-9bf" secondAttribute="bottom" constant="13.5" id="EiO-zm-e1y"/>
+                    <constraint firstItem="d1E-6I-kht" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="Fey-Bx-KIN"/>
+                    <constraint firstItem="e78-AG-JzR" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="IKF-iY-wsW"/>
+                    <constraint firstItem="d1E-6I-kht" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="Ilx-Md-8GZ"/>
+                    <constraint firstItem="rBd-dG-9bf" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="topMargin" constant="13" id="JqK-dm-vwk"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="rBd-dG-9bf" secondAttribute="trailing" constant="10" id="Yb5-Eq-3lR"/>
+                    <constraint firstAttribute="trailing" secondItem="e78-AG-JzR" secondAttribute="trailing" id="hCh-dU-ubH"/>
+                    <constraint firstAttribute="bottom" secondItem="e78-AG-JzR" secondAttribute="bottom" id="hxe-3m-2hs"/>
+                    <constraint firstAttribute="trailing" secondItem="d1E-6I-kht" secondAttribute="trailing" id="kNR-U8-scR"/>
+                    <constraint firstAttribute="bottom" secondItem="d1E-6I-kht" secondAttribute="bottom" id="lvL-On-GBq"/>
+                    <constraint firstItem="e78-AG-JzR" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="tQj-td-bd4"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

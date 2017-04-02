@@ -26,4 +26,16 @@ NSString *const seatCellIdentifier=@"SeatC";
     [_circleImage setImage:[UIImage imageNamed:@"DarkCircle"]];
 }
 
+-(void)setupSeatCell:(Seats*)seat{
+    _seat=seat;
+    if(seat.taken)
+        [self setDarkCircle];
+    else
+        [self setLightCircle];
+}
+-(void)setupNonSeatCell{
+    [_circleImage setImage:[UIImage imageNamed:@""]];
+    [self setBackgroundColor:[UIColor clearColor]];
+}
+
 @end

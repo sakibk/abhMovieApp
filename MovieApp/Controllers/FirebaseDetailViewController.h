@@ -15,4 +15,5 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(strong,nonatomic) Movie *singleMovie;
 @property (strong,nonatomic) NSNumber *indexPlayDay;
+@property (strong, nonatomic) NSMutableArray<Movie*> *allMovies;
 @end

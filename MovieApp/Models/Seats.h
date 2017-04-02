@@ -15,4 +15,6 @@
 @property (strong, nonatomic) NSNumber *seatNum;
 @property BOOL taken;
 
+
+-(id)initWithSnap:(NSDictionary*)snap andID:(int)seatID;
 @end

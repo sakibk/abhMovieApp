@@ -55,7 +55,6 @@
     _tableView.delegate=self;
     _tableView.dataSource=self;
     [self setupView];
-    //    [self setupButton];
     [self setupVariables];
     [self CreateDropDownList];
     [self setObservers];
@@ -120,34 +119,10 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-//    [self.postMovieRef removeObserverWithHandle:_refHandle];
     [self.movieRef removeAllObservers];
 }
 
 
-//#setupButtons
--(void)setupButton{
-    [self.view setBackgroundColor:[UIColor blackColor]];
-    CGRect a = CGRectMake(10, 10, [UIScreen mainScreen].bounds.size.width-20, 60);
-    butt = [[UIButton alloc] initWithFrame:a];
-    [butt setBackgroundColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
-    [butt addTarget:self action:@selector(addToFirebase:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:butt];
-    
-}
-
--(IBAction)addToFirebase:(id)sender{
-//    [[[[FIRDatabase database].reference child:@"users"] child:@""]
-//     observeSingleEventOfType:FIRDataEventTypeValue
-//     withBlock:^(FIRDataSnapshot * _Nonnull snapshot) {
-//         NSDictionary *comment = @{@"uid": @"",
-//                                   @"author": @"",
-//                                   @"text": @""};
-//         [[_movieRef childByAutoId] setValue:comment];
-//         
-//     }];
-}
-//#setup dropdown menu
 -(void)setButtonTitle{
     NSMutableAttributedString *text =
     [[NSMutableAttributedString alloc]
@@ -625,7 +600,8 @@
         default:
             break;
     }
-
+    
+    firebaseDetails.allMovies=_allMovies;
     [self.navigationController pushViewController:firebaseDetails animated:YES];
 }
 /*

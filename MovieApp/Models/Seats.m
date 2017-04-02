@@ -10,4 +10,14 @@
 
 @implementation Seats
 
+-(id)initWithSnap:(NSDictionary*)snap andID:(int)seatID{
+    self = [super init];
+    
+    self.seatID=[NSNumber numberWithInt:seatID];
+    self.row= [snap valueForKey:@"row"];
+    self.taken =[[snap valueForKey:@"taken"] boolValue];
+    
+    return self;
+}
+
 @end

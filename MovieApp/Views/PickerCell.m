@@ -12,6 +12,9 @@
 NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
 
 @implementation PickerCell
+{
+    BOOL areHours;
+}
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -38,6 +41,17 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
 
 -(void)setupWithHours:(NSMutableArray<Hours*>*) playingHours{
     _hoursPlaying =[[NSMutableArray alloc]initWithArray:playingHours];
+    areHours=YES;
+}
+
+-(void)setupWithPlayingMovies:(NSMutableArray<Movie*>*)playingMovies andSelectedMovie:(Movie*)selectedMovie{
+    _playingMovies=[[NSMutableArray alloc]initWithArray:playingMovies];
+    _selectedMovie=selectedMovie;
+    areHours=NO;
+    [_pickerButton setTitle:selectedMovie.title forState:UIControlStateNormal];
+    [_imageDown setImage:[UIImage imageNamed:@"DropDownYellow"]];
+    [_pickerButton setBackgroundColor:[UIColor blackColor]];
+    [_pickerView reloadAllComponents];
 }
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)thePickerView {
@@ -46,21 +60,33 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
 }
 
 - (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component {
-    
-    return [_hoursPlaying count];
+    if(areHours)
+        return [_hoursPlaying count];
+    else
+        return [_playingMovies count];
 }
 
 
 - (NSString *)pickerView:(UIPickerView *)thePickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return [NSString stringWithFormat:@"%@",[[_hoursPlaying objectAtIndex:row] playingHour]];
+    if(areHours)
+        return [NSString stringWithFormat:@"%@",[[_hoursPlaying objectAtIndex:row] playingHour]];
+    else
+        return [NSString stringWithFormat:@"%@",[[_playingMovies objectAtIndex:row] title]];
 }
 
 
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     
     //Here, like the table view you can get the each section of each row if you've multiple sections
+    if(areHours){
     NSLog(@"Selected Tearm: %@. Index of selected term: %ld", [[_hoursPlaying objectAtIndex:row] playingHour], (long)row);
     [self.delegate pushHoursTroughDelegate:[_hoursPlaying objectAtIndex:row]];
+    }
+    else{
+        NSLog(@"Selected Tearm: %@. Index of selected term: %ld", [[_playingMovies objectAtIndex:row] title], (long)row);
+        [self.delegateOne pushMoviesTroughDelegate:[_playingMovies objectAtIndex:row]];
+        [_pickerButton setTitle:[[_playingMovies objectAtIndex:row] title] forState:UIControlStateNormal];
+    }
     [_pickerButton setAlpha:1.0];
     [_imageDown setAlpha:1.0];
     [self.delegate popPicker:_pickerButton];
