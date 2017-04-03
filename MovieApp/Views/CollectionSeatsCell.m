@@ -24,6 +24,7 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
     [self setupIndexes];
     [self.collectionView reloadData];
     _selectedSeats = [[NSMutableArray alloc]init];
+    _seatNumber=[NSNumber numberWithInt:1];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -58,12 +59,12 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
                      [_seats replaceObjectAtIndex:k withObject:s];
                  }
              }
-//         Seats *st = [[_seats objectAtIndex:snapshot.value value]]
-         //uraditi detekciju selektovanih :D
          [self.collectionView reloadData];
      }];
 }
-
+-(void)setupNumberOfSeatsToTake:(NSNumber*)numberOfSeats{
+    _seatNumber=numberOfSeats;
+}
 -(void)pushSelectedSeat:(Seats*)seat{
     [_selectedSeats addObject:seat];
 }
@@ -80,20 +81,26 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
     return 10;
 }
 
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView
+                        layout:(UICollectionViewLayout *)collectionViewLayout
+        insetForSectionAtIndex:(NSInteger)section {
 
--(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(nonnull UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section{
-    return UIEdgeInsetsMake(0.0001, 15.0, 0.0001, 15.0);
+    return UIEdgeInsetsMake(0, 0.0, 0.0, 0.0);
 }
 
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CGFloat width = ([[UIScreen mainScreen]bounds].size.width-160)/11;
+//    CGFloat width = ([[UIScreen mainScreen]bounds].size.width-160)/11;
+    CGFloat width = self.frame.size.width / 11;
+    
     return CGSizeMake(width,width);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    SeatCell *cell =(SeatCell*)[_collectionView cellForItemAtIndexPath:indexPath];
-    [cell setupSelected];
+    if([_selectedSeats count]<=[_seatNumber integerValue]){
+        SeatCell *cell =(SeatCell*)[_collectionView cellForItemAtIndexPath:indexPath];
+        [cell setupSelected];
+    }
 }
 
 -(void)setupIndexes{

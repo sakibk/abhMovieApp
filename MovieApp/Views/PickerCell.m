@@ -81,6 +81,7 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
     //Here, like the table view you can get the each section of each row if you've multiple sections
     if(areHours){
     NSLog(@"Selected Tearm: %@. Index of selected term: %ld", [[_hoursPlaying objectAtIndex:row] playingHour], (long)row);
+        [_pickerButton setTitle:[[_hoursPlaying objectAtIndex:row] playingHour] forState:UIControlStateNormal];
     [self.delegate pushHoursTroughDelegate:[_hoursPlaying objectAtIndex:row]];
     [self.delegate popPicker:_pickerButton];
     }

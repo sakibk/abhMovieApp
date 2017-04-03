@@ -25,6 +25,7 @@
 #import "ListPost.h"
 #import "RLUserInfo.h"
 
+@import Stripe;
 @import Firebase;
 
 @interface AppDelegate ()
@@ -138,6 +139,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [Fabric with:@[[Crashlytics class]]];
+    [[STPPaymentConfiguration sharedConfiguration] setPublishableKey:@"pk_test_yi2FXesEU6JR7JLj2YMAnpOk"];
     [self setupNotifCenter:application finish:launchOptions];
 //    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
 //    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];

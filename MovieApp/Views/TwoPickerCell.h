@@ -35,4 +35,5 @@ extern NSString *const twoPickerCellIdentifier;
 @property (strong, nonatomic) NSMutableArray<DaysPlaying*> *playingDays;
 
 @property (strong, nonatomic) id<TwoPickerCellDelegate> delegate;
+-(void)firstPickerButtonTitle;
 @end

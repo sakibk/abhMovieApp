@@ -237,15 +237,15 @@
         if(![self.imagesArray[indexPath.row] isEqualToString:@""]){
             [cell.imageView setImage:[UIImage imageNamed:self.imagesArray[indexPath.row]]];
             [cell.imageView sizeToFit];
-            if([self.imagesArray[indexPath.row] isEqualToString:@"CinemaIcon"]){
-                [cell.imageIconNew setImage:[UIImage imageNamed:@"CinemaNew"]];
-                [cell.imageIconNew setAlpha:1.0];
-                [cell.imageIconNew sizeToFit];
-            }
             [cell setUserInteractionEnabled:YES];
+            if([self.imagesArray[indexPath.row] isEqualToString:@"CinemaIcon"]){
+                [cell setupNewButton];
+                [cell setBackgroundColor:[UIColor colorWithRed:0.27 green:0.27 blue:0.28 alpha:1.0]];
+                [cell.textLabel setTextColor:[UIColor colorWithRed:0.96 green:0.79 blue:0 alpha:1.0]];
+            }
         }
         else if(indexPath.row==0 || indexPath.row==4){
-            [cell setBackgroundColor:[UIColor colorWithRed:0.29 green:0.29 blue:0.3 alpha:1.0]];
+            [cell setBackgroundColor:[UIColor colorWithRed:0.19 green:0.19 blue:0.20 alpha:1.0]];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
         }
@@ -267,7 +267,7 @@
     }
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LeftViewCell *cell = (LeftViewCell*)[tableView cellForRowAtIndexPath:indexPath];
-    [cell setBackgroundColor:[UIColor colorWithRed:0.29 green:0.29 blue:0.30 alpha:1.0]];
+    [cell setBackgroundColor:[UIColor colorWithRed:0.27 green:0.27 blue:0.28 alpha:1.0]];
     [cell.textLabel setTextColor:[UIColor colorWithRed:0.96 green:0.79 blue:0 alpha:1.0]];
     if(_isLogged){
         if(_selectedIndex !=indexPath){

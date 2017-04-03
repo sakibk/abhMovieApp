@@ -15,5 +15,6 @@
 @property (strong, nonatomic) UIImageView *imageIcon;
 @property (strong, nonatomic) UIImageView *imageIconNew;
 
+-(void)setupNewButton;
 
 @end

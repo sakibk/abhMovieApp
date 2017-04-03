@@ -26,7 +26,7 @@
                     </pickerView>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e78-AG-JzR">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
-                        <color key="backgroundColor" red="0.192" green="0.192" blue="0.192" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" type="system" pointSize="19"/>
                         <inset key="titleEdgeInsets" minX="20" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <state key="normal" title="Choose a time">
@@ -36,24 +36,23 @@
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="DropDownDown" translatesAutoresizingMaskIntoConstraints="NO" id="rBd-dG-9bf">
                         <rect key="frame" x="331" y="21" width="26" height="18.5"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="26" id="PEB-cQ-jzH"/>
-                            <constraint firstAttribute="height" constant="18.5" id="b08-Bp-ECt"/>
+                            <constraint firstAttribute="height" constant="18.5" id="6Wg-dg-9zn"/>
+                            <constraint firstAttribute="width" constant="26" id="KZq-GI-8lx"/>
                         </constraints>
                     </imageView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
-                    <constraint firstAttribute="bottomMargin" secondItem="rBd-dG-9bf" secondAttribute="bottom" constant="13.5" id="EiO-zm-e1y"/>
-                    <constraint firstItem="d1E-6I-kht" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="Fey-Bx-KIN"/>
-                    <constraint firstItem="e78-AG-JzR" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="IKF-iY-wsW"/>
-                    <constraint firstItem="d1E-6I-kht" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="Ilx-Md-8GZ"/>
-                    <constraint firstItem="rBd-dG-9bf" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="topMargin" constant="13" id="JqK-dm-vwk"/>
-                    <constraint firstAttribute="trailingMargin" secondItem="rBd-dG-9bf" secondAttribute="trailing" constant="10" id="Yb5-Eq-3lR"/>
-                    <constraint firstAttribute="trailing" secondItem="e78-AG-JzR" secondAttribute="trailing" id="hCh-dU-ubH"/>
-                    <constraint firstAttribute="bottom" secondItem="e78-AG-JzR" secondAttribute="bottom" id="hxe-3m-2hs"/>
-                    <constraint firstAttribute="trailing" secondItem="d1E-6I-kht" secondAttribute="trailing" id="kNR-U8-scR"/>
-                    <constraint firstAttribute="bottom" secondItem="d1E-6I-kht" secondAttribute="bottom" id="lvL-On-GBq"/>
-                    <constraint firstItem="e78-AG-JzR" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="tQj-td-bd4"/>
+                    <constraint firstItem="e78-AG-JzR" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="Aho-BY-E8v"/>
+                    <constraint firstItem="d1E-6I-kht" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="E2X-vt-m4C"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="rBd-dG-9bf" secondAttribute="trailing" constant="10" id="FCO-A7-5ot"/>
+                    <constraint firstAttribute="bottom" secondItem="e78-AG-JzR" secondAttribute="bottom" id="FcX-TU-wes"/>
+                    <constraint firstItem="e78-AG-JzR" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="WAa-LY-5gS"/>
+                    <constraint firstAttribute="bottom" secondItem="d1E-6I-kht" secondAttribute="bottom" id="Z65-cy-UqI"/>
+                    <constraint firstAttribute="trailing" secondItem="d1E-6I-kht" secondAttribute="trailing" id="b5P-tV-fXi"/>
+                    <constraint firstItem="d1E-6I-kht" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="eFt-Ru-c4G"/>
+                    <constraint firstAttribute="trailing" secondItem="e78-AG-JzR" secondAttribute="trailing" id="io0-g6-mbb"/>
+                    <constraint firstItem="rBd-dG-9bf" firstAttribute="centerY" secondItem="8vp-o1-shg" secondAttribute="centerY" id="pP3-uZ-2fu"/>
                 </constraints>
             </tableViewCellContentView>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

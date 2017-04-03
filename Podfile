@@ -17,6 +17,7 @@ target 'MovieApp' do
  pod 'Firebase/Core'
  pod 'Firebase/Storage'
  pod 'Firebase/Database'
+ pod 'Stripe'
   # Pods for MovieApp
 
 end

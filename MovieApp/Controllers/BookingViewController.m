@@ -137,6 +137,8 @@
     _ticketNumber = numberOfTickets;
     _totalCost =[NSString stringWithFormat:@"%@%@%@",@"TOTAL: ",[NSNumber numberWithFloat:20*[numberOfTickets floatValue]],@".00"];
     totalLabel.text=_totalCost;
+    CollectionSeatsCell *cell =[_tableView cellForRowAtIndexPath:_seatsIndexPath];
+    [cell setupNumberOfSeatsToTake:_ticketNumber];
 }
 
 -(void)pushSelectedHours:(Hours*)hoursSelected{
@@ -205,6 +207,7 @@
             TwoPickerCell *cell = (TwoPickerCell*)[_tableView dequeueReusableCellWithIdentifier:twoPickerCellIdentifier forIndexPath:indexPath];
             cell.selectedHours=_selectedHours;
             cell.playingDays=[_selectedMovie playingDays];
+            [cell firstPickerButtonTitle];
             cell.delegate=self;
             return cell;
         }

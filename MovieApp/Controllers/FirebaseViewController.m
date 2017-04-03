@@ -24,6 +24,7 @@
 @property (nonatomic,strong) UIView *dropDown;
 @property (nonatomic,assign) BOOL isDroped;
 @property (nonatomic,assign) BOOL isNavBarSet;
+@property (nonatomic,assign) NSNumber *todayDay;
 
 @end
 
@@ -54,10 +55,20 @@
     // Do any additional setup after loading the view
     _tableView.delegate=self;
     _tableView.dataSource=self;
+    [self setupDay];
     [self setupView];
     [self setupVariables];
     [self CreateDropDownList];
     [self setObservers];
+}
+
+-(void)setupDay{
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
+    [gregorian setLocale:[NSLocale systemLocale]];
+    
+    NSDateComponents *nowComponents = [gregorian components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear| NSCalendarUnitWeekday | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate dateWithTimeIntervalSinceNow:0]];
+    _todayDay= [NSNumber numberWithInteger:(([nowComponents weekday]+5)%7)];
+    
 }
 
 -(void)setupView{
@@ -86,8 +97,8 @@
 -(void)setupVariables{
     _isDroped = NO;
     _isNavBarSet=NO;
-    _dropDownTitle=@"Movies";
-    _selectedButton = 0;
+    _dropDownTitle=@"Today";
+    _selectedButton = [_todayDay intValue];
     FIRDatabaseReference *ref = [FIRDatabase database].reference;
     self.movieRef = [ref child:@"Movies"];
     self.snapMovies =[[NSMutableArray alloc] init];
@@ -126,7 +137,7 @@
 -(void)setButtonTitle{
     NSMutableAttributedString *text =
     [[NSMutableAttributedString alloc]
-     initWithString:[NSString stringWithFormat:@" Filter by: %@",_dropDownTitle]];
+     initWithString:[NSString stringWithFormat:@" Sorted by: %@",_dropDownTitle]];
     [text addAttribute:NSForegroundColorAttributeName
                  value:[UIColor whiteColor]
                  range:NSMakeRange(0, 11)];
@@ -356,36 +367,57 @@
     if(sender.tag==0){
         [self setDropDownTitleButton];
         _selectedButton=0;
+        if(_selectedButton==[_todayDay intValue])
+            _dropDownTitle=@"Today";
+        else
         _dropDownTitle=@"Monday";
     }
     else if(sender.tag==1){
         [self setDropDownTitleButton];
         _selectedButton=1;
+        if(_selectedButton==[_todayDay intValue])
+            _dropDownTitle=@"Today";
+        else
         _dropDownTitle=@"Tuesday";
     }
     else if(sender.tag==2){
         [self setDropDownTitleButton];
         _selectedButton=2;
+        if(_selectedButton==[_todayDay intValue])
+            _dropDownTitle=@"Today";
+        else
         _dropDownTitle=@"Wednesday";
     }
     else if(sender.tag==3){
         [self setDropDownTitleButton];
         _selectedButton=3;
+        if(_selectedButton==[_todayDay intValue])
+            _dropDownTitle=@"Today";
+        else
         _dropDownTitle=@"Thursday";
     }
     else if(sender.tag==4){
         [self setDropDownTitleButton];
         _selectedButton=4;
+        if(_selectedButton==[_todayDay intValue])
+            _dropDownTitle=@"Today";
+        else
         _dropDownTitle=@"Friday";
     }
     else if(sender.tag==5){
         [self setDropDownTitleButton];
         _selectedButton=5;
+        if(_selectedButton==[_todayDay intValue])
+            _dropDownTitle=@"Today";
+        else
         _dropDownTitle=@"Saturday";
     }
     else if(sender.tag==6){
         [self setDropDownTitleButton];
         _selectedButton=6;
+        if(_selectedButton==[_todayDay intValue])
+            _dropDownTitle=@"Today";
+        else
         _dropDownTitle=@"Sunday";
     }
     

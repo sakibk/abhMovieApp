@@ -32,6 +32,12 @@ NSString *const twoPickerCellIdentifier =@"TwoPickerCellIdentifier";
     // Configure the view for the selected state
 }
 
+-(void)firstPickerButtonTitle{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd/MM/YYYY"];
+    [NSString stringWithFormat:@"%@ - %@",[dateFormatter stringFromDate:[[_playingDays objectAtIndex:[[_selectedHours playingDayID] integerValue]] playingDate]],[_selectedHours playingHour]];
+}
+
 -(IBAction)popOneOfTwoPickers:(id)sender{
     if([sender tag]==1){
         [_popPicker1 setAlpha:0.0];
@@ -80,16 +86,19 @@ NSString *const twoPickerCellIdentifier =@"TwoPickerCellIdentifier";
 
 - (void)pickerView:(UIPickerView *)thePickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if([thePickerView tag]==1){
+
         NSLog(@"Selected Tearm: %d. Index of selected term: %d",1,1);
+        [_popPicker1 setTitle:[_stringsToShow objectAtIndex:row] forState:UIControlStateNormal];
         [_popPicker1 setAlpha:1.0];
         [_dropDownImage1 setAlpha:1.0];
         [self.delegate pushSelectedHours:[_playingHours objectAtIndex:row]];
     }
     else{
-        NSLog(@"Selected number of persons %d",row);
+        NSLog(@"Selected number of persons %ld",row);
+        [_popPicker2 setTitle:[NSString stringWithFormat:@"%ld",row+1] forState:UIControlStateNormal];
         [_popPicker2 setAlpha:1.0];
         [_dropDownImage2 setAlpha:1.0];
-        [self.delegate pushTicketNo:[NSNumber numberWithInteger:row]];
+        [self.delegate pushTicketNo:[NSNumber numberWithInteger:row+1]];
     }
     //Here, like the table view you can get the each section of each row if you've multiple sections
     [self.delegate popOneOfTwoPickers:thePickerView];

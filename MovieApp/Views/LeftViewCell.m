@@ -34,6 +34,16 @@
     return self;
 }
 
+-(void)setupNewButton{
+    CGRect newImageIconFrame=CGRectMake(((self.frame.size.width)*4/7),self.frame.origin.y+15 , self.frame.size.height-20, self.frame.size.height-20);
+    
+    _imageIconNew =[[UIImageView alloc]initWithFrame:newImageIconFrame];
+    [self addSubview:self.imageIconNew];
+    [self.imageIconNew setImage:[UIImage imageNamed:@"CinemaNew"]];
+    [self.imageIconNew setAlpha:1.0];
+    [self.imageIconNew sizeToFit];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -52,10 +62,7 @@
                                           CGRectGetHeight(self.frame)-height,
                                           CGRectGetWidth(self.frame)*0.9,
                                           height);
-    
-    CGRect newImageIconFrame=CGRectMake(self.textLabel.frame.size.width-44,self.textLabel.frame.origin.y+10 , self.textLabel.frame.size.height-20, self.textLabel.frame.size.height-20);
-    self.imageIconNew.frame=newImageIconFrame;
-    [self.imageIconNew setAlpha:0.0];
+
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {
