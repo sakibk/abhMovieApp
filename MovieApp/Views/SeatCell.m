@@ -12,6 +12,7 @@ NSString *const seatCellIdentifier=@"SeatC";
 
 -(void)awakeFromNib{
     [super awakeFromNib];
+    _isSelected=NO;
 }
 
 -(void)setYellowCircle{
@@ -27,12 +28,30 @@ NSString *const seatCellIdentifier=@"SeatC";
 }
 
 -(void)setupSeatCell:(Seats*)seat{
+    _seat =[[Seats alloc]init];
     _seat=seat;
-    if(seat.taken)
+    if([seat taken]){
         [self setDarkCircle];
-    else
+    }else{
         [self setLightCircle];
+    }
 }
+
+-(void)setupSelected{
+    if(![_seat taken]){
+    if(_isSelected){
+        [self setLightCircle];
+        [self.delegate popSelectedSeat:_seat];
+        _isSelected=NO;
+    }else{
+        [self setYellowCircle];
+        [self.delegate pushSelectedSeat:_seat];
+        _isSelected=YES;
+    }
+    }
+}
+
+
 -(void)setupNonSeatCell{
     [_circleImage setImage:[UIImage imageNamed:@""]];
     [self setBackgroundColor:[UIColor clearColor]];

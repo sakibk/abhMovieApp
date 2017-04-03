@@ -80,7 +80,7 @@
                              @"WatchlistButton",
                              @"RatingsButton",
                              @"",
-                             @"Cinema",
+                             @"CinemaIcon",
                              @"SettingsButton",
                              @"LogoutButton",
                              @"",
@@ -237,6 +237,11 @@
         if(![self.imagesArray[indexPath.row] isEqualToString:@""]){
             [cell.imageView setImage:[UIImage imageNamed:self.imagesArray[indexPath.row]]];
             [cell.imageView sizeToFit];
+            if([self.imagesArray[indexPath.row] isEqualToString:@"CinemaIcon"]){
+                [cell.imageIconNew setImage:[UIImage imageNamed:@"CinemaNew"]];
+                [cell.imageIconNew setAlpha:1.0];
+                [cell.imageIconNew sizeToFit];
+            }
             [cell setUserInteractionEnabled:YES];
         }
         else if(indexPath.row==0 || indexPath.row==4){

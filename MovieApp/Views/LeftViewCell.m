@@ -52,6 +52,10 @@
                                           CGRectGetHeight(self.frame)-height,
                                           CGRectGetWidth(self.frame)*0.9,
                                           height);
+    
+    CGRect newImageIconFrame=CGRectMake(self.textLabel.frame.size.width-44,self.textLabel.frame.origin.y+10 , self.textLabel.frame.size.height-20, self.textLabel.frame.size.height-20);
+    self.imageIconNew.frame=newImageIconFrame;
+    [self.imageIconNew setAlpha:0.0];
 }
 
 - (void)setHighlighted:(BOOL)highlighted animated:(BOOL)animated {

@@ -21,7 +21,7 @@ extern NSString *const pickerCellIdentifier;
 
 @protocol PickerCellTwoDelegate <NSObject>
 
--(IBAction)popPicker:(id)sender;
+-(IBAction)popMoviePicker:(id)sender;
 -(void)pushMoviesTroughDelegate:(Movie*)selectedMovie;
 
 @end

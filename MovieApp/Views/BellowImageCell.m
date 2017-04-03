@@ -17,7 +17,6 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
-    
 }
 
 -(void) setupWithMovie:(Movie *)singleMovie{
@@ -132,27 +131,8 @@ NSString * const BellowImageCellIdentifier=@"bellowImageCellIdentifier";
     
     _releaseDate.text = [dateFormatter stringFromDate:singleMovie.releaseDate];
     
-    _genreString = [[NSMutableString alloc]init];
-    if([singleMovie.genres count]){
-        for (Genre *str in singleMovie.genres ){
-            [_genreString appendString:str.genreName];
-            [_genreString appendString:@", "];
-        }
-    }
-    else{
-        for (Genre *str in singleMovie.genreSet ){
-            [_genreString appendString:str.genreName];
-            [_genreString appendString:@", "];
-        }
-    }
-    if([_genreString length]>3){
-        [_genreString deleteCharactersInRange:NSMakeRange([_genreString length]-2, 2)];
-    }
-    else{
-        [_genreString appendString:@"Genres not avalible"];
-    }
-    _genres.text = _genreString;
-    
+    singleMovie.singleGenre=[singleMovie.singleGenre stringByReplacingOccurrencesOfString:@"/" withString:@","];
+    _genres.text=singleMovie.singleGenre;
 }
 
 @end

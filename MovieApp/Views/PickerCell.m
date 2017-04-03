@@ -37,6 +37,7 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
     [_pickerButton setAlpha:0.0];
     [_imageDown setAlpha:0.0];
     [self.delegate popPicker:sender];
+    [self.delegateOne popMoviePicker:sender];
 }
 
 -(void)setupWithHours:(NSMutableArray<Hours*>*) playingHours{
@@ -81,15 +82,16 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
     if(areHours){
     NSLog(@"Selected Tearm: %@. Index of selected term: %ld", [[_hoursPlaying objectAtIndex:row] playingHour], (long)row);
     [self.delegate pushHoursTroughDelegate:[_hoursPlaying objectAtIndex:row]];
+    [self.delegate popPicker:_pickerButton];
     }
     else{
         NSLog(@"Selected Tearm: %@. Index of selected term: %ld", [[_playingMovies objectAtIndex:row] title], (long)row);
         [self.delegateOne pushMoviesTroughDelegate:[_playingMovies objectAtIndex:row]];
         [_pickerButton setTitle:[[_playingMovies objectAtIndex:row] title] forState:UIControlStateNormal];
+    [self.delegateOne popMoviePicker:_pickerButton];
     }
     [_pickerButton setAlpha:1.0];
     [_imageDown setAlpha:1.0];
-    [self.delegate popPicker:_pickerButton];
     
 }
 

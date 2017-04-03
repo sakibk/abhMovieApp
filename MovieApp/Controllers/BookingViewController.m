@@ -26,6 +26,7 @@
 @property CGFloat buttonHeight;
 @property CGFloat noCellHeight;
 @property NSIndexPath *seatsIndexPath;
+@property NSIndexPath *twoPickerIndexPath;
 
 @end
 
@@ -98,7 +99,7 @@
     [bottomButton setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 15)];
     [bottomButton addTarget:self action:@selector(pushCheckoutSummary) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:bottomButton];
-    CGRect totalRect = CGRectMake(20, 25, 120, 20);
+    CGRect totalRect = CGRectMake(20, 20, 120, 20);
     totalLabel = [[UILabel alloc] initWithFrame:totalRect];
     totalLabel.text=_totalCost;
     [totalLabel setContentMode:UIViewContentModeLeft];
@@ -111,9 +112,18 @@
 }
 -(void)pushMoviesTroughDelegate:(Movie*)selectedMovie{
     _selectedMovie=selectedMovie;
+    _selectedHours=[[[[_selectedMovie playingDays] objectAtIndex:0] playingHours] objectAtIndex:0];
+    TwoPickerCell *cellPicker = (TwoPickerCell*)[_tableView cellForRowAtIndexPath:_twoPickerIndexPath];
+    [cellPicker setSelectedHours:_selectedHours];
+    [cellPicker.playingDays setArray:[_selectedMovie playingDays]];
+    
+    CollectionSeatsCell *cell = (CollectionSeatsCell*)[_tableView cellForRowAtIndexPath:_seatsIndexPath];
+    [cell setupWithHallID:_selectedHours.playingHall andPlayingDayID:_selectedHours.playingDayID andPlayingHourID:_selectedHours.hourID];
+    _totalCost=@"TOTAL: $0.00";
+    totalLabel.text =_totalCost;
 }
 
--(IBAction)popPicker:(id)sender{
+-(IBAction)popMoviePicker:(id)sender{
     [self.tableView beginUpdates];
     if (isPickerViewExtended) {
         isPickerViewExtended = NO;
@@ -125,7 +135,7 @@
 
 -(void)pushTicketNo:(NSNumber*)numberOfTickets{
     _ticketNumber = numberOfTickets;
-    _totalCost =[NSString stringWithFormat:@"%@",[NSNumber numberWithInt:20*[numberOfTickets intValue]]];
+    _totalCost =[NSString stringWithFormat:@"%@%@%@",@"TOTAL: ",[NSNumber numberWithFloat:20*[numberOfTickets floatValue]],@".00"];
     totalLabel.text=_totalCost;
 }
 
@@ -133,10 +143,12 @@
     _selectedHours=hoursSelected;
     CollectionSeatsCell *cell =(CollectionSeatsCell*)[_tableView cellForRowAtIndexPath:_seatsIndexPath];
     [cell setupWithHallID:_selectedHours.playingHall andPlayingDayID:_selectedHours.playingDayID andPlayingHourID:_selectedHours.hourID];
+    _totalCost=@"TOTAL: $0.00";
+    totalLabel.text =_totalCost;
 }
 
 -(IBAction)popOneOfTwoPickers:(id)sender{
-    if (sender==0){
+    if ([sender tag]==1){
         if(senderOnePop)
             senderOnePop=NO;
         else
@@ -189,15 +201,17 @@
         }
             break;
         case 1:{
+            _twoPickerIndexPath=indexPath;
             TwoPickerCell *cell = (TwoPickerCell*)[_tableView dequeueReusableCellWithIdentifier:twoPickerCellIdentifier forIndexPath:indexPath];
-            [cell setSelectedHours:_selectedHours];
-            [cell.playingDays setArray:[_selectedMovie playingDays]];
+            cell.selectedHours=_selectedHours;
+            cell.playingDays=[_selectedMovie playingDays];
             cell.delegate=self;
             return cell;
         }
             break;
         case 2:{
             LegendCell *cell = (LegendCell*)[_tableView dequeueReusableCellWithIdentifier:legendCellIdentifier forIndexPath:indexPath];
+            [cell setUserInteractionEnabled:NO];
             return cell;
         }
             break;

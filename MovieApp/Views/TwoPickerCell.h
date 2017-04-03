@@ -31,6 +31,7 @@ extern NSString *const twoPickerCellIdentifier;
 @property (weak, nonatomic) IBOutlet UIImageView *dropDownImage2;
 
 @property (strong, nonatomic) Hours *selectedHours;
+@property (strong, nonatomic) NSMutableArray<Hours*> *playingHours;
 @property (strong, nonatomic) NSMutableArray<DaysPlaying*> *playingDays;
 
 @property (strong, nonatomic) id<TwoPickerCellDelegate> delegate;

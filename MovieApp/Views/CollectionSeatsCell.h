@@ -8,12 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Seats.h"
+#import "SeatCell.h"
 
 @import Firebase;
 
 extern NSString *const seatsCollectionCellIdentifier;
-@interface CollectionSeatsCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface CollectionSeatsCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource, SeatCellProtocol>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong,nonatomic) NSMutableArray<Seats*> *selectedSeats;
 @property (strong,nonatomic) NSMutableArray<Seats*> *seats;
 @property (strong,nonatomic) Seats *seat;
 
