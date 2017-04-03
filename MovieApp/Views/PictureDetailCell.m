@@ -149,7 +149,6 @@ NSString* const pictureDetailCellIdentifier= @"pictureCellIdentifier";
 -(void) setupWithSnapMovie:(Movie *) singleMovie{
     [_watchButton setHidden:YES];
     [_favouriteButton setHidden:YES];
-    [_playButton setHidden:YES];
     if(singleMovie.backdropPath != nil)
         picturePath=[[NSString alloc] initWithString:singleMovie.backdropPath];
     [self setPicture:singleMovie.backdropPath];

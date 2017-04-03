@@ -13,6 +13,8 @@
 #import "OverviewdLineCell.h"
 #import "PickerCell.h"
 #import "BookingViewController.h"
+#import "TrailerViewController.h"
+#import "RatingViewController.h"
 
 @interface FirebaseDetailViewController ()
 
@@ -274,8 +276,11 @@
         return _noCellHeight;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(indexPath.section == 4){
-        NSLog(@"push controller");
+    if(indexPath.section == 0){
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        TrailerViewController *trailer = (TrailerViewController*)[storyboard instantiateViewControllerWithIdentifier:@"TrailerView"];
+        [trailer setupWithMovieID:_singleMovie.movieID  andOverview:_singleMovie.overview];
+        [self.navigationController pushViewController:trailer animated:YES];
     }
 }
 
@@ -284,6 +289,14 @@
     [hv setBackgroundColor:[UIColor blackColor]];
     return hv;
 }
+
+-(void)pushRateController{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    RatingViewController *rate = (RatingViewController*)[storyboard instantiateViewControllerWithIdentifier:@"RatingViewController"];
+    [rate setupWithMovie:_singleMovie];
+    [self.navigationController pushViewController:rate animated:YES];
+}
+
 /*
  #pragma mark - Navigation
  
