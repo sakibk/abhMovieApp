@@ -12,6 +12,9 @@
 		AD076D031E7410BE001B356F /* OverviewdLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD076D021E7410BE001B356F /* OverviewdLineCell.m */; };
 		AD076D051E77D8DC001B356F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AD076D041E77D8DC001B356F /* SystemConfiguration.framework */; };
 		AD076D081E77DBD8001B356F /* RLMFeeds.m in Sources */ = {isa = PBXBuildFile; fileRef = AD076D071E77DBD8001B356F /* RLMFeeds.m */; };
+		AD0933A81E93893800260887 /* CheckoutSummaryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0933A71E93893800260887 /* CheckoutSummaryViewController.m */; };
+		AD0933AA1E938A7B00260887 /* CheckoutCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD0933A91E938A7B00260887 /* CheckoutCell.xib */; };
+		AD0933AD1E938AA600260887 /* CheckoutCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0933AC1E938AA600260887 /* CheckoutCell.m */; };
 		AD0935731E4007F70045A61F /* Review.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0935721E4007F70045A61F /* Review.m */; };
 		AD0C91471E77FC0900049DB4 /* ObjectMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C91461E77FC0900049DB4 /* ObjectMapper.m */; };
 		AD0C914C1E79F3D000049DB4 /* ListMappingTV.m in Sources */ = {isa = PBXBuildFile; fileRef = AD0C914B1E79F3D000049DB4 /* ListMappingTV.m */; };
@@ -158,6 +161,11 @@
 		AD076D041E77D8DC001B356F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		AD076D061E77DBD8001B356F /* RLMFeeds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMFeeds.h; path = MovieApp/PersistentModels/RLMFeeds.h; sourceTree = "<group>"; };
 		AD076D071E77DBD8001B356F /* RLMFeeds.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMFeeds.m; path = MovieApp/PersistentModels/RLMFeeds.m; sourceTree = "<group>"; };
+		AD0933A61E93893800260887 /* CheckoutSummaryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutSummaryViewController.h; path = Controllers/CheckoutSummaryViewController.h; sourceTree = "<group>"; };
+		AD0933A71E93893800260887 /* CheckoutSummaryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutSummaryViewController.m; path = Controllers/CheckoutSummaryViewController.m; sourceTree = "<group>"; };
+		AD0933A91E938A7B00260887 /* CheckoutCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CheckoutCell.xib; path = Views/CheckoutCell.xib; sourceTree = "<group>"; };
+		AD0933AB1E938AA600260887 /* CheckoutCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CheckoutCell.h; path = Views/CheckoutCell.h; sourceTree = "<group>"; };
+		AD0933AC1E938AA600260887 /* CheckoutCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CheckoutCell.m; path = Views/CheckoutCell.m; sourceTree = "<group>"; };
 		AD0935711E4007F70045A61F /* Review.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Review.h; path = MovieApp/Models/Review.h; sourceTree = "<group>"; };
 		AD0935721E4007F70045A61F /* Review.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Review.m; path = MovieApp/Models/Review.m; sourceTree = "<group>"; };
 		AD0C91451E77FC0900049DB4 /* ObjectMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectMapper.h; sourceTree = "<group>"; };
@@ -643,6 +651,9 @@
 				AD237E271E903CED0082E220 /* TwoPickerCell.xib */,
 				AD237E291E903D500082E220 /* TwoPickerCell.h */,
 				AD237E2A1E903D500082E220 /* TwoPickerCell.m */,
+				AD0933A91E938A7B00260887 /* CheckoutCell.xib */,
+				AD0933AB1E938AA600260887 /* CheckoutCell.h */,
+				AD0933AC1E938AA600260887 /* CheckoutCell.m */,
 			);
 			name = TableView;
 			sourceTree = "<group>";
@@ -861,6 +872,8 @@
 				AD12CEFF1E8AC2E5000A0131 /* FirebaseDetailViewController.m */,
 				AD237E061E8DE64D0082E220 /* BookingViewController.h */,
 				AD237E071E8DE64D0082E220 /* BookingViewController.m */,
+				AD0933A61E93893800260887 /* CheckoutSummaryViewController.h */,
+				AD0933A71E93893800260887 /* CheckoutSummaryViewController.m */,
 			);
 			name = FirebaseStripe;
 			sourceTree = "<group>";
@@ -1106,6 +1119,7 @@
 				ADF64D271E2D0528000DFCFA /* LaunchScreen.storyboard in Resources */,
 				AD4F93631E41CE1C00E55630 /* SeasonsCell.xib in Resources */,
 				AD4F93861E4B937800E55630 /* AboutCell.xib in Resources */,
+				AD0933AA1E938A7B00260887 /* CheckoutCell.xib in Resources */,
 				AD349FF91E39EE84009C4367 /* BellowImageCell.xib in Resources */,
 				AD34A0331E3BDDC3009C4367 /* SingleReviewCell.xib in Resources */,
 				AD237DF61E8CC95B0082E220 /* PickerCell.xib in Resources */,
@@ -1258,6 +1272,7 @@
 				AD74DF901E8468A100D7490E /* ReconnectedList.m in Sources */,
 				AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */,
 				ADC07D171E5C6FA500172221 /* RLTVShow.m in Sources */,
+				AD0933A81E93893800260887 /* CheckoutSummaryViewController.m in Sources */,
 				AD97DF381E6227340014BB0E /* PostResponse.m in Sources */,
 				AD4F93661E41CE4900E55630 /* SeasonsCell.m in Sources */,
 				AD4F93961E4C78AB00E55630 /* TrailerViewController.m in Sources */,
@@ -1266,6 +1281,7 @@
 				AD8696171E53B795009B75F0 /* ImageCell.m in Sources */,
 				AD0C91711E7E026900049DB4 /* RLMSeason.m in Sources */,
 				AD4F93721E48A31600E55630 /* SearchCell.m in Sources */,
+				AD0933AD1E938AA600260887 /* CheckoutCell.m in Sources */,
 				ADF64D571E2D12BC000DFCFA /* Movie.m in Sources */,
 				AD34A0121E3A49EB009C4367 /* RKObjectManager+SharedInstances.m in Sources */,
 				AD34A00B1E3A04F2009C4367 /* SingleImageCell.m in Sources */,

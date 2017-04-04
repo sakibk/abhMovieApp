@@ -145,7 +145,7 @@
         rl.listName=@"rating";
         rl.rate=_rate;
             if(_isMovie){
-                RLMResults<RLMovie*> *movies=[RLMovie objectsWhere:@"movieID = %@",_singleMovie.movieID];
+                RLMResults<RLMovie*> *movies=[RLMovie objectsWhere:@"movieID = %d",[_singleMovie.movieID intValue]];
                 RLMovie *mov = movies.firstObject;
                 [_realm beginWriteTransaction];
                 mov.userRate=_rate;

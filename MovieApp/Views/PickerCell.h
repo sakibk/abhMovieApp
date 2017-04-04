@@ -37,5 +37,6 @@ extern NSString *const pickerCellIdentifier;
 @property (strong, nonatomic) id<PickerCellTwoDelegate> delegateOne;
 @property (strong, nonatomic) Movie* selectedMovie;
 -(void)setupWithPlayingMovies:(NSMutableArray<Movie*>*)playingMovies andSelectedMovie:(Movie*)selectedMovie;
+-(void)setButonEdges;
 -(void)setupWithHours:(NSMutableArray<Hours*>*) playingHours;
 @end

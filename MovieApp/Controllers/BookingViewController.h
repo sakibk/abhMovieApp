@@ -11,8 +11,9 @@
 #import "Movie.h"
 #import "TwoPickerCell.h"
 #import "Hours.h"
+#import "CollectionSeatsCell.h"
 
-@interface BookingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,PickerCellTwoDelegate,TwoPickerCellDelegate>
+@interface BookingViewController : UIViewController<UITableViewDelegate,UITableViewDataSource,PickerCellTwoDelegate,TwoPickerCellDelegate, SeatsCollectionDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

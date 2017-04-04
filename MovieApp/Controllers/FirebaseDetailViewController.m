@@ -15,6 +15,7 @@
 #import "BookingViewController.h"
 #import "TrailerViewController.h"
 #import "RatingViewController.h"
+#import "ApiKey.h"
 
 @interface FirebaseDetailViewController ()
 
@@ -29,7 +30,19 @@
 @property CGFloat buttonHeight;
 @property CGFloat noCellHeight;
 @property Hours *selectedHours;
+@property NSMutableString *directorString;
+@property NSMutableString *writersString;
+@property NSMutableString *producentString;
 
+@property BOOL hasDirector;
+@property BOOL hasWriters;
+@property BOOL hasProducents;
+
+@property BOOL isDirectorSet;
+@property BOOL areWritersSet;
+@property BOOL areProducentsSet;
+
+@property int count;
 @end
 
 @implementation FirebaseDetailViewController
@@ -46,10 +59,11 @@
     _tableView.dataSource = self;
     [self setCells];
     [self setSizes];
-    [self setOverviewLineHeights:[[NSMutableArray alloc]initWithObjects:@"Neki direktor",@"neki producent",@"neka zvjezda", nil]];
     [self setNavBarTitle];
     isPickerViewExtended = NO;
     [self createBottomButton];
+    [self setBools];
+    [self setupOverviewMovie];
 }
 
 -(void)createBottomButton{
@@ -108,18 +122,108 @@
     _noCellHeight =0.0001;
 }
 
+-(void)setBools{
+    _hasDirector=NO;
+    _hasWriters=NO;
+    _hasProducents=NO;
+    
+    _isDirectorSet=NO;
+    _areWritersSet=NO;
+    _areProducentsSet=NO;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+-(void) setupOverviewMovie{
+    NSString *pathP =[NSString stringWithFormat:@"/3/movie/%@/credits",_singleMovie.movieID];
+    
+    NSDictionary *queryParameters = @{
+                                      @"api_key": [ApiKey getApiKey]/*add your api*/
+                                      };
+    
+    [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"%@", mappingResult.array);
+        _singleMovie.crews=[[NSMutableArray alloc]init];
+        for (Crew *crew in mappingResult.array) {
+            if ([crew isKindOfClass:[Crew class]]) {
+                [_singleMovie.crews addObject:crew];
+            }
+        }
+        [self setMovieCredits];
+        [_tableView reloadData];
+    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"RestKit returned error: %@", error);
+    }];
+    
+    
+}
+
+-(void)setMovieCredits{
+    _directorString=[[NSMutableString alloc]init];
+    _writersString = [[NSMutableString alloc]init];
+    _producentString = [[NSMutableString alloc]init];
+    NSMutableArray<NSString*> *strings = [[NSMutableArray alloc]init];
+    Boolean tag = false;
+    for(Crew *sinCrew in _singleMovie.crews ){
+        if([sinCrew.jobName isEqualToString:@"Director"]){
+            [_directorString appendString:sinCrew.crewName];
+            tag = true;
+            [strings addObject:_directorString];
+        }
+        else if([sinCrew.jobName isEqualToString:@"Writer"]){
+            [_writersString appendString:sinCrew.crewName];
+            [_writersString appendString:@", "];
+        }
+        else if ([sinCrew.jobName isEqualToString:@"Producer"]){
+            [_producentString appendString:sinCrew.crewName];
+            [_producentString appendString:@", "];
+        }
+    }
+    if(![_writersString isEqualToString:@""]){
+        [_writersString deleteCharactersInRange:NSMakeRange([_writersString length]-2, 2)];
+        [strings addObject:_writersString];
+    }
+    if(![_producentString isEqualToString:@""]){
+        [_producentString deleteCharactersInRange:NSMakeRange([_producentString length]-2, 2)];
+        [strings addObject:_producentString];
+    }
+    
+    if([_producentString isEqualToString:@""]){
+    }
+    
+    if([_writersString isEqualToString:@""]){
+    }
+    
+    if(tag==false){
+        [_directorString appendString:@""];
+    }
+    [self setOverviewLineHeights:strings];
+}
+
+
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 4;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section==2){
-        return 4;
+        int count=1;
+        if(![_producentString isEqualToString:@""]){
+            count++;
+            _hasProducents =YES;
+        }
+        if(![_writersString isEqualToString:@""]){
+            count++;
+            _hasWriters=YES;
+        }
+        if(![_directorString isEqualToString:@""]){
+            count++;
+            _hasDirector=YES;
+        }
+        _count=count;
+        return count;
     }
     else
         return 1;
@@ -147,29 +251,48 @@
             break;
         case 2:
         {
-            if(indexPath.row == 0){
-                OverviewCell *cell = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
-                [cell setupWithMovie:_singleMovie];
-                [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-                return cell;
+            if(indexPath.row == 0 && _count>1){
+                //napraviti metodu za ovo
+                if(_hasDirector){
+                    _isDirectorSet=YES;
+                    return [self setupOverviewCellForTableView:tableView :indexPath :@"Director: " :[NSString stringWithFormat:@"%@",_directorString]];
+                }
+                else if(_hasWriters){
+                    return [self setupOverviewCellForTableView:tableView :indexPath :@"Writers: " :[NSString stringWithFormat:@"%@",_writersString]];
+                }
+                else if(_hasProducents){
+                    return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                }
                 
-                
             }
-            else if(indexPath.row==1){
-                return [self setupOverviewCellForTableView:tableView :indexPath :@"Director: " :[NSString stringWithFormat:@"%@",@"Tom Miller"]];
+            else if(indexPath.row==1 && _count>2){
+                if(_hasWriters && _isDirectorSet){
+                    return [self setupOverviewCellForTableView:tableView :indexPath :@"Writers: " :[NSString stringWithFormat:@"%@",_writersString]];
+                }
+                else if(_hasProducents){
+                    return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                }
             }
-            else if(indexPath.row==2){
-                return [self setupOverviewCellForTableView:tableView :indexPath :@"Writers: " :[NSString stringWithFormat:@"%@",@"Rob Liefield"]];
+            else if(indexPath.row==2 && _count==4){
+                if(_hasProducents){
+                    return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",_producentString]];
+                }
             }
-            else if(indexPath.row==3){
-                return [self setupOverviewCellForTableView:tableView :indexPath :@"Stars: " :[NSString stringWithFormat:@"%@",@"Ben Aflek"]];
+            else{
+                OverviewCell *celld = (OverviewCell *)[tableView dequeueReusableCellWithIdentifier:OverviewCellIdentifier forIndexPath:indexPath];
+                celld.delegate=self;
+                [celld setupWithMovie:_singleMovie];
+                [celld setSelectionStyle:UITableViewCellSelectionStyleNone];
+                return celld;
             }
+
             
         }
             break;
         case 3:{
             PickerCell *cell =(PickerCell *)[tableView dequeueReusableCellWithIdentifier:pickerCellIdentifier forIndexPath:indexPath];
             [cell setupWithHours:[[_singleMovie.playingDays objectAtIndex:[_indexPlayDay integerValue]] playingHours]];
+            [cell setButonEdges];
             cell.delegate=self;
             return cell;
         }
@@ -232,7 +355,6 @@
 
 -(void)setOverviewLineHeights:(NSMutableArray*)strings{
     _cellOverviewHeights = [[NSMutableArray alloc]init];
-    [_cellOverviewHeights addObject:[NSNumber numberWithFloat:15.0]];
     int i;
     for (i=0; i<[strings count]; i++) {
         CGFloat afterHeight=[self heightForView:[strings objectAtIndex:i] :[UIFont systemFontOfSize:15.0] :[UIScreen mainScreen].bounds.size.width-84];
@@ -248,10 +370,18 @@
             return _detailsCellHeight;
     }
     else if(indexPath.section ==2){
-        if (indexPath.row==0)
-            return _overviewCellHeight;
+        if (_count>1){
+            if(indexPath.row==_count-1)
+                return _overviewCellHeight;
+            else{
+                if(indexPath.row==0)
+                    return [[_cellOverviewHeights objectAtIndex:0]floatValue];
+                else
+                    return [[_cellOverviewHeights objectAtIndex:indexPath.row] floatValue];
+            }
+        }
         else
-            return [[_cellOverviewHeights objectAtIndex:indexPath.row] floatValue];
+            return _overviewCellHeight;
     }
     else if(indexPath.section ==3){
         if (isPickerViewExtended) {
@@ -290,7 +420,7 @@
     return hv;
 }
 
--(void)pushRateController{
+-(void)rateMedia{
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     RatingViewController *rate = (RatingViewController*)[storyboard instantiateViewControllerWithIdentifier:@"RatingViewController"];
     [rate setupWithMovie:_singleMovie];

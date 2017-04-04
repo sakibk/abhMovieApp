@@ -952,11 +952,46 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="EK3-TV-A4n" id="Aj9-Oq-tpG"/>
+                        <segue destination="zXd-OE-sxW" kind="show" identifier="pushCheckout" id="4RJ-aX-vfX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="QdK-wi-pq7" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4288.4057971014499" y="-1970.3804347826087"/>
+        </scene>
+        <!--Checkout Summary View Controller-->
+        <scene sceneID="wYh-WG-TYw">
+            <objects>
+                <viewController storyboardIdentifier="CheckoutSummary" id="zXd-OE-sxW" customClass="CheckoutSummaryViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4VQ-rj-KU8"/>
+                        <viewControllerLayoutGuide type="bottom" id="xjv-NB-CtX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bxx-gt-jtV">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A8F-BB-lBg">
+                                <rect key="frame" x="0.0" y="28" width="414" height="659"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="A8F-BB-lBg" secondAttribute="trailing" id="GBf-VU-6jN"/>
+                            <constraint firstItem="A8F-BB-lBg" firstAttribute="leading" secondItem="bxx-gt-jtV" secondAttribute="leading" id="UFN-tI-aUS"/>
+                            <constraint firstItem="xjv-NB-CtX" firstAttribute="top" secondItem="A8F-BB-lBg" secondAttribute="bottom" id="VLC-RP-aKm"/>
+                            <constraint firstItem="A8F-BB-lBg" firstAttribute="top" secondItem="4VQ-rj-KU8" secondAttribute="bottom" constant="8" id="bJZ-ZQ-XTF"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="A8F-BB-lBg" id="HrI-3J-HIW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="t2s-4y-HnH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5421.739130434783" y="-1970.3804347826087"/>
         </scene>
         <!--Firebase View Controller-->
         <scene sceneID="Ag0-IQ-HyR">
@@ -1155,7 +1190,7 @@
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <connections>
                         <outlet property="tableView" destination="q30-oH-dI6" id="Zeq-CJ-0fF"/>
-                        <segue destination="0PX-Ia-2kq" kind="show" id="V4p-Bs-XuB"/>
+                        <segue destination="0PX-Ia-2kq" kind="show" identifier="pushBooking" id="V4p-Bs-XuB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5nz-oY-KC4" userLabel="First Responder" sceneMemberID="firstResponder"/>

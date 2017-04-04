@@ -158,14 +158,16 @@
 }
 
 -(void)setStoredTrailers{
-    RLMResults<RLMovie*> *movs =[RLMovie objectsWhere:@"movieID = %@", _movieID];
-    RLMovie* mv = movs.firstObject;
-    if(mv.videos.firstObject == nil){
-        [_realm beginWriteTransaction];
-        for(TrailerVideos *vid in _allTrailers)
-            [mv.videos addObject:[[RLMTrailerVideos alloc] initWithVideo:vid]];
-        [_realm addOrUpdateObject:mv];
-        [_realm commitWriteTransaction];
+    RLMResults<RLMovie*> *movs =[RLMovie objectsWhere:@"movieID = %d", [_movieID intValue]];
+    if([movs count]){
+        RLMovie* mv = movs.firstObject;
+        if(mv.videos.firstObject == nil){
+            [_realm beginWriteTransaction];
+            for(TrailerVideos *vid in _allTrailers)
+                [mv.videos addObject:[[RLMTrailerVideos alloc] initWithVideo:vid]];
+            [_realm addOrUpdateObject:mv];
+            [_realm commitWriteTransaction];
+        }
     }
 }
 

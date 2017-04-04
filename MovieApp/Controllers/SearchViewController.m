@@ -28,9 +28,11 @@
 @property int setupScroll;
 @property BOOL isConnected;
 @property UIView *dropDown;
-@property UIButton *showList;
+@property UIButton *recconectButton;
 @property Reachability *reachability;
 @property BOOL notifRec;
+@property UIButton *backButton;
+@property BOOL isSet;
 
 @end
 
@@ -54,35 +56,55 @@
     _setupScroll = 0;
     _searchString = @"";
     _notifRec=NO;
+    _isSet = NO;
     
     if(!_isConnected){
         [_dropDown setAlpha:1.0];
         [_searchBar setUserInteractionEnabled:NO];
+        [self setupBackButton];
         if ([self.navigationController respondsToSelector:@selector(interactivePopGestureRecognizer)]) {
             self.navigationController.interactivePopGestureRecognizer.enabled = YES;
         }
     }
+}
+-(void)setupBackButton{
+    if(!_isSet){
+        CGRect backButRect = CGRectMake(self.view.bounds.size.width-100, 0, 100, 60);
+        _backButton =[[UIButton alloc]initWithFrame:backButRect];
+        [_backButton setBackgroundColor:[UIColor clearColor]];
+        [_backButton setTitle:@"  " forState:UIControlStateNormal];
+        [_backButton addTarget:self action:@selector(backAction:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_backButton];
+        [_backButton setAlpha:1.0];
+        _isSet=YES;
+    }
+}
+
+-(IBAction)backAction:(id)sender{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)reachabilityDidChange:(NSNotification *)notification {
     
     _reachability = (Reachability *)[notification object];
     if(!_notifRec){
-    if ([_reachability isReachable]) {
-        NSLog(@"Reachable");
-        _isConnected=[ConnectivityTest isConnected];
-        if([_dropDown alpha]==1.0){
-            [_dropDown setAlpha:0.0];
+        if ([_reachability isReachable]) {
+            NSLog(@"Reachable");
+            _isConnected=[ConnectivityTest isConnected];
+            if([_dropDown alpha]==1.0){
+                [_dropDown setAlpha:0.0];
+            }
+            [_backButton setAlpha:0.0];
+            [_searchBar setUserInteractionEnabled:YES];
+            [_searchBar becomeFirstResponder];
+            
+        } else {
+            NSLog(@"Unreachable");
+            _isConnected=[ConnectivityTest isConnected];
+            [_searchBar setUserInteractionEnabled:NO];
+            [_searchBar resignFirstResponder];
+            [self setupBackButton];
         }
-        [_searchBar setUserInteractionEnabled:YES];
-        [_searchBar becomeFirstResponder];
-        
-    } else {
-        NSLog(@"Unreachable");
-        _isConnected=[ConnectivityTest isConnected];
-        [_searchBar setUserInteractionEnabled:NO];
-        [_searchBar resignFirstResponder];
-    }
         _notifRec=YES;
     }
     else{
@@ -104,7 +126,7 @@
     [text addAttribute:NSForegroundColorAttributeName
                  value:[UIColor whiteColor]
                  range:NSMakeRange(17, 11)];
-    [_showList setAttributedTitle:text forState:UIControlStateNormal];
+    [_recconectButton setAttributedTitle:text forState:UIControlStateNormal];
 }
 
 -(void)CreateDropDownList{
@@ -112,15 +134,15 @@
     _dropDown = [[UIView alloc ]initWithFrame:dropDownFrame];
     [_dropDown setBackgroundColor:[UIColor clearColor]];
     CGRect buttonFrame = CGRectMake(0, 0, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
-    _showList = [[UIButton alloc]init];
-    _showList.frame = buttonFrame;
-    [_showList setBackgroundColor:[UIColor clearColor]];
-    _showList.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-    _showList.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+    _recconectButton = [[UIButton alloc]init];
+    _recconectButton.frame = buttonFrame;
+    [_recconectButton setBackgroundColor:[UIColor clearColor]];
+    _recconectButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    _recconectButton.contentEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
     [self setButtonTitle];
-    [_showList addTarget:self action:@selector(openWifiSettings:) forControlEvents:UIControlEventTouchUpInside];
+    [_recconectButton addTarget:self action:@selector(openWifiSettings:) forControlEvents:UIControlEventTouchUpInside];
     
-    [_dropDown addSubview:_showList];
+    [_dropDown addSubview:_recconectButton];
     [self.view addSubview:_dropDown];
     [_dropDown setAlpha:0.0];
 }
@@ -356,7 +378,7 @@
     }
     else
         //Please reconect to proceed
-    _pageNumber=[NSNumber numberWithInt:1];
+        _pageNumber=[NSNumber numberWithInt:1];
 }
 
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{

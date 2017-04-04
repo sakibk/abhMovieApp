@@ -11,6 +11,7 @@
 #import "TwoPickerCell.h"
 #import "LegendCell.h"
 #import "CollectionSeatsCell.h"
+#import "CheckoutSummaryViewController.h"
 
 @interface BookingViewController ()
 
@@ -27,6 +28,7 @@
 @property CGFloat noCellHeight;
 @property NSIndexPath *seatsIndexPath;
 @property NSIndexPath *twoPickerIndexPath;
+@property NSMutableArray<Seats*> *selectedSeats;
 
 @end
 
@@ -50,6 +52,7 @@
     senderTwoPop=NO;
     isPickerViewExtended=NO;
     isPickerTwoViewExtended=NO;
+    _selectedSeats =[[NSMutableArray alloc] init];
     [self setNavBarTitle];
     [self createBottomButton];
     [self setupCells];
@@ -181,8 +184,21 @@
     _noCellHeight =0.0001;
 }
 
+-(void)pushSeatSelected:(Seats*)seat{
+    [_selectedSeats addObject:seat];
+}
+
+-(void)popSeatSelected:(Seats*)seat{
+    [_selectedSeats removeObject:seat];
+}
+
 -(void)pushCheckoutSummary{
     NSLog(@"Push checkout summary");
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    CheckoutSummaryViewController* summary = (CheckoutSummaryViewController*)[storyboard instantiateViewControllerWithIdentifier:@"CheckoutSummary"];
+    
+    
+    [self.navigationController pushViewController:summary animated:YES];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 4;
@@ -222,6 +238,8 @@
             CollectionSeatsCell *cell = (CollectionSeatsCell*)[_tableView dequeueReusableCellWithIdentifier:seatsCollectionCellIdentifier forIndexPath:indexPath];
             [cell setupWithHallID:_selectedHours.playingHall andPlayingDayID:_selectedHours.playingDayID andPlayingHourID:_selectedHours.hourID];
             _seatsIndexPath=indexPath;
+            cell.delegate=self;
+            [cell setupNumberOfSeatsToTake:[NSNumber numberWithInt:1]];
             return cell;
         }
             break;

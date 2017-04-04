@@ -8,6 +8,7 @@
 
 #import "PickerCell.h"
 #import "Hours.h"
+#import  <QuartzCore/QuartzCore.h>
 
 NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
 
@@ -22,8 +23,6 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
     _pickerView.delegate=self;
     _pickerView.dataSource=self;
     [_pickerView setShowsSelectionIndicator:YES];
-    _pickerButton.layer.borderWidth =1;
-    _pickerButton.layer.cornerRadius=3;
         [_pickerButton addTarget:self action:@selector(popPicker:) forControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -38,6 +37,12 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
     [_imageDown setAlpha:0.0];
     [self.delegate popPicker:sender];
     [self.delegateOne popMoviePicker:sender];
+}
+
+-(void)setButonEdges{
+    [[_pickerButton layer] setBorderWidth:1.0f];
+    [[_pickerButton layer] setCornerRadius:4.0f];
+    [[_pickerButton layer] setBorderColor:[[UIColor darkGrayColor] CGColor]];
 }
 
 -(void)setupWithHours:(NSMutableArray<Hours*>*) playingHours{

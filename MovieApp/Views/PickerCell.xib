@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="62"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="df4-xD-T4a" id="8vp-o1-shg">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="61"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="61.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d1E-6I-kht">
@@ -46,7 +46,7 @@
                     <constraint firstItem="e78-AG-JzR" firstAttribute="top" secondItem="8vp-o1-shg" secondAttribute="top" id="Aho-BY-E8v"/>
                     <constraint firstItem="d1E-6I-kht" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="E2X-vt-m4C"/>
                     <constraint firstAttribute="trailingMargin" secondItem="rBd-dG-9bf" secondAttribute="trailing" constant="10" id="FCO-A7-5ot"/>
-                    <constraint firstAttribute="bottom" secondItem="e78-AG-JzR" secondAttribute="bottom" id="FcX-TU-wes"/>
+                    <constraint firstAttribute="bottom" secondItem="e78-AG-JzR" secondAttribute="bottom" constant="0.5" id="FcX-TU-wes"/>
                     <constraint firstItem="e78-AG-JzR" firstAttribute="leading" secondItem="8vp-o1-shg" secondAttribute="leading" id="WAa-LY-5gS"/>
                     <constraint firstAttribute="bottom" secondItem="d1E-6I-kht" secondAttribute="bottom" id="Z65-cy-UqI"/>
                     <constraint firstAttribute="trailing" secondItem="d1E-6I-kht" secondAttribute="trailing" id="b5P-tV-fXi"/>

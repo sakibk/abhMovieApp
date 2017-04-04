@@ -64,13 +64,19 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
 }
 -(void)setupNumberOfSeatsToTake:(NSNumber*)numberOfSeats{
     _seatNumber=numberOfSeats;
+    if([_seatNumber integerValue]<[_selectedSeats count]){
+        [_selectedSeats removeAllObjects];
+        [_collectionView reloadData];
+    }
 }
 -(void)pushSelectedSeat:(Seats*)seat{
     [_selectedSeats addObject:seat];
+    [self.delegate pushSeatSelected:seat];
 }
 
 -(void)popSelectedSeat:(Seats*)seat{
     [_selectedSeats removeObject:seat];
+    [self.delegate popSeatSelected:seat];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -97,7 +103,7 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if([_selectedSeats count]<=[_seatNumber integerValue]){
+    if([_selectedSeats count]<[_seatNumber integerValue]){
         SeatCell *cell =(SeatCell*)[_collectionView cellForItemAtIndexPath:indexPath];
         [cell setupSelected];
     }

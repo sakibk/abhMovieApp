@@ -10,8 +10,9 @@
 #import "Movie.h"
 #import "PickerCell.h"
 #import "ButtonCell.h"
+#import "OverviewCell.h"
 
-@interface FirebaseDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,PickerCellDelegate>
+@interface FirebaseDetailViewController : UIViewController<UITableViewDelegate, UITableViewDataSource,PickerCellDelegate,OverviewCellDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(strong,nonatomic) Movie *singleMovie;
 @property (strong,nonatomic) NSNumber *indexPlayDay;

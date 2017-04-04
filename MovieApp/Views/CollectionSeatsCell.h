@@ -12,6 +12,13 @@
 
 @import Firebase;
 
+@protocol SeatsCollectionDelegate <NSObject>
+
+-(void)pushSeatSelected:(Seats*)seat;
+-(void)popSeatSelected:(Seats*)seat;
+
+@end
+
 extern NSString *const seatsCollectionCellIdentifier;
 @interface CollectionSeatsCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource, SeatCellProtocol>
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
@@ -19,8 +26,8 @@ extern NSString *const seatsCollectionCellIdentifier;
 @property (strong,nonatomic) NSMutableArray<Seats*> *seats;
 @property (strong,nonatomic) Seats *seat;
 @property (strong, nonatomic) NSNumber *seatNumber;
-
 @property(strong,nonatomic) FIRDatabaseReference *seatsRef;
+@property (strong,nonatomic) id<SeatsCollectionDelegate> delegate;
 
 -(void)setupNumberOfSeatsToTake:(NSNumber*)numberOfSeats;
 -(void)setupWithHallID:(NSNumber*)hallID andPlayingDayID:(NSNumber*)playingDayID andPlayingHourID:(NSNumber*)playingHourID;
