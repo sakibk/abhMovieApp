@@ -126,6 +126,7 @@
 		ADA981611E801FC4005663B6 /* RLMListType.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA981601E801FC4005663B6 /* RLMListType.m */; };
 		ADA981641E80202E005663B6 /* ListType.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA981631E80202E005663B6 /* ListType.m */; };
 		ADA981671E80A4AD005663B6 /* RLMImagePaths.m in Sources */ = {isa = PBXBuildFile; fileRef = ADA981661E80A4AD005663B6 /* RLMImagePaths.m */; };
+		ADAC07541E94E2DC0077F815 /* PaymentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ADAC07531E94E2DC0077F815 /* PaymentsViewController.m */; };
 		ADADC9661E50692800EF25D8 /* EpisodeOverviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADADC9651E50692800EF25D8 /* EpisodeOverviewCell.xib */; };
 		ADADC9691E50695300EF25D8 /* EpisodeOverviewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = ADADC9681E50695300EF25D8 /* EpisodeOverviewCell.m */; };
 		ADADC96B1E506ADB00EF25D8 /* EpisodeDetailsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = ADADC96A1E506ADB00EF25D8 /* EpisodeDetailsCell.xib */; };
@@ -362,6 +363,8 @@
 		ADA981631E80202E005663B6 /* ListType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ListType.m; path = MovieApp/Models/ListType.m; sourceTree = "<group>"; };
 		ADA981651E80A4AD005663B6 /* RLMImagePaths.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RLMImagePaths.h; path = MovieApp/PersistentModels/RLMImagePaths.h; sourceTree = "<group>"; };
 		ADA981661E80A4AD005663B6 /* RLMImagePaths.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RLMImagePaths.m; path = MovieApp/PersistentModels/RLMImagePaths.m; sourceTree = "<group>"; };
+		ADAC07521E94E2DC0077F815 /* PaymentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaymentsViewController.h; path = Controllers/PaymentsViewController.h; sourceTree = "<group>"; };
+		ADAC07531E94E2DC0077F815 /* PaymentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaymentsViewController.m; path = Controllers/PaymentsViewController.m; sourceTree = "<group>"; };
 		ADADC9651E50692800EF25D8 /* EpisodeOverviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EpisodeOverviewCell.xib; path = Views/EpisodeOverviewCell.xib; sourceTree = "<group>"; };
 		ADADC9671E50695300EF25D8 /* EpisodeOverviewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EpisodeOverviewCell.h; path = Views/EpisodeOverviewCell.h; sourceTree = "<group>"; };
 		ADADC9681E50695300EF25D8 /* EpisodeOverviewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EpisodeOverviewCell.m; path = Views/EpisodeOverviewCell.m; sourceTree = "<group>"; };
@@ -874,6 +877,8 @@
 				AD237E071E8DE64D0082E220 /* BookingViewController.m */,
 				AD0933A61E93893800260887 /* CheckoutSummaryViewController.h */,
 				AD0933A71E93893800260887 /* CheckoutSummaryViewController.m */,
+				ADAC07521E94E2DC0077F815 /* PaymentsViewController.h */,
+				ADAC07531E94E2DC0077F815 /* PaymentsViewController.m */,
 			);
 			name = FirebaseStripe;
 			sourceTree = "<group>";
@@ -1302,6 +1307,7 @@
 				AD0C916E1E7DF8C100049DB4 /* RLMCast.m in Sources */,
 				AD7DE4F51E64371000866A93 /* ForgottenPasswordViewController.m in Sources */,
 				AD34A0061E39FF4D009C4367 /* ImageCollectionCell.m in Sources */,
+				ADAC07541E94E2DC0077F815 /* PaymentsViewController.m in Sources */,
 				AD86961B1E559860009B75F0 /* LeftViewController.m in Sources */,
 				AD8696221E55CAE5009B75F0 /* LoginViewController.m in Sources */,
 				AD34A0361E3CB852009C4367 /* Crew.m in Sources */,

@@ -141,9 +141,6 @@
     [Fabric with:@[[Crashlytics class]]];
     [[STPPaymentConfiguration sharedConfiguration] setPublishableKey:@"pk_test_yi2FXesEU6JR7JLj2YMAnpOk"];
     [self setupNotifCenter:application finish:launchOptions];
-//    NSURL *baseURL = [NSURL URLWithString:@"https://api.themoviedb.org"];
-//    AFRKHTTPClient *client = [[AFRKHTTPClient alloc] initWithBaseURL:baseURL];
-//    RKObjectManager *manager = [[RKObjectManager alloc] initWithHTTPClient:client];
     [RKObjectManager setSharedManager:[self setupRestKit]];
     [self setupRealmSchema];
     [self setReachabilityNotif];

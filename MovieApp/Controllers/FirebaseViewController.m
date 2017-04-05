@@ -68,6 +68,7 @@
     
     NSDateComponents *nowComponents = [gregorian components:NSCalendarUnitYear | NSCalendarUnitWeekOfYear| NSCalendarUnitWeekday | NSCalendarUnitHour | NSCalendarUnitMinute | NSCalendarUnitSecond fromDate:[NSDate dateWithTimeIntervalSinceNow:0]];
     _todayDay= [NSNumber numberWithInteger:(([nowComponents weekday]+5)%7)];
+    _selectedButton=[_todayDay intValue];
     
 }
 
@@ -148,7 +149,7 @@
 }
 
 -(void)CreateDropDownList{
-    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width-[[UIScreen mainScreen] bounds].size.width/8, 27 , 20 , 10);
+    CGRect imageFrame = CGRectMake([[UIScreen mainScreen] bounds].size.width/2+[[UIScreen mainScreen] bounds].size.width/16, 27 , 20 , 10);
     dropDownImage =[[UIImageView alloc] initWithFrame:imageFrame];
     [dropDownImage setImage:[UIImage imageNamed:@"DropDownDown"]];
     CGRect dropDownFrame =CGRectMake(0, 14, [[UIScreen mainScreen] bounds].size.width, 64);
@@ -167,7 +168,10 @@
     
     CGRect pictureOneFrame = CGRectMake(22, 64+24 , 20, 15);
     imageOne = [[UIImageView alloc]initWithFrame:pictureOneFrame];
-    [imageOne setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    if(_selectedButton==0){
+        [imageOne setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    }else{
+        [imageOne setImage:[UIImage imageNamed:@""]];}
     CGRect buttonOneFrame = CGRectMake(0, 64, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
     optionOne = [[UIButton alloc]init];
     optionOne.frame=buttonOneFrame;
@@ -182,7 +186,10 @@
     
     CGRect pictureTwoFrame = CGRectMake(22, 64*2+24 , 20, 15);
     imageTwo = [[UIImageView alloc]initWithFrame:pictureTwoFrame];
-    [imageTwo setImage:[UIImage imageNamed:@""]];
+    if(_selectedButton==1){
+        [imageTwo setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    }else{
+        [imageTwo setImage:[UIImage imageNamed:@""]];}
     CGRect buttonTwoFrame = CGRectMake(0, 64*2, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
     optionTwo = [[UIButton alloc]init];
     optionTwo.frame=buttonTwoFrame;
@@ -197,7 +204,10 @@
     
     CGRect pictureThreeFrame = CGRectMake(22, 64*3+24 , 20, 15);
     imageThree = [[UIImageView alloc]initWithFrame:pictureThreeFrame];
-    [imageThree setImage:[UIImage imageNamed:@""]];
+    if(_selectedButton==2){
+        [imageThree setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    }else{
+        [imageThree setImage:[UIImage imageNamed:@""]];}
     CGRect buttonThreeFrame = CGRectMake(0, 64*3, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
     
     optionThree = [[UIButton alloc]init];
@@ -213,7 +223,10 @@
     
     CGRect pictureFourFrame = CGRectMake(22, 64*4+24 , 20, 15);
     imageFour = [[UIImageView alloc]initWithFrame:pictureFourFrame];
-    [imageFour setImage:[UIImage imageNamed:@""]];
+    if(_selectedButton==3){
+        [imageFour setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    }else{
+        [imageFour setImage:[UIImage imageNamed:@""]];}
     CGRect buttonFourFrame = CGRectMake(0, 64*4, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
     optionFour = [[UIButton alloc]init];
     optionFour.frame=buttonFourFrame;
@@ -228,7 +241,10 @@
     
     CGRect pictureFiveFrame = CGRectMake(22, 64*5+24 , 20, 15);
     imageFive = [[UIImageView alloc]initWithFrame:pictureFiveFrame];
-    [imageFive setImage:[UIImage imageNamed:@""]];
+    if(_selectedButton==4){
+        [imageFive setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    }else{
+        [imageFive setImage:[UIImage imageNamed:@""]];}
     CGRect buttonFiveFrame = CGRectMake(0, 64*5, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
     optionFive = [[UIButton alloc]init];
     optionFive.frame=buttonFiveFrame;
@@ -243,7 +259,10 @@
     
     CGRect pictureSixFrame = CGRectMake(22, 64*6+24 , 20, 15);
     imageSix = [[UIImageView alloc]initWithFrame:pictureSixFrame];
-    [imageSix setImage:[UIImage imageNamed:@""]];
+    if(_selectedButton==5){
+        [imageSix setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    }else{
+        [imageSix setImage:[UIImage imageNamed:@""]];}
     CGRect buttonSixFrame = CGRectMake(0, 64*6, [_dropDown bounds].size.width, [_dropDown bounds].size.height-1);
     optionSix = [[UIButton alloc]init];
     optionSix.frame=buttonSixFrame;
@@ -258,7 +277,10 @@
     
     CGRect pictureSevenFrame = CGRectMake(22, 64*7+24 , 20, 15);
     imageSeven = [[UIImageView alloc]initWithFrame:pictureSevenFrame];
-    [imageSeven setImage:[UIImage imageNamed:@""]];
+    if(_selectedButton==6){
+        [imageSeven setImage:[UIImage imageNamed:@"DropDownSelected"]];
+    }else{
+        [imageSeven setImage:[UIImage imageNamed:@""]];}
     CGRect buttonSevenFrame = CGRectMake(0, 64*7, [_dropDown bounds].size.width, [_dropDown bounds].size.height);
     optionSeven = [[UIButton alloc]init];
     optionSeven.frame=buttonSevenFrame;

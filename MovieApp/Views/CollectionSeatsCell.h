@@ -16,6 +16,7 @@
 
 -(void)pushSeatSelected:(Seats*)seat;
 -(void)popSeatSelected:(Seats*)seat;
+-(void)cleanSelectedSeats;
 
 @end
 

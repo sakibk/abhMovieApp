@@ -30,6 +30,7 @@
 @implementation LeftViewController
 {
     UIView *headerView;
+    BOOL didSet;
 }
 
 
@@ -122,6 +123,7 @@
         self.tableView.backgroundColor = [UIColor clearColor];
         _wasLogged=NO;
         _changedState=NO;
+        didSet=NO;
     }
     return self;
 }
@@ -239,7 +241,11 @@
             [cell.imageView sizeToFit];
             [cell setUserInteractionEnabled:YES];
             if([self.imagesArray[indexPath.row] isEqualToString:@"CinemaIcon"]){
-                [cell setupNewButton];
+                if(!didSet){
+                    [cell setupNewButton];
+                    didSet=YES;
+                }
+                [[cell imageIconNew] setAlpha:1.0];
                 [cell setBackgroundColor:[UIColor colorWithRed:0.27 green:0.27 blue:0.28 alpha:1.0]];
                 [cell.textLabel setTextColor:[UIColor colorWithRed:0.96 green:0.79 blue:0 alpha:1.0]];
             }

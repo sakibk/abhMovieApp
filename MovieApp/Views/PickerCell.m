@@ -40,9 +40,20 @@ NSString *const pickerCellIdentifier=@"PickerCellIdentifier";
 }
 
 -(void)setButonEdges{
+
     [[_pickerButton layer] setBorderWidth:1.0f];
     [[_pickerButton layer] setCornerRadius:4.0f];
     [[_pickerButton layer] setBorderColor:[[UIColor darkGrayColor] CGColor]];
+    
+    NSArray *constraints = @[
+                             [_pickerButton.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
+                             [_pickerButton.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10],
+                             [_pickerView.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-10],
+                             [_pickerView.leadingAnchor constraintEqualToAnchor:self.leadingAnchor constant:10]
+                             ];
+    
+    [NSLayoutConstraint activateConstraints:constraints];
+    
 }
 
 -(void)setupWithHours:(NSMutableArray<Hours*>*) playingHours{

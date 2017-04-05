@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+extern NSString *const checkoutCellIdentifier;
+
 @interface CheckoutCell : UITableViewCell
 
+@property (weak, nonatomic) IBOutlet UILabel *checkoutInfo;
+
+-(void)setupWithString:(NSString*)cellTitle andAtributedPart:(NSString*)cellText;
+-(void)setupWithTitle:(NSString*)titleString;
+-(void)setupWithDate:(NSString*)dateString;
 @end

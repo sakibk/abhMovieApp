@@ -146,12 +146,16 @@
         rl.rate=_rate;
             if(_isMovie){
                 RLMResults<RLMovie*> *movies=[RLMovie objectsWhere:@"movieID = %d",[_singleMovie.movieID intValue]];
+                if([movies count]){
                 RLMovie *mov = movies.firstObject;
+                    if(_rate>0){
                 [_realm beginWriteTransaction];
                 mov.userRate=_rate;
                 [_realm commitWriteTransaction];
+                    }
                 rl.mediaID = _singleMovie.movieID;
                 [_user addToRatedMovies:mov];
+                }
                 if(_isConnected)
                     [self noRestkitRate];
                 else

@@ -927,7 +927,7 @@
         <!--Booking View Controller-->
         <scene sceneID="z62-DI-s1i">
             <objects>
-                <viewController storyboardIdentifier="BookingVC" id="0PX-Ia-2kq" customClass="BookingViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="BookingVC" automaticallyAdjustsScrollViewInsets="NO" id="0PX-Ia-2kq" customClass="BookingViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="1w8-hk-LNz"/>
                         <viewControllerLayoutGuide type="bottom" id="UBO-q4-v9l"/>
@@ -936,7 +936,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="EK3-TV-A4n">
+                            <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" translatesAutoresizingMaskIntoConstraints="NO" id="EK3-TV-A4n">
                                 <rect key="frame" x="0.0" y="28" width="414" height="581"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -962,7 +962,7 @@
         <!--Checkout Summary View Controller-->
         <scene sceneID="wYh-WG-TYw">
             <objects>
-                <viewController storyboardIdentifier="CheckoutSummary" id="zXd-OE-sxW" customClass="CheckoutSummaryViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CheckoutSummary" automaticallyAdjustsScrollViewInsets="NO" id="zXd-OE-sxW" customClass="CheckoutSummaryViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="4VQ-rj-KU8"/>
                         <viewControllerLayoutGuide type="bottom" id="xjv-NB-CtX"/>
@@ -971,7 +971,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A8F-BB-lBg">
+                            <tableView contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="A8F-BB-lBg">
                                 <rect key="frame" x="0.0" y="28" width="414" height="659"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="separatorColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -987,11 +987,30 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="A8F-BB-lBg" id="HrI-3J-HIW"/>
+                        <segue destination="fNK-r1-rWb" kind="show" identifier="PaymentsIdentifier" id="kfO-gy-9ud"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t2s-4y-HnH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5421.739130434783" y="-1970.3804347826087"/>
+        </scene>
+        <!--Payments View Controller-->
+        <scene sceneID="FCE-Ow-R57">
+            <objects>
+                <viewController storyboardIdentifier="PaymentVC" id="fNK-r1-rWb" customClass="PaymentsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Ff5-fM-siX"/>
+                        <viewControllerLayoutGuide type="bottom" id="Cej-CZ-jxf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="abH-vC-g1p">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bpa-nu-RVu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6425" y="-1970"/>
         </scene>
         <!--Firebase View Controller-->
         <scene sceneID="Ag0-IQ-HyR">
@@ -1005,7 +1024,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vie-Cv-7Qd">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Vie-Cv-7Qd">
                                 <rect key="frame" x="0.0" y="80" width="414" height="607"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -1014,7 +1033,7 @@
                         <color key="backgroundColor" red="0.192" green="0.192" blue="0.192" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Vie-Cv-7Qd" secondAttribute="trailing" id="5Ox-KZ-gv9"/>
-                            <constraint firstItem="Vie-Cv-7Qd" firstAttribute="top" secondItem="8YY-Uv-HLx" secondAttribute="bottom" constant="64" id="AoR-Mb-LNz"/>
+                            <constraint firstItem="Vie-Cv-7Qd" firstAttribute="top" secondItem="8YY-Uv-HLx" secondAttribute="bottom" constant="60" id="AoR-Mb-LNz"/>
                             <constraint firstItem="Vie-Cv-7Qd" firstAttribute="leading" secondItem="Tqh-YJ-LQr" secondAttribute="leading" id="MbH-5O-V0e"/>
                             <constraint firstItem="CgY-20-q8v" firstAttribute="top" secondItem="Vie-Cv-7Qd" secondAttribute="bottom" id="V2e-5l-O5k"/>
                         </constraints>
@@ -1173,7 +1192,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q30-oH-dI6">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" indicatorStyle="black" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="q30-oH-dI6">
                                 <rect key="frame" x="0.0" y="24" width="414" height="663"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <color key="sectionIndexBackgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>

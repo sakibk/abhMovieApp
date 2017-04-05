@@ -30,6 +30,7 @@
 @property CGFloat buttonHeight;
 @property CGFloat noCellHeight;
 @property Hours *selectedHours;
+@property UILabel *statusLabel;
 @property NSMutableString *directorString;
 @property NSMutableString *writersString;
 @property NSMutableString *producentString;
@@ -62,6 +63,7 @@
     [self setNavBarTitle];
     isPickerViewExtended = NO;
     [self createBottomButton];
+    [self setupStatusLabel];
     [self setBools];
     [self setupOverviewMovie];
 }
@@ -111,6 +113,34 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"PickerCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:pickerCellIdentifier];
 }
+
+-(void)setupStatusLabel{
+    CGRect statusRect = CGRectMake(20, self.view.bounds.size.height*5/7, self.view.bounds.size.width-40, 50);
+    _statusLabel= [[UILabel alloc]initWithFrame:statusRect];
+    [_statusLabel setBackgroundColor:[UIColor darkGrayColor]];
+    [[_statusLabel layer] setCornerRadius:24.0];
+    _statusLabel.clipsToBounds = YES;
+    _statusLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_statusLabel];
+    [_statusLabel setHidden:YES];
+}
+
+-(void)postStatus:(NSString*)error{
+    [_statusLabel setText:error];
+    [_statusLabel setHidden:NO];
+    [self performSelector:@selector(hideLabel) withObject:nil afterDelay:2.7];
+}
+
+-(void)hideLabel{
+    [UIView animateWithDuration:0.3 animations:^{
+        [_statusLabel setHidden:YES];
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+
+
 -(void)setSizes{
     _imageCellHeigh =222.0;
     _detailsCellHeight =50.0;
@@ -349,7 +379,7 @@
     [self.navigationController pushViewController:bookingVC animated:YES];
     }
     else
-        NSLog(@"Select playing hours");
+        [self postStatus:@"Select playing hours!"];
     
 }
 

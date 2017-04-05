@@ -29,6 +29,8 @@
 @property NSIndexPath *seatsIndexPath;
 @property NSIndexPath *twoPickerIndexPath;
 @property NSMutableArray<Seats*> *selectedSeats;
+@property NSNumber *totalCostToPay;
+@property NSString *stringPlayingTerm;
 
 @end
 
@@ -40,6 +42,7 @@
     BOOL isPickerTwoViewExtended;
     BOOL senderOnePop;
     BOOL senderTwoPop;
+    float floatPrice;
 }
 
 - (void)viewDidLoad {
@@ -53,10 +56,13 @@
     isPickerViewExtended=NO;
     isPickerTwoViewExtended=NO;
     _selectedSeats =[[NSMutableArray alloc] init];
+    _ticketNumber=[NSNumber numberWithInt:1];
     [self setNavBarTitle];
     [self createBottomButton];
     [self setupCells];
     [self setSizes];
+    [self setTicketPrice];
+    self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, self.tableView.bounds.size.width, 0.01f)];
     [self.tableView reloadData];
 }
 
@@ -79,7 +85,7 @@
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, iv.frame.size.width, 27)];
     titleLabel.textAlignment=NSTextAlignmentCenter;
     titleLabel.font=[UIFont systemFontOfSize:18];
-    titleLabel.text=[_selectedMovie title];
+    titleLabel.text=@"Tickets";
     
     titleLabel.textColor=[UIColor whiteColor];
     [iv addSubview:titleLabel];
@@ -102,7 +108,7 @@
     [bottomButton setContentEdgeInsets:UIEdgeInsetsMake(0, 0, 0, 15)];
     [bottomButton addTarget:self action:@selector(pushCheckoutSummary) forControlEvents:UIControlEventTouchUpInside];
     [bottomView addSubview:bottomButton];
-    CGRect totalRect = CGRectMake(20, 20, 120, 20);
+    CGRect totalRect = CGRectMake(20, 20, 130, 20);
     totalLabel = [[UILabel alloc] initWithFrame:totalRect];
     totalLabel.text=_totalCost;
     [totalLabel setContentMode:UIViewContentModeLeft];
@@ -124,6 +130,10 @@
     [cell setupWithHallID:_selectedHours.playingHall andPlayingDayID:_selectedHours.playingDayID andPlayingHourID:_selectedHours.hourID];
     _totalCost=@"TOTAL: $0.00";
     totalLabel.text =_totalCost;
+    CollectionSeatsCell *cellSeats =[_tableView cellForRowAtIndexPath:_seatsIndexPath];
+    [cellSeats setupNumberOfSeatsToTake:_ticketNumber];
+    [cellSeats.selectedSeats removeAllObjects];
+    [_selectedSeats removeAllObjects];
 }
 
 -(IBAction)popMoviePicker:(id)sender{
@@ -136,20 +146,43 @@
     [self.tableView endUpdates];
 }
 
+-(void)setTicketPrice{
+    floatPrice = 0.0;
+    NSCharacterSet *numberCharset = [NSCharacterSet characterSetWithCharactersInString:@"0123456789-"];
+    NSScanner *theScanner = [NSScanner scannerWithString:_selectedMovie.ticketPrice];
+    while (![theScanner isAtEnd]) {
+        [theScanner scanUpToCharactersFromSet:numberCharset
+                                   intoString:NULL];
+        if ([theScanner scanFloat:&floatPrice]) {
+            NSLog(@"Found %f", floatPrice);
+        }
+    }
+}
+
 -(void)pushTicketNo:(NSNumber*)numberOfTickets{
     _ticketNumber = numberOfTickets;
-    _totalCost =[NSString stringWithFormat:@"%@%@%@",@"TOTAL: ",[NSNumber numberWithFloat:20*[numberOfTickets floatValue]],@".00"];
+    _totalCostToPay = [NSNumber numberWithFloat:[numberOfTickets floatValue]*floatPrice];
+    _totalCost =[NSString stringWithFormat:@"%@%@%@",@"TOTAL: $",[NSNumber numberWithFloat:20*[numberOfTickets floatValue]],@".00"];
     totalLabel.text=_totalCost;
     CollectionSeatsCell *cell =[_tableView cellForRowAtIndexPath:_seatsIndexPath];
     [cell setupNumberOfSeatsToTake:_ticketNumber];
 }
 
--(void)pushSelectedHours:(Hours*)hoursSelected{
+-(void)pushSelectedHours:(Hours*)hoursSelected andPushSelectedString:(NSString*)selectedHourString{
     _selectedHours=hoursSelected;
+    _stringPlayingTerm=selectedHourString;
     CollectionSeatsCell *cell =(CollectionSeatsCell*)[_tableView cellForRowAtIndexPath:_seatsIndexPath];
     [cell setupWithHallID:_selectedHours.playingHall andPlayingDayID:_selectedHours.playingDayID andPlayingHourID:_selectedHours.hourID];
     _totalCost=@"TOTAL: $0.00";
     totalLabel.text =_totalCost;
+    CollectionSeatsCell *cellSeat =[_tableView cellForRowAtIndexPath:_seatsIndexPath];
+    [cellSeat setupNumberOfSeatsToTake:_ticketNumber];
+    [cellSeat.selectedSeats removeAllObjects];
+    [_selectedSeats removeAllObjects];
+}
+
+-(void)pushSelectedString:(NSString*)selectedHourString{
+    _stringPlayingTerm = [[NSString alloc] initWithString:selectedHourString];
 }
 
 -(IBAction)popOneOfTwoPickers:(id)sender{
@@ -186,19 +219,48 @@
 
 -(void)pushSeatSelected:(Seats*)seat{
     [_selectedSeats addObject:seat];
+    _totalCostToPay = [NSNumber numberWithFloat:[_selectedSeats count]*floatPrice];
+    _totalCost =[NSString stringWithFormat:@"%@%@%@",@"TOTAL: $",_totalCostToPay,@".00"];
+    totalLabel.text=_totalCost;
 }
 
 -(void)popSeatSelected:(Seats*)seat{
     [_selectedSeats removeObject:seat];
+    _totalCostToPay = [NSNumber numberWithFloat:[_selectedSeats count]*floatPrice];
+    _totalCost =[NSString stringWithFormat:@"%@%@%@",@"TOTAL: $",_totalCostToPay,@".00"];
+    totalLabel.text=_totalCost;
+}
+
+-(void)cleanSelectedSeats{
+    [_selectedSeats removeAllObjects];
+    totalLabel.text=@"TOTAL: $0.00";
 }
 
 -(void)pushCheckoutSummary{
     NSLog(@"Push checkout summary");
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    CheckoutSummaryViewController* summary = (CheckoutSummaryViewController*)[storyboard instantiateViewControllerWithIdentifier:@"CheckoutSummary"];
-    
-    
-    [self.navigationController pushViewController:summary animated:YES];
+    if([_selectedSeats count]){
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        CheckoutSummaryViewController* summary = (CheckoutSummaryViewController*)[storyboard instantiateViewControllerWithIdentifier:@"CheckoutSummary"];
+        summary.selectedSeats = [[NSMutableArray alloc]init];
+        summary.selectedSeats=_selectedSeats;
+        summary.selectedHours = [[Hours alloc] init];
+        summary.selectedHours=_selectedHours;
+        summary.selectedMovie = [[Movie alloc] init];
+        summary.selectedMovie=_selectedMovie;
+        summary.numberOfTickets=_ticketNumber;
+        summary.DateString = _stringPlayingTerm;
+        if([_selectedSeats count]==[_ticketNumber integerValue]){
+            summary.amountToPay= _totalCostToPay;
+        }else{
+            float payingAmount=0.0;
+            payingAmount = [_totalCostToPay floatValue]/[_ticketNumber floatValue];
+            payingAmount = payingAmount*[_selectedSeats count];
+            summary.amountToPay = [NSNumber numberWithFloat:payingAmount];
+            summary.numberOfTickets=[NSNumber numberWithInteger:[_selectedSeats count]];
+        }
+        
+        [self.navigationController pushViewController:summary animated:YES];
+    }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 4;
@@ -223,7 +285,7 @@
             TwoPickerCell *cell = (TwoPickerCell*)[_tableView dequeueReusableCellWithIdentifier:twoPickerCellIdentifier forIndexPath:indexPath];
             cell.selectedHours=_selectedHours;
             cell.playingDays=[_selectedMovie playingDays];
-            [cell firstPickerButtonTitle];
+            _stringPlayingTerm=[cell setupStringsToShow];
             cell.delegate=self;
             return cell;
         }
@@ -283,21 +345,6 @@
             break;
     }
     return 0.00001;
-}
-
-
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return _noCellHeight;
-}
-
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-}
-
--(UIView*)tableView:(UITableView*)tableView viewForHeaderInSection:(NSInteger)section{
-    UIView *hv =[[UIView alloc]init];
-    [hv setBackgroundColor:[UIColor blackColor]];
-    return hv;
 }
 
 /*

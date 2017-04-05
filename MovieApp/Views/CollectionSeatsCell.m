@@ -25,6 +25,7 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
     [self.collectionView reloadData];
     _selectedSeats = [[NSMutableArray alloc]init];
     _seatNumber=[NSNumber numberWithInt:1];
+    [self.collectionView setContentInset:UIEdgeInsetsMake(0, 20, 0, 20)];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -59,13 +60,17 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
                      [_seats replaceObjectAtIndex:k withObject:s];
                  }
              }
+         [_selectedSeats removeAllObjects];
+         [self.delegate cleanSelectedSeats];
          [self.collectionView reloadData];
      }];
 }
+
 -(void)setupNumberOfSeatsToTake:(NSNumber*)numberOfSeats{
     _seatNumber=numberOfSeats;
     if([_seatNumber integerValue]<[_selectedSeats count]){
         [_selectedSeats removeAllObjects];
+        [self.delegate cleanSelectedSeats];
         [_collectionView reloadData];
     }
 }
@@ -97,14 +102,17 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
 
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
 //    CGFloat width = ([[UIScreen mainScreen]bounds].size.width-160)/11;
-    CGFloat width = self.frame.size.width / 11;
-    
+    CGFloat width = (self.frame.size.width-40) / 11;
     return CGSizeMake(width,width);
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    if([_selectedSeats count]<[_seatNumber integerValue]){
-        SeatCell *cell =(SeatCell*)[_collectionView cellForItemAtIndexPath:indexPath];
+    
+    SeatCell *cell =(SeatCell*)[_collectionView cellForItemAtIndexPath:indexPath];
+    if([cell isSelected]){
+        [cell setupSelected];
+    }
+    else if([_selectedSeats count]<[_seatNumber integerValue]){
         [cell setupSelected];
     }
 }
@@ -127,11 +135,12 @@ NSString *const seatsCollectionCellIdentifier=@"SeatsCollectionCellIdentifier";
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     SeatCell *cell = (SeatCell*)[_collectionView dequeueReusableCellWithReuseIdentifier:seatCellIdentifier forIndexPath:indexPath];
-    if(indexPath.row == 2 || indexPath.row == 8 ||(indexPath.section == 0 &&( indexPath.row==0 || indexPath.row==10))){
+    if(indexPath.row == 2 || indexPath.row == 8 || (indexPath.section == 0 && ( indexPath.row==0 || indexPath.row==10))){
         [cell setupNonSeatCell];
         [cell setUserInteractionEnabled:NO];
     }else{
         [cell setupSeatCell:[_seats objectAtIndex:indexes[indexPath.section][indexPath.row]]];
+        [cell setUserInteractionEnabled:YES];
     }
     cell.delegate=self;
         return cell;

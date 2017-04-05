@@ -22,7 +22,6 @@ NSString *const twoPickerCellIdentifier =@"TwoPickerCellIdentifier";
     [_popPicker1 setTag:1];
     [_popPicker2 addTarget:self action:@selector(popOneOfTwoPickers:) forControlEvents:UIControlEventTouchUpInside];
     [_popPicker2 setTag:2];
-    [_pickerView1 reloadAllComponents];
     [_pickerView2 reloadAllComponents];
 }
 
@@ -32,10 +31,25 @@ NSString *const twoPickerCellIdentifier =@"TwoPickerCellIdentifier";
     // Configure the view for the selected state
 }
 
--(void)firstPickerButtonTitle{
+-(NSString*)setupStringsToShow{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"dd/MM/YYYY"];
-    [NSString stringWithFormat:@"%@ - %@",[dateFormatter stringFromDate:[[_playingDays objectAtIndex:[[_selectedHours playingDayID] integerValue]] playingDate]],[_selectedHours playingHour]];
+    NSString *stringToReturn=[[NSString alloc]init];
+    _stringsToShow = [[NSMutableArray alloc] init];
+    _playingHours =[[NSMutableArray alloc]init];
+    for(DaysPlaying *pd in _playingDays){
+        for(Hours *h in pd.playingHours){
+            [_stringsToShow addObject:[NSString stringWithFormat:@"%@ - %@",[dateFormatter stringFromDate:pd.playingDate],h.playingHour]];
+            [_playingHours addObject:h];
+            if([h isEqual:_selectedHours]){
+                stringToReturn=[NSString stringWithFormat:@"%@ - %@",[dateFormatter stringFromDate:pd.playingDate],h.playingHour];
+                [_popPicker1 setTitle:[NSString stringWithFormat:@"%@ - %@",[dateFormatter stringFromDate:pd.playingDate],h.playingHour] forState:UIControlStateNormal];
+                [self.delegate pushSelectedString:[NSString stringWithFormat:@"%@ - %@",[dateFormatter stringFromDate:pd.playingDate],h.playingHour]];
+            }
+        }
+    }
+        [_pickerView1 reloadAllComponents];
+    return stringToReturn;
 }
 
 -(IBAction)popOneOfTwoPickers:(id)sender{
@@ -55,16 +69,6 @@ NSString *const twoPickerCellIdentifier =@"TwoPickerCellIdentifier";
 
 - (NSInteger)pickerView:(UIPickerView *)thePickerView numberOfRowsInComponent:(NSInteger)component {
     if([thePickerView tag]==1){
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        [dateFormatter setDateFormat:@"dd/MM/YYYY"];
-        _stringsToShow = [[NSMutableArray alloc] init];
-        _playingHours =[[NSMutableArray alloc]init];
-        for(DaysPlaying *pd in _playingDays){
-            for(Hours *h in pd.playingHours){
-                [_stringsToShow addObject:[NSString stringWithFormat:@"%@ - %@",[dateFormatter stringFromDate:pd.playingDate],h.playingHour]];
-                [_playingHours addObject:h];
-            }
-        }
         return [_stringsToShow count];
     }
     else{
@@ -91,11 +95,11 @@ NSString *const twoPickerCellIdentifier =@"TwoPickerCellIdentifier";
         [_popPicker1 setTitle:[_stringsToShow objectAtIndex:row] forState:UIControlStateNormal];
         [_popPicker1 setAlpha:1.0];
         [_dropDownImage1 setAlpha:1.0];
-        [self.delegate pushSelectedHours:[_playingHours objectAtIndex:row]];
+        [self.delegate pushSelectedHours:[_playingHours objectAtIndex:row]andPushSelectedString:[_stringsToShow objectAtIndex:row]];
     }
     else{
         NSLog(@"Selected number of persons %ld",row);
-        [_popPicker2 setTitle:[NSString stringWithFormat:@"%ld",row+1] forState:UIControlStateNormal];
+        [_popPicker2 setTitle:[NSString stringWithFormat:@"%ld Adults",row+1] forState:UIControlStateNormal];
         [_popPicker2 setAlpha:1.0];
         [_dropDownImage2 setAlpha:1.0];
         [self.delegate pushTicketNo:[NSNumber numberWithInteger:row+1]];

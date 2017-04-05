@@ -15,7 +15,8 @@ extern NSString *const twoPickerCellIdentifier;
 @protocol TwoPickerCellDelegate <NSObject>
 
 -(void)pushTicketNo:(NSNumber*)numberOfTickets;
--(void)pushSelectedHours:(Hours*)hoursSelected;
+-(void)pushSelectedHours:(Hours*)hoursSelected andPushSelectedString:(NSString*)selectedHourString;
+-(void)pushSelectedString:(NSString*)selectedHourString;
 -(IBAction)popOneOfTwoPickers:(id)sender;
 
 @end
@@ -35,5 +36,7 @@ extern NSString *const twoPickerCellIdentifier;
 @property (strong, nonatomic) NSMutableArray<DaysPlaying*> *playingDays;
 
 @property (strong, nonatomic) id<TwoPickerCellDelegate> delegate;
--(void)firstPickerButtonTitle;
+
+-(NSString*)setupStringsToShow;
+
 @end
