@@ -1027,7 +1027,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nr2-YE-0sc">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Succsess" translatesAutoresizingMaskIntoConstraints="NO" id="Nr2-YE-0sc">
                                 <rect key="frame" x="147" y="147" width="120" height="120"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="Hhs-o5-tob"/>
@@ -1563,6 +1563,7 @@
     <resources>
         <image name="NoList" width="160" height="148"/>
         <image name="ShowsIcon" width="23" height="22"/>
+        <image name="Succsess" width="100" height="100"/>
         <image name="moviesIcon" width="21" height="20"/>
         <image name="rssIcon" width="20" height="20"/>
     </resources>

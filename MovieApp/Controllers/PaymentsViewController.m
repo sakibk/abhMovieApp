@@ -584,7 +584,13 @@
     }
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     SuccessfulPaymentViewController *succesfullPaymentVC = (SuccessfulPaymentViewController*)[storyboard instantiateViewControllerWithIdentifier:@"succesfullPaymentVC"];
-    [self.navigationController pushViewController:succesfullPaymentVC animated:YES];
+    NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+    [viewControllers removeLastObject];
+    [viewControllers removeLastObject];
+    [viewControllers removeLastObject];
+    [viewControllers removeLastObject];
+    [viewControllers addObject:succesfullPaymentVC];
+    [[self navigationController] setViewControllers:viewControllers animated:YES];
 }
 /*
  #pragma mark - Navigation
