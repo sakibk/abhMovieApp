@@ -16,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="T66-g0-NBo" id="h4j-Ky-a9H">
-                <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
+                <rect key="frame" x="0.0" y="0.0" width="414" height="59.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No. Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5td-TC-VXU">
@@ -46,19 +46,29 @@
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ecy-Ae-V3R">
+                        <rect key="frame" x="0.0" y="59" width="414" height="1"/>
+                        <color key="backgroundColor" red="0.96999999999999997" green="0.79000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="Gdl-WR-6Mj"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstAttribute="trailingMargin" secondItem="K0T-Kc-LqE" secondAttribute="trailing" constant="3" id="48M-DZ-eb2"/>
                     <constraint firstItem="JAv-aT-aPc" firstAttribute="leading" secondItem="h4j-Ky-a9H" secondAttribute="leadingMargin" constant="25" id="9CG-R6-dkv"/>
                     <constraint firstItem="K0T-Kc-LqE" firstAttribute="leading" secondItem="xHj-Lo-1P4" secondAttribute="trailing" constant="4" id="IT6-v2-phD"/>
+                    <constraint firstItem="ecy-Ae-V3R" firstAttribute="leading" secondItem="h4j-Ky-a9H" secondAttribute="leading" id="JIl-hE-ORC"/>
                     <constraint firstItem="5td-TC-VXU" firstAttribute="leading" secondItem="h4j-Ky-a9H" secondAttribute="leadingMargin" constant="6" id="JKM-Bj-JBA"/>
                     <constraint firstItem="xHj-Lo-1P4" firstAttribute="leading" secondItem="5td-TC-VXU" secondAttribute="trailing" constant="1" id="PY5-bR-EoR"/>
                     <constraint firstItem="K0T-Kc-LqE" firstAttribute="leading" secondItem="5td-TC-VXU" secondAttribute="trailing" constant="23" id="TDy-Ow-RAM"/>
                     <constraint firstItem="xHj-Lo-1P4" firstAttribute="top" secondItem="K0T-Kc-LqE" secondAttribute="top" constant="1" id="VEw-z7-ix6"/>
                     <constraint firstItem="K0T-Kc-LqE" firstAttribute="centerY" secondItem="h4j-Ky-a9H" secondAttribute="centerY" id="YDL-NQ-P7H"/>
                     <constraint firstItem="5td-TC-VXU" firstAttribute="top" secondItem="h4j-Ky-a9H" secondAttribute="topMargin" id="aU2-nM-tA1"/>
+                    <constraint firstAttribute="bottom" secondItem="ecy-Ae-V3R" secondAttribute="bottom" constant="-0.5" id="ebo-oF-MwP"/>
                     <constraint firstItem="xHj-Lo-1P4" firstAttribute="centerY" secondItem="K0T-Kc-LqE" secondAttribute="centerY" id="hie-uf-ON9"/>
+                    <constraint firstAttribute="trailing" secondItem="ecy-Ae-V3R" secondAttribute="trailing" id="te5-Aw-IUX"/>
                     <constraint firstItem="JAv-aT-aPc" firstAttribute="bottom" secondItem="h4j-Ky-a9H" secondAttribute="bottomMargin" id="xBP-Bb-3qU"/>
                 </constraints>
             </tableViewCellContentView>

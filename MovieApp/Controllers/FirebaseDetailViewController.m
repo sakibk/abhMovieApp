@@ -51,6 +51,7 @@
     UIButton *bottomButton;
     UIView *bottomView;
     BOOL isPickerViewExtended;
+    NSMutableArray<NSString*> *strings;
 }
 
 - (void)viewDidLoad {
@@ -160,6 +161,11 @@
     _isDirectorSet=NO;
     _areWritersSet=NO;
     _areProducentsSet=NO;
+    
+    _directorString=[[NSMutableString alloc]init];
+    _writersString = [[NSMutableString alloc]init];
+    _producentString = [[NSMutableString alloc]init];
+    strings = [[NSMutableArray alloc]init];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -176,13 +182,26 @@
     [[RKObjectManager sharedManager] getObjectsAtPath:pathP parameters:queryParameters success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"%@", mappingResult.array);
         _singleMovie.crews=[[NSMutableArray alloc]init];
+        Boolean tag = false;
         for (Crew *crew in mappingResult.array) {
             if ([crew isKindOfClass:[Crew class]]) {
                 [_singleMovie.crews addObject:crew];
+                if([crew.jobName isEqualToString:@"Director"] && !tag){
+                    tag=YES;
+                    [_directorString appendString:crew.crewName];
+                    [strings addObject:_directorString];
+                }
+                else if([crew.jobName isEqualToString:@"Writer"]){
+                    [_writersString appendString:crew.crewName];
+                    [_writersString appendString:@", "];
+                }
+                else if ([crew.jobName isEqualToString:@"Producer"]){
+                    [_producentString appendString:crew.crewName];
+                    [_producentString appendString:@", "];
+                }
             }
         }
-        [self setMovieCredits];
-        [_tableView reloadData];
+        [self setMovieCredits:tag];
     } failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"RestKit returned error: %@", error);
     }];
@@ -190,27 +209,7 @@
     
 }
 
--(void)setMovieCredits{
-    _directorString=[[NSMutableString alloc]init];
-    _writersString = [[NSMutableString alloc]init];
-    _producentString = [[NSMutableString alloc]init];
-    NSMutableArray<NSString*> *strings = [[NSMutableArray alloc]init];
-    Boolean tag = false;
-    for(Crew *sinCrew in _singleMovie.crews ){
-        if([sinCrew.jobName isEqualToString:@"Director"]){
-            [_directorString appendString:sinCrew.crewName];
-            tag = true;
-            [strings addObject:_directorString];
-        }
-        else if([sinCrew.jobName isEqualToString:@"Writer"]){
-            [_writersString appendString:sinCrew.crewName];
-            [_writersString appendString:@", "];
-        }
-        else if ([sinCrew.jobName isEqualToString:@"Producer"]){
-            [_producentString appendString:sinCrew.crewName];
-            [_producentString appendString:@", "];
-        }
-    }
+-(void)setMovieCredits:(BOOL)tag{
     if(![_writersString isEqualToString:@""]){
         [_writersString deleteCharactersInRange:NSMakeRange([_writersString length]-2, 2)];
         [strings addObject:_writersString];
@@ -219,17 +218,10 @@
         [_producentString deleteCharactersInRange:NSMakeRange([_producentString length]-2, 2)];
         [strings addObject:_producentString];
     }
-    
-    if([_producentString isEqualToString:@""]){
-    }
-    
-    if([_writersString isEqualToString:@""]){
-    }
-    
     if(tag==false){
         [_directorString appendString:@""];
     }
-    [self setOverviewLineHeights:strings];
+    [self setOverviewLineHeights];
 }
 
 
@@ -383,13 +375,14 @@
     
 }
 
--(void)setOverviewLineHeights:(NSMutableArray*)strings{
+-(void)setOverviewLineHeights{
     _cellOverviewHeights = [[NSMutableArray alloc]init];
     int i;
     for (i=0; i<[strings count]; i++) {
         CGFloat afterHeight=[self heightForView:[strings objectAtIndex:i] :[UIFont systemFontOfSize:15.0] :[UIScreen mainScreen].bounds.size.width-84];
         [_cellOverviewHeights addObject:[NSNumber numberWithFloat:afterHeight+3]];
     }
+    [_tableView reloadData];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

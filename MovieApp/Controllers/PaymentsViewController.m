@@ -346,7 +346,7 @@
             break;
             
         case 2:{
-            if(range.location>19){
+            if(range.location>18){
                 if([cardNumberField canResignFirstResponder]){
                     [cardNumberField resignFirstResponder];
                     if([expirationField canBecomeFirstResponder]){
@@ -354,28 +354,17 @@
                     }
                 }
             } else {
-                if(range.location<5){
-                if(range.location%4==0 && range.location!=0){
-                    if([previusCardLocation integerValue]<range.location){
-                    cardNumberField.text = [NSString stringWithFormat:@"%@ ",cardNumberField.text];
-                    }else{
-                        cardNumberField.text = [cardNumberField.text substringToIndex:[cardNumberField.text length]-1];
+                if([previusCardLocation integerValue]<range.location){
+                    if (range.length==0&&(range.location==4 || range.location==9 || range.location==14)) {
+                        cardNumberField.text= [NSString stringWithFormat:@"%@ ",cardNumberField.text];
                     }
                 }
-                }else{
-                    if(range.location%5==0){
-                        if([previusCardLocation integerValue]<range.location){
-                            cardNumberField.text = [NSString stringWithFormat:@"%@ ",cardNumberField.text];
-                        }else{
-                            cardNumberField.text = [cardNumberField.text substringToIndex:[cardNumberField.text length]-1];
-                        }
+                else{
+                    if (range.length==1&&(range.location==5||range.location==10||range.location==15)) {
+                        cardNumberField.text = [cardNumberField.text substringFromIndex:[cardNumberField.text length]-2];
                     }
-
                 }
-                
-                previusCardLocation=[NSNumber numberWithUnsignedInteger: range.location];
-                if(![cardNumberField isUserInteractionEnabled])
-                    [cardNumberField setUserInteractionEnabled:YES];
+                previusCardLocation= [NSNumber numberWithUnsignedInteger:range.location];
             }
         }
             break;
@@ -388,16 +377,18 @@
                     }
                 }
             }
+            else if([previusExpireLocation integerValue]>=range.location && range.location==3){
+                NSString *temp= [expirationField.text substringToIndex:[expirationField.text length]-1];
+                expirationField.text=temp;
+            }
             else if(range.location%2==0 && range.location!=0 && range.location<3){
                 if([previusExpireLocation integerValue]<range.location){
-                expirationField.text = [NSString stringWithFormat:@"%@/",expirationField.text];
-                }else{
-                    expirationField.text = [expirationField.text substringToIndex:[expirationField.text length]-2];
+                    expirationField.text = [NSString stringWithFormat:@"%@/",expirationField.text];
+                }}else{
+                    if(![expirationField isUserInteractionEnabled])
+                        [expirationField setUserInteractionEnabled:YES];
                 }
-            }else{
-                if(![expirationField isUserInteractionEnabled])
-                    [expirationField setUserInteractionEnabled:YES];
-            }
+            previusExpireLocation=[NSNumber numberWithUnsignedInteger:range.location];
         }
             break;
         case 4:{
@@ -493,34 +484,43 @@
 -(void)pushPay{
     NSArray* expires = [_cardExpire componentsSeparatedByString: @"/"];
     if(isSet){
-        if([_cardHolder length]>0 || ![_cardHolder length]){
-    if([expires count]==2){
-        _cardExpireMonth =[NSNumber numberWithInt:[[expires objectAtIndex: 0] intValue]];
-        _cardExpireYear =[NSNumber numberWithInt:[[expires objectAtIndex: 1] intValue]];
-        if([_cardNumber length]<20){
-            [self postStatus:@"Unvalid Card Number"];
+        if(![_cardHolder isKindOfClass:[NSNull class]]){
+        if([_cardHolder length]>0 && [_cardHolder length]){
+            if([expires count]==2){
+                _cardExpireMonth =[NSNumber numberWithInt:[[expires objectAtIndex: 0] intValue]];
+                _cardExpireYear =[NSNumber numberWithInt:[[expires objectAtIndex: 1] intValue]];
+                if([_cardNumber length]<19){
+                    [self postStatus:@"Unvalid Card Number"];
+                }
+                else if([_cardExpireMonth intValue]>12 || [_cardExpireMonth intValue]<1){
+                    [self postStatus:@"Unvalid Expire Month"];
+                    
+                }
+                else if([_cardExpireMonth intValue]<4 &&[_cardExpireYear intValue]==17){
+                    [self postStatus:@"Unvalid Expire Month"];
+                }
+                else if([_cardExpireYear intValue]>27 || [_cardExpireYear intValue]<17){
+                    [self postStatus:@"Unvalid Expire year"];
+                }
+                else if([_cardCVC length]<3){
+                    [self postStatus:@"Unvalid CVC number"];
+                }
+                else{
+                    _cardNumberN = [NSNumber numberWithInteger:[[_cardNumber stringByReplacingOccurrencesOfString:@" " withString:@""] integerValue]];
+                    _cardCVCN=[NSNumber numberWithInteger:[_cardCVC integerValue]];
+                    NSLog(@" @@@@@@@ CARD NO : %@ @@@@@@",_cardNumberN);
+                    NSLog(@" @@@@@@@ CARD EXPIRE YEAR : %@ @@@@@@",_cardExpireYear);
+                    NSLog(@" @@@@@@@ CARD EXPIRE MONTH : %@ @@@@@@",_cardExpireMonth);
+                    NSLog(@" @@@@@@@ CARD CVC : %@ @@@@@@",_cardCVCN);
+                    NSLog(@" @@@@@@@ MONTH 0 : %@ @@@@@@",@(01));
+                    [self createTokenNonClient];
+                }
+            }else{
+                [self postStatus:@"Unvalid expire date"];
+            }
+        }else{
+            [self postStatus:@"Please input your name"];
         }
-        else if([_cardExpireMonth intValue]>12 || [_cardExpireMonth intValue]<4){
-            [self postStatus:@"Unvalid Expire Month"];
-        }
-        else if([_cardExpireYear intValue]>27 || [_cardExpireYear intValue]<17){
-            [self postStatus:@"Unvalid Expire year"];
-        }
-        else if([_cardCVC length]<3){
-            [self postStatus:@"Unvalid CVC number"];
-        }
-        else{
-            _cardNumberN = [NSNumber numberWithInteger:[[_cardNumber stringByReplacingOccurrencesOfString:@" " withString:@""] integerValue]];
-            _cardCVCN=[NSNumber numberWithInteger:[_cardCVC integerValue]];
-            NSLog(@" @@@@@@@ CARD NO : %@ @@@@@@",_cardNumberN);
-            NSLog(@" @@@@@@@ CARD EXPIRE YEAR : %@ @@@@@@",_cardExpireYear);
-            NSLog(@" @@@@@@@ CARD EXPIRE MONTH : %@ @@@@@@",_cardExpireMonth);
-            NSLog(@" @@@@@@@ CARD CVC : %@ @@@@@@",_cardCVCN);
-            [self createTokenNonClient];
-        }
-    }else{
-        [self postStatus:@"Unvalid expire date"];
-    }
         }else{
             [self postStatus:@"Please input your name"];
         }
