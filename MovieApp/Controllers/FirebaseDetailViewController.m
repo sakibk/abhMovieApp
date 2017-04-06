@@ -128,7 +128,7 @@
 -(void)postStatus:(NSString*)error{
     [_statusLabel setText:error];
     [_statusLabel setHidden:NO];
-    [self performSelector:@selector(hideLabel) withObject:nil afterDelay:2.7];
+    [self performSelector:@selector(hideLabel) withObject:nil afterDelay:1.7];
 }
 
 -(void)hideLabel{

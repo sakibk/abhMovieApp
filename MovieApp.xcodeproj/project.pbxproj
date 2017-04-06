@@ -55,6 +55,7 @@
 		AD237E261E9030370082E220 /* SeatCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E251E9030370082E220 /* SeatCell.m */; };
 		AD237E281E903CED0082E220 /* TwoPickerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = AD237E271E903CED0082E220 /* TwoPickerCell.xib */; };
 		AD237E2B1E903D500082E220 /* TwoPickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = AD237E2A1E903D500082E220 /* TwoPickerCell.m */; };
+		AD324FBB1E963A330057A3D7 /* SuccessfulPaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AD324FBA1E963A330057A3D7 /* SuccessfulPaymentViewController.m */; };
 		AD34430A1E5B044E00CD2DD9 /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = AD3443091E5B044E00CD2DD9 /* UserInfo.m */; };
 		AD34430D1E5B261900CD2DD9 /* ListPost.m in Sources */ = {isa = PBXBuildFile; fileRef = AD34430C1E5B261900CD2DD9 /* ListPost.m */; };
 		AD349FE81E35A617009C4367 /* Feeds.m in Sources */ = {isa = PBXBuildFile; fileRef = AD349FE71E35A617009C4367 /* Feeds.m */; };
@@ -240,6 +241,8 @@
 		AD237E271E903CED0082E220 /* TwoPickerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = TwoPickerCell.xib; path = Views/TwoPickerCell.xib; sourceTree = "<group>"; };
 		AD237E291E903D500082E220 /* TwoPickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TwoPickerCell.h; path = Views/TwoPickerCell.h; sourceTree = "<group>"; };
 		AD237E2A1E903D500082E220 /* TwoPickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TwoPickerCell.m; path = Views/TwoPickerCell.m; sourceTree = "<group>"; };
+		AD324FB91E963A330057A3D7 /* SuccessfulPaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuccessfulPaymentViewController.h; path = Controllers/SuccessfulPaymentViewController.h; sourceTree = "<group>"; };
+		AD324FBA1E963A330057A3D7 /* SuccessfulPaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SuccessfulPaymentViewController.m; path = Controllers/SuccessfulPaymentViewController.m; sourceTree = "<group>"; };
 		AD3443081E5B044E00CD2DD9 /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = MovieApp/Models/UserInfo.h; sourceTree = "<group>"; };
 		AD3443091E5B044E00CD2DD9 /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = MovieApp/Models/UserInfo.m; sourceTree = "<group>"; };
 		AD34430B1E5B261900CD2DD9 /* ListPost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ListPost.h; path = MovieApp/Models/ListPost.h; sourceTree = "<group>"; };
@@ -879,6 +882,8 @@
 				AD0933A71E93893800260887 /* CheckoutSummaryViewController.m */,
 				ADAC07521E94E2DC0077F815 /* PaymentsViewController.h */,
 				ADAC07531E94E2DC0077F815 /* PaymentsViewController.m */,
+				AD324FB91E963A330057A3D7 /* SuccessfulPaymentViewController.h */,
+				AD324FBA1E963A330057A3D7 /* SuccessfulPaymentViewController.m */,
 			);
 			name = FirebaseStripe;
 			sourceTree = "<group>";
@@ -1273,6 +1278,7 @@
 				AD4F93B31E4E840D00E55630 /* SingleSeasonCell.m in Sources */,
 				AD17838F1E323ACE0037DC44 /* MovieDetailViewController.m in Sources */,
 				AD0C917A1E7E62B100049DB4 /* RLMActor.m in Sources */,
+				AD324FBB1E963A330057A3D7 /* SuccessfulPaymentViewController.m in Sources */,
 				AD349FFC1E39EE9E009C4367 /* BellowImageCell.m in Sources */,
 				AD74DF901E8468A100D7490E /* ReconnectedList.m in Sources */,
 				AD4F939F1E4C933600E55630 /* ImagesViewController.m in Sources */,

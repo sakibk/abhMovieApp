@@ -8,11 +8,21 @@
 
 #import "PaymentsViewController.h"
 #import  <QuartzCore/QuartzCore.h>
+#import "ApiKey.h"
+#import "SuccessfulPaymentViewController.h"
 
 @import Firebase;
 @import Stripe;
 
 @interface PaymentsViewController ()
+
+@property FIRDatabaseReference *seatsRef;
+@property STPCardParams *cardParams;
+@property NSString *cardNumber;
+@property NSString *cardMonth;
+@property NSString *cardYear;
+@property NSString *cardCVC;
+@property UILabel *statusLabel;
 
 @end
 
@@ -21,6 +31,10 @@
     UIView *bottomView;
     UIView *topButtonsView;
     UIView *textFieldsView;
+    UIView *separatorOne;
+    UIView *separatorTwo;
+    UIView *separatorThree;
+    UIView *separatorFour;
     UITextField *nameField;
     UITextField *cardNumberField;
     UITextField *expirationField;
@@ -34,14 +48,81 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _cardParams = [[STPCardParams alloc]init];
+    [self setupWatchingReferences];
+    [self setupStatusLabel];
     [self createButtonsView];
     [self createTextfieldViews];
+    [self createPaymentButton];
+    [self setNavBarTitle];
+    [self setupVariables];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [_seatsRef removeAllObservers];
+}
+
+-(void)setupVariables{
+    _cardNumber=[[NSString alloc] init];
+    _cardMonth = [[NSString alloc]init];
+    _cardYear=[[NSString alloc] init];
+    _cardCVC=[[NSString alloc] init];
+}
+
+-(void)setupStatusLabel{
+    CGRect statusRect = CGRectMake(20, self.view.bounds.size.height*5/7, self.view.bounds.size.width-40, 50);
+    _statusLabel= [[UILabel alloc]initWithFrame:statusRect];
+    [_statusLabel setBackgroundColor:[UIColor darkGrayColor]];
+    [[_statusLabel layer] setCornerRadius:24.0];
+    _statusLabel.clipsToBounds = YES;
+    _statusLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_statusLabel];
+    [_statusLabel setHidden:YES];
+}
+
+-(void)postStatus:(NSString*)error{
+    [_statusLabel setText:error];
+    [_statusLabel setHidden:NO];
+    [self performSelector:@selector(hideLabel) withObject:nil afterDelay:1.7];
+}
+
+-(void)hideLabel{
+    [UIView animateWithDuration:0.3 animations:^{
+        [_statusLabel setHidden:YES];
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+-(void)setupWatchingReferences{
+    [self.seatsRef removeAllObservers];
+    FIRDatabaseReference *ref = [FIRDatabase database].reference;
+    _seatsRef = [[[[[ref child:@"Halls"] child:[NSString stringWithFormat:@"%@",_playingTerm.playingHall]] child:[NSString stringWithFormat:@"%@",_playingTerm.playingDayID]] child:[NSString stringWithFormat:@"%@",_playingTerm.hourID]] child:@"Seats"];
+    
+    [_seatsRef
+     observeEventType:FIRDataEventTypeChildChanged
+     withBlock:^(FIRDataSnapshot *snapshot) {
+         int i;
+         NSInteger j =[_selectedSeats count];
+         for(i=0; i <j ; i++){
+             NSLog(@"String value: %@",[[_selectedSeats objectAtIndex:i]row]);
+             if([[snapshot.value valueForKey:@"row"] isEqualToString:[[_selectedSeats objectAtIndex:i] row]]){
+                 if([[snapshot.value valueForKey:@"taken"] boolValue]){
+                     NSMutableArray *viewControllers = [NSMutableArray arrayWithArray:[[self navigationController] viewControllers]];
+                     [viewControllers removeLastObject];
+                     [viewControllers removeLastObject];
+                     [[self navigationController] setViewControllers:viewControllers animated:YES];
+                 }
+             }
+         }
+     }];
+}
+
 -(void)createButtonsView{
     CGRect viewRect = CGRectMake(0, 60, self.view.bounds.size.width, 85);
     topButtonsView = [[UIView alloc] initWithFrame:viewRect];
@@ -98,7 +179,7 @@
 }
 
 -(void)createTextfieldViews{
-    CGRect textfieldViewRect= CGRectMake(0, 145, self.view.bounds.size.width, self.view.bounds.size.width/4);
+    CGRect textfieldViewRect= CGRectMake(0, 145, self.view.bounds.size.width, self.view.bounds.size.width*3/7);
     textFieldsView=[[UIView alloc]initWithFrame:textfieldViewRect];
     CGFloat textHeight = textfieldViewRect.size.height/4;
     CGFloat textWidth =textfieldViewRect.size.width-40;
@@ -106,53 +187,103 @@
     nameField = [[UITextField alloc]initWithFrame:nameRect];
     [nameField setBorderStyle:UITextBorderStyleLine];
     [nameField setFont:[UIFont systemFontOfSize:16]];
+    [nameField setTextAlignment:NSTextAlignmentLeft];
+    [nameField setTextColor:[UIColor darkGrayColor]];
     [nameField setPlaceholder:@"Name"];
+    [nameField setValue:[UIColor darkGrayColor]
+             forKeyPath:@"_placeholderLabel.textColor"];
     [nameField setAutocorrectionType:UITextAutocorrectionTypeNo];
     [nameField setKeyboardType:UIKeyboardTypeDefault];
+    [nameField setKeyboardAppearance:UIKeyboardAppearanceDark];
     [nameField setReturnKeyType:UIReturnKeyDone];
     [nameField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [nameField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [nameField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-    [nameField]
+    separatorOne =[[UIView alloc]initWithFrame:CGRectMake(0, nameRect.size.height-5, nameRect.size.width, 1)];
+    [separatorOne setBackgroundColor:[UIColor darkGrayColor]];
+    [nameField addSubview:separatorOne];
+    [nameField setTag:1];
+    nameField.delegate=self;
     
-//    textField.delegate = self;
-//    [self.view addSubview:textField];
+    [textFieldsView addSubview:nameField];
+    
+    
     CGRect cardRect = CGRectMake(20, textHeight, textWidth, textHeight);
     cardNumberField= [[UITextField alloc]initWithFrame:cardRect];
     [cardNumberField setBorderStyle:UITextBorderStyleLine];
     [cardNumberField setFont:[UIFont systemFontOfSize:16]];
     [cardNumberField setPlaceholder:@"XXXX XXXX XXXX XXXX"];
+    [cardNumberField setValue:[UIColor darkGrayColor]
+                   forKeyPath:@"_placeholderLabel.textColor"];
+    [cardNumberField setTextAlignment:NSTextAlignmentLeft];
+    [cardNumberField setTextColor:[UIColor darkGrayColor]];
     [cardNumberField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [cardNumberField setKeyboardType:UIKeyboardTypeDefault];
+    [cardNumberField setKeyboardType:UIKeyboardTypeNumberPad];
+    [cardNumberField setKeyboardAppearance:UIKeyboardAppearanceDark];
     [cardNumberField setReturnKeyType:UIReturnKeyDone];
     [cardNumberField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [cardNumberField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [cardNumberField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    separatorTwo =[[UIView alloc]initWithFrame:CGRectMake(0, cardRect.size.height-5, cardRect.size.width, 1)];
+    [separatorTwo setBackgroundColor:[UIColor darkGrayColor]];
+    [cardNumberField addSubview:separatorTwo];
+    [cardNumberField setTag:2];
+    cardNumberField.delegate=self;
+    
+    [textFieldsView addSubview:cardNumberField];
+    
     
     CGRect expireRect  = CGRectMake(20, textHeight*2, textWidth, textHeight);
     expirationField = [[UITextField alloc]initWithFrame:expireRect];
     [expirationField setBorderStyle:UITextBorderStyleLine];
     [expirationField setFont:[UIFont systemFontOfSize:16]];
     [expirationField setPlaceholder:@"Expiration"];
+    [expirationField setValue:[UIColor darkGrayColor]
+                   forKeyPath:@"_placeholderLabel.textColor"];
+    [expirationField setTextAlignment:NSTextAlignmentLeft];
+    [expirationField setTextColor:[UIColor darkGrayColor]];
     [expirationField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [expirationField setKeyboardType:UIKeyboardTypeDefault];
+    [expirationField setKeyboardType:UIKeyboardTypeNumberPad];
+    [expirationField setKeyboardAppearance:UIKeyboardAppearanceDark];
     [expirationField setReturnKeyType:UIReturnKeyDone];
     [expirationField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [expirationField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [expirationField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    separatorThree =[[UIView alloc]initWithFrame:CGRectMake(0, expireRect.size.height-5, expireRect.size.width, 1)];
+    [separatorThree setBackgroundColor:[UIColor darkGrayColor]];
+    [expirationField addSubview:separatorThree];
+    [expirationField setTag:3];
+    expirationField.delegate=self;
+    
+    [textFieldsView addSubview:expirationField];
+    
     
     CGRect securityRect  = CGRectMake(20, textHeight*3, textWidth, textHeight);
     securityCodeField = [[UITextField alloc]initWithFrame:securityRect];
     [securityCodeField setBorderStyle:UITextBorderStyleLine];
     [securityCodeField setFont:[UIFont systemFontOfSize:16]];
     [securityCodeField setPlaceholder:@"Security Code"];
+    [securityCodeField setValue:[UIColor darkGrayColor]
+                     forKeyPath:@"_placeholderLabel.textColor"];
+    [securityCodeField setTextAlignment:NSTextAlignmentLeft];
+    [securityCodeField setTextColor:[UIColor darkGrayColor]];
     [securityCodeField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [securityCodeField setKeyboardType:UIKeyboardTypeDefault];
+    [securityCodeField setKeyboardType:UIKeyboardTypeNumberPad];
+    [securityCodeField setKeyboardAppearance:UIKeyboardAppearanceDark];
     [securityCodeField setReturnKeyType:UIReturnKeyDone];
     [securityCodeField setClearButtonMode:UITextFieldViewModeWhileEditing];
     [securityCodeField setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
     [securityCodeField setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    separatorFour =[[UIView alloc]initWithFrame:CGRectMake(0, securityRect.size.height-5, securityRect.size.width, 1)];
+    [separatorFour setBackgroundColor:[UIColor darkGrayColor]];
+    [securityCodeField addSubview:separatorFour];
+    [securityCodeField setTag:4];
+    securityCodeField.delegate=self;
     
+    [textFieldsView addSubview:securityCodeField];
+    
+    
+    [self.view addSubview:textFieldsView];
 }
 
 
@@ -189,18 +320,280 @@
     
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    switch ([textField tag]) {
+        case 1:{
+            
+        }
+            break;
+            
+        case 2:{
+            if(range.location>19){
+                if([cardNumberField canResignFirstResponder]){
+                    [cardNumberField resignFirstResponder];
+                }
+            } else {
+                if(range.location%5==0){
+                    cardNumberField.text = [NSString stringWithFormat:@"%@ ",cardNumberField.text];
+                }
+                
+                if(![cardNumberField isUserInteractionEnabled])
+                    [cardNumberField setUserInteractionEnabled:YES];
+            }
+        }
+            break;
+        case 3:{
+            if(range.location>6){
+                if([expirationField canResignFirstResponder]){
+                    [expirationField resignFirstResponder];
+                }
+            }
+            else if(range.location==2){
+                _cardMonth=expirationField.text;
+                expirationField.text = [NSString stringWithFormat:@"%@/",expirationField.text];
+            }else if(range.location>2&& range.location<7){
+                _cardYear =[NSString stringWithFormat:@"%@%@",_cardYear,string];
+            }else{
+                if(![expirationField isUserInteractionEnabled])
+                    [expirationField setUserInteractionEnabled:YES];
+            }
+        }
+            break;
+        case 4:{
+            if(range.location>2){
+                if([securityCodeField canResignFirstResponder]){
+                    [securityCodeField resignFirstResponder];
+                }
+            } else if(range.location == 3){
+                _cardCVC=[securityCodeField text];
+            }else {
+                [NSString stringWithFormat:@"%@%@",_cardYear,string];
+                if(![securityCodeField isUserInteractionEnabled])
+                    [securityCodeField setUserInteractionEnabled:YES];
+            }
+        }
+            break;
+            
+        default:
+            break;
+    }
+    NSLog(@"TEXTFIELD TAG: %ld",[textField tag]);
+    NSLog(@"IN RANGE: %lu,%lu",(unsigned long)range.length,(unsigned long)range.location);
+    NSLog(@"WITH STRING: %@",string);
+    return YES;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if([textField canResignFirstResponder])
+        [textField resignFirstResponder];
+    return YES;
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField{
+    if([textField canBecomeFirstResponder])
+        [textField becomeFirstResponder];
+    switch ([textField tag]) {
+        case 1:{
+            [nameField setTextColor:[UIColor darkGrayColor]];
+            [separatorOne setBackgroundColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+        }
+            break;
+            
+        case 2:{
+            [cardNumberField setTextColor:[UIColor darkGrayColor]];
+            [separatorTwo setBackgroundColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+        }
+            break;
+        case 3:{
+            [expirationField setTextColor:[UIColor darkGrayColor]];
+            [separatorThree setBackgroundColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+        }
+            break;
+        case 4:{
+            [securityCodeField setTextColor:[UIColor darkGrayColor]];
+            [separatorFour setBackgroundColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    switch ([textField tag]) {
+        case 1:{
+            [nameField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+        }
+            break;
+            
+        case 2:{
+            [cardNumberField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+            _cardNumber = [[NSString alloc]initWithString:nameField.text];
+        }
+            break;
+        case 3:{
+            [expirationField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+            
+        }
+            break;
+        case 4:{
+            [securityCodeField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+            
+        }
+            break;
+            
+        default:
+            break;
+    }
+}
+
 -(void)pushPay{
+//        if([_cardNumber length]<19){
+//            [self postStatus:@"Unvalid Card Number"];
+//        }
+//        else if([_cardMonth intValue]>12 || [_cardMonth intValue]<1){
+//            [self postStatus:@"Unvalid Expire Month"];
+//        }
+//        else if([_cardYear intValue]>2027 || [_cardYear intValue]<2017){
+//            [self postStatus:@"Unvalid Expire year"];
+//        }
+//        else if([_cardCVC length]<3){
+//            [self postStatus:@"Unvalid CVC number"];
+//        }
+//        else{
+//
+//            [self createTokenNonClient];
+//        }
+//    
+    [self createTokenNonClient];
+}
+
+-(void)createToken{
+    [[STPAPIClient sharedClient] createTokenWithCard:_cardParams completion:^(STPToken *token, NSError *error) {
+        if (error) {
+            // show the error, maybe by presenting an alert to the user
+            [self postStatus:@"Invalid Card Credentials"];
+        } else {
+            // ovdje implementirati da posaljem token negdje ..
+            [self payWithStripe:token];
+        }
+    }];
+}
+
+-(void)createTokenNonClient{
+    NSError *error;
     
+    NSString *pathP = @"https://noodlio-pay.p.mashape.com/tokens/create";
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"X-Mashape-Key": [ApiKey getMashableApiKey],
+                                            @"Content-Type": @"application/x-www-form-urlencoded",
+                                            @"Accept": @"application/json"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:pathP];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPMethod:@"POST"];
+    
+    NSDictionary *parameters = @{@"cvc": @(123),
+                                 @"exp_month": @(8),
+                                 @"exp_year": @(2020),
+                                 @"number": @(4242424242424242),
+                                 @"test":@"true"};
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters
+                                                       options:0 error:&error];
+    [request setHTTPBody:postData];
+    
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            NSLog(@"%@",dict);
+            [self payWithStripe:[dict valueForKey:@"id"]];
+        }
+        else{
+        }
+    }];
+    
+    [postDataTask resume];
 }
 
+
+-(void)payWithStripe:(STPToken*)token{
+    NSError *error;
+    
+    NSString *pathP = @"https://noodlio-pay.p.mashape.com/charge/token";
+    
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    configuration.HTTPAdditionalHeaders = @{
+                                            @"X-Mashape-Key": [ApiKey getMashableApiKey],
+                                            @"Content-Type": @"application/x-www-form-urlencoded",
+                                            @"Accept": @"application/json"
+                                            };
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:configuration delegate:nil delegateQueue:nil];
+    NSURL *url = [NSURL URLWithString:pathP];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:60.0];
+    
+    [request addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request addValue:@"application/json" forHTTPHeaderField:@"Accept"];
+    [request setHTTPMethod:@"POST"];
+    
+    NSDictionary *parameters = @{@"amount": @([_totalAmount floatValue]*100),
+                                 @"currency": @"usd",
+                                 @"description":_accountID,
+                                 @"statement_descriptor":_seatsSelected,
+                                 @"source": [NSString stringWithFormat:@"%@",token],
+                                 @"stripe_account": [ApiKey getStripeAccountID],
+                                 @"test":@"true"};
+    
+    NSData *postData = [NSJSONSerialization dataWithJSONObject:parameters
+                                                       options:0 error:&error];
+    [request setHTTPBody:postData];
+    
+    
+    NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+        if(!error){
+            NSLog(@"%@",dict);
+            [_seatsRef removeAllObservers];
+            [self updatePayedSeats];
+        }
+        else{
+        }
+    }];
+    
+    [postDataTask resume];
+}
+
+-(void)updatePayedSeats{
+    int i;
+    NSInteger j =[_selectedSeats count];
+    for(i=0; i <j ; i++){
+        NSLog(@"String value: %@",[[_selectedSeats objectAtIndex:i]row]);
+        [[[_seatsRef child:[NSString stringWithFormat:@"%@",[[_selectedSeats objectAtIndex:i] seatID]]] child:@"taken"] setValue:@"YES"];
+    }
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    SuccessfulPaymentViewController *succesfullPaymentVC = (SuccessfulPaymentViewController*)[storyboard instantiateViewControllerWithIdentifier:@"succesfullPaymentVC"];
+    [self.navigationController pushViewController:succesfullPaymentVC animated:YES];
+}
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

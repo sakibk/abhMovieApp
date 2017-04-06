@@ -10,9 +10,13 @@
 #import "Hours.h"
 #import "Seats.h"
 
-@interface PaymentsViewController : UIViewController
+@interface PaymentsViewController : UIViewController<UITextFieldDelegate>
 
 @property(strong, nonatomic) Hours *playingTerm;
 @property(strong, nonatomic) NSMutableArray<Seats*> *selectedSeats;
+@property(strong,nonatomic) NSString *buyerName;
+@property(strong,nonatomic) NSNumber *totalAmount;
+@property(strong,nonatomic) NSNumber *accountID;
+@property(strong,nonatomic) NSString *seatsSelected;
 
 @end

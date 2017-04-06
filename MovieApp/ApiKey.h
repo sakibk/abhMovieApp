@@ -11,5 +11,7 @@
 @interface ApiKey : NSObject
 
 +(NSString*)getApiKey;
++(NSString *)getMashableApiKey;
++(NSString*)getStripeAccountID;
 
 @end

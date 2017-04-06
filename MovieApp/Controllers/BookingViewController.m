@@ -31,6 +31,7 @@
 @property NSMutableArray<Seats*> *selectedSeats;
 @property NSNumber *totalCostToPay;
 @property NSString *stringPlayingTerm;
+@property UILabel *statusLabel;
 
 @end
 
@@ -59,6 +60,7 @@
     _ticketNumber=[NSNumber numberWithInt:1];
     [self setNavBarTitle];
     [self createBottomButton];
+    [self setupStatusLabel];
     [self setupCells];
     [self setSizes];
     [self setTicketPrice];
@@ -69,6 +71,46 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    if(_seatsIndexPath!=nil){
+        CollectionSeatsCell *cellSeats =[_tableView cellForRowAtIndexPath:_seatsIndexPath];
+        if(![cellSeats.selectedSeats count]){
+            [cellSeats setupNumberOfSeatsToTake:_ticketNumber];
+            [cellSeats.selectedSeats removeAllObjects];
+            [_selectedSeats removeAllObjects];
+            [self postStatus:@"Your seats are taken"];
+            [self.tableView reloadData];
+        }
+    }
+}
+
+
+-(void)setupStatusLabel{
+    CGRect statusRect = CGRectMake(20, self.view.bounds.size.height*5/7, self.view.bounds.size.width-40, 50);
+    _statusLabel= [[UILabel alloc]initWithFrame:statusRect];
+    [_statusLabel setBackgroundColor:[UIColor darkGrayColor]];
+    [[_statusLabel layer] setCornerRadius:24.0];
+    _statusLabel.clipsToBounds = YES;
+    _statusLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_statusLabel];
+    [_statusLabel setHidden:YES];
+}
+
+-(void)postStatus:(NSString*)error{
+    [_statusLabel setText:error];
+    [_statusLabel setHidden:NO];
+    [self performSelector:@selector(hideLabel) withObject:nil afterDelay:1.7];
+}
+
+-(void)hideLabel{
+    [UIView animateWithDuration:0.3 animations:^{
+        [_statusLabel setHidden:YES];
+    } completion:^(BOOL finished){
+        
+    }];
 }
 
 -(void)setupCells{
@@ -241,8 +283,7 @@
     if([_selectedSeats count]){
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         CheckoutSummaryViewController* summary = (CheckoutSummaryViewController*)[storyboard instantiateViewControllerWithIdentifier:@"CheckoutSummary"];
-        summary.selectedSeats = [[NSMutableArray alloc]init];
-        summary.selectedSeats=_selectedSeats;
+        summary.selectedSeats = [[NSMutableArray alloc]initWithArray:_selectedSeats];
         summary.selectedHours = [[Hours alloc] init];
         summary.selectedHours=_selectedHours;
         summary.selectedMovie = [[Movie alloc] init];
@@ -253,13 +294,14 @@
             summary.amountToPay= _totalCostToPay;
         }else{
             float payingAmount=0.0;
-            payingAmount = [_totalCostToPay floatValue]/[_ticketNumber floatValue];
-            payingAmount = payingAmount*[_selectedSeats count];
+            payingAmount = floatPrice*[_selectedSeats count];
             summary.amountToPay = [NSNumber numberWithFloat:payingAmount];
             summary.numberOfTickets=[NSNumber numberWithInteger:[_selectedSeats count]];
         }
         
         [self.navigationController pushViewController:summary animated:YES];
+    } else {
+        [self postStatus:@"Please select a seat to proceede"];
     }
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

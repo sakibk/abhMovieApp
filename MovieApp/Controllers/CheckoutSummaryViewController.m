@@ -22,6 +22,9 @@
 {
     UIView *bottomView;
     UIButton *bottomButton;
+    NSString *name;
+    NSNumber *accountID;
+    NSString *seatss;
 }
 
 - (void)viewDidLoad {
@@ -84,9 +87,12 @@
     [_seatsRef
      observeEventType:FIRDataEventTypeChildChanged
      withBlock:^(FIRDataSnapshot *snapshot) {
-         for(Seats *sts in _selectedSeats){
-             if([[snapshot.value valueForKeyPath:@"row"] isEqualToString:sts.row]){
-                 if([[snapshot.value valueForKeyPath:@"taken"] boolValue]){
+         int i;
+         NSInteger j =[_selectedSeats count];
+         for(i=0; i <j ; i++){
+             NSLog(@"String value: %@",[[_selectedSeats objectAtIndex:i]row]);
+             if([[snapshot.value valueForKey:@"row"] isEqualToString:[[_selectedSeats objectAtIndex:i] row]]){
+                 if([[snapshot.value valueForKey:@"taken"] boolValue]){
                      [self.navigationController popViewControllerAnimated:YES];
                  }
              }
@@ -101,6 +107,10 @@
     paymentsVC.selectedSeats =[[NSMutableArray alloc]initWithArray:_selectedSeats];
     paymentsVC.playingTerm = [[Hours alloc]init];
     paymentsVC.playingTerm=_selectedHours;
+    paymentsVC.buyerName = name;
+    paymentsVC.accountID=accountID;
+    paymentsVC.seatsSelected=seatss;
+    paymentsVC.totalAmount=_amountToPay;
     [self.navigationController pushViewController:paymentsVC animated:YES];
 }
 
@@ -129,8 +139,9 @@
         }
             break;
         case 1:{
-            NSString *name=[[NSString alloc]init];
+            name=[[NSString alloc]init];
             NSDictionary *userCredits = [[NSUserDefaults standardUserDefaults] objectForKey:@"SessionCredentials"];
+            accountID=[NSNumber numberWithInt:[[userCredits valueForKey:@"userID"] intValue]];
             if([[userCredits valueForKey:@"name"] isKindOfClass:[NSNull class]]){
                 name =[userCredits valueForKey:@"name"];
             }else{
@@ -158,6 +169,7 @@
                 [seatString appendString:[NSString stringWithFormat:@"%@,",s.row]];
             }
             [seatString deleteCharactersInRange:NSMakeRange([seatString length]-1, 1)];
+            seatss =[[NSString alloc]initWithString:seatString];
             [cell setupWithString:@"Seats" andAtributedPart:seatString];
         }
             break;

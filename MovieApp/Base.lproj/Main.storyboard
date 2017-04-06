@@ -1007,10 +1007,68 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <connections>
+                        <segue destination="Qwv-eH-eR2" kind="show" identifier="succesfullPaymentIdentifier" id="Vq7-yj-Tol"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bpa-nu-RVu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="6425" y="-1970"/>
+        </scene>
+        <!--Successful Payment View Controller-->
+        <scene sceneID="PnZ-dx-Bak">
+            <objects>
+                <viewController storyboardIdentifier="succesfullPaymentVC" id="Qwv-eH-eR2" customClass="SuccessfulPaymentViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="LeJ-wq-tvK"/>
+                        <viewControllerLayoutGuide type="bottom" id="bZk-Sc-hlj"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="RNd-cp-nbg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Nr2-YE-0sc">
+                                <rect key="frame" x="147" y="147" width="120" height="120"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="Hhs-o5-tob"/>
+                                    <constraint firstAttribute="height" constant="120" id="xA3-Kj-eHY"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congradulations!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbH-cs-5YM">
+                                <rect key="frame" x="99" y="283" width="215" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="GiN-hw-1Tb"/>
+                                    <constraint firstAttribute="width" constant="215" id="lQM-Xu-69x"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="black" pointSize="24"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your payment was successful." textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N6g-83-ZCL">
+                                <rect key="frame" x="110" y="327" width="195" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="0zq-Hr-gHT"/>
+                                    <constraint firstAttribute="width" constant="195" id="58s-ri-ObM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="hbH-cs-5YM" firstAttribute="top" secondItem="Nr2-YE-0sc" secondAttribute="bottom" constant="16" id="2mK-Xu-06Z"/>
+                            <constraint firstItem="hbH-cs-5YM" firstAttribute="centerX" secondItem="RNd-cp-nbg" secondAttribute="centerX" id="5dG-Si-t6o"/>
+                            <constraint firstItem="N6g-83-ZCL" firstAttribute="top" secondItem="Nr2-YE-0sc" secondAttribute="bottom" constant="60" id="IIv-w6-IVY"/>
+                            <constraint firstItem="Nr2-YE-0sc" firstAttribute="top" secondItem="LeJ-wq-tvK" secondAttribute="bottom" constant="127" id="Kd0-lL-U2Z"/>
+                            <constraint firstItem="Nr2-YE-0sc" firstAttribute="centerX" secondItem="RNd-cp-nbg" secondAttribute="centerX" id="Lb1-4T-Ime"/>
+                            <constraint firstItem="N6g-83-ZCL" firstAttribute="centerX" secondItem="RNd-cp-nbg" secondAttribute="centerX" id="fqU-g8-VcD"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zjd-Tm-xtN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="7511.594202898551" y="-1970.3804347826087"/>
         </scene>
         <!--Firebase View Controller-->
         <scene sceneID="Ag0-IQ-HyR">
