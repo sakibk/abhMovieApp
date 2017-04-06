@@ -19,9 +19,12 @@
 @property FIRDatabaseReference *seatsRef;
 @property STPCardParams *cardParams;
 @property NSString *cardNumber;
-@property NSString *cardMonth;
-@property NSString *cardYear;
+@property NSString *cardExpire;
 @property NSString *cardCVC;
+@property NSNumber *cardCVCN;
+@property NSNumber *cardExpireMonth;
+@property NSNumber *cardExpireYear;
+@property NSNumber *cardNumberN;
 @property UILabel *statusLabel;
 
 @end
@@ -43,6 +46,8 @@
     UIButton *visa;
     UIButton *master;
     BOOL isVisa;
+    BOOL isSet;
+    UILabel *expireLabel;
 }
 
 - (void)viewDidLoad {
@@ -69,9 +74,9 @@
 
 -(void)setupVariables{
     _cardNumber=[[NSString alloc] init];
-    _cardMonth = [[NSString alloc]init];
-    _cardYear=[[NSString alloc] init];
+    _cardExpire = [[NSString alloc]init];
     _cardCVC=[[NSString alloc] init];
+    isSet=NO;
 }
 
 -(void)setupStatusLabel{
@@ -254,6 +259,11 @@
     [expirationField addSubview:separatorThree];
     [expirationField setTag:3];
     expirationField.delegate=self;
+    expireLabel = [[UILabel alloc]initWithFrame:CGRectMake(expireRect.size.width-20, 0, 40, textHeight)];
+    [expireLabel setFont:[UIFont systemFontOfSize:16]];
+    [expireLabel setTextColor:[UIColor darkGrayColor]];
+    [expireLabel setText:@"MM/YYYY"];
+    [expirationField addSubview:expireLabel];
     
     [textFieldsView addSubview:expirationField];
     
@@ -349,10 +359,7 @@
                 }
             }
             else if(range.location==2){
-                _cardMonth=expirationField.text;
                 expirationField.text = [NSString stringWithFormat:@"%@/",expirationField.text];
-            }else if(range.location>2&& range.location<7){
-                _cardYear =[NSString stringWithFormat:@"%@%@",_cardYear,string];
             }else{
                 if(![expirationField isUserInteractionEnabled])
                     [expirationField setUserInteractionEnabled:YES];
@@ -364,10 +371,7 @@
                 if([securityCodeField canResignFirstResponder]){
                     [securityCodeField resignFirstResponder];
                 }
-            } else if(range.location == 3){
-                _cardCVC=[securityCodeField text];
             }else {
-                [NSString stringWithFormat:@"%@%@",_cardYear,string];
                 if(![securityCodeField isUserInteractionEnabled])
                     [securityCodeField setUserInteractionEnabled:YES];
             }
@@ -381,6 +385,35 @@
     NSLog(@"IN RANGE: %lu,%lu",(unsigned long)range.length,(unsigned long)range.location);
     NSLog(@"WITH STRING: %@",string);
     return YES;
+}
+
+-(void)textFieldDidEndEditing:(UITextField *)textField{
+    switch ([textField tag]) {
+        case 1:{
+            [nameField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+            
+        }
+            break;
+            
+        case 2:{
+            [cardNumberField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+            _cardNumber = cardNumberField.text;
+        }
+            break;
+        case 3:{
+            [expirationField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+            _cardExpire = expirationField.text;
+        }
+            break;
+        case 4:{
+            [securityCodeField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
+            _cardCVC=securityCodeField.text;
+        }
+            break;
+            
+        default:
+            break;
+    }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
@@ -420,42 +453,18 @@
     }
 }
 
--(void)textFieldDidEndEditing:(UITextField *)textField{
-    switch ([textField tag]) {
-        case 1:{
-            [nameField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
-        }
-            break;
-            
-        case 2:{
-            [cardNumberField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
-            _cardNumber = [[NSString alloc]initWithString:nameField.text];
-        }
-            break;
-        case 3:{
-            [expirationField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
-            
-        }
-            break;
-        case 4:{
-            [securityCodeField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
-            
-        }
-            break;
-            
-        default:
-            break;
-    }
-}
-
 -(void)pushPay{
+//    NSArray* expires = [_cardExpire componentsSeparatedByString: @"/"];
+//    if([expires count]==2){
+//    _cardExpireMonth =[NSNumber numberWithInt:[[expires objectAtIndex: 0] intValue]];
+//    _cardExpireYear =[NSNumber numberWithInt:[[expires objectAtIndex: 1] intValue]];
 //        if([_cardNumber length]<19){
 //            [self postStatus:@"Unvalid Card Number"];
 //        }
-//        else if([_cardMonth intValue]>12 || [_cardMonth intValue]<1){
+//        else if([_cardExpireMonth intValue]>12 || [_cardExpireMonth intValue]<1){
 //            [self postStatus:@"Unvalid Expire Month"];
 //        }
-//        else if([_cardYear intValue]>2027 || [_cardYear intValue]<2017){
+//        else if([_cardExpireYear intValue]>2027 || [_cardExpireYear intValue]<2017){
 //            [self postStatus:@"Unvalid Expire year"];
 //        }
 //        else if([_cardCVC length]<3){
@@ -465,7 +474,11 @@
 //
 //            [self createTokenNonClient];
 //        }
-//    
+//    }
+//    else{
+//        [self postStatus:@"Unvalid expire date"];
+//    }
+//        
     [self createTokenNonClient];
 }
 
@@ -520,6 +533,7 @@
             [self payWithStripe:[dict valueForKey:@"id"]];
         }
         else{
+            [self postStatus:@"Invalid Card Credentials"];
         }
     }];
     
@@ -563,13 +577,21 @@
     
     NSURLSessionDataTask *postDataTask = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-        if(!error){
-            NSLog(@"%@",dict);
-            [_seatsRef removeAllObservers];
-            [self updatePayedSeats];
-        }
-        else{
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([[NSThread currentThread] isMainThread]){
+                if(!error){
+                    NSLog(@"%@",dict);
+                    [_seatsRef removeAllObservers];
+                    [self updatePayedSeats];
+                }
+                else{
+                    [self postStatus:@"Invalid Card Credentials"];
+                }
+            }
+            else{
+                NSLog(@"Not in main thread--completion handler");
+            }
+        });
     }];
     
     [postDataTask resume];

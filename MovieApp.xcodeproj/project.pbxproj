@@ -677,6 +677,32 @@
 			name = CollectionView;
 			sourceTree = "<group>";
 		};
+		AD324FBC1E96485B0057A3D7 /* CinemaBooking */ = {
+			isa = PBXGroup;
+			children = (
+				ADBDE5D11E8907CE003D2A81 /* FirebaseViewController.h */,
+				ADBDE5D21E8907CE003D2A81 /* FirebaseViewController.m */,
+				AD12CEFE1E8AC2E5000A0131 /* FirebaseDetailViewController.h */,
+				AD12CEFF1E8AC2E5000A0131 /* FirebaseDetailViewController.m */,
+				AD237E061E8DE64D0082E220 /* BookingViewController.h */,
+				AD237E071E8DE64D0082E220 /* BookingViewController.m */,
+			);
+			name = CinemaBooking;
+			sourceTree = "<group>";
+		};
+		AD324FBD1E9648710057A3D7 /* CinemaPayment */ = {
+			isa = PBXGroup;
+			children = (
+				AD0933A61E93893800260887 /* CheckoutSummaryViewController.h */,
+				AD0933A71E93893800260887 /* CheckoutSummaryViewController.m */,
+				ADAC07521E94E2DC0077F815 /* PaymentsViewController.h */,
+				ADAC07531E94E2DC0077F815 /* PaymentsViewController.m */,
+				AD324FB91E963A330057A3D7 /* SuccessfulPaymentViewController.h */,
+				AD324FBA1E963A330057A3D7 /* SuccessfulPaymentViewController.m */,
+			);
+			name = CinemaPayment;
+			sourceTree = "<group>";
+		};
 		AD349FE91E395FB2009C4367 /* Feeds */ = {
 			isa = PBXGroup;
 			children = (
@@ -872,18 +898,8 @@
 		ADBDE5D01E8906D0003D2A81 /* FirebaseStripe */ = {
 			isa = PBXGroup;
 			children = (
-				ADBDE5D11E8907CE003D2A81 /* FirebaseViewController.h */,
-				ADBDE5D21E8907CE003D2A81 /* FirebaseViewController.m */,
-				AD12CEFE1E8AC2E5000A0131 /* FirebaseDetailViewController.h */,
-				AD12CEFF1E8AC2E5000A0131 /* FirebaseDetailViewController.m */,
-				AD237E061E8DE64D0082E220 /* BookingViewController.h */,
-				AD237E071E8DE64D0082E220 /* BookingViewController.m */,
-				AD0933A61E93893800260887 /* CheckoutSummaryViewController.h */,
-				AD0933A71E93893800260887 /* CheckoutSummaryViewController.m */,
-				ADAC07521E94E2DC0077F815 /* PaymentsViewController.h */,
-				ADAC07531E94E2DC0077F815 /* PaymentsViewController.m */,
-				AD324FB91E963A330057A3D7 /* SuccessfulPaymentViewController.h */,
-				AD324FBA1E963A330057A3D7 /* SuccessfulPaymentViewController.m */,
+				AD324FBC1E96485B0057A3D7 /* CinemaBooking */,
+				AD324FBD1E9648710057A3D7 /* CinemaPayment */,
 			);
 			name = FirebaseStripe;
 			sourceTree = "<group>";

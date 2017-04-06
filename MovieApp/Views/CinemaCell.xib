@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7lh-Vh-Ke8">
-                        <rect key="frame" x="10" y="10" width="371" height="185"/>
+                        <rect key="frame" x="10" y="10" width="374" height="185"/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0MB-T7-QYZ">
                         <rect key="frame" x="25" y="127" width="344" height="21"/>
@@ -57,26 +57,25 @@
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="0MB-T7-QYZ" firstAttribute="trailing" secondItem="5l7-Gx-TYc" secondAttribute="trailing" id="0Nx-rg-HuK"/>
-                    <constraint firstItem="5l7-Gx-TYc" firstAttribute="centerX" secondItem="7lh-Vh-Ke8" secondAttribute="centerX" constant="1.5" id="5AG-RF-tHm"/>
                     <constraint firstItem="7EZ-pg-F3J" firstAttribute="leading" secondItem="deL-FS-kGB" secondAttribute="trailing" constant="5" id="6nE-AN-7Jv"/>
                     <constraint firstAttribute="bottomMargin" secondItem="deL-FS-kGB" secondAttribute="bottom" constant="5" id="7K5-d2-2Rr"/>
                     <constraint firstItem="5l7-Gx-TYc" firstAttribute="top" secondItem="0MB-T7-QYZ" secondAttribute="bottom" constant="3" id="8if-1H-bOC"/>
                     <constraint firstItem="5l7-Gx-TYc" firstAttribute="leading" secondItem="deL-FS-kGB" secondAttribute="leading" id="HsJ-mW-fOS"/>
                     <constraint firstAttribute="trailingMargin" secondItem="5l7-Gx-TYc" secondAttribute="trailing" constant="17" id="OLr-C8-sUq"/>
                     <constraint firstItem="deL-FS-kGB" firstAttribute="leading" secondItem="E3h-gM-hZY" secondAttribute="leadingMargin" constant="17" id="P8Z-Hz-rZ4"/>
-                    <constraint firstAttribute="bottom" secondItem="7lh-Vh-Ke8" secondAttribute="bottom" constant="4" id="Pq6-v8-5Ml"/>
                     <constraint firstItem="0MB-T7-QYZ" firstAttribute="leading" secondItem="5l7-Gx-TYc" secondAttribute="leading" id="Qfy-Rh-aLk"/>
                     <constraint firstItem="7EZ-pg-F3J" firstAttribute="top" secondItem="5l7-Gx-TYc" secondAttribute="bottom" constant="4" id="RKE-A2-HRB"/>
                     <constraint firstItem="0MB-T7-QYZ" firstAttribute="leading" secondItem="E3h-gM-hZY" secondAttribute="leadingMargin" constant="17" id="T6j-ut-f1d"/>
-                    <constraint firstAttribute="trailing" secondItem="7lh-Vh-Ke8" secondAttribute="trailing" constant="13" id="Xta-ZM-cPW"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="7lh-Vh-Ke8" secondAttribute="bottom" constant="-4" id="VB2-jw-2dp"/>
+                    <constraint firstItem="7lh-Vh-Ke8" firstAttribute="leading" secondItem="E3h-gM-hZY" secondAttribute="leadingMargin" constant="2" id="WB0-6Q-Sfl"/>
                     <constraint firstItem="7EZ-pg-F3J" firstAttribute="top" secondItem="5l7-Gx-TYc" secondAttribute="bottom" constant="4" id="ZVV-ML-kwQ"/>
                     <constraint firstItem="7EZ-pg-F3J" firstAttribute="leading" secondItem="deL-FS-kGB" secondAttribute="trailing" constant="5" id="ZxB-sQ-8FA"/>
                     <constraint firstAttribute="trailingMargin" secondItem="0MB-T7-QYZ" secondAttribute="trailing" constant="17" id="edY-KR-fBE"/>
-                    <constraint firstItem="7lh-Vh-Ke8" firstAttribute="leading" secondItem="E3h-gM-hZY" secondAttribute="leading" constant="10" id="nLo-Qd-Uyh"/>
+                    <constraint firstItem="7lh-Vh-Ke8" firstAttribute="centerX" secondItem="E3h-gM-hZY" secondAttribute="centerX" id="fbf-ud-z1E"/>
                     <constraint firstItem="5l7-Gx-TYc" firstAttribute="leading" secondItem="E3h-gM-hZY" secondAttribute="leadingMargin" constant="17" id="oDV-Lh-c7K"/>
                     <constraint firstAttribute="bottomMargin" secondItem="7EZ-pg-F3J" secondAttribute="bottom" constant="4" id="oQe-sz-PGA"/>
                     <constraint firstItem="7EZ-pg-F3J" firstAttribute="centerY" secondItem="deL-FS-kGB" secondAttribute="centerY" id="rwh-gn-lCT"/>
-                    <constraint firstItem="7lh-Vh-Ke8" firstAttribute="top" secondItem="E3h-gM-hZY" secondAttribute="top" constant="10" id="sWm-gO-ohe"/>
+                    <constraint firstItem="7lh-Vh-Ke8" firstAttribute="top" secondItem="E3h-gM-hZY" secondAttribute="topMargin" constant="2" id="uY0-ap-bFh"/>
                     <constraint firstItem="7EZ-pg-F3J" firstAttribute="top" secondItem="5l7-Gx-TYc" secondAttribute="bottom" constant="4" id="yYo-Y2-nHc"/>
                 </constraints>
             </tableViewCellContentView>
