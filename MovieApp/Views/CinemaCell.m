@@ -51,7 +51,7 @@ NSString *const cinemaCellIdentifier=@"CinemaCellIdentifier";
 -(void)setCellGradient{
     if (![self.backdropImage.layer sublayers]) {
         CAGradientLayer *gradientMask = [CAGradientLayer layer];
-        gradientMask.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds) - 20, CGRectGetHeight(self.backdropImage.bounds) - 3);
+        gradientMask.frame = CGRectMake(0, 0, CGRectGetWidth(self.bounds) - 20, CGRectGetHeight(self.backdropImage.bounds));
         gradientMask.colors = @[(id)[UIColor clearColor].CGColor,
                                 (id)[UIColor blackColor].CGColor];
         gradientMask.locations = @[@0.00, @1.00];

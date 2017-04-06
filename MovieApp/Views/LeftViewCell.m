@@ -12,7 +12,7 @@
 
 -(void)setupNewButton{
     _imageIconNew =[[UIImageView alloc]init];
-    CGRect newImageIconFrame=CGRectMake(self.frame.size.width-144, 15, self.frame.size.height-20, self.frame.size.height-20);
+    CGRect newImageIconFrame=CGRectMake(self.frame.size.width-167, 15, self.frame.size.height-20, self.frame.size.height-20);
     [_imageIconNew setFrame:newImageIconFrame];
     [self.imageIconNew setImage:[UIImage imageNamed:@"CinemaNew"]];
     [self.imageIconNew sizeToFit];

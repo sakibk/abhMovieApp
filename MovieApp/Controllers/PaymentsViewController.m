@@ -18,6 +18,7 @@
 
 @property FIRDatabaseReference *seatsRef;
 @property STPCardParams *cardParams;
+@property NSString *cardHolder;
 @property NSString *cardNumber;
 @property NSString *cardExpire;
 @property NSString *cardCVC;
@@ -47,6 +48,8 @@
     UIButton *master;
     BOOL isVisa;
     BOOL isSet;
+    NSNumber *previusCardLocation;
+    NSNumber *previusExpireLocation;
     UILabel *expireLabel;
 }
 
@@ -76,7 +79,10 @@
     _cardNumber=[[NSString alloc] init];
     _cardExpire = [[NSString alloc]init];
     _cardCVC=[[NSString alloc] init];
+    _cardHolder=[[NSString alloc] init];
     isSet=NO;
+    previusCardLocation = [NSNumber numberWithInt:0];
+    previusExpireLocation = [NSNumber numberWithInt:0];
 }
 
 -(void)setupStatusLabel{
@@ -165,6 +171,7 @@
 
 -(IBAction)pickVisaOrMaster:(id)sender{
     if([sender tag]==1){
+        isSet = YES;
         isVisa=YES;
         [visa setTitleColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0] forState:UIControlStateNormal];
         [visa setBackgroundColor:[UIColor blackColor]];
@@ -174,6 +181,7 @@
         [[master layer] setBorderColor:[[UIColor darkGrayColor] CGColor]];
     }else{
         isVisa=NO;
+        isSet = YES;
         [master setTitleColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0] forState:UIControlStateNormal];
         [master setBackgroundColor:[UIColor blackColor]];
         [[master layer] setBorderColor:[[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0] CGColor]];
@@ -259,10 +267,10 @@
     [expirationField addSubview:separatorThree];
     [expirationField setTag:3];
     expirationField.delegate=self;
-    expireLabel = [[UILabel alloc]initWithFrame:CGRectMake(expireRect.size.width-20, 0, 40, textHeight)];
+    expireLabel = [[UILabel alloc]initWithFrame:CGRectMake(expirationField.bounds.size.width-70, 0, 70, textHeight)];
     [expireLabel setFont:[UIFont systemFontOfSize:16]];
     [expireLabel setTextColor:[UIColor darkGrayColor]];
-    [expireLabel setText:@"MM/YYYY"];
+    [expireLabel setText:@"MM/YY"];
     [expirationField addSubview:expireLabel];
     
     [textFieldsView addSubview:expirationField];
@@ -341,25 +349,51 @@
             if(range.location>19){
                 if([cardNumberField canResignFirstResponder]){
                     [cardNumberField resignFirstResponder];
+                    if([expirationField canBecomeFirstResponder]){
+                        [expirationField becomeFirstResponder];
+                    }
                 }
             } else {
-                if(range.location%5==0){
+                if(range.location<5){
+                if(range.location%4==0 && range.location!=0){
+                    if([previusCardLocation integerValue]<range.location){
                     cardNumberField.text = [NSString stringWithFormat:@"%@ ",cardNumberField.text];
+                    }else{
+                        cardNumberField.text = [cardNumberField.text substringToIndex:[cardNumberField.text length]-1];
+                    }
+                }
+                }else{
+                    if(range.location%5==0){
+                        if([previusCardLocation integerValue]<range.location){
+                            cardNumberField.text = [NSString stringWithFormat:@"%@ ",cardNumberField.text];
+                        }else{
+                            cardNumberField.text = [cardNumberField.text substringToIndex:[cardNumberField.text length]-1];
+                        }
+                    }
+
                 }
                 
+                previusCardLocation=[NSNumber numberWithUnsignedInteger: range.location];
                 if(![cardNumberField isUserInteractionEnabled])
                     [cardNumberField setUserInteractionEnabled:YES];
             }
         }
             break;
         case 3:{
-            if(range.location>6){
+            if(range.location>4){
                 if([expirationField canResignFirstResponder]){
                     [expirationField resignFirstResponder];
+                    if([securityCodeField canBecomeFirstResponder]){
+                        [securityCodeField becomeFirstResponder];
+                    }
                 }
             }
             else if(range.location==2){
+                if([previusExpireLocation integerValue]<range.location){
                 expirationField.text = [NSString stringWithFormat:@"%@/",expirationField.text];
+                }else{
+                    expirationField.text = [expirationField.text substringToIndex:[expirationField.text length]-2];
+                }
             }else{
                 if(![expirationField isUserInteractionEnabled])
                     [expirationField setUserInteractionEnabled:YES];
@@ -388,10 +422,13 @@
 }
 
 -(void)textFieldDidEndEditing:(UITextField *)textField{
+    if([textField.text length]==0 || ![textField.text length]){
+        [separatorOne setBackgroundColor:[UIColor darkGrayColor]];
+    }
     switch ([textField tag]) {
         case 1:{
             [nameField setTextColor:[UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]];
-            
+            _cardHolder=nameField.text;
         }
             break;
             
@@ -454,32 +491,44 @@
 }
 
 -(void)pushPay{
-//    NSArray* expires = [_cardExpire componentsSeparatedByString: @"/"];
-//    if([expires count]==2){
-//    _cardExpireMonth =[NSNumber numberWithInt:[[expires objectAtIndex: 0] intValue]];
-//    _cardExpireYear =[NSNumber numberWithInt:[[expires objectAtIndex: 1] intValue]];
-//        if([_cardNumber length]<19){
-//            [self postStatus:@"Unvalid Card Number"];
-//        }
-//        else if([_cardExpireMonth intValue]>12 || [_cardExpireMonth intValue]<1){
-//            [self postStatus:@"Unvalid Expire Month"];
-//        }
-//        else if([_cardExpireYear intValue]>2027 || [_cardExpireYear intValue]<2017){
-//            [self postStatus:@"Unvalid Expire year"];
-//        }
-//        else if([_cardCVC length]<3){
-//            [self postStatus:@"Unvalid CVC number"];
-//        }
-//        else{
-//
-//            [self createTokenNonClient];
-//        }
-//    }
-//    else{
-//        [self postStatus:@"Unvalid expire date"];
-//    }
-//        
-    [self createTokenNonClient];
+    NSArray* expires = [_cardExpire componentsSeparatedByString: @"/"];
+    if(isSet){
+        if([_cardHolder length]>0 || ![_cardHolder length]){
+    if([expires count]==2){
+        _cardExpireMonth =[NSNumber numberWithInt:[[expires objectAtIndex: 0] intValue]];
+        _cardExpireYear =[NSNumber numberWithInt:[[expires objectAtIndex: 1] intValue]];
+        if([_cardNumber length]<20){
+            [self postStatus:@"Unvalid Card Number"];
+        }
+        else if([_cardExpireMonth intValue]>12 || [_cardExpireMonth intValue]<4){
+            [self postStatus:@"Unvalid Expire Month"];
+        }
+        else if([_cardExpireYear intValue]>27 || [_cardExpireYear intValue]<17){
+            [self postStatus:@"Unvalid Expire year"];
+        }
+        else if([_cardCVC length]<3){
+            [self postStatus:@"Unvalid CVC number"];
+        }
+        else{
+            _cardNumberN = [NSNumber numberWithInteger:[[_cardNumber stringByReplacingOccurrencesOfString:@" " withString:@""] integerValue]];
+            _cardCVCN=[NSNumber numberWithInteger:[_cardCVC integerValue]];
+            NSLog(@" @@@@@@@ CARD NO : %@ @@@@@@",_cardNumberN);
+            NSLog(@" @@@@@@@ CARD EXPIRE YEAR : %@ @@@@@@",_cardExpireYear);
+            NSLog(@" @@@@@@@ CARD EXPIRE MONTH : %@ @@@@@@",_cardExpireMonth);
+            NSLog(@" @@@@@@@ CARD CVC : %@ @@@@@@",_cardCVCN);
+            [self createTokenNonClient];
+        }
+    }else{
+        [self postStatus:@"Unvalid expire date"];
+    }
+        }else{
+            [self postStatus:@"Please input your name"];
+        }
+    }else{
+        [self postStatus:@"Please select card type"];
+    }
+    
+    //    [self createTokenNonClient];
 }
 
 -(void)createToken{
@@ -516,7 +565,7 @@
     [request setHTTPMethod:@"POST"];
     
     NSDictionary *parameters = @{@"cvc": @(123),
-                                 @"exp_month": @(8),
+                                 @"exp_month": @(12),
                                  @"exp_year": @(2020),
                                  @"number": @(4242424242424242),
                                  @"test":@"true"};

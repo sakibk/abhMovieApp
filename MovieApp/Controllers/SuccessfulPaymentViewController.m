@@ -37,7 +37,7 @@
     UILabel *titleLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, iv.frame.size.width, 27)];
     titleLabel.textAlignment=NSTextAlignmentCenter;
     titleLabel.font=[UIFont systemFontOfSize:18];
-    titleLabel.text=@"Congradulations";
+    titleLabel.text=@"Congratulations";
     
     titleLabel.textColor=[UIColor whiteColor];
     [iv addSubview:titleLabel];
