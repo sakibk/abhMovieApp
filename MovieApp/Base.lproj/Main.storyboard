@@ -1034,7 +1034,7 @@
                                     <constraint firstAttribute="height" constant="120" id="xA3-Kj-eHY"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congradulations!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbH-cs-5YM">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Congratulations!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hbH-cs-5YM">
                                 <rect key="frame" x="99" y="283" width="215" height="50"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="GiN-hw-1Tb"/>
@@ -1341,7 +1341,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="3gw-vf-CPB" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Movies" image="moviesIcon" id="Pbs-ds-Be6"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="WY6-ov-PXr">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="WY6-ov-PXr">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1360,7 +1360,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="fuO-7a-ovN" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="TV Shows" image="ShowsIcon" id="ien-E6-5a8"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="W5O-pX-kiz">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="W5O-pX-kiz">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1546,7 +1546,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Y8W-6H-n4Z" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" image="rssIcon" id="kUI-5L-ADa"/>
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="OdG-iC-zbY">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="OdG-iC-zbY">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

@@ -388,7 +388,7 @@
                     }
                 }
             }
-            else if(range.location==2){
+            else if(range.location%2==0 && range.location!=0){
                 if([previusExpireLocation integerValue]<range.location){
                 expirationField.text = [NSString stringWithFormat:@"%@/",expirationField.text];
                 }else{
