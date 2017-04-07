@@ -17,12 +17,12 @@ NSString* const feedIdentifier= @"FeedCellIdentifier";
     // Initialization code
 }
 
--(void) setupFeedCell:(Feeds *) singleFeed{
+-(void) setupFeedCell:(RLMFeeds *) singleFeed{
     _feedTitle.text=singleFeed.title;
     _feed.text= singleFeed.desc;
     _sourceLink.text = singleFeed.link;
     self.layer.borderWidth=5;
-    self.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor colorWithRed:49 green:49 blue:49 alpha:100]);
+    self.layer.borderColor=(__bridge CGColorRef _Nullable)([UIColor colorWithRed:0.97 green:0.79 blue:0.0 alpha:1.0]);
 }
 
 @end

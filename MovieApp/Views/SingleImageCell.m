@@ -15,7 +15,7 @@ NSString* const SingleImageCellIdentifier= @"imgCellIdentifier";
 
 -(void)setupWithUrl:(NSString*) posterPath{
     [self.image sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w185/",posterPath]]
-                  placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",posterPath,@".png"]]];
+                  placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noPosterAvalible"]]];
 }
 
 @end

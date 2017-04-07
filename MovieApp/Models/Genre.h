@@ -8,10 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import <Realm/Realm.h>
+#import <RestKit/RestKit.h>
+@class RLMGenre;
 
 @interface Genre : NSObject
 
 @property (strong, nonatomic) NSNumber *genreID;
 @property (strong,nonatomic) NSString *genreName;
+
+-(id)initWithGenre:(RLMGenre*)genre;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
 
 @end

@@ -15,7 +15,7 @@ NSString *const singleCastCellIdentifier=@"SingleCastCellIdentifier";
 -(void)setupWithCast:(Cast *) singleCast{
     
     [self.castImage sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",@"https://image.tmdb.org/t/p/w92/",singleCast.castImagePath]]
-                  placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@%@",singleCast.castName,@".png"]]];
+                      placeholderImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@",@"noPosterAvalible"]]];
     
     _castName.text=singleCast.castName;
     _castRoleNames.text = singleCast.castRoleName;

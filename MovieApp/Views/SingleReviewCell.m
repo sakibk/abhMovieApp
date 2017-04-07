@@ -15,28 +15,41 @@ NSString *const singleReviewCellIdentifier = @"SingleReviewCellIdentifier";
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    [_readMoreButton addTarget:self action:@selector(readButton:) forControlEvents:UIControlEventTouchUpInside];
+    _isLayoutSubview=NO;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 
 - (void)layoutSubviews
 {
-    CGRect labelFrame = self.contentLabel.frame;
-    labelFrame.size.height = self.frame.size.height - 55.0f;
-    self.contentLabel.frame = labelFrame;
-    
-    CGRect buttonFrame = self.readMoreButton.frame;
-    buttonFrame.origin.y = labelFrame.origin.y+labelFrame.size.height+10.0f;
-    self.readMoreButton.frame = buttonFrame;
+    if(!_isLayoutSubview){
+        CGRect labelFrame = self.contentLabel.frame;
+        labelFrame.size.height = self.frame.size.height - 55.0f;
+        self.contentLabel.frame = labelFrame;
+        
+        CGRect buttonFrame = self.readMoreButton.frame;
+        buttonFrame.origin.y = labelFrame.origin.y+labelFrame.size.height+10.0f;
+        self.readMoreButton.frame = buttonFrame;
+        _isLayoutSubview=YES;
+    }
 }
 
 -(void) setupWithReview:(Review *) singleReview{
     _authorLabel.text=singleReview.author;
     _contentLabel.text=singleReview.text;
+}
+
+-(IBAction)readButton:(id)sender{
+    [self.delegate readMore:(id)sender];
+}
+
+-(void)readMore:(id)sender{
+    
 }
 
 @end

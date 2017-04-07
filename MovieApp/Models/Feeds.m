@@ -9,13 +9,14 @@
 #import "Feeds.h"
 #import "RSSParser.h"
 #import "RSSItem.h"
+#import "RLMFeeds.h"
 
 @implementation Feeds
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"Title: %@, Link: %@, Text: %@",self.title,self.link,self.desc];
-}
+//- (NSString *)description
+//{
+//    return [NSString stringWithFormat:@"Title: %@, Link: %@, Text: %@",self.title,self.link,self.desc];
+//}
 
 - (id)initWithRSSItem:(RSSItem *)item {
     
@@ -24,6 +25,15 @@
         self.desc = item.itemDescription;
         self.link = [item.link absoluteString];
     }
+    return self;
+}
+
+- (id)initWithRLMFeeds:(RLMFeeds *)feed {
+    
+    self = [super init];
+    self.title=feed.title;
+    self.desc=feed.desc;
+    self.link=feed.link;
     return self;
 }
 

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="EpisodeDetailsCellIdentifier" rowHeight="85" id="Te1-ye-g1E" customClass="EpisodeDetailsCell">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="85"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Te1-ye-g1E" id="YHb-5j-vgC">
+                <rect key="frame" x="0.0" y="0.0" width="414" height="84"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No episode title avalible" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="mzJ-Wp-83a">
+                        <rect key="frame" x="8" y="8" width="398" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No rating avalible" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="4U9-BZ-mAg">
+                        <rect key="frame" x="40" y="57" width="366" height="21"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="YellowRatingsButton" translatesAutoresizingMaskIntoConstraints="NO" id="Xgd-ue-SCT">
+                        <rect key="frame" x="8" y="57" width="20" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="20" id="SEE-e2-7Y5"/>
+                            <constraint firstAttribute="height" constant="20" id="igB-Oe-LHp"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No air date avalible" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="BXG-aO-nbd">
+                        <rect key="frame" x="8" y="32" width="398" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="OrX-Gp-Xpp"/>
+                            <constraint firstAttribute="width" constant="398" id="aYz-QY-bqr"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="/10" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3u-f6-vat">
+                        <rect key="frame" x="63" y="59" width="23" height="19"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="23" id="pwd-o2-ohe"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                <constraints>
+                    <constraint firstItem="mzJ-Wp-83a" firstAttribute="leading" secondItem="YHb-5j-vgC" secondAttribute="leadingMargin" id="0o2-TV-JS4"/>
+                    <constraint firstItem="O3u-f6-vat" firstAttribute="top" secondItem="Xgd-ue-SCT" secondAttribute="top" constant="2" id="4fE-Ng-JEM"/>
+                    <constraint firstItem="O3u-f6-vat" firstAttribute="top" secondItem="BXG-aO-nbd" secondAttribute="bottom" constant="6" id="Bag-OO-Muu"/>
+                    <constraint firstAttribute="trailing" secondItem="4U9-BZ-mAg" secondAttribute="trailing" constant="8" id="HdL-fV-AiY"/>
+                    <constraint firstItem="4U9-BZ-mAg" firstAttribute="leading" secondItem="Xgd-ue-SCT" secondAttribute="trailing" constant="12" id="HmG-xQ-5hW"/>
+                    <constraint firstItem="mzJ-Wp-83a" firstAttribute="trailing" secondItem="YHb-5j-vgC" secondAttribute="trailingMargin" id="Idf-Xq-LXJ"/>
+                    <constraint firstItem="mzJ-Wp-83a" firstAttribute="top" secondItem="YHb-5j-vgC" secondAttribute="topMargin" id="JKb-3D-r10"/>
+                    <constraint firstItem="BXG-aO-nbd" firstAttribute="leading" secondItem="YHb-5j-vgC" secondAttribute="leadingMargin" id="Jgt-4U-yvQ"/>
+                    <constraint firstItem="4U9-BZ-mAg" firstAttribute="leading" secondItem="Xgd-ue-SCT" secondAttribute="trailing" constant="12" id="KRm-4r-gwi"/>
+                    <constraint firstItem="O3u-f6-vat" firstAttribute="leading" secondItem="Xgd-ue-SCT" secondAttribute="trailing" constant="35" id="NVT-UP-e64"/>
+                    <constraint firstItem="mzJ-Wp-83a" firstAttribute="leading" secondItem="BXG-aO-nbd" secondAttribute="leading" id="QEf-ef-wu3"/>
+                    <constraint firstItem="BXG-aO-nbd" firstAttribute="top" secondItem="mzJ-Wp-83a" secondAttribute="bottom" constant="3.5" id="SuF-DU-T8N"/>
+                    <constraint firstItem="mzJ-Wp-83a" firstAttribute="trailing" secondItem="YHb-5j-vgC" secondAttribute="trailingMargin" id="Tt0-RG-Tja"/>
+                    <constraint firstItem="Xgd-ue-SCT" firstAttribute="top" secondItem="4U9-BZ-mAg" secondAttribute="top" id="Ws4-td-A2H"/>
+                    <constraint firstAttribute="bottom" secondItem="O3u-f6-vat" secondAttribute="bottom" constant="6" id="a0v-6K-hWJ"/>
+                    <constraint firstItem="mzJ-Wp-83a" firstAttribute="top" secondItem="YHb-5j-vgC" secondAttribute="topMargin" id="akb-dG-t1x"/>
+                    <constraint firstAttribute="bottom" secondItem="Xgd-ue-SCT" secondAttribute="bottom" constant="7" id="gMG-zF-dyE"/>
+                    <constraint firstItem="BXG-aO-nbd" firstAttribute="trailing" secondItem="YHb-5j-vgC" secondAttribute="trailingMargin" id="hKZ-qv-Bec"/>
+                    <constraint firstItem="Xgd-ue-SCT" firstAttribute="leading" secondItem="YHb-5j-vgC" secondAttribute="leading" constant="8" id="hdf-Ks-xPm"/>
+                    <constraint firstAttribute="bottom" secondItem="4U9-BZ-mAg" secondAttribute="bottom" constant="6" id="yys-Ic-CTa"/>
+                    <constraint firstItem="mzJ-Wp-83a" firstAttribute="leading" secondItem="YHb-5j-vgC" secondAttribute="leadingMargin" id="zuu-0L-QvZ"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="airDate" destination="BXG-aO-nbd" id="2ps-aT-cMr"/>
+                <outlet property="episodeTitle" destination="mzJ-Wp-83a" id="5Uo-3t-ZjA"/>
+                <outlet property="rating" destination="4U9-BZ-mAg" id="Xzq-vF-EJV"/>
+            </connections>
+            <point key="canvasLocation" x="26" y="125.5"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="YellowRatingsButton" width="19" height="17"/>
+    </resources>
+</document>

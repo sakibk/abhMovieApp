@@ -39,24 +39,35 @@
                             <constraint firstAttribute="height" constant="30" id="AoB-cw-2hm"/>
                         </constraints>
                         <state key="normal" title="Read more">
-                            <color key="titleColor" red="0.97254901960784312" green="0.792156862745098" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleColor" red="0.96999999999999997" green="0.79000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         </state>
                     </button>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mNb-rB-MI7">
+                        <rect key="frame" x="0.0" y="158" width="415" height="1"/>
+                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="fps-PD-I8x"/>
+                        </constraints>
+                    </view>
                 </subviews>
-                <color key="backgroundColor" red="0.054901960784313725" green="0.058823529411764705" blue="0.058823529411764705" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="mNb-rB-MI7" secondAttribute="trailing" id="5g7-bf-vWh"/>
                     <constraint firstAttribute="trailing" secondItem="Umh-b3-8AM" secondAttribute="trailing" constant="8" id="6g0-eo-X9T"/>
                     <constraint firstItem="t7L-he-lGV" firstAttribute="top" secondItem="Umh-b3-8AM" secondAttribute="bottom" constant="8" id="HN0-Rh-aPz"/>
                     <constraint firstAttribute="trailing" secondItem="lrd-5b-PJ8" secondAttribute="trailing" constant="8" id="IAk-vg-Zoo"/>
                     <constraint firstItem="t7L-he-lGV" firstAttribute="leading" secondItem="dQs-Ra-JKL" secondAttribute="leading" constant="8" id="Klv-aG-0vl"/>
                     <constraint firstItem="lrd-5b-PJ8" firstAttribute="top" secondItem="t7L-he-lGV" secondAttribute="bottom" constant="-1" id="RtQ-ZN-9XL"/>
                     <constraint firstAttribute="bottom" secondItem="lrd-5b-PJ8" secondAttribute="bottom" constant="7" id="Tvd-Qn-gv3"/>
+                    <constraint firstAttribute="bottom" secondItem="mNb-rB-MI7" secondAttribute="bottom" id="b93-Ds-m0H"/>
                     <constraint firstItem="Umh-b3-8AM" firstAttribute="leading" secondItem="dQs-Ra-JKL" secondAttribute="leading" constant="8" id="bQV-43-n6e"/>
                     <constraint firstItem="Umh-b3-8AM" firstAttribute="top" secondItem="dQs-Ra-JKL" secondAttribute="top" constant="8" id="e6k-FZ-gkI"/>
+                    <constraint firstItem="mNb-rB-MI7" firstAttribute="leading" secondItem="dQs-Ra-JKL" secondAttribute="leading" id="g8I-iE-jIZ"/>
                     <constraint firstAttribute="trailing" secondItem="t7L-he-lGV" secondAttribute="trailing" constant="8" id="hDm-kO-oar"/>
                     <constraint firstItem="lrd-5b-PJ8" firstAttribute="leading" secondItem="dQs-Ra-JKL" secondAttribute="leading" constant="8" id="x6j-1q-bdc"/>
                 </constraints>
             </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="authorLabel" destination="Umh-b3-8AM" id="8Hq-8l-iaO"/>
                 <outlet property="contentLabel" destination="t7L-he-lGV" id="JkS-WZ-GF7"/>

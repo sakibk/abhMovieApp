@@ -6,45 +6,94 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="pictureCellIdentifier" rowHeight="222" id="jdE-S7-LcC" customClass="PictureDetailCell">
-            <rect key="frame" x="0.0" y="0.0" width="418" height="222"/>
+            <rect key="frame" x="0.0" y="0.0" width="414" height="222"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="jdE-S7-LcC" id="4uN-ze-v9e">
-                <rect key="frame" x="0.0" y="0.0" width="418" height="221"/>
+                <rect key="frame" x="0.0" y="0.0" width="414" height="221"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="z4y-Au-Dc2">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BackdropNoImageAvalible" translatesAutoresizingMaskIntoConstraints="NO" id="z4y-Au-Dc2">
                         <rect key="frame" x="0.0" y="0.0" width="418" height="221"/>
-                        <constraints>
-                            <constraint firstAttribute="height" constant="221" id="Wfp-4C-kPI"/>
-                            <constraint firstAttribute="width" constant="418" id="iWA-Na-Aed"/>
-                        </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" highlighted="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Ea-Hc-CcX">
-                        <rect key="frame" x="8" y="168" width="231" height="45"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No title avalible" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="16" highlighted="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Ea-Hc-CcX">
+                        <rect key="frame" x="8" y="164" width="303" height="50"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="50" id="IlK-fR-6Gn"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="19"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <button opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wd8-fJ-ahh">
+                        <rect key="frame" x="187" y="88" width="45" height="45"/>
+                        <state key="normal" image="Play"/>
+                        <connections>
+                            <action selector="buttonPressed:" destination="jdE-S7-LcC" eventType="touchUpInside" id="f0W-3m-dhh"/>
+                        </connections>
+                    </button>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s0c-UW-f2h">
+                        <rect key="frame" x="362" y="167" width="44" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="40" id="0nu-FB-sgW"/>
+                            <constraint firstAttribute="width" constant="44" id="W7H-Au-jXf"/>
+                        </constraints>
+                        <inset key="contentEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="titleEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="imageEdgeInsets" minX="5" minY="9" maxX="14" maxY="9"/>
+                        <size key="titleShadowOffset" width="5" height="5"/>
+                        <state key="normal" image="MainNonFav"/>
+                    </button>
+                    <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageWhenHighlighted="NO" adjustsImageWhenDisabled="NO" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8E8-gp-DlF">
+                        <rect key="frame" x="318" y="166" width="37" height="43"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="43" id="5A7-5Y-XtY"/>
+                            <constraint firstAttribute="width" constant="37" id="DYT-7U-Tdc"/>
+                        </constraints>
+                        <inset key="contentEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="titleEdgeInsets" minX="1" minY="1" maxX="1" maxY="1"/>
+                        <inset key="imageEdgeInsets" minX="13" minY="10" maxX="5" maxY="9"/>
+                        <size key="titleShadowOffset" width="5" height="5"/>
+                        <state key="normal" image="MainNonWatch"/>
+                    </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="z4y-Au-Dc2" secondAttribute="bottom" id="7wx-EZ-ZV3"/>
-                    <constraint firstAttribute="trailing" secondItem="z4y-Au-Dc2" secondAttribute="trailing" id="er5-Gb-sD1"/>
-                    <constraint firstItem="z4y-Au-Dc2" firstAttribute="top" secondItem="4uN-ze-v9e" secondAttribute="top" id="vaP-H1-lUL"/>
-                    <constraint firstItem="z4y-Au-Dc2" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leading" id="wzz-Mf-9iz"/>
+                    <constraint firstItem="z4y-Au-Dc2" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leading" id="1yG-ye-CK3"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="s0c-UW-f2h" secondAttribute="bottom" constant="6" id="Uvy-GR-Hw7"/>
+                    <constraint firstItem="z4y-Au-Dc2" firstAttribute="centerX" secondItem="Wd8-fJ-ahh" secondAttribute="centerX" id="WKC-fE-qOY"/>
+                    <constraint firstItem="0Ea-Hc-CcX" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leading" constant="8" id="Xhg-sn-zzy"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="z4y-Au-Dc2" secondAttribute="trailing" constant="-12" id="ZYO-qx-EOa"/>
+                    <constraint firstAttribute="bottom" secondItem="z4y-Au-Dc2" secondAttribute="bottom" id="hVu-Gf-LpF"/>
+                    <constraint firstItem="0Ea-Hc-CcX" firstAttribute="leading" secondItem="4uN-ze-v9e" secondAttribute="leadingMargin" id="j4y-v6-Xw7"/>
+                    <constraint firstItem="z4y-Au-Dc2" firstAttribute="centerY" secondItem="Wd8-fJ-ahh" secondAttribute="centerY" id="oKs-1S-V4u"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="8E8-gp-DlF" secondAttribute="bottom" constant="4" id="qgQ-nA-bAp"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="trailing" secondItem="4uN-ze-v9e" secondAttribute="trailingMargin" id="rM7-aY-wqb"/>
+                    <constraint firstItem="8E8-gp-DlF" firstAttribute="leading" secondItem="0Ea-Hc-CcX" secondAttribute="trailing" constant="7" id="txp-cg-Yb1"/>
+                    <constraint firstItem="s0c-UW-f2h" firstAttribute="leading" secondItem="8E8-gp-DlF" secondAttribute="trailing" constant="7" id="up9-ji-S4E"/>
+                    <constraint firstItem="z4y-Au-Dc2" firstAttribute="top" secondItem="4uN-ze-v9e" secondAttribute="top" id="wKt-4u-q1e"/>
+                    <constraint firstItem="0Ea-Hc-CcX" firstAttribute="bottom" secondItem="4uN-ze-v9e" secondAttribute="bottomMargin" constant="1" id="wNa-nV-um5"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
+                <outlet property="favouriteButton" destination="s0c-UW-f2h" id="a6n-zt-QbQ"/>
                 <outlet property="movieTitle" destination="0Ea-Hc-CcX" id="Tdu-vS-L0z"/>
+                <outlet property="playButton" destination="Wd8-fJ-ahh" id="OOB-PE-ND9"/>
                 <outlet property="poster" destination="z4y-Au-Dc2" id="bHm-di-Dxg"/>
+                <outlet property="watchButton" destination="8E8-gp-DlF" id="S2d-Ou-Pf2"/>
             </connections>
             <point key="canvasLocation" x="13" y="11"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="BackdropNoImageAvalible" width="225" height="170"/>
+        <image name="MainNonFav" width="33" height="30"/>
+        <image name="MainNonWatch" width="22" height="31"/>
+        <image name="Play" width="45" height="45"/>
+    </resources>
 </document>

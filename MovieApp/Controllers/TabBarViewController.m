@@ -8,18 +8,25 @@
 
 #import "TabBarViewController.h"
 #import "MoviesViewController.h"
+#import <LGSideMenuController/LGSideMenuController.h>
+#import <LGSideMenuController/UIViewController+LGSideMenuController.h>
+#import "LeftViewController.h"
 
 @interface TabBarViewController ()
 
 @end
 
 @implementation TabBarViewController
-
+{
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     self.delegate = self;
     // Do any additional setup after loading the view.
+    [self setupTabbar];
+}
+
+-(void)setupTabbar{
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,15 +53,5 @@
     }
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

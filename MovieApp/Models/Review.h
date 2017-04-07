@@ -7,10 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <RestKit/RestKit.h>
+@class RLMReview;
 
 @interface Review : NSObject
 
 @property (strong, nonatomic) NSString *author;
 @property (strong,nonatomic) NSString *text;
+
++(NSDictionary*)elementToPropertyMappings;
++(RKObjectMapping *)responseMapping;
++(NSString*)pathPatternForRequestMethod:(RKRequestMethod)method;
++(NSArray*)additionalResponseDescriptors;
++(NSArray*)additionalRequestDescriptors;
+
+-(id)initWithReview:(RLMReview*)rev;
 
 @end

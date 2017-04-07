@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2657" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="AboutCellIdentifier" rowHeight="245" id="PYf-f9-bdt" customClass="AboutCell">
+            <rect key="frame" x="0.0" y="0.0" width="426" height="245"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PYf-f9-bdt" id="cTS-3t-RE4">
+                <rect key="frame" x="0.0" y="0.0" width="426" height="245"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Biography: " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LdC-hK-ZZm">
+                        <rect key="frame" x="8" y="8" width="105" height="29"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="105" id="A4s-5A-icU"/>
+                            <constraint firstAttribute="height" constant="29" id="YIf-Tp-NRV"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Biography avalible!" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ii-3M-6sf">
+                        <rect key="frame" x="8" y="45" width="410" height="159.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.80784313725490198" green="0.80784313725490198" blue="0.80784313725490198" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QKH-UG-khg">
+                        <rect key="frame" x="8" y="212.5" width="123" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="123" id="Fep-va-qGO"/>
+                            <constraint firstAttribute="height" constant="24" id="G3b-pg-DOQ"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <state key="normal" title="See full bio">
+                            <color key="titleColor" red="0.96999999999999997" green="0.79000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </state>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="6ii-3M-6sf" firstAttribute="leading" secondItem="cTS-3t-RE4" secondAttribute="leading" constant="8" id="Bt8-MZ-uMb"/>
+                    <constraint firstItem="QKH-UG-khg" firstAttribute="top" secondItem="6ii-3M-6sf" secondAttribute="bottom" constant="8" id="EpV-ui-Vab"/>
+                    <constraint firstItem="LdC-hK-ZZm" firstAttribute="top" secondItem="cTS-3t-RE4" secondAttribute="top" constant="8" id="GWt-4f-mQV"/>
+                    <constraint firstAttribute="trailing" secondItem="6ii-3M-6sf" secondAttribute="trailing" constant="8" id="MW8-kB-6ZN"/>
+                    <constraint firstAttribute="bottom" secondItem="QKH-UG-khg" secondAttribute="bottom" constant="8" id="emP-aZ-Kto"/>
+                    <constraint firstItem="QKH-UG-khg" firstAttribute="leading" secondItem="cTS-3t-RE4" secondAttribute="leading" constant="8" id="hj0-I2-smS"/>
+                    <constraint firstItem="LdC-hK-ZZm" firstAttribute="leading" secondItem="cTS-3t-RE4" secondAttribute="leading" constant="8" id="nEK-JB-5dG"/>
+                    <constraint firstItem="6ii-3M-6sf" firstAttribute="top" secondItem="LdC-hK-ZZm" secondAttribute="bottom" constant="8" id="tC9-qH-6e3"/>
+                    <constraint firstItem="6ii-3M-6sf" firstAttribute="top" secondItem="LdC-hK-ZZm" secondAttribute="bottom" constant="8" id="uRT-bH-8b7"/>
+                    <constraint firstItem="QKH-UG-khg" firstAttribute="top" secondItem="6ii-3M-6sf" secondAttribute="bottom" constant="8" id="xKt-6O-mTB"/>
+                </constraints>
+            </tableViewCellContentView>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+            <connections>
+                <outlet property="fullBioButton" destination="QKH-UG-khg" id="T0f-YE-vH0"/>
+                <outlet property="fullBiography" destination="6ii-3M-6sf" id="jOI-yq-HU6"/>
+            </connections>
+            <point key="canvasLocation" x="37" y="107.5"/>
+        </tableViewCell>
+    </objects>
+</document>

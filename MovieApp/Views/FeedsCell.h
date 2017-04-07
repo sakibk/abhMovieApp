@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "Feeds.h"
+#import "RLMFeeds.h"
 
 extern NSString * const feedIdentifier;
 
@@ -17,6 +18,6 @@ extern NSString * const feedIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *feed;
 @property (weak, nonatomic) IBOutlet UILabel *sourceLink;
 
--(void) setupFeedCell:(Feeds *) singleFeed;
+-(void) setupFeedCell:(RLMFeeds *) singleFeed;
 
 @end

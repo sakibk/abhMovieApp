@@ -15,11 +15,11 @@
             <rect key="frame" x="0.0" y="0.0" width="415" height="293"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TWa-Hp-KLZ" id="b4k-AO-orw">
-                <rect key="frame" x="0.0" y="0.0" width="415" height="292.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="415" height="292"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7qO-fw-qIW">
-                        <rect key="frame" x="0.0" y="0.0" width="415" height="292.5"/>
+                    <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" indicatorStyle="black" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="7qO-fw-qIW">
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="293"/>
                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Y1T-uY-UT3">
                             <size key="itemSize" width="50" height="50"/>
@@ -29,6 +29,7 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                 </subviews>
+                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 <constraints>
                     <constraint firstItem="7qO-fw-qIW" firstAttribute="top" secondItem="b4k-AO-orw" secondAttribute="top" id="ZjK-WN-MF8"/>
                     <constraint firstItem="7qO-fw-qIW" firstAttribute="leading" secondItem="b4k-AO-orw" secondAttribute="leading" id="c6Y-0t-LYO"/>

@@ -9,6 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "Review.h"
 
+@protocol SingleReviewCellDelegate <NSObject>
+
+-(void)readMore:(id)sender;
+
+@end
+
 extern NSString *const singleReviewCellIdentifier;
 
 @interface SingleReviewCell : UITableViewCell
@@ -16,6 +22,8 @@ extern NSString *const singleReviewCellIdentifier;
 @property (weak, nonatomic) IBOutlet UILabel *authorLabel;
 @property (weak, nonatomic) IBOutlet UILabel *contentLabel;
 @property (weak, nonatomic) IBOutlet UIButton *readMoreButton;
+@property (strong, nonatomic) id<SingleReviewCellDelegate> delegate;
+@property BOOL isLayoutSubview;
 
 
 -(void) setupWithReview:(Review *) singleReview;

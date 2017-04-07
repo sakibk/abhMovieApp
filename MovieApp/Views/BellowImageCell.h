@@ -21,5 +21,6 @@ extern NSString * const BellowImageCellIdentifier;
 
 -(void) setupWithMovie:(Movie *)singleMovie;
 -(void) setupWithShow:(TVShow *)singleShow;
+-(void) setupWithSnapMovie:(Movie *)singleMovie;
 
 @end

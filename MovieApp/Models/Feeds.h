@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "RSSParser.h"
 #import "RSSItem.h"
-
+@class RLMFeeds;
 
 @interface Feeds : NSObject
 
@@ -18,5 +18,6 @@
 @property (strong, nonatomic) NSString *desc;
 
 - (id)initWithRSSItem:(RSSItem *)item;
+- (id)initWithRLMFeeds:(RLMFeeds *)feed;
 
 @end
